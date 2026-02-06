@@ -295,9 +295,9 @@ export const portfolioData = {
     },
     {
       title:
-        "Solved 450+ DSA problems across LeetCode, Codeforces, GeeksforGeeks, and takeUForward",
+        "Application Domain Head — Blockchain Research Lab, AKGEC (2022-2024)",
       // Replace link here
-      link: "https://example.com/certificate/dsa-profile",
+      link: "https://www.akgec.ac.in/blockchain-research-lab/",
     },
     {
       title: "2nd position - TechSprint'23 Hackathon (250+ participants)",

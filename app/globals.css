@@ -439,3 +439,38 @@ html {
     background: radial-gradient(circle at calc(100% - 46px) 36px, var(--wave-tint), transparent 62%);
   }
 }
+
+@media (max-width: 767px) {
+  .eyebrow {
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+  }
+
+  .section-title {
+    line-height: 1.16;
+  }
+
+  .section-copy {
+    font-size: 1rem;
+    line-height: 1.78;
+  }
+
+  .chip {
+    padding: 0.46rem 0.84rem;
+    font-size: 0.8rem;
+    line-height: 1.2;
+  }
+
+  .project-card {
+    padding: 1.15rem;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    min-height: 2.8rem;
+  }
+
+  .theme-toggle {
+    min-height: 2.4rem;
+  }
+}

@@ -1,5 +1,6 @@
 import Image from "next/image";
 import type { CSSProperties } from "react";
+import { MobileNav } from "./components/mobile-nav";
 import { ShowcaseLiveContent } from "./components/showcase-live-content";
 import { ThemeToggle } from "./components/theme-toggle";
 import { portfolioData } from "./data/portfolio";
@@ -21,6 +22,10 @@ type TechIconSource =
       kind: "simple";
       slug: string;
       color: string;
+    }
+  | {
+      kind: "external";
+      url: string;
     }
   | {
       kind: "semantic";
@@ -45,7 +50,7 @@ const techIconSources: Record<string, TechIconSource> = {
   PostgreSQL: { kind: "simple", slug: "postgresql", color: "4169E1" },
   Hibernate: { kind: "simple", slug: "hibernate", color: "59666C" },
   Docker: { kind: "simple", slug: "docker", color: "2496ED" },
-  AWS: { kind: "simple", slug: "amazonwebservices", color: "FF9900" },
+  AWS: { kind: "simple", slug: "amazonaws", color: "FF9900" },
   "Android Native": { kind: "simple", slug: "android", color: "3DDC84" },
   Flutter: { kind: "simple", slug: "flutter", color: "02569B" },
   Riverpod: { kind: "simple", slug: "flutter", color: "02569B" },
@@ -56,9 +61,9 @@ const techIconSources: Record<string, TechIconSource> = {
   Razorpay: { kind: "simple", slug: "razorpay", color: "0C2451" },
   JWT: { kind: "simple", slug: "jsonwebtokens", color: "000000" },
   MongoDB: { kind: "simple", slug: "mongodb", color: "47A248" },
-  "gRPC": { kind: "simple", slug: "grpc", color: "0F6FFF" },
-  LocalStack: { kind: "simple", slug: "amazonwebservices", color: "FF9900" },
-  "AWS CDK": { kind: "simple", slug: "amazonwebservices", color: "FF9900" },
+  "gRPC": { kind: "external", url: "https://api.iconify.design/logos:grpc.svg" },
+  LocalStack: { kind: "simple", slug: "amazonaws", color: "FF9900" },
+  "AWS CDK": { kind: "simple", slug: "amazonaws", color: "FF9900" },
   "JUnit 5": { kind: "simple", slug: "junit5", color: "25A162" },
   LangChain: { kind: "simple", slug: "langchain", color: "1C3C3C" },
   FAISS: { kind: "semantic", icon: "network" },
@@ -184,6 +189,22 @@ function TechIcon({
     );
   }
 
+  if (source.kind === "external") {
+    return (
+      <span className="tech-icon-shell">
+        <img
+          src={source.url}
+          alt=""
+          aria-hidden="true"
+          className={`${sizeClass} block shrink-0`}
+          loading="lazy"
+          decoding="async"
+          referrerPolicy="no-referrer"
+        />
+      </span>
+    );
+  }
+
   return (
     <span className="tech-icon-shell">
       <img
@@ -303,7 +324,7 @@ function SectionHeader({
   return (
     <header className="max-w-3xl">
       <p className="eyebrow">{eyebrow}</p>
-      <h2 className="section-title mt-1 text-3xl sm:text-4xl">{title}</h2>
+      <h2 className="section-title mt-1 text-[1.95rem] leading-[1.16] sm:text-4xl">{title}</h2>
       <p className="section-copy mt-3">{copy}</p>
     </header>
   );
@@ -322,9 +343,11 @@ export default function Home() {
       <div className="pointer-events-none floating-orb fixed -left-20 top-10 -z-10 h-72 w-72 rounded-full bg-[radial-gradient(circle,#0f766e42_0%,transparent_68%)] blur-2xl" />
       <div className="pointer-events-none floating-orb fixed -right-16 top-40 -z-10 h-80 w-80 rounded-full bg-[radial-gradient(circle,#e67e2240_0%,transparent_72%)] blur-2xl [animation-delay:1.2s]" />
 
-      <header className="mx-auto max-w-6xl px-5 pt-28 sm:px-10">
-        <nav className="section-panel reveal fixed left-1/2 top-4 z-40 w-[calc(100%-2.5rem)] max-w-6xl -translate-x-1/2 px-4 py-3 sm:w-[calc(100%-5rem)] sm:px-5 [animation-delay:70ms]">
-          <div className="flex flex-wrap items-center gap-3">
+      <header className="mx-auto max-w-6xl px-5 pt-5 sm:px-10 md:pt-28">
+        <nav className="section-panel reveal px-4 py-3 sm:px-5 [animation-delay:70ms] md:fixed md:left-1/2 md:top-4 md:z-40 md:w-[calc(100%-5rem)] md:max-w-6xl md:-translate-x-1/2">
+          <MobileNav navItems={navItems} quickLinks={portfolioData.quickLinks} />
+
+          <div className="hidden flex-wrap items-center gap-3 md:flex">
             <a href="#" className="display-font text-2xl font-bold tracking-tight text-[var(--ink)]">
               AP
             </a>
@@ -359,13 +382,13 @@ export default function Home() {
           </div>
         </nav>
 
-        <section className="mt-4 grid items-stretch gap-4 lg:auto-rows-fr lg:grid-cols-[1.1fr_0.9fr]">
+        <section className="mt-4 grid items-stretch gap-5 md:gap-4 lg:auto-rows-fr lg:grid-cols-[1.1fr_0.9fr]">
           <article className="section-panel reveal flex h-full self-stretch flex-col justify-between p-6 sm:p-7 [animation-delay:120ms]">
             <p className="eyebrow">Software Engineer Portfolio</p>
-            <h1 className="display-font mt-2 text-5xl font-semibold leading-[1.02] tracking-tight text-[var(--ink)] sm:text-6xl">
+            <h1 className="display-font mt-2 text-[2.85rem] font-semibold leading-[1.06] tracking-tight text-[var(--ink)] sm:text-6xl">
               {portfolioData.name}
             </h1>
-            <p className="mt-3 text-xl text-[var(--muted)]">{portfolioData.role}</p>
+            <p className="mt-3 text-lg leading-relaxed text-[var(--muted)] sm:text-xl">{portfolioData.role}</p>
             <p className="section-copy mt-3 max-w-2xl">{portfolioData.pitch}</p>
             <div className="mt-4 flex flex-wrap gap-2">
               <span className="chip">Backend Engineering</span>
@@ -414,14 +437,14 @@ export default function Home() {
         </section>
       </header>
 
-      <main className="mx-auto mt-6 max-w-6xl space-y-5 px-5 sm:px-10">
+      <main className="mx-auto mt-5 max-w-6xl space-y-6 px-5 sm:px-10 md:mt-6 md:space-y-5">
         <section id="about" className="section-panel reveal p-6 sm:p-8 [animation-delay:240ms]">
           <SectionHeader
             eyebrow="About"
             title="Building reliable products with a people-first engineering approach."
             copy={portfolioData.summary}
           />
-          <div className="mt-7 grid gap-4 lg:grid-cols-2">
+          <div className="mt-7 grid gap-5 md:gap-4 lg:grid-cols-2">
             {portfolioData.highlights.map((item) => (
               <div key={item} className="surface-subtle rounded-2xl p-4">
                 <p className="text-sm leading-relaxed text-[var(--ink)]">{item}</p>
@@ -436,7 +459,7 @@ export default function Home() {
             title="Engineering profile snapshots"
             copy="Live public snapshots from pinned GitHub repositories and LeetCode activity."
           />
-          <div className="mt-7 grid gap-4 md:grid-cols-2">
+          <div className="mt-7 grid gap-5 md:gap-4 md:grid-cols-2">
             {portfolioData.staticShowcases.map((item) => (
               <article key={item.platform} className="project-card">
                 <p className="eyebrow">{item.platform}</p>
@@ -513,7 +536,7 @@ export default function Home() {
             copy="I build hands-on projects that mirror real production concerns: architecture, throughput, observability, and maintainability."
           />
 
-          <div className="mt-8 grid gap-4 md:grid-cols-2">
+          <div className="mt-8 grid gap-5 md:gap-4 md:grid-cols-2">
             {portfolioData.projects.map((project, index) => {
               const isOddLastCard =
                 portfolioData.projects.length % 2 === 1 &&
@@ -521,11 +544,13 @@ export default function Home() {
               const wrapperClass = isOddLastCard ? "md:col-span-2 md:mx-auto md:max-w-[46rem]" : "";
 
               const cardContent = (
-                <article className={`project-card flex h-full min-h-[24rem] flex-col ${project.href ? "cursor-pointer" : ""}`}>
+                <article className={`project-card flex h-full min-h-[24rem] min-w-0 flex-col ${project.href ? "cursor-pointer" : ""}`}>
                   <div>
-                    <div className="flex items-start justify-between gap-3">
-                      <h3 className="display-font text-3xl font-semibold text-[var(--ink)]">{project.name}</h3>
-                      <span className="chip text-xs">{project.timeline}</span>
+                    <div className="flex flex-wrap items-start gap-2 sm:justify-between sm:gap-3">
+                      <h3 className="display-font min-w-0 break-words text-[2rem] leading-tight font-semibold text-[var(--ink)] sm:text-3xl">
+                        {project.name}
+                      </h3>
+                      <span className="chip shrink-0 text-xs">{project.timeline}</span>
                     </div>
                     <p className="mt-3 text-sm leading-relaxed text-[var(--muted)]">{project.summary}</p>
                   </div>
@@ -557,7 +582,7 @@ export default function Home() {
                     target="_blank"
                     rel="noreferrer"
                     aria-label={`Open project: ${project.name}`}
-                    className={`block h-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--teal)] ${wrapperClass}`}
+                    className={`block h-full min-w-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--teal)] ${wrapperClass}`}
                   >
                     {cardContent}
                   </a>
@@ -565,7 +590,7 @@ export default function Home() {
               }
 
               return (
-                <div key={project.name} className={`h-full ${wrapperClass}`}>
+                <div key={project.name} className={`h-full min-w-0 ${wrapperClass}`}>
                   {cardContent}
                 </div>
               );
@@ -580,7 +605,7 @@ export default function Home() {
             copy="I focus on technologies that deliver measurable performance and reliable developer workflows."
           />
 
-          <div className="mt-7 grid gap-4 md:grid-cols-2">
+          <div className="mt-7 grid gap-5 md:gap-4 md:grid-cols-2">
             {portfolioData.skillGroups.map((group) => (
               <article key={group.category} className="surface-card rounded-2xl p-5">
                 <h3 className="text-base font-semibold text-[var(--ink)]">{group.category}</h3>
@@ -676,7 +701,7 @@ export default function Home() {
             title="Medium Articles"
             copy="Selected demo articles listed as published reading entries."
           />
-          <div className="mt-7 grid gap-4 md:grid-cols-2">
+          <div className="mt-7 grid gap-5 md:gap-4 md:grid-cols-2">
             {portfolioData.writing.map((entry, index) => {
               const isOddLastCard =
                 portfolioData.writing.length % 2 === 1 &&
