@@ -136,6 +136,19 @@ html {
   font-weight: 600;
 }
 
+.tech-icon-shell {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.35rem;
+  background: rgba(148, 163, 184, 0.16);
+  padding: 1px;
+}
+
+:root[data-theme="dark"] .tech-icon-shell {
+  background: rgba(226, 232, 240, 0.18);
+}
+
 .quick-icon {
   display: inline-flex;
   align-items: center;
@@ -338,6 +351,42 @@ html {
   animation: float 7.5s ease-in-out infinite;
 }
 
+.timeline-marker {
+  position: absolute;
+  left: -33px;
+  top: 0.375rem;
+  display: block;
+  width: 1rem;
+  height: 1rem;
+  overflow: visible;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.timeline-dot {
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  z-index: 1;
+}
+
+.timeline-dot-past {
+  background: #2563eb;
+}
+
+.timeline-dot-current {
+  background: #16a34a;
+}
+
+.timeline-dot-ripple {
+  position: absolute;
+  inset: -5px;
+  border: 1px solid rgba(22, 163, 74, 0.5);
+  border-radius: 999px;
+  z-index: 0;
+  animation: timeline-pulse 2.6s ease-out infinite;
+}
+
 @keyframes reveal-up {
   to {
     opacity: 1;
@@ -362,6 +411,21 @@ html {
   }
   100% {
     clip-path: circle(150% at calc(100% - 60px) 44px);
+    opacity: 0;
+  }
+}
+
+@keyframes timeline-pulse {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.55;
+  }
+  70% {
+    transform: scale(1.9);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1.9);
     opacity: 0;
   }
 }

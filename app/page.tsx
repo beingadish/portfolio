@@ -1,4 +1,6 @@
 import Image from "next/image";
+import type { CSSProperties } from "react";
+import { ShowcaseLiveContent } from "./components/showcase-live-content";
 import { ThemeToggle } from "./components/theme-toggle";
 import { portfolioData } from "./data/portfolio";
 
@@ -11,6 +13,206 @@ const navItems = [
   { label: "Writing", href: "#writing" },
   { label: "Contact", href: "#contact" },
 ];
+
+type SemanticIconName = "code" | "cloud" | "network" | "layers" | "message" | "chip";
+
+type TechIconSource =
+  | {
+      kind: "simple";
+      slug: string;
+      color: string;
+    }
+  | {
+      kind: "semantic";
+      icon: SemanticIconName;
+      color?: string;
+    };
+
+const fallbackTechIcon: TechIconSource = {
+  kind: "semantic",
+  icon: "code",
+};
+
+const techIconSources: Record<string, TechIconSource> = {
+  "C++": { kind: "simple", slug: "cplusplus", color: "00599C" },
+  Java: { kind: "simple", slug: "openjdk", color: "ED8B00" },
+  Python: { kind: "simple", slug: "python", color: "3776AB" },
+  Dart: { kind: "simple", slug: "dart", color: "0175C2" },
+  Kotlin: { kind: "simple", slug: "kotlin", color: "7F52FF" },
+  "Spring Boot": { kind: "simple", slug: "springboot", color: "6DB33F" },
+  Kafka: { kind: "simple", slug: "apachekafka", color: "231F20" },
+  Redis: { kind: "simple", slug: "redis", color: "DC382D" },
+  PostgreSQL: { kind: "simple", slug: "postgresql", color: "4169E1" },
+  Hibernate: { kind: "simple", slug: "hibernate", color: "59666C" },
+  Docker: { kind: "simple", slug: "docker", color: "2496ED" },
+  AWS: { kind: "simple", slug: "amazonwebservices", color: "FF9900" },
+  "Android Native": { kind: "simple", slug: "android", color: "3DDC84" },
+  Flutter: { kind: "simple", slug: "flutter", color: "02569B" },
+  Riverpod: { kind: "simple", slug: "flutter", color: "02569B" },
+  Firebase: { kind: "simple", slug: "firebase", color: "FFCA28" },
+  "REST APIs": { kind: "semantic", icon: "code" },
+  "Node.js": { kind: "simple", slug: "nodedotjs", color: "5FA04E" },
+  "Google Maps API": { kind: "simple", slug: "googlemaps", color: "4285F4" },
+  Razorpay: { kind: "simple", slug: "razorpay", color: "0C2451" },
+  JWT: { kind: "simple", slug: "jsonwebtokens", color: "000000" },
+  MongoDB: { kind: "simple", slug: "mongodb", color: "47A248" },
+  "gRPC": { kind: "simple", slug: "grpc", color: "0F6FFF" },
+  LocalStack: { kind: "simple", slug: "amazonwebservices", color: "FF9900" },
+  "AWS CDK": { kind: "simple", slug: "amazonwebservices", color: "FF9900" },
+  "JUnit 5": { kind: "simple", slug: "junit5", color: "25A162" },
+  LangChain: { kind: "simple", slug: "langchain", color: "1C3C3C" },
+  FAISS: { kind: "semantic", icon: "network" },
+  Gemini: { kind: "simple", slug: "googlegemini", color: "8E75B2" },
+  RAG: { kind: "semantic", icon: "layers" },
+  "Vector Embeddings": { kind: "semantic", icon: "network" },
+  "Event Streaming": { kind: "semantic", icon: "network" },
+  Microservices: { kind: "semantic", icon: "layers" },
+  "System Reliability": { kind: "simple", slug: "prometheus", color: "E6522C" },
+  "Android (Java/Kotlin)": { kind: "simple", slug: "android", color: "3DDC84" },
+  MVVM: { kind: "semantic", icon: "layers" },
+  Retrofit: { kind: "semantic", icon: "network" },
+  "NFC/Hardware SDKs": { kind: "semantic", icon: "chip" },
+  Jenkins: { kind: "simple", slug: "jenkins", color: "D24939" },
+  "GitHub Actions": { kind: "simple", slug: "githubactions", color: "2088FF" },
+  Maven: { kind: "simple", slug: "apachemaven", color: "C71A36" },
+  JUnit: { kind: "simple", slug: "junit5", color: "25A162" },
+  Prompting: { kind: "semantic", icon: "message" },
+  "Vector Search Pipelines": { kind: "semantic", icon: "network" },
+  "STL (Standard Template Library)": { kind: "simple", slug: "cplusplus", color: "00599C" },
+  "Core Data Structures & Algorithms": { kind: "simple", slug: "cplusplus", color: "00599C" },
+  "Java Collections Framework": { kind: "simple", slug: "openjdk", color: "ED8B00" },
+  STL: { kind: "simple", slug: "cplusplus", color: "00599C" },
+  "Collections Framework": { kind: "simple", slug: "openjdk", color: "ED8B00" },
+};
+
+function SemanticIcon({
+  icon,
+  compact = false,
+  color,
+}: {
+  icon: SemanticIconName;
+  compact?: boolean;
+  color?: string;
+}) {
+  const sizeClass = compact ? "h-3 w-3" : "h-3.5 w-3.5";
+  const style = color ? ({ color } as CSSProperties) : undefined;
+
+  if (icon === "cloud") {
+    return (
+      <svg viewBox="0 0 24 24" aria-hidden="true" className={`${sizeClass} shrink-0`} fill="none" style={style}>
+        <path
+          d="M8.5 18h8.2a3.3 3.3 0 0 0 .4-6.6 5.2 5.2 0 0 0-9.9-1.4 3.8 3.8 0 0 0 1.3 8Z"
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="1.8"
+        />
+      </svg>
+    );
+  }
+
+  if (icon === "network") {
+    return (
+      <svg viewBox="0 0 24 24" aria-hidden="true" className={`${sizeClass} shrink-0`} fill="none" style={style}>
+        <circle cx="6" cy="7" r="2.2" stroke="currentColor" strokeWidth="1.8" />
+        <circle cx="18" cy="7" r="2.2" stroke="currentColor" strokeWidth="1.8" />
+        <circle cx="12" cy="17" r="2.2" stroke="currentColor" strokeWidth="1.8" />
+        <path d="M8 8.4 10.6 15m4.8-6.6L12.8 15" stroke="currentColor" strokeLinecap="round" strokeWidth="1.8" />
+      </svg>
+    );
+  }
+
+  if (icon === "layers") {
+    return (
+      <svg viewBox="0 0 24 24" aria-hidden="true" className={`${sizeClass} shrink-0`} fill="none" style={style}>
+        <path d="m12 4 8 4-8 4-8-4 8-4Zm0 8 8 4-8 4-8-4" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8" />
+      </svg>
+    );
+  }
+
+  if (icon === "message") {
+    return (
+      <svg viewBox="0 0 24 24" aria-hidden="true" className={`${sizeClass} shrink-0`} fill="none" style={style}>
+        <path
+          d="M5 6.5h14v8H9.2L5 18V6.5Z"
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="1.8"
+        />
+      </svg>
+    );
+  }
+
+  if (icon === "chip") {
+    return (
+      <svg viewBox="0 0 24 24" aria-hidden="true" className={`${sizeClass} shrink-0`} fill="none" style={style}>
+        <rect x="7.2" y="7.2" width="9.6" height="9.6" rx="1.5" stroke="currentColor" strokeWidth="1.8" />
+        <path d="M12 4v3M12 17v3M4 12h3m10 0h3M6.2 6.2l1.7 1.7m8.2 8.2 1.7 1.7M17.8 6.2l-1.7 1.7m-8.2 8.2-1.7 1.7" stroke="currentColor" strokeLinecap="round" strokeWidth="1.6" />
+      </svg>
+    );
+  }
+
+  return (
+    <svg viewBox="0 0 24 24" aria-hidden="true" className={`${sizeClass} shrink-0`} fill="none" style={style}>
+      <path
+        d="M6 17.5h12M6 6.5h12M6 12h6m4.4 0h1.6"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="1.8"
+      />
+    </svg>
+  );
+}
+
+function TechIcon({
+  label,
+  compact = false,
+}: {
+  label: string;
+  compact?: boolean;
+}) {
+  const source = techIconSources[label] ?? fallbackTechIcon;
+  const sizeClass = compact ? "h-3 w-3" : "h-3.5 w-3.5";
+
+  if (source.kind === "semantic") {
+    return (
+      <span className="tech-icon-shell">
+        <SemanticIcon icon={source.icon} compact={compact} color={source.color} />
+      </span>
+    );
+  }
+
+  return (
+    <span className="tech-icon-shell">
+      <img
+        src={`https://cdn.simpleicons.org/${source.slug}/${source.color}`}
+        alt=""
+        aria-hidden="true"
+        className={`${sizeClass} block shrink-0`}
+        loading="lazy"
+        decoding="async"
+        referrerPolicy="no-referrer"
+      />
+    </span>
+  );
+}
+
+function TechChip({
+  label,
+  compactIcon = false,
+}: {
+  label: string;
+  compactIcon?: boolean;
+}) {
+  return (
+    <span className="chip text-xs gap-1.5">
+      <TechIcon label={label} compact={compactIcon} />
+      <span>{label}</span>
+    </span>
+  );
+}
 
 const ExternalIcon = () => (
   <svg viewBox="0 0 20 20" aria-hidden="true" className="h-3.5 w-3.5">
@@ -118,8 +320,8 @@ export default function Home() {
       <div className="pointer-events-none floating-orb fixed -left-20 top-10 -z-10 h-72 w-72 rounded-full bg-[radial-gradient(circle,#0f766e42_0%,transparent_68%)] blur-2xl" />
       <div className="pointer-events-none floating-orb fixed -right-16 top-40 -z-10 h-80 w-80 rounded-full bg-[radial-gradient(circle,#e67e2240_0%,transparent_72%)] blur-2xl [animation-delay:1.2s]" />
 
-      <header className="mx-auto max-w-6xl px-5 pt-6 sm:px-10">
-        <nav className="section-panel reveal sticky top-4 z-40 px-4 py-3 sm:px-5 [animation-delay:70ms]">
+      <header className="mx-auto max-w-6xl px-5 pt-28 sm:px-10">
+        <nav className="section-panel reveal fixed left-1/2 top-4 z-40 w-[calc(100%-2.5rem)] max-w-6xl -translate-x-1/2 px-4 py-3 sm:w-[calc(100%-5rem)] sm:px-5 [animation-delay:70ms]">
           <div className="flex flex-wrap items-center gap-3">
             <a href="#" className="display-font text-2xl font-bold tracking-tight text-[var(--ink)]">
               AP
@@ -229,24 +431,27 @@ export default function Home() {
         <section id="showcase" className="section-panel reveal p-6 sm:p-8 [animation-delay:260ms]">
           <SectionHeader
             eyebrow="Showcase"
-            title="Static profile previews"
-            copy="These are static demo previews only. They are manually defined cards and not live embeds."
+            title="Engineering profile snapshots"
+            copy="Live public snapshots from pinned GitHub repositories and LeetCode activity."
           />
           <div className="mt-7 grid gap-4 md:grid-cols-2">
             {portfolioData.staticShowcases.map((item) => (
               <article key={item.platform} className="project-card">
                 <p className="eyebrow">{item.platform}</p>
-                <h3 className="mt-2 text-lg font-semibold text-[var(--ink)]">{item.heading}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-[var(--muted)]">{item.preview}</p>
-                <a
-                  className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-[var(--teal)] underline decoration-transparent transition hover:decoration-current"
-                  href={item.href}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  View Demo
-                  <ExternalIcon />
-                </a>
+                <ShowcaseLiveContent
+                  item={item}
+                  cta={
+                    <a
+                      className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-[var(--teal)] underline decoration-transparent transition hover:decoration-current"
+                      href={item.href}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      Open Profile
+                      <ExternalIcon />
+                    </a>
+                  }
+                />
               </article>
             ))}
           </div>
@@ -260,37 +465,42 @@ export default function Home() {
           />
 
           <ol className="mt-8 border-s border-[var(--line)] ps-6">
-            {portfolioData.experience.map((item) => (
-              <li key={`${item.company}-${item.period}`} className="relative mb-8 last:mb-0">
-                <span className="absolute -start-[33px] mt-1.5 h-4 w-4 rounded-full border-2 border-[var(--teal)] bg-[var(--bg)]" />
-                <article className="surface-card rounded-2xl p-5">
-                  <div className="flex flex-wrap items-center justify-between gap-2">
-                    <h3 className="text-lg font-semibold text-[var(--ink)]">{item.title}</h3>
-                    <span className="chip text-xs">{item.period}</span>
-                  </div>
-                  <p className="mt-1 text-sm font-medium text-[var(--muted)]">
-                    {item.company} • {item.location}
-                  </p>
+            {portfolioData.experience.map((item) => {
+              const isCurrentRole = item.period.toLowerCase().includes("present");
 
-                  <ul className="mt-4 space-y-2 text-sm leading-relaxed text-[var(--ink)]">
-                    {item.bullets.map((bullet) => (
-                      <li key={bullet} className="flex gap-2">
-                        <span className="mt-[7px] h-1.5 w-1.5 rounded-full bg-[var(--teal)]" />
-                        <span>{bullet}</span>
-                      </li>
-                    ))}
-                  </ul>
+              return (
+                <li key={`${item.company}-${item.period}`} className="relative mb-8 last:mb-0">
+                  <span className="timeline-marker" aria-hidden="true">
+                    {isCurrentRole ? <span className="timeline-dot-ripple" /> : null}
+                    <span className={`timeline-dot ${isCurrentRole ? "timeline-dot-current" : "timeline-dot-past"}`} />
+                  </span>
+                  <article className="surface-card rounded-2xl p-5">
+                    <div className="flex flex-wrap items-center justify-between gap-2">
+                      <h3 className="text-lg font-semibold text-[var(--ink)]">{item.title}</h3>
+                      <span className="chip text-xs">{item.period}</span>
+                    </div>
+                    <p className="mt-1 text-sm font-medium text-[var(--muted)]">
+                      {item.company} • {item.location}
+                    </p>
 
-                  <div className="mt-4 flex flex-wrap gap-2">
-                    {item.stack.map((tech) => (
-                      <span key={tech} className="chip text-xs">
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-                </article>
-              </li>
-            ))}
+                    <ul className="mt-4 space-y-2 text-sm leading-relaxed text-[var(--ink)]">
+                      {item.bullets.map((bullet) => (
+                        <li key={bullet} className="flex gap-2">
+                          <span className="mt-[7px] h-1.5 w-1.5 rounded-full bg-[var(--teal)]" />
+                          <span>{bullet}</span>
+                        </li>
+                      ))}
+                    </ul>
+
+                    <div className="mt-4 flex flex-wrap gap-2">
+                      {item.stack.map((tech) => (
+                        <TechChip key={tech} label={tech} />
+                      ))}
+                    </div>
+                  </article>
+                </li>
+              );
+            })}
           </ol>
         </section>
 
@@ -306,33 +516,56 @@ export default function Home() {
               const isOddLastCard =
                 portfolioData.projects.length % 2 === 1 &&
                 index === portfolioData.projects.length - 1;
+              const wrapperClass = isOddLastCard ? "md:col-span-2 md:mx-auto md:max-w-[46rem]" : "";
 
-              return (
-                <article
-                  key={project.name}
-                  className={`project-card ${isOddLastCard ? "md:col-span-2 md:mx-auto md:max-w-[46rem]" : ""}`}
-                >
-                  <div className="flex items-start justify-between gap-3">
-                    <h3 className="display-font text-3xl font-semibold text-[var(--ink)]">{project.name}</h3>
-                    <span className="chip text-xs">{project.timeline}</span>
+              const cardContent = (
+                <article className={`project-card flex h-full min-h-[24rem] flex-col ${project.href ? "cursor-pointer" : ""}`}>
+                  <div>
+                    <div className="flex items-start justify-between gap-3">
+                      <h3 className="display-font text-3xl font-semibold text-[var(--ink)]">{project.name}</h3>
+                      <span className="chip text-xs">{project.timeline}</span>
+                    </div>
+                    <p className="mt-3 text-sm leading-relaxed text-[var(--muted)]">{project.summary}</p>
                   </div>
-                  <p className="mt-3 text-sm leading-relaxed text-[var(--muted)]">{project.summary}</p>
-                  <ul className="mt-4 space-y-2 text-sm text-[var(--ink)]">
-                    {project.bullets.map((bullet) => (
-                      <li key={bullet} className="flex gap-2">
-                        <span className="mt-[7px] h-1.5 w-1.5 rounded-full bg-[var(--amber)]" />
-                        <span>{bullet}</span>
-                      </li>
-                    ))}
-                  </ul>
+
+                  <div className="mt-4 flex-1">
+                    <ul className="space-y-2 text-sm text-[var(--ink)]">
+                      {project.bullets.map((bullet) => (
+                        <li key={bullet} className="flex gap-2">
+                          <span className="mt-[7px] h-1.5 w-1.5 rounded-full bg-[var(--amber)]" />
+                          <span>{bullet}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+
                   <div className="mt-4 flex flex-wrap gap-2">
                     {project.stack.map((tech) => (
-                      <span key={tech} className="chip text-xs">
-                        {tech}
-                      </span>
+                      <TechChip key={tech} label={tech} />
                     ))}
                   </div>
                 </article>
+              );
+
+              if (project.href) {
+                return (
+                  <a
+                    key={project.name}
+                    href={project.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label={`Open project: ${project.name}`}
+                    className={`block h-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--teal)] ${wrapperClass}`}
+                  >
+                    {cardContent}
+                  </a>
+                );
+              }
+
+              return (
+                <div key={project.name} className={`h-full ${wrapperClass}`}>
+                  {cardContent}
+                </div>
               );
             })}
           </div>
@@ -351,13 +584,19 @@ export default function Home() {
                 <h3 className="text-base font-semibold text-[var(--ink)]">{group.category}</h3>
                 <div className="mt-3 flex flex-wrap gap-2">
                   {group.items.map((item) => (
-                    <span key={item} className="chip text-xs">
-                      {item}
-                    </span>
+                    <TechChip key={item} label={item} />
                   ))}
                 </div>
               </article>
             ))}
+            <article className="surface-card rounded-2xl p-5">
+              <h3 className="text-base font-semibold text-[var(--ink)]">Language & Collections</h3>
+              <div className="mt-3 flex flex-wrap gap-2">
+                {["C++", "STL", "Java", "Collections Framework", "Python", "Dart"].map((item) => (
+                  <TechChip key={item} label={item} />
+                ))}
+              </div>
+            </article>
           </div>
         </section>
 
@@ -397,15 +636,34 @@ export default function Home() {
               copy="Core computer science fundamentals and practical problem-solving through engineering coursework."
             />
             <div className="mt-6 space-y-4">
-              {portfolioData.education.map((item) => (
-                <div key={item.school} className="surface-card rounded-2xl p-4">
-                  <h3 className="text-base font-semibold text-foreground">{item.school}</h3>
-                  <p className="mt-1 text-sm text-(--muted)">{item.degree}</p>
-                  <p className="mt-2 text-xs uppercase tracking-wide text-(--muted)">
-                    {item.period} • {item.location}
-                  </p>
-                </div>
-              ))}
+              {portfolioData.education.map((item) => {
+                const educationContent = (
+                  <div className={`surface-card rounded-2xl p-4 ${item.href ? "cursor-pointer transition-shadow hover:shadow-[0_10px_24px_rgba(15,23,42,0.08)]" : ""}`}>
+                    <h3 className="text-base font-semibold text-foreground">{item.school}</h3>
+                    <p className="mt-1 text-sm text-(--muted)">{item.degree}</p>
+                    <p className="mt-2 text-xs uppercase tracking-wide text-(--muted)">
+                      {item.period} • {item.location}
+                    </p>
+                  </div>
+                );
+
+                if (item.href) {
+                  return (
+                    <a
+                      key={item.school}
+                      href={item.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      aria-label={`Open education website: ${item.school}`}
+                      className="block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--teal)]"
+                    >
+                      {educationContent}
+                    </a>
+                  );
+                }
+
+                return <div key={item.school}>{educationContent}</div>;
+              })}
             </div>
           </article>
         </section>

@@ -30,6 +30,7 @@ export type ProjectItem = {
   summary: string;
   bullets: string[];
   stack: string[];
+  href?: string;
 };
 
 export type SkillGroup = {
@@ -37,11 +38,17 @@ export type SkillGroup = {
   items: string[];
 };
 
+export type LanguageItem = {
+  name: string;
+  foundations: string[];
+};
+
 export type EducationItem = {
   school: string;
   degree: string;
   period: string;
   location: string;
+  href?: string;
 };
 
 export type BlogSeedLink = {
@@ -191,6 +198,7 @@ export const portfolioData = {
       timeline: "Apr 2025",
       summary:
         "A microservices architecture with secure APIs, event-driven communication, and production-like cloud simulation.",
+      href: "https://github.com/beingadish/Clynic",
       bullets: [
         "Implemented JWT-authenticated services for patient and billing flows with gRPC communication.",
         "Built Kafka analytics stream and API gateway request validation.",
@@ -213,6 +221,7 @@ export const portfolioData = {
       timeline: "Oct 2025",
       summary:
         "A semantic Q&A system for YouTube transcripts powered by vector retrieval and RAG.",
+      href: "https://github.com/beingadish/TalkingYT",
       bullets: [
         "Built FAISS-backed retrieval with LangChain orchestration and Gemini embeddings.",
         "Implemented multi-query retrieval for better context recall and response quality.",
@@ -257,6 +266,27 @@ export const portfolioData = {
       items: ["LangChain", "RAG", "FAISS", "Prompting", "Vector Search Pipelines"],
     },
   ] as SkillGroup[],
+  languages: [
+    {
+      name: "C++",
+      foundations: [
+        "STL (Standard Template Library)",
+        "Core Data Structures & Algorithms",
+      ],
+    },
+    {
+      name: "Java",
+      foundations: ["Java Collections Framework"],
+    },
+    {
+      name: "Python",
+      foundations: [],
+    },
+    {
+      name: "Dart",
+      foundations: [],
+    },
+  ] as LanguageItem[],
   achievements: [
     {
       title: "Google Cloud Certified Generative AI Leader (July 2025)",
@@ -311,13 +341,13 @@ export const portfolioData = {
     meta: "Medium • 15 min read",
     href: "https://medium.com/javaguides/understanding-http-for-backend-engineers-where-it-all-starts-56c633b9bb0e",
   },
-  {
-    title: "The Path to Production-Grade Backend Engineering",
-    summary:
-      "A reflective week-long journey through backend fundamentals, focusing on thinking in first principles, system boundaries, and production-readiness.",
-    meta: "Medium • 8 min read",
-    href: "https://medium.com/@beingadish/the-path-to-production-grade-backend-engineering-my-week-of-first-principles-741610b28a73",
-  },
+  // {
+  //   title: "The Path to Production-Grade Backend Engineering",
+  //   summary:
+  //     "A reflective week-long journey through backend fundamentals, focusing on thinking in first principles, system boundaries, and production-readiness.",
+  //   meta: "Medium • 8 min read",
+  //   href: "https://medium.com/@beingadish/the-path-to-production-grade-backend-engineering-my-week-of-first-principles-741610b28a73",
+  // },
   {
     title: "How Amazon’s Notify Me Feature Uses the Observer Design Pattern",
     summary:
@@ -336,17 +366,17 @@ export const portfolioData = {
   staticShowcases: [
     {
       platform: "GitHub",
-      heading: "Repository Showcase (Static Preview)",
-      preview: "Demo preview card for pinned repositories, contribution style, and code focus.",
+      heading: "Profile Overview",
+      preview: "Repository and contribution snapshot from the public GitHub profile.",
       // Replace link here
       href: "https://github.com/beingadish",
     },
     {
-      platform: "LinkedIn",
-      heading: "Profile Snapshot (Static Preview)",
-      preview: "Demo preview card for profile summary, recent roles, and professional activity.",
+      platform: "LeetCode",
+      heading: "Submission Heatmap",
+      preview: "Submission consistency snapshot from the public LeetCode profile.",
       // Replace link here
-      href: "https://linkedin.com/in/beingadish",
+      href: "https://leetcode.com/u/ax777x",
     },
   ] as ShowcaseItem[],
   education: [
@@ -355,6 +385,7 @@ export const portfolioData = {
       degree: "Bachelor of Technology, Computer Science (CGPA: 7.8)",
       period: "2020 - 2024",
       location: "Ghaziabad, India",
+      href: "https://www.akgec.ac.in/",
     },
   ] as EducationItem[],
   blogSeedLinks: [] as BlogSeedLink[],
