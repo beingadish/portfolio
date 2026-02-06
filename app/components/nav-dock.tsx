@@ -24,8 +24,8 @@ export function NavDock({
         return;
       }
 
-      // Requested behavior: scrolling up hides, scrolling down shows.
-      setIsHidden(delta < 0);
+      // Expected behavior: scrolling down hides, scrolling up shows.
+      setIsHidden(delta > 0);
       lastScrollY.current = currentY;
     };
 
