@@ -124,6 +124,27 @@ html {
   font-size: 0.98rem;
 }
 
+.hero-meta {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+.hero-summary {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.94rem;
+  line-height: 1.64;
+}
+
+.hero-pitch {
+  margin: 0;
+  color: var(--muted);
+  font-size: 1rem;
+  line-height: 1.72;
+}
+
 .chip {
   display: inline-flex;
   align-items: center;
@@ -453,6 +474,21 @@ html {
   .section-copy {
     font-size: 1rem;
     line-height: 1.78;
+  }
+
+  .hero-meta {
+    font-size: 0.88rem;
+    line-height: 1.52;
+  }
+
+  .hero-summary {
+    font-size: 0.92rem;
+    line-height: 1.6;
+  }
+
+  .hero-pitch {
+    font-size: 0.98rem;
+    line-height: 1.72;
   }
 
   .chip {

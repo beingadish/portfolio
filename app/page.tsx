@@ -248,6 +248,20 @@ const ExternalIcon = () => (
   </svg>
 );
 
+const LocationPinIcon = () => (
+  <svg viewBox="0 0 20 20" aria-hidden="true" className="h-3 w-3">
+    <path
+      d="M10 17s5-4.6 5-8a5 5 0 1 0-10 0c0 3.4 5 8 5 8Z"
+      fill="none"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="1.5"
+    />
+    <circle cx="10" cy="9" r="1.6" fill="none" stroke="currentColor" strokeWidth="1.5" />
+  </svg>
+);
+
 function QuickLinkIcon({
   icon,
 }: {
@@ -383,26 +397,41 @@ export default function Home() {
         </nav>
 
         <section className="mt-4 grid items-stretch gap-5 md:gap-4 lg:auto-rows-fr lg:grid-cols-[1.1fr_0.9fr]">
-          <article className="section-panel reveal flex h-full self-stretch flex-col justify-between p-6 sm:p-7 [animation-delay:120ms]">
-            <p className="eyebrow">Software Engineer Portfolio</p>
-            <h1 className="display-font mt-2 text-[2.85rem] font-semibold leading-[1.06] tracking-tight text-[var(--ink)] sm:text-6xl">
-              {portfolioData.name}
-            </h1>
-            <p className="mt-3 text-lg leading-relaxed text-[var(--muted)] sm:text-xl">{portfolioData.role}</p>
-            <p className="section-copy mt-3 max-w-2xl">{portfolioData.pitch}</p>
-            <div className="mt-4 flex flex-wrap gap-2">
-              <span className="chip">Backend Engineering</span>
-              <span className="chip">Distributed Systems</span>
-              <span className="chip">Production Readiness</span>
+          <article className="section-panel reveal flex h-full self-stretch flex-col p-5 sm:p-6 [animation-delay:120ms]">
+            <div>
+              <p className="eyebrow">Software Engineer Portfolio</p>
+              <h1 className="display-font mt-2 text-[2.85rem] font-semibold leading-[1.06] tracking-tight text-[var(--ink)] sm:text-6xl">
+                {portfolioData.name}
+              </h1>
+              <p className="mt-2 text-lg leading-relaxed text-[var(--muted)] sm:text-xl">{portfolioData.role}</p>
+              <p className="hero-meta mt-2 flex items-start gap-1.5">
+                <span className="mt-1 shrink-0">
+                  <LocationPinIcon />
+                </span>
+                <span>{portfolioData.location}</span>
+              </p>
             </div>
 
-            <div className="mt-5 flex flex-wrap items-center gap-3">
-              <a className="btn-primary px-6 py-3" href={resumeLink} target="_blank" rel="noreferrer" download>
-                Download Resume
-              </a>
-              <a className="btn-secondary px-6 py-3" href="#projects">
-                View Projects
-              </a>
+            <div className="mt-3">
+              <p className="hero-summary max-w-2xl">{portfolioData.summary}</p>
+              <p className="hero-pitch mt-2 max-w-2xl">{portfolioData.pitch}</p>
+            </div>
+
+            <div className="mt-auto pt-5">
+              <div className="flex flex-wrap gap-2">
+                <span className="chip">Backend Engineering</span>
+                <span className="chip">Distributed Systems</span>
+                <span className="chip">Production Readiness</span>
+              </div>
+
+              <div className="mt-3 flex flex-wrap items-center gap-3">
+                <a className="btn-primary px-6 py-3" href={resumeLink} target="_blank" rel="noreferrer" download>
+                  Download Resume
+                </a>
+                <a className="btn-secondary px-6 py-3" href="#projects">
+                  View Projects
+                </a>
+              </div>
             </div>
           </article>
 

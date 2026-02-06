@@ -82,7 +82,7 @@ export const portfolioData = {
   summary:
     "Backend engineer focused on building fast, reliable systems at scale. I currently work on transit and payment infrastructure, and I actively build Gen AI projects around retrieval and semantic search.",
   pitch:
-    "I design production-grade APIs, event pipelines, and mobile-backed integrations that handle real-world traffic with strong reliability.",
+    "I design production-grade APIs, event pipelines, and mobile-backed integrations that handle real-world traffic with strong reliability. My work focuses on backend systems, distributed workflows, and production readiness across high-volume platforms.",
   contact: {
     email: "aadarshpandey.pandey@gmail.com",
     phone: "+91-9170077741",
