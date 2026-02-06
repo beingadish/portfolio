@@ -3,7 +3,13 @@ import type { CSSProperties } from "react";
 import { MobileNav } from "./components/mobile-nav";
 import { ShowcaseLiveContent } from "./components/showcase-live-content";
 import { ThemeToggle } from "./components/theme-toggle";
+import { TrackedLink } from "./components/tracked-link";
 import { portfolioData } from "./data/portfolio";
+import {
+  ANALYTICS_EVENTS,
+  getProjectType,
+  getShowcaseEventName,
+} from "./lib/analytics";
 
 const navItems = [
   { label: "About", href: "#about" },
@@ -369,9 +375,14 @@ export default function Home() {
             <ul className="flex flex-wrap items-center gap-4 text-sm text-[var(--muted)]">
               {navItems.map((item) => (
                 <li key={item.href}>
-                  <a className="nav-link" href={item.href}>
+                  <TrackedLink
+                    className="nav-link"
+                    href={item.href}
+                    eventName={ANALYTICS_EVENTS.NAV_CLICK}
+                    eventProperties={{ nav_item: item.label, device: "desktop" }}
+                  >
                     {item.label}
-                  </a>
+                  </TrackedLink>
                 </li>
               ))}
             </ul>
@@ -425,9 +436,17 @@ export default function Home() {
               </div>
 
               <div className="mt-3 flex flex-wrap items-center gap-3">
-                <a className="btn-primary px-6 py-3" href={resumeLink} target="_blank" rel="noreferrer" download>
+                <TrackedLink
+                  className="btn-primary px-6 py-3"
+                  href={resumeLink}
+                  target="_blank"
+                  rel="noreferrer"
+                  download
+                  eventName={ANALYTICS_EVENTS.RESUME_CLICK_HERO}
+                  eventProperties={{ location: "hero", type: "primary_cta" }}
+                >
                   Download Resume
-                </a>
+                </TrackedLink>
                 <a className="btn-secondary px-6 py-3" href="#projects">
                   View Projects
                 </a>
@@ -489,25 +508,31 @@ export default function Home() {
             copy="Live public snapshots from pinned GitHub repositories and LeetCode activity."
           />
           <div className="mt-7 grid gap-5 md:gap-4 md:grid-cols-2">
-            {portfolioData.staticShowcases.map((item) => (
-              <article key={item.platform} className="project-card">
-                <p className="eyebrow">{item.platform}</p>
-                <ShowcaseLiveContent
-                  item={item}
-                  cta={
-                    <a
-                      className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-[var(--teal)] underline decoration-transparent transition hover:decoration-current"
-                      href={item.href}
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      Open Profile
-                      <ExternalIcon />
-                    </a>
-                  }
-                />
-              </article>
-            ))}
+            {portfolioData.staticShowcases.map((item) => {
+              const showcaseEventName = getShowcaseEventName(item.platform);
+
+              return (
+                <article key={item.platform} className="project-card">
+                  <p className="eyebrow">{item.platform}</p>
+                  <ShowcaseLiveContent
+                    item={item}
+                    cta={
+                      <TrackedLink
+                        className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-[var(--teal)] underline decoration-transparent transition hover:decoration-current"
+                        href={item.href}
+                        target="_blank"
+                        rel="noreferrer"
+                        eventName={showcaseEventName ?? undefined}
+                        eventProperties={showcaseEventName ? { section: "showcase" } : undefined}
+                      >
+                        Open Profile
+                        <ExternalIcon />
+                      </TrackedLink>
+                    }
+                  />
+                </article>
+              );
+            })}
           </div>
         </section>
 
@@ -605,16 +630,22 @@ export default function Home() {
 
               if (project.href) {
                 return (
-                  <a
+                  <TrackedLink
                     key={project.name}
                     href={project.href}
                     target="_blank"
                     rel="noreferrer"
                     aria-label={`Open project: ${project.name}`}
                     className={`block h-full min-w-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--teal)] ${wrapperClass}`}
+                    eventName={ANALYTICS_EVENTS.PROJECT_CLICK}
+                    eventProperties={{
+                      project_name: project.name,
+                      project_type: getProjectType(project.href),
+                      section: "projects",
+                    }}
                   >
                     {cardContent}
-                  </a>
+                  </TrackedLink>
                 );
               }
 
@@ -746,15 +777,17 @@ export default function Home() {
                   </p>
                   <h3 className="mt-2 text-lg font-semibold text-[var(--ink)]">{entry.title}</h3>
                   <p className="mt-2 text-sm leading-relaxed text-[var(--muted)]">{entry.summary}</p>
-                  <a
+                  <TrackedLink
                     href={entry.href}
                     target="_blank"
                     rel="noreferrer"
                     className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-[var(--teal)] underline decoration-transparent transition hover:decoration-current"
+                    eventName={ANALYTICS_EVENTS.ARTICLE_CLICK}
+                    eventProperties={{ article_title: entry.title, platform: "medium" }}
                   >
                     Read Article
                     <ExternalIcon />
-                  </a>
+                  </TrackedLink>
                 </article>
               );
             })}
@@ -768,12 +801,27 @@ export default function Home() {
             copy="Open to impactful software engineering opportunities across backend systems, distributed architecture, and product engineering."
           />
           <div className="mt-6 flex flex-wrap gap-3">
-            <a className="btn-primary px-6 py-3" href={resumeLink} target="_blank" rel="noreferrer" download>
+            <TrackedLink
+              className="btn-primary px-6 py-3"
+              href={resumeLink}
+              target="_blank"
+              rel="noreferrer"
+              download
+              eventName={ANALYTICS_EVENTS.RESUME_CLICK_FOOTER}
+              eventProperties={{ location: "footer" }}
+            >
               Resume
-            </a>
-            <a className="btn-secondary px-6 py-3" href={gmailComposeLink} target="_blank" rel="noreferrer">
+            </TrackedLink>
+            <TrackedLink
+              className="btn-secondary px-6 py-3"
+              href={gmailComposeLink}
+              target="_blank"
+              rel="noreferrer"
+              eventName={ANALYTICS_EVENTS.EMAIL_CLICK}
+              eventProperties={{ section: "contact", method: "gmail_compose" }}
+            >
               Email 
-            </a>
+            </TrackedLink>
           </div>
           <p className="mt-3 text-sm text-[var(--muted)]">{emailAddress}</p>
         </section>
