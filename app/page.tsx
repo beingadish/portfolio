@@ -728,7 +728,7 @@ export default function Home() {
           <SectionHeader
             eyebrow="Writing"
             title="Medium Articles"
-            copy="Selected demo articles listed as published reading entries."
+            copy="A selection of my published writing on backend engineering and system design."
           />
           <div className="mt-7 grid gap-5 md:gap-4 md:grid-cols-2">
             {portfolioData.writing.map((entry, index) => {
