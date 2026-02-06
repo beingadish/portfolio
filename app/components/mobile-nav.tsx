@@ -2,7 +2,6 @@
 
 import { useId, useState } from "react";
 import { ANALYTICS_EVENTS } from "../lib/analytics";
-import { TrackedLink } from "./tracked-link";
 import { ThemeToggle } from "./theme-toggle";
 import type { QuickLinkItem } from "../data/portfolio";
 
@@ -57,15 +56,16 @@ export function MobileNav({
           <ul className="space-y-2 text-sm text-[var(--muted)]">
             {navItems.map((item) => (
               <li key={item.href}>
-                <TrackedLink
+                <a
                   className="nav-link inline-flex py-1"
                   href={item.href}
-                  eventName={ANALYTICS_EVENTS.NAV_CLICK}
-                  eventProperties={{ nav_item: item.label, device: "mobile" }}
+                  data-analytics-event={ANALYTICS_EVENTS.NAV_CLICK}
+                  data-analytics-nav-item={item.label}
+                  data-analytics-device="mobile"
                   onClick={() => setIsOpen(false)}
                 >
                   {item.label}
-                </TrackedLink>
+                </a>
               </li>
             ))}
           </ul>

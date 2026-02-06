@@ -1,3 +1,4 @@
+import Image from "next/image";
 import type { ShowcaseItem } from "../data/portfolio";
 
 const LEETCODE_SNAPSHOT_SRC =
@@ -41,18 +42,23 @@ export function ShowcaseLiveContent({
                   width="771"
                   className="block h-full w-full object-contain"
                   loading="lazy"
+                  fetchPriority="low"
                   decoding="async"
                   referrerPolicy="no-referrer"
                 />
               </picture>
             </a>
           ) : (
-            <img
+            <Image
               src={LEETCODE_SNAPSHOT_SRC}
               alt={snapshotAlt}
               className="block h-full w-full object-contain"
+              width={771}
+              height={434}
               loading="lazy"
-              decoding="async"
+              fetchPriority="low"
+              sizes="(max-width: 768px) 100vw, 46vw"
+              unoptimized
               referrerPolicy="no-referrer"
             />
           )}

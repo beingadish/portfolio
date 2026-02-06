@@ -1,9 +1,9 @@
 import Image from "next/image";
 import type { CSSProperties } from "react";
 import { MobileNav } from "./components/mobile-nav";
+import { NavDock } from "./components/nav-dock";
 import { ShowcaseLiveContent } from "./components/showcase-live-content";
 import { ThemeToggle } from "./components/theme-toggle";
-import { TrackedLink } from "./components/tracked-link";
 import { portfolioData } from "./data/portfolio";
 import {
   ANALYTICS_EVENTS,
@@ -186,6 +186,7 @@ function TechIcon({
 }) {
   const source = techIconSources[label] ?? fallbackTechIcon;
   const sizeClass = compact ? "h-3 w-3" : "h-3.5 w-3.5";
+  const iconSize = compact ? 12 : 14;
 
   if (source.kind === "semantic") {
     return (
@@ -198,13 +199,17 @@ function TechIcon({
   if (source.kind === "external") {
     return (
       <span className="tech-icon-shell">
-        <img
+        <Image
           src={source.url}
           alt=""
           aria-hidden="true"
           className={`${sizeClass} block shrink-0`}
+          width={iconSize}
+          height={iconSize}
           loading="lazy"
-          decoding="async"
+          fetchPriority="low"
+          sizes={`${iconSize}px`}
+          unoptimized
           referrerPolicy="no-referrer"
         />
       </span>
@@ -213,13 +218,17 @@ function TechIcon({
 
   return (
     <span className="tech-icon-shell">
-      <img
+      <Image
         src={`https://cdn.simpleicons.org/${source.slug}/${source.color}`}
         alt=""
         aria-hidden="true"
         className={`${sizeClass} block shrink-0`}
+        width={iconSize}
+        height={iconSize}
         loading="lazy"
-        decoding="async"
+        fetchPriority="low"
+        sizes={`${iconSize}px`}
+        unoptimized
         referrerPolicy="no-referrer"
       />
     </span>
@@ -241,15 +250,15 @@ function TechChip({
   );
 }
 
-const ExternalIcon = () => (
-  <svg viewBox="0 0 20 20" aria-hidden="true" className="h-3.5 w-3.5">
+const ExternalIcon = ({ className = "h-3.5 w-3.5" }: { className?: string }) => (
+  <svg viewBox="0 0 24 24" aria-hidden="true" className={className}>
     <path
-      d="M7 5h8v8m-8 2h8V7m-2.5 0L5 14.5"
+      d="M14 5h5v5m-9 9H5v-5m14-9-9 9"
       fill="none"
       stroke="currentColor"
       strokeLinecap="round"
       strokeLinejoin="round"
-      strokeWidth="1.5"
+      strokeWidth="1.9"
     />
   </svg>
 );
@@ -313,7 +322,9 @@ function QuickLinkIcon({
   if (icon === "medium") {
     return (
       <svg viewBox="0 0 24 24" aria-hidden="true" className="h-4 w-4">
-        <path d="M4 7.2h3.1l3.2 7.2 3.4-7.2H17l-4.7 9.5h-1.9L5.7 7.2Zm13.4 0H20v9.5h-2.6V7.2Z" fill="currentColor" />
+        <circle cx="6.5" cy="12" r="4.5" fill="currentColor" />
+        <ellipse cx="13.3" cy="12" rx="2.8" ry="4.5" fill="currentColor" />
+        <ellipse cx="18.6" cy="12" rx="1.4" ry="4.5" fill="currentColor" />
       </svg>
     );
   }
@@ -363,8 +374,8 @@ export default function Home() {
       <div className="pointer-events-none floating-orb fixed -left-20 top-10 -z-10 h-72 w-72 rounded-full bg-[radial-gradient(circle,#0f766e42_0%,transparent_68%)] blur-2xl" />
       <div className="pointer-events-none floating-orb fixed -right-16 top-40 -z-10 h-80 w-80 rounded-full bg-[radial-gradient(circle,#e67e2240_0%,transparent_72%)] blur-2xl [animation-delay:1.2s]" />
 
-      <header className="mx-auto max-w-6xl px-5 pt-5 sm:px-10 md:pt-28">
-        <nav className="section-panel reveal px-4 py-3 sm:px-5 [animation-delay:70ms] md:fixed md:left-1/2 md:top-4 md:z-40 md:w-[calc(100%-5rem)] md:max-w-6xl md:-translate-x-1/2">
+      <header className="mx-auto max-w-6xl px-5 pt-24 sm:px-10 sm:pt-28">
+        <NavDock className="section-panel fixed left-1/2 top-4 z-40 w-[calc(100%-2.5rem)] max-w-6xl px-4 py-3 sm:w-[calc(100%-5rem)] sm:px-5 [animation-delay:70ms]">
           <MobileNav navItems={navItems} quickLinks={portfolioData.quickLinks} />
 
           <div className="hidden flex-wrap items-center gap-3 md:flex">
@@ -375,14 +386,15 @@ export default function Home() {
             <ul className="flex flex-wrap items-center gap-4 text-sm text-[var(--muted)]">
               {navItems.map((item) => (
                 <li key={item.href}>
-                  <TrackedLink
+                  <a
                     className="nav-link"
                     href={item.href}
-                    eventName={ANALYTICS_EVENTS.NAV_CLICK}
-                    eventProperties={{ nav_item: item.label, device: "desktop" }}
+                    data-analytics-event={ANALYTICS_EVENTS.NAV_CLICK}
+                    data-analytics-nav-item={item.label}
+                    data-analytics-device="desktop"
                   >
                     {item.label}
-                  </TrackedLink>
+                  </a>
                 </li>
               ))}
             </ul>
@@ -405,7 +417,7 @@ export default function Home() {
               <ThemeToggle />
             </div>
           </div>
-        </nav>
+        </NavDock>
 
         <section className="mt-4 grid items-stretch gap-5 md:gap-4 lg:auto-rows-fr lg:grid-cols-[1.1fr_0.9fr]">
           <article className="section-panel reveal flex h-full self-stretch flex-col p-5 sm:p-6 [animation-delay:120ms]">
@@ -436,17 +448,18 @@ export default function Home() {
               </div>
 
               <div className="mt-3 flex flex-wrap items-center gap-3">
-                <TrackedLink
+                <a
                   className="btn-primary px-6 py-3"
                   href={resumeLink}
                   target="_blank"
                   rel="noreferrer"
                   download
-                  eventName={ANALYTICS_EVENTS.RESUME_CLICK_HERO}
-                  eventProperties={{ location: "hero", type: "primary_cta" }}
+                  data-analytics-event={ANALYTICS_EVENTS.RESUME_CLICK_HERO}
+                  data-analytics-location="hero"
+                  data-analytics-type="primary_cta"
                 >
                   Download Resume
-                </TrackedLink>
+                </a>
                 <a className="btn-secondary px-6 py-3" href="#projects">
                   View Projects
                 </a>
@@ -466,6 +479,8 @@ export default function Home() {
                 alt="Demo profile placeholder"
                 width={640}
                 height={640}
+                sizes="(max-width: 1024px) 100vw, 42vw"
+                quality={72}
                 className="h-auto w-full object-cover"
                 priority
               />
@@ -486,7 +501,7 @@ export default function Home() {
       </header>
 
       <main className="mx-auto mt-5 max-w-6xl space-y-6 px-5 sm:px-10 md:mt-6 md:space-y-5">
-        <section id="about" className="section-panel reveal p-6 sm:p-8 [animation-delay:240ms]">
+        <section id="about" className="section-panel reveal defer-render p-6 sm:p-8 [animation-delay:240ms]">
           <SectionHeader
             eyebrow="About"
             title="Building reliable products with a people-first engineering approach."
@@ -501,7 +516,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="showcase" className="section-panel reveal p-6 sm:p-8 [animation-delay:260ms]">
+        <section id="showcase" className="section-panel reveal defer-render p-6 sm:p-8 [animation-delay:260ms]">
           <SectionHeader
             eyebrow="Showcase"
             title="Engineering profile snapshots"
@@ -517,17 +532,17 @@ export default function Home() {
                   <ShowcaseLiveContent
                     item={item}
                     cta={
-                      <TrackedLink
+                      <a
                         className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-[var(--teal)] underline decoration-transparent transition hover:decoration-current"
                         href={item.href}
                         target="_blank"
                         rel="noreferrer"
-                        eventName={showcaseEventName ?? undefined}
-                        eventProperties={showcaseEventName ? { section: "showcase" } : undefined}
+                        data-analytics-event={showcaseEventName ?? undefined}
+                        data-analytics-section={showcaseEventName ? "showcase" : undefined}
                       >
                         Open Profile
                         <ExternalIcon />
-                      </TrackedLink>
+                      </a>
                     }
                   />
                 </article>
@@ -536,7 +551,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="experience" className="section-panel reveal p-6 sm:p-8 [animation-delay:300ms]">
+        <section id="experience" className="section-panel reveal defer-render p-6 sm:p-8 [animation-delay:300ms]">
           <SectionHeader
             eyebrow="Experience"
             title="Production engineering with measurable performance impact."
@@ -583,7 +598,7 @@ export default function Home() {
           </ol>
         </section>
 
-        <section id="projects" className="section-panel reveal p-6 sm:p-8 [animation-delay:340ms]">
+        <section id="projects" className="section-panel reveal defer-render p-6 sm:p-8 [animation-delay:340ms]">
           <SectionHeader
             eyebrow="Projects"
             title="Systems and products built outside day-to-day work."
@@ -600,11 +615,11 @@ export default function Home() {
               const cardContent = (
                 <article className={`project-card flex h-full min-h-[24rem] min-w-0 flex-col ${project.href ? "cursor-pointer" : ""}`}>
                   <div>
-                    <div className="flex flex-wrap items-start gap-2 sm:justify-between sm:gap-3">
+                    <div className="flex flex-col items-start gap-2 md:flex-row md:items-start md:justify-between md:gap-3">
                       <h3 className="display-font min-w-0 break-words text-[2rem] leading-tight font-semibold text-[var(--ink)] sm:text-3xl">
                         {project.name}
                       </h3>
-                      <span className="chip shrink-0 text-xs">{project.timeline}</span>
+                      <span className="chip self-start shrink-0 text-xs">{project.timeline}</span>
                     </div>
                     <p className="mt-3 text-sm leading-relaxed text-[var(--muted)]">{project.summary}</p>
                   </div>
@@ -630,22 +645,20 @@ export default function Home() {
 
               if (project.href) {
                 return (
-                  <TrackedLink
+                  <a
                     key={project.name}
                     href={project.href}
                     target="_blank"
                     rel="noreferrer"
                     aria-label={`Open project: ${project.name}`}
                     className={`block h-full min-w-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--teal)] ${wrapperClass}`}
-                    eventName={ANALYTICS_EVENTS.PROJECT_CLICK}
-                    eventProperties={{
-                      project_name: project.name,
-                      project_type: getProjectType(project.href),
-                      section: "projects",
-                    }}
+                    data-analytics-event={ANALYTICS_EVENTS.PROJECT_CLICK}
+                    data-analytics-project-name={project.name}
+                    data-analytics-project-type={getProjectType(project.href)}
+                    data-analytics-section="projects"
                   >
                     {cardContent}
-                  </TrackedLink>
+                  </a>
                 );
               }
 
@@ -658,7 +671,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="skills" className="section-panel reveal p-6 sm:p-8 [animation-delay:360ms]">
+        <section id="skills" className="section-panel reveal defer-render p-6 sm:p-8 [animation-delay:360ms]">
           <SectionHeader
             eyebrow="Skills"
             title="A practical toolkit for backend, mobile, and AI-driven features."
@@ -687,7 +700,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="grid gap-6 lg:grid-cols-2">
+        <section className="defer-render grid gap-6 lg:grid-cols-2">
           <article className="section-panel reveal p-6 sm:p-8 [animation-delay:380ms]">
             <SectionHeader
               eyebrow="Achievements"
@@ -706,7 +719,7 @@ export default function Home() {
                       rel="noreferrer"
                     >
                       <span>{achievement.title}</span>
-                      <ExternalIcon />
+                      <ExternalIcon className="h-4 w-4 shrink-0" />
                     </a>
                   ) : (
                     <span>{achievement.title}</span>
@@ -755,7 +768,7 @@ export default function Home() {
           </article>
         </section>
 
-        <section id="writing" className="section-panel reveal p-6 sm:p-8 [animation-delay:430ms]">
+        <section id="writing" className="section-panel reveal defer-render p-6 sm:p-8 [animation-delay:430ms]">
           <SectionHeader
             eyebrow="Writing"
             title="Medium Articles"
@@ -777,51 +790,53 @@ export default function Home() {
                   </p>
                   <h3 className="mt-2 text-lg font-semibold text-[var(--ink)]">{entry.title}</h3>
                   <p className="mt-2 text-sm leading-relaxed text-[var(--muted)]">{entry.summary}</p>
-                  <TrackedLink
+                  <a
                     href={entry.href}
                     target="_blank"
                     rel="noreferrer"
                     className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-[var(--teal)] underline decoration-transparent transition hover:decoration-current"
-                    eventName={ANALYTICS_EVENTS.ARTICLE_CLICK}
-                    eventProperties={{ article_title: entry.title, platform: "medium" }}
+                    data-analytics-event={ANALYTICS_EVENTS.ARTICLE_CLICK}
+                    data-analytics-article-title={entry.title}
+                    data-analytics-platform="medium"
                   >
                     Read Article
                     <ExternalIcon />
-                  </TrackedLink>
+                  </a>
                 </article>
               );
             })}
           </div>
         </section>
 
-        <section id="contact" className="section-panel reveal p-6 sm:p-8 [animation-delay:460ms]">
+        <section id="contact" className="section-panel reveal defer-render p-6 sm:p-8 [animation-delay:460ms]">
           <SectionHeader
             eyebrow="Contact"
             title="Let us build something meaningful."
             copy="Open to impactful software engineering opportunities across backend systems, distributed architecture, and product engineering."
           />
           <div className="mt-6 flex flex-wrap gap-3">
-            <TrackedLink
+            <a
               className="btn-primary px-6 py-3"
               href={resumeLink}
               target="_blank"
               rel="noreferrer"
               download
-              eventName={ANALYTICS_EVENTS.RESUME_CLICK_FOOTER}
-              eventProperties={{ location: "footer" }}
+              data-analytics-event={ANALYTICS_EVENTS.RESUME_CLICK_FOOTER}
+              data-analytics-location="footer"
             >
               Resume
-            </TrackedLink>
-            <TrackedLink
+            </a>
+            <a
               className="btn-secondary px-6 py-3"
               href={gmailComposeLink}
               target="_blank"
               rel="noreferrer"
-              eventName={ANALYTICS_EVENTS.EMAIL_CLICK}
-              eventProperties={{ section: "contact", method: "gmail_compose" }}
+              data-analytics-event={ANALYTICS_EVENTS.EMAIL_CLICK}
+              data-analytics-section="contact"
+              data-analytics-method="gmail_compose"
             >
               Email 
-            </TrackedLink>
+            </a>
           </div>
           <p className="mt-3 text-sm text-[var(--muted)]">{emailAddress}</p>
         </section>

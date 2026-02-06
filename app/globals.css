@@ -227,6 +227,25 @@ html {
   transition: transform 220ms ease;
 }
 
+.nav-dock {
+  transform: translate3d(-50%, 0, 0);
+  transition:
+    transform 260ms ease,
+    opacity 220ms ease;
+  will-change: transform;
+}
+
+.nav-dock-visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.nav-dock-hidden {
+  transform: translate3d(-50%, -155%, 0);
+  opacity: 0.98;
+  pointer-events: none;
+}
+
 .nav-link:hover {
   color: var(--ink);
 }
@@ -462,6 +481,21 @@ html {
 }
 
 @media (max-width: 767px) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+
+  .floating-orb {
+    display: none;
+  }
+
+  .defer-render {
+    content-visibility: auto;
+    contain-intrinsic-size: 1000px;
+  }
+
   .eyebrow {
     font-size: 0.72rem;
     letter-spacing: 0.12em;
