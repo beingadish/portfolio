@@ -313,6 +313,8 @@ export default function Home() {
   const resumeLink =
     portfolioData.quickLinks.find((item) => item.icon === "resume")?.href ??
     "https://drive.google.com/file/d/1OC4Hwo1x_KQg2HIOpmyf_1vB4FqCu0Qm/view?usp=sharing";
+  const emailAddress = portfolioData.contact.email;
+  const gmailComposeLink = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(emailAddress)}`;
 
   return (
     <div className="relative isolate overflow-x-clip pb-16">
@@ -715,10 +717,11 @@ export default function Home() {
             <a className="btn-primary px-6 py-3" href={resumeLink} target="_blank" rel="noreferrer" download>
               Resume
             </a>
-            <a className="btn-secondary px-6 py-3" href="mailto:aadarshpandey.pandey@gmail.com">
+            <a className="btn-secondary px-6 py-3" href={gmailComposeLink} target="_blank" rel="noreferrer">
               Email 
             </a>
           </div>
+          <p className="mt-3 text-sm text-[var(--muted)]">{emailAddress}</p>
         </section>
       </main>
     </div>
