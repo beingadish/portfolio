@@ -624,6 +624,31 @@ html {
   filter: url(#liquidGlassLens);
 }
 
+/* DARK MODE: DISABLE ALL GLASS EFFECTS */
+:root[data-theme="dark"] .glass-backdrop-layer,
+:root[data-theme="dark"] .glass-mode .glass-backdrop-layer,
+:root[data-theme="dark"] .glass-mode .section-panel::after,
+:root[data-theme="dark"] .glass-mode .surface-card::after,
+:root[data-theme="dark"] .glass-mode .surface-subtle::after,
+:root[data-theme="dark"] .glass-mode .project-card::after,
+:root[data-theme="dark"] .glass-mode .nav-dock::after {
+  display: none !important;
+  filter: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+:root[data-theme="dark"] .glass-mode .section-panel,
+:root[data-theme="dark"] .glass-mode .surface-card,
+:root[data-theme="dark"] .glass-mode .surface-subtle,
+:root[data-theme="dark"] .glass-mode .project-card,
+:root[data-theme="dark"] .glass-mode .nav-dock {
+  background: var(--panel-bg);
+  border: 1px solid var(--line);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
 :root[data-theme="dark"] .glass-mode .section-panel::after,
 :root[data-theme="dark"] .glass-mode .surface-card::after,
 :root[data-theme="dark"] .glass-mode .surface-subtle::after,
