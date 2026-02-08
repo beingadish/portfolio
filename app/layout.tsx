@@ -50,12 +50,24 @@ export default function RootLayout({
           height="0"
           style={{ position: "absolute", width: 0, height: 0, overflow: "hidden" }}
         >
-          <filter id="liquidGlassLens" x="0%" y="0%" width="100%" height="100%" filterUnits="objectBoundingBox">
-            <feComponentTransfer in="SourceAlpha" result="alpha">
-              <feFuncA type="identity" />
-            </feComponentTransfer>
-            <feGaussianBlur in="alpha" stdDeviation="50" result="blur" />
-            <feDisplacementMap in="SourceGraphic" in2="blur" scale="8" xChannelSelector="A" yChannelSelector="A" />
+          <filter id="liquidGlassLens" x="-20%" y="-20%" width="140%" height="140%" colorInterpolationFilters="sRGB">
+            <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="bg-blur" />
+            <feTurbulence
+              type="turbulence"
+              baseFrequency="0.015"
+              numOctaves="1"
+              seed="9"
+              result="noise"
+            />
+            <feDisplacementMap
+              in="bg-blur"
+              in2="noise"
+              scale="8"
+              xChannelSelector="R"
+              yChannelSelector="G"
+              result="displaced"
+            />
+            <feComposite in="displaced" in2="SourceGraphic" operator="over" />
           </filter>
         </svg>
         {children}
