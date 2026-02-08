@@ -126,6 +126,23 @@ html {
   background: var(--card-bg);
 }
 
+/* Ensure text wraps properly in flex containers */
+li.flex > span:last-child {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Headings in flex containers should expand to fill space */
+.flex h1, .flex h2, .flex h3, .flex h4, .flex h5, .flex h6 {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Chips should not expand */
+.chip {
+  flex-shrink: 0;
+}
+
 .surface-subtle {
   border: 1px solid var(--line);
   background: var(--card-bg-soft);

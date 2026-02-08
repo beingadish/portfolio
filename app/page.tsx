@@ -575,7 +575,7 @@ export default function Home() {
                         <span className={`timeline-dot ${isCurrentRole ? "timeline-dot-current" : "timeline-dot-past"}`} />
                       </span>
                       <article className="surface-card rounded-2xl p-5">
-                        <div className="flex flex-wrap items-center justify-between gap-2">
+                        <div className="flex flex-col items-start gap-2 md:flex-row md:items-center md:justify-between">
                           <h3 className="text-lg font-semibold text-[var(--ink)]">{item.title}</h3>
                           <span className="chip text-xs">{item.period}</span>
                         </div>
