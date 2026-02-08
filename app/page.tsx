@@ -356,7 +356,7 @@ function SectionHeader({
   copy: string;
 }) {
   return (
-    <header className="max-w-3xl">
+    <header>
       <p className="eyebrow">{eyebrow}</p>
       <h2 className="section-title mt-1 text-[1.95rem] leading-[1.16] sm:text-4xl">{title}</h2>
       <p className="section-copy mt-3">{copy}</p>

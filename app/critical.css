@@ -1,0 +1,85 @@
+/* Critical CSS - Above-the-fold only - Inlined in <head> */
+
+:root {
+  --bg: #f4efe5;
+  --ink: #101828;
+  --muted: #475467;
+  --line: rgba(16, 24, 40, 0.12);
+  --teal: #0f766e;
+  --panel-bg: rgba(255, 255, 255, 0.78);
+  --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-display: Georgia, serif;
+}
+
+:root[data-theme="dark"] {
+  --bg: #111827;
+  --ink: #e5ecf7;
+  --muted: #a3b1c6;
+  --line: rgba(226, 232, 240, 0.18);
+  --panel-bg: rgba(17, 24, 39, 0.78);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* Nav dock - critical for above-fold */
+.nav-dock {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  background: var(--panel-bg);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  backdrop-filter: blur(10px);
+}
+
+/* Hero section - critical */
+.hero-section {
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+}
+
+.section-panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+}
+
+/* Prevent flash of unstyled content */
+.defer-render {
+  opacity: 0;
+}
+
+/* System font stack for immediate render */
+body, input, textarea, select, button {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", sans-serif;
+}
+
+/* Basic grid for layout stability */
+.grid-container {
+  display: grid;
+  gap: 1.5rem;
+}
