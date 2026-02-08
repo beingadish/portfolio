@@ -55,7 +55,7 @@ export default function RootLayout({
               <feFuncA type="identity" />
             </feComponentTransfer>
             <feGaussianBlur in="alpha" stdDeviation="50" result="blur" />
-            <feDisplacementMap in="SourceGraphic" in2="blur" scale="42" xChannelSelector="A" yChannelSelector="A" />
+            <feDisplacementMap in="SourceGraphic" in2="blur" scale="8" xChannelSelector="A" yChannelSelector="A" />
           </filter>
         </svg>
         {children}

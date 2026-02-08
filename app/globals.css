@@ -562,8 +562,6 @@ html {
   border-radius: inherit;
   pointer-events: none;
   z-index: 0;
-  backdrop-filter: blur(0.5px);
-  -webkit-backdrop-filter: blur(0.5px);
   filter: url(#liquidGlassLens);
 }
 
@@ -623,8 +621,7 @@ html {
 }
 
 :root[data-theme="dark"] .glass-mode .glass-backdrop-layer {
-  backdrop-filter: blur(0.5px);
-  -webkit-backdrop-filter: blur(0.5px);
+  filter: url(#liquidGlassLens);
 }
 
 :root[data-theme="dark"] .glass-mode .section-panel::after,
