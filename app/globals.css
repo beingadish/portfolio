@@ -731,6 +731,11 @@ li.flex > span:last-child {
     animation: reveal-up 700ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
     will-change: opacity, transform;
   }
+
+  /* Fix theme-switching bug: force visibility on reveal elements to prevent content-visibility from hiding them */
+  .reveal.defer-render {
+    content-visibility: visible !important;
+  }
 }
 
 /* Reduce motion - immediate render */
