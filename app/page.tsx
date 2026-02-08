@@ -1,5 +1,8 @@
+"use client";
+
 import Image from "next/image";
 import type { CSSProperties } from "react";
+import { useEffect } from "react";
 import { MobileNav } from "./components/mobile-nav";
 import { NavDock } from "./components/nav-dock";
 import { LiquidGlassToggle } from "./components/liquid-glass-toggle";
@@ -370,6 +373,19 @@ export default function Home() {
     "https://drive.google.com/file/d/1OC4Hwo1x_KQg2HIOpmyf_1vB4FqCu0Qm/view?usp=sharing";
   const emailAddress = portfolioData.contact.email;
   const gmailComposeLink = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(emailAddress)}`;
+
+  // Fix theme-switching bug: persist revealed state to prevent content-visibility from hiding elements
+  useEffect(() => {
+    const handleAnimationEnd = (event: AnimationEvent) => {
+      if (event.animationName === "reveal-up") {
+        const target = event.target as HTMLElement;
+        target.classList.add("is-revealed");
+      }
+    };
+
+    document.addEventListener("animationend", handleAnimationEnd);
+    return () => document.removeEventListener("animationend", handleAnimationEnd);
+  }, []);
 
   return (
     <div className="relative isolate overflow-x-clip pb-16">
