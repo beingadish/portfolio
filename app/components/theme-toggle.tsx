@@ -32,6 +32,19 @@ const MoonIcon = () => (
   </svg>
 );
 
+export const GlassIcon = () => (
+  <svg viewBox="0 0 24 24" aria-hidden="true" className="h-4 w-4">
+    <path
+      d="M8 4c0 3.4 1.3 5.4 2.3 6.6.8.9 1.7 1.5 3.7 2.4 1.5.7 2 2.7 1 4.1C14 19.3 12.6 20 11 20c-3 0-5-2.2-5-6.2C6 10 6.7 7.2 8 4Z"
+      fill="none"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="1.7"
+    />
+  </svg>
+);
+
 export function ThemeToggle() {
   const [mounted, setMounted] = useState(false);
   const [theme, setTheme] = useState<ThemeMode>("light");
@@ -76,7 +89,7 @@ export function ThemeToggle() {
         aria-label="Toggle theme"
       >
         <MoonIcon />
-        <span>Theme</span>
+        <span className="toggle-label">Theme</span>
       </button>
     );
   }
@@ -93,7 +106,7 @@ export function ThemeToggle() {
         aria-label={ariaLabel}
       >
         {theme === "dark" ? <SunIcon /> : <MoonIcon />}
-        <span>{textLabel}</span>
+        <span className="toggle-label">{textLabel}</span>
       </button>
       {isAnimating ? <span className="theme-wave" aria-hidden="true" /> : null}
     </>

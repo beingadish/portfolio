@@ -3,8 +3,6 @@
 import type { ComponentPropsWithoutRef } from "react";
 import { useEffect, useRef, useState } from "react";
 
-const SCROLL_THRESHOLD = 6;
-
 export function NavDock({
   className = "",
   children,
@@ -20,12 +18,14 @@ export function NavDock({
       const currentY = window.scrollY;
       const delta = currentY - lastScrollY.current;
 
-      if (Math.abs(delta) < SCROLL_THRESHOLD) {
-        return;
+      if (delta <= 0) {
+        // Any upward movement reveals the dock.
+        setIsHidden(false);
+      } else if (currentY > 24) {
+        // Hide only when moving down away from the top.
+        setIsHidden(true);
       }
 
-      // Expected behavior: scrolling down hides, scrolling up shows.
-      setIsHidden(delta > 0);
       lastScrollY.current = currentY;
     };
 

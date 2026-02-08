@@ -2,6 +2,7 @@ import Image from "next/image";
 import type { CSSProperties } from "react";
 import { MobileNav } from "./components/mobile-nav";
 import { NavDock } from "./components/nav-dock";
+import { LiquidGlassToggle } from "./components/liquid-glass-toggle";
 import { ShowcaseLiveContent } from "./components/showcase-live-content";
 import { ThemeToggle } from "./components/theme-toggle";
 import { portfolioData } from "./data/portfolio";
@@ -25,19 +26,19 @@ type SemanticIconName = "code" | "cloud" | "network" | "layers" | "message" | "c
 
 type TechIconSource =
   | {
-      kind: "simple";
-      slug: string;
-      color: string;
-    }
+    kind: "simple";
+    slug: string;
+    color: string;
+  }
   | {
-      kind: "external";
-      url: string;
-    }
+    kind: "external";
+    url: string;
+  }
   | {
-      kind: "semantic";
-      icon: SemanticIconName;
-      color?: string;
-    };
+    kind: "semantic";
+    icon: SemanticIconName;
+    color?: string;
+  };
 
 const fallbackTechIcon: TechIconSource = {
   kind: "semantic",
@@ -414,10 +415,15 @@ export default function Home() {
                   <QuickLinkIcon icon={item.icon} />
                 </a>
               ))}
+              <div className="hidden lg:block">
+                <LiquidGlassToggle />
+              </div>
               <ThemeToggle />
             </div>
           </div>
         </NavDock>
+
+        <div className="h-5 sm:h-6" aria-hidden="true" />
 
         <section className="mt-4 grid items-stretch gap-5 md:gap-4 lg:auto-rows-fr lg:grid-cols-[1.1fr_0.9fr]">
           <article className="section-panel reveal flex h-full self-stretch flex-col p-5 sm:p-6 [animation-delay:120ms]">
@@ -835,7 +841,7 @@ export default function Home() {
               data-analytics-section="contact"
               data-analytics-method="gmail_compose"
             >
-              Email 
+              Email
             </a>
           </div>
           <p className="mt-3 text-sm text-[var(--muted)]">{emailAddress}</p>
