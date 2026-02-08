@@ -5,6 +5,8 @@ import { NavDock } from "./components/nav-dock";
 import { LiquidGlassToggle } from "./components/liquid-glass-toggle";
 import { ShowcaseLiveContent } from "./components/showcase-live-content";
 import { ThemeToggle } from "./components/theme-toggle";
+import { MobileArticleSlider } from "./components/mobile-article-slider";
+import ExperienceTimeline from "./components/experience-timeline";
 import { portfolioData } from "./data/portfolio";
 import {
   ANALYTICS_EVENTS,
@@ -354,7 +356,7 @@ function SectionHeader({
   copy: string;
 }) {
   return (
-    <header className="max-w-3xl">
+    <header>
       <p className="eyebrow">{eyebrow}</p>
       <h2 className="section-title mt-1 text-[1.95rem] leading-[1.16] sm:text-4xl">{title}</h2>
       <p className="section-copy mt-3">{copy}</p>
@@ -380,10 +382,6 @@ export default function Home() {
           <MobileNav navItems={navItems} quickLinks={portfolioData.quickLinks} />
 
           <div className="hidden flex-wrap items-center gap-3 md:flex">
-            <a href="#" className="display-font text-2xl font-bold tracking-tight text-[var(--ink)]">
-              AP
-            </a>
-
             <ul className="flex flex-wrap items-center gap-4 text-sm text-[var(--muted)]">
               {navItems.map((item) => (
                 <li key={item.href}>
@@ -453,7 +451,7 @@ export default function Home() {
                 <span className="chip">Production Readiness</span>
               </div>
 
-              <div className="mt-3 flex flex-wrap items-center gap-3">
+              <div className="hero-actions mt-3 flex flex-wrap items-center gap-3">
                 <a
                   className="btn-primary px-6 py-3"
                   href={resumeLink}
@@ -564,44 +562,49 @@ export default function Home() {
             copy="I work across backend APIs, data pipelines, Android integrations, and cloud delivery to ship resilient systems."
           />
 
-          <ol className="mt-8 border-s border-[var(--line)] ps-6">
-            {portfolioData.experience.map((item) => {
-              const isCurrentRole = item.period.toLowerCase().includes("present");
+          <ExperienceTimeline>
+            <div className="experience-scroll">
+              <div className="experience-scroll-inner">
+                <ol className="experience-list mt-8">
+                {portfolioData.experience.map((item) => {
+                  const isCurrentRole = item.period.toLowerCase().includes("present");
+                  return (
+                    <li key={`${item.company}-${item.period}`} className="experience-item mb-8 last:mb-0">
+                      <span className="timeline-marker" aria-hidden="true">
+                        {isCurrentRole ? <span className="timeline-dot-ripple" /> : null}
+                        <span className={`timeline-dot ${isCurrentRole ? "timeline-dot-current" : "timeline-dot-past"}`} />
+                      </span>
+                      <article className="surface-card rounded-2xl p-5">
+                        <div className="flex flex-col items-start gap-2 md:flex-row md:items-center md:justify-between">
+                          <h3 className="text-lg font-semibold text-[var(--ink)]">{item.title}</h3>
+                          <span className="chip text-xs">{item.period}</span>
+                        </div>
+                        <p className="mt-1 text-sm font-medium text-[var(--muted)]">
+                          {item.company} • {item.location}
+                        </p>
 
-              return (
-                <li key={`${item.company}-${item.period}`} className="relative mb-8 last:mb-0">
-                  <span className="timeline-marker" aria-hidden="true">
-                    {isCurrentRole ? <span className="timeline-dot-ripple" /> : null}
-                    <span className={`timeline-dot ${isCurrentRole ? "timeline-dot-current" : "timeline-dot-past"}`} />
-                  </span>
-                  <article className="surface-card rounded-2xl p-5">
-                    <div className="flex flex-wrap items-center justify-between gap-2">
-                      <h3 className="text-lg font-semibold text-[var(--ink)]">{item.title}</h3>
-                      <span className="chip text-xs">{item.period}</span>
-                    </div>
-                    <p className="mt-1 text-sm font-medium text-[var(--muted)]">
-                      {item.company} • {item.location}
-                    </p>
+                        <ul className="mt-4 space-y-2 text-sm leading-relaxed text-[var(--ink)]">
+                          {item.bullets.map((bullet) => (
+                            <li key={bullet} className="flex gap-2">
+                              <span className="mt-[7px] h-1.5 w-1.5 rounded-full bg-[var(--teal)]" />
+                              <span>{bullet}</span>
+                            </li>
+                          ))}
+                        </ul>
 
-                    <ul className="mt-4 space-y-2 text-sm leading-relaxed text-[var(--ink)]">
-                      {item.bullets.map((bullet) => (
-                        <li key={bullet} className="flex gap-2">
-                          <span className="mt-[7px] h-1.5 w-1.5 rounded-full bg-[var(--teal)]" />
-                          <span>{bullet}</span>
-                        </li>
-                      ))}
-                    </ul>
-
-                    <div className="mt-4 flex flex-wrap gap-2">
-                      {item.stack.map((tech) => (
-                        <TechChip key={tech} label={tech} />
-                      ))}
-                    </div>
-                  </article>
-                </li>
-              );
-            })}
-          </ol>
+                        <div className="mt-4 flex flex-wrap gap-2">
+                          {item.stack.map((tech) => (
+                            <TechChip key={tech} label={tech} />
+                          ))}
+                        </div>
+                      </article>
+                    </li>
+                  );
+                })}
+                </ol>
+              </div>
+            </div>
+          </ExperienceTimeline>
         </section>
 
         <section id="projects" className="section-panel reveal defer-render p-6 sm:p-8 [animation-delay:340ms]">
@@ -780,7 +783,38 @@ export default function Home() {
             title="Medium Articles"
             copy="A selection of my published writing on backend engineering and system design."
           />
-          <div className="mt-7 grid gap-5 md:gap-4 md:grid-cols-2">
+          
+          {/* Mobile: Auto-slider */}
+          <div className="md:hidden mt-7">
+            <div className="mobile-article-slider-container">
+              <MobileArticleSlider itemCount={portfolioData.writing.length}>
+                {portfolioData.writing.map((entry) => (
+                  <article key={entry.title} className="project-card mobile-article-card px-1">
+                    <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[var(--teal)]">
+                      {entry.meta}
+                    </p>
+                    <h3 className="mt-2 text-lg font-semibold text-[var(--ink)]">{entry.title}</h3>
+                    <p className="mt-2 text-sm leading-relaxed text-[var(--muted)]">{entry.summary}</p>
+                    <a
+                      href={entry.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="mt-auto pt-4 inline-flex items-center gap-1 text-sm font-semibold text-[var(--teal)] underline decoration-transparent transition hover:decoration-current"
+                      data-analytics-event={ANALYTICS_EVENTS.ARTICLE_CLICK}
+                      data-analytics-article-title={entry.title}
+                      data-analytics-platform="medium"
+                    >
+                      Read Article
+                      <ExternalIcon />
+                    </a>
+                  </article>
+                ))}
+              </MobileArticleSlider>
+            </div>
+          </div>
+
+          {/* Desktop: Grid */}
+          <div className="hidden md:grid mt-7 gap-5 md:gap-4 md:grid-cols-2">
             {portfolioData.writing.map((entry, index) => {
               const isOddLastCard =
                 portfolioData.writing.length % 2 === 1 &&

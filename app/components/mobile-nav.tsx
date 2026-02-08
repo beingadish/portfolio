@@ -1,6 +1,6 @@
 "use client";
 
-import { useId, useState } from "react";
+import { useId, useState, useEffect } from "react";
 import { ANALYTICS_EVENTS } from "../lib/analytics";
 import { ThemeToggle } from "./theme-toggle";
 import { LiquidGlassToggle } from "./liquid-glass-toggle";
@@ -21,24 +21,31 @@ export function MobileNav({
   const [isOpen, setIsOpen] = useState(false);
   const menuId = useId();
 
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handleScroll = () => {
+      setIsOpen(false);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [isOpen]);
+
   return (
     <div className="md:hidden">
       <div className="flex items-center justify-between gap-3">
-        <a href="#" className="display-font text-2xl font-bold tracking-tight text-[var(--ink)]">
-          AP
-        </a>
-
-        <div className="flex items-center gap-2">
-          <LiquidGlassToggle />
-          <ThemeToggle />
-          <button
-            type="button"
-            className="quick-icon"
-            aria-label="Toggle navigation menu"
-            aria-controls={menuId}
-            aria-expanded={isOpen}
-            onClick={() => setIsOpen((prev) => !prev)}
-          >
+        <button
+          type="button"
+          className="quick-icon"
+          aria-label="Toggle navigation menu"
+          aria-controls={menuId}
+          aria-expanded={isOpen}
+          onClick={() => setIsOpen((prev) => !prev)}
+        >
             <svg viewBox="0 0 24 24" aria-hidden="true" className="h-4 w-4">
               <path
                 d="M4 7h16M4 12h16M4 17h16"
@@ -49,7 +56,11 @@ export function MobileNav({
                 strokeWidth="1.8"
               />
             </svg>
-          </button>
+        </button>
+
+        <div className="flex items-center gap-2">
+          <LiquidGlassToggle />
+          <ThemeToggle />
         </div>
       </div>
 

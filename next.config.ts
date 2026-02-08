@@ -6,6 +6,14 @@ const nextConfig: NextConfig = {
     deviceSizes: [360, 420, 640, 768, 1024, 1280, 1536],
     qualities: [72, 75],
   },
+  // Performance optimizations
+  reactStrictMode: true,
+  poweredByHeader: false,
+  compress: true,
+  // Improve FCP with optimized compilation
+  experimental: {
+    optimizePackageImports: ['@vercel/analytics', '@vercel/speed-insights'],
+  },
 };
 
 export default nextConfig;
