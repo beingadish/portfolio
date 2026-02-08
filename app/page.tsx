@@ -5,6 +5,7 @@ import { NavDock } from "./components/nav-dock";
 import { LiquidGlassToggle } from "./components/liquid-glass-toggle";
 import { ShowcaseLiveContent } from "./components/showcase-live-content";
 import { ThemeToggle } from "./components/theme-toggle";
+import { MobileArticleSlider } from "./components/mobile-article-slider";
 import { portfolioData } from "./data/portfolio";
 import {
   ANALYTICS_EVENTS,
@@ -380,10 +381,6 @@ export default function Home() {
           <MobileNav navItems={navItems} quickLinks={portfolioData.quickLinks} />
 
           <div className="hidden flex-wrap items-center gap-3 md:flex">
-            <a href="#" className="display-font text-2xl font-bold tracking-tight text-[var(--ink)]">
-              AP
-            </a>
-
             <ul className="flex flex-wrap items-center gap-4 text-sm text-[var(--muted)]">
               {navItems.map((item) => (
                 <li key={item.href}>
@@ -453,7 +450,7 @@ export default function Home() {
                 <span className="chip">Production Readiness</span>
               </div>
 
-              <div className="mt-3 flex flex-wrap items-center gap-3">
+              <div className="hero-actions mt-3 flex flex-wrap items-center gap-3">
                 <a
                   className="btn-primary px-6 py-3"
                   href={resumeLink}
@@ -564,12 +561,13 @@ export default function Home() {
             copy="I work across backend APIs, data pipelines, Android integrations, and cloud delivery to ship resilient systems."
           />
 
-          <ol className="mt-8 border-s border-[var(--line)] ps-6">
+          <div className="experience-scroll">
+            <ol className="experience-scroll-inner mt-8 border-s border-[var(--line)] ps-6">
             {portfolioData.experience.map((item) => {
               const isCurrentRole = item.period.toLowerCase().includes("present");
 
               return (
-                <li key={`${item.company}-${item.period}`} className="relative mb-8 last:mb-0">
+                <li key={`${item.company}-${item.period}`} className="experience-item relative mb-8 last:mb-0">
                   <span className="timeline-marker" aria-hidden="true">
                     {isCurrentRole ? <span className="timeline-dot-ripple" /> : null}
                     <span className={`timeline-dot ${isCurrentRole ? "timeline-dot-current" : "timeline-dot-past"}`} />
@@ -601,7 +599,8 @@ export default function Home() {
                 </li>
               );
             })}
-          </ol>
+            </ol>
+          </div>
         </section>
 
         <section id="projects" className="section-panel reveal defer-render p-6 sm:p-8 [animation-delay:340ms]">
@@ -780,7 +779,38 @@ export default function Home() {
             title="Medium Articles"
             copy="A selection of my published writing on backend engineering and system design."
           />
-          <div className="mt-7 grid gap-5 md:gap-4 md:grid-cols-2">
+          
+          {/* Mobile: Auto-slider */}
+          <div className="md:hidden mt-7">
+            <div className="mobile-article-slider-container">
+              <MobileArticleSlider itemCount={portfolioData.writing.length}>
+                {portfolioData.writing.map((entry) => (
+                  <article key={entry.title} className="project-card mobile-article-card px-1">
+                    <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[var(--teal)]">
+                      {entry.meta}
+                    </p>
+                    <h3 className="mt-2 text-lg font-semibold text-[var(--ink)]">{entry.title}</h3>
+                    <p className="mt-2 text-sm leading-relaxed text-[var(--muted)]">{entry.summary}</p>
+                    <a
+                      href={entry.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="mt-auto pt-4 inline-flex items-center gap-1 text-sm font-semibold text-[var(--teal)] underline decoration-transparent transition hover:decoration-current"
+                      data-analytics-event={ANALYTICS_EVENTS.ARTICLE_CLICK}
+                      data-analytics-article-title={entry.title}
+                      data-analytics-platform="medium"
+                    >
+                      Read Article
+                      <ExternalIcon />
+                    </a>
+                  </article>
+                ))}
+              </MobileArticleSlider>
+            </div>
+          </div>
+
+          {/* Desktop: Grid */}
+          <div className="hidden md:grid mt-7 gap-5 md:gap-4 md:grid-cols-2">
             {portfolioData.writing.map((entry, index) => {
               const isOddLastCard =
                 portfolioData.writing.length % 2 === 1 &&
