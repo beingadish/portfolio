@@ -6,6 +6,7 @@ import { LiquidGlassToggle } from "./components/liquid-glass-toggle";
 import { ShowcaseLiveContent } from "./components/showcase-live-content";
 import { ThemeToggle } from "./components/theme-toggle";
 import { MobileArticleSlider } from "./components/mobile-article-slider";
+import ExperienceTimeline from "./components/experience-timeline";
 import { portfolioData } from "./data/portfolio";
 import {
   ANALYTICS_EVENTS,
@@ -561,46 +562,49 @@ export default function Home() {
             copy="I work across backend APIs, data pipelines, Android integrations, and cloud delivery to ship resilient systems."
           />
 
-          <div className="experience-scroll">
-            <ol className="experience-scroll-inner mt-8 border-s border-[var(--line)] ps-6">
-            {portfolioData.experience.map((item) => {
-              const isCurrentRole = item.period.toLowerCase().includes("present");
+          <ExperienceTimeline>
+            <div className="experience-scroll">
+              <div className="experience-scroll-inner">
+                <ol className="experience-list mt-8">
+                {portfolioData.experience.map((item) => {
+                  const isCurrentRole = item.period.toLowerCase().includes("present");
+                  return (
+                    <li key={`${item.company}-${item.period}`} className="experience-item mb-8 last:mb-0">
+                      <span className="timeline-marker" aria-hidden="true">
+                        {isCurrentRole ? <span className="timeline-dot-ripple" /> : null}
+                        <span className={`timeline-dot ${isCurrentRole ? "timeline-dot-current" : "timeline-dot-past"}`} />
+                      </span>
+                      <article className="surface-card rounded-2xl p-5">
+                        <div className="flex flex-wrap items-center justify-between gap-2">
+                          <h3 className="text-lg font-semibold text-[var(--ink)]">{item.title}</h3>
+                          <span className="chip text-xs">{item.period}</span>
+                        </div>
+                        <p className="mt-1 text-sm font-medium text-[var(--muted)]">
+                          {item.company} • {item.location}
+                        </p>
 
-              return (
-                <li key={`${item.company}-${item.period}`} className="experience-item relative mb-8 last:mb-0">
-                  <span className="timeline-marker" aria-hidden="true">
-                    {isCurrentRole ? <span className="timeline-dot-ripple" /> : null}
-                    <span className={`timeline-dot ${isCurrentRole ? "timeline-dot-current" : "timeline-dot-past"}`} />
-                  </span>
-                  <article className="surface-card rounded-2xl p-5">
-                    <div className="flex flex-wrap items-center justify-between gap-2">
-                      <h3 className="text-lg font-semibold text-[var(--ink)]">{item.title}</h3>
-                      <span className="chip text-xs">{item.period}</span>
-                    </div>
-                    <p className="mt-1 text-sm font-medium text-[var(--muted)]">
-                      {item.company} • {item.location}
-                    </p>
+                        <ul className="mt-4 space-y-2 text-sm leading-relaxed text-[var(--ink)]">
+                          {item.bullets.map((bullet) => (
+                            <li key={bullet} className="flex gap-2">
+                              <span className="mt-[7px] h-1.5 w-1.5 rounded-full bg-[var(--teal)]" />
+                              <span>{bullet}</span>
+                            </li>
+                          ))}
+                        </ul>
 
-                    <ul className="mt-4 space-y-2 text-sm leading-relaxed text-[var(--ink)]">
-                      {item.bullets.map((bullet) => (
-                        <li key={bullet} className="flex gap-2">
-                          <span className="mt-[7px] h-1.5 w-1.5 rounded-full bg-[var(--teal)]" />
-                          <span>{bullet}</span>
-                        </li>
-                      ))}
-                    </ul>
-
-                    <div className="mt-4 flex flex-wrap gap-2">
-                      {item.stack.map((tech) => (
-                        <TechChip key={tech} label={tech} />
-                      ))}
-                    </div>
-                  </article>
-                </li>
-              );
-            })}
-            </ol>
-          </div>
+                        <div className="mt-4 flex flex-wrap gap-2">
+                          {item.stack.map((tech) => (
+                            <TechChip key={tech} label={tech} />
+                          ))}
+                        </div>
+                      </article>
+                    </li>
+                  );
+                })}
+                </ol>
+              </div>
+            </div>
+          </ExperienceTimeline>
         </section>
 
         <section id="projects" className="section-panel reveal defer-render p-6 sm:p-8 [animation-delay:340ms]">
