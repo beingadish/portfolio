@@ -229,6 +229,35 @@ export const portfolioData = {
       ],
       stack: ["Python", "LangChain", "FAISS", "Gemini", "RAG", "Vector Embeddings"],
     },
+    {
+      name: "AroundU",
+      timeline: "Dec 2024 – Present",
+      summary:
+        "A hyperlocal physical freelancing platform with geo-indexed job discovery, bid-based allocation, escrow payments, and production-grade observability.",
+      href: "https://github.com/beingadish/aroundu-backend",
+      bullets: [
+        "Designed Redis GEO-based proximity search with PostgreSQL as source of truth and automated geo-sync reconciliation.",
+        "Implemented JWT authentication, role-based access control, and per-endpoint rate limiting using Bucket4j (Redis-backed).",
+        "Built resilient payment flows with Resilience4j (Circuit Breaker + Retry) and fallback queuing for failed escrow operations.",
+        "Integrated Prometheus + Grafana monitoring with custom Micrometer business metrics (jobs, bids, payments, auth).",
+        "Developed Flutter MVVM mobile client using Riverpod with persistent session management and structured API logging."
+      ],
+      stack: [
+        "Java",
+        "Spring Boot",
+        "PostgreSQL",
+        "Redis",
+        "Redisson",
+        "Resilience4j",
+        "Bucket4j",
+        "Micrometer",
+        "Prometheus",
+        "Grafana",
+        "Docker",
+        "Flutter",
+        "Riverpod"
+      ]
+    }
   ] as ProjectItem[],
   skillGroups: [
     {
@@ -306,63 +335,63 @@ export const portfolioData = {
     },
   ] as AchievementItem[],
   writing: [
-  {
-    title: "Building Rate Limiters from First Principles",
-    summary:
-      "A hands-on exploration of rate limiting by implementing Fixed Window, Sliding Window, Token Bucket, and Leaky Bucket algorithms from scratch, focusing on trade-offs and real-world behavior.",
-    meta: "Medium • 10 min read",
-    href: "https://medium.com/@beingadish/building-rate-limiters-from-first-principles-a-weekend-learning-project-7866f7435fe4",
-  },
-  {
-    title: "Understanding System Design",
-    summary:
-      "A beginner-to-intermediate walkthrough of system design fundamentals, covering scalability, reliability, and how to reason about large systems beyond writing code.",
-    meta: "Medium • 3 min read",
-    href: "https://medium.com/@beingadish/understanding-system-design-d88a6b6f9008",
-  },
-  {
-    title: "Authentication and Authorization: The Security Backbone of Backend Systems",
-    summary:
-      "An in-depth explanation of authentication vs authorization, common mechanisms, and how backend systems enforce identity and access control correctly.",
-    meta: "Medium • 22 min read",
-    href: "https://medium.com/@beingadish/authentication-and-authorization-the-security-backbone-of-backend-systems-ec0f8ed1720e",
-  },
-  {
-    title: "Routing and Serialization: How Requests Find Their Way and Speak the Same Language",
-    summary:
-      "A practical look at how backend frameworks route requests and serialize data, explaining the hidden mechanics behind controllers, handlers, and payload formats.",
-    meta: "Medium • 13 min read",
-    href: "https://medium.com/@beingadish/routing-and-serialization-how-requests-find-their-way-and-speak-the-same-language-b5aef8883dc2",
-  },
-  {
-    title: "Understanding HTTP for Backend Engineers: Where It All Starts",
-    summary:
-      "A foundational deep dive into HTTP concepts—methods, status codes, headers, and statelessness—aimed at engineers building reliable backend services.",
-    meta: "Medium • 15 min read",
-    href: "https://medium.com/javaguides/understanding-http-for-backend-engineers-where-it-all-starts-56c633b9bb0e",
-  },
-  // {
-  //   title: "The Path to Production-Grade Backend Engineering",
-  //   summary:
-  //     "A reflective week-long journey through backend fundamentals, focusing on thinking in first principles, system boundaries, and production-readiness.",
-  //   meta: "Medium • 8 min read",
-  //   href: "https://medium.com/@beingadish/the-path-to-production-grade-backend-engineering-my-week-of-first-principles-741610b28a73",
-  // },
-  {
-    title: "How Amazon’s Notify Me Feature Uses the Observer Design Pattern",
-    summary:
-      "A design-pattern-driven breakdown of Amazon’s Notify Me feature, explaining how the Observer pattern enables decoupled, scalable event notifications.",
-    meta: "Medium • 5 min read",
-    href: "https://medium.com/@beingadish/how-amazons-notify-me-feature-leverages-the-observer-design-pattern-d087b23deb46",
-  },
-  {
-    title: "Mastering System Design: Concert Ticketing Systems at Scale",
-    summary:
-      "A system design case study on high-demand ticketing platforms, covering load balancing, traffic spikes, fairness, and failure handling strategies.",
-    meta: "Medium • 3 min read",
-    href: "https://medium.com/@beingadish/mastering-system-design-how-concert-ticketing-systems-handle-high-demand-with-load-balancing-and-6c615c6df125",
-  },
-] as WritingItem[],
+    {
+      title: "Building Rate Limiters",
+      summary:
+        "A hands-on exploration of rate limiting by implementing Fixed Window, Sliding Window, Token Bucket, and Leaky Bucket algorithms from scratch, focusing on trade-offs and real-world behavior.",
+      meta: "Medium • 10 min read",
+      href: "https://medium.com/@beingadish/building-rate-limiters-from-first-principles-a-weekend-learning-project-7866f7435fe4",
+    },
+    {
+      title: "Building Consistent Hashing System",
+      summary:
+        "A hands-on deep dive into consistent hashing, explaining how distributed systems minimize rebalancing when nodes change, with a step-by-step Java implementation and real-world scaling insights.",
+      meta: "Medium • 14 min read",
+      href: "https://medium.com/@beingadish/building-consistent-hashing-from-first-principles-in-java-ff463b96423b",
+    },
+    {
+      title: "Authentication and Authorization: The Security Backbone of Backend Systems",
+      summary:
+        "An in-depth explanation of authentication vs authorization, common mechanisms, and how backend systems enforce identity and access control correctly.",
+      meta: "Medium • 22 min read",
+      href: "https://medium.com/@beingadish/authentication-and-authorization-the-security-backbone-of-backend-systems-ec0f8ed1720e",
+    },
+    {
+      title: "Understanding System Design",
+      summary:
+        "A beginner-to-intermediate walkthrough of system design fundamentals, covering scalability, reliability, and how to reason about large systems beyond writing code.",
+      meta: "Medium • 3 min read",
+      href: "https://medium.com/@beingadish/understanding-system-design-d88a6b6f9008",
+    },
+    {
+      title: "Routing and Serialization: How Requests Find Their Way and Speak the Same Language",
+      summary:
+        "A practical look at how backend frameworks route requests and serialize data, explaining the hidden mechanics behind controllers, handlers, and payload formats.",
+      meta: "Medium • 13 min read",
+      href: "https://medium.com/@beingadish/routing-and-serialization-how-requests-find-their-way-and-speak-the-same-language-b5aef8883dc2",
+    },
+    {
+      title: "Understanding HTTP for Backend Engineers: Where It All Starts",
+      summary:
+        "A foundational deep dive into HTTP concepts—methods, status codes, headers, and statelessness—aimed at engineers building reliable backend services.",
+      meta: "Medium • 15 min read",
+      href: "https://medium.com/javaguides/understanding-http-for-backend-engineers-where-it-all-starts-56c633b9bb0e",
+    },
+    {
+      title: "How Amazon’s Notify Me Feature Uses the Observer Design Pattern",
+      summary:
+        "A design-pattern-driven breakdown of Amazon’s Notify Me feature, explaining how the Observer pattern enables decoupled, scalable event notifications.",
+      meta: "Medium • 5 min read",
+      href: "https://medium.com/@beingadish/how-amazons-notify-me-feature-leverages-the-observer-design-pattern-d087b23deb46",
+    },
+    {
+      title: "Design Thinking of Concert Ticketing Systems at Scale",
+      summary:
+        "A system design case study on high-demand ticketing platforms, covering load balancing, traffic spikes, fairness, and failure handling strategies.",
+      meta: "Medium • 3 min read",
+      href: "https://medium.com/@beingadish/mastering-system-design-how-concert-ticketing-systems-handle-high-demand-with-load-balancing-and-6c615c6df125",
+    },
+  ] as WritingItem[],
   staticShowcases: [
     {
       platform: "GitHub",
