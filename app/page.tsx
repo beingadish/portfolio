@@ -376,7 +376,7 @@ function SectionHeader({
 export default function Home() {
   const resumeLink =
     portfolioData.quickLinks.find((item) => item.icon === "resume")?.href ??
-    "https://drive.google.com/file/d/1OC4Hwo1x_KQg2HIOpmyf_1vB4FqCu0Qm/view?usp=sharing";
+    "https://drive.google.com/file/d/1JpOOvQViYRL-kvhg3naycKMYJrUHycBt/view?usp=sharing";
   const emailAddress = portfolioData.contact.email;
   const gmailComposeLink = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(emailAddress)}`;
 

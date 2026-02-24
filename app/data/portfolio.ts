@@ -88,7 +88,7 @@ export const portfolioData = {
     phone: "+91-9170077741",
   },
   // Replace image here
-  profilePhoto: "/demo-profile-photo.jpeg",
+  profilePhoto: "/profile-photo.jpeg",
   quickLinks: [
     // Replace link here
     { label: "GitHub", href: "https://github.com/beingadish", icon: "github" },
@@ -99,7 +99,7 @@ export const portfolioData = {
     // Replace link here
     { label: "Medium", href: "https://medium.com/@beingadish", icon: "medium" },
     // Replace link here
-    { label: "Resume", href: "https://drive.google.com/file/d/1OC4Hwo1x_KQg2HIOpmyf_1vB4FqCu0Qm/view?usp=sharing", icon: "resume", download: true },
+    { label: "Resume", href: "https://drive.google.com/file/d/1JpOOvQViYRL-kvhg3naycKMYJrUHycBt/view?usp=sharing", icon: "resume", download: true },
   ] as QuickLinkItem[],
   socialLinks: [
     { label: "LinkedIn", href: "https://linkedin.com/in/beingadish" },
