@@ -77,7 +77,7 @@ export type ShowcaseItem = {
 
 export const portfolioData = {
   name: "Aadarsh Pandey",
-  role: "Software Engineer | Backend + Gen AI",
+  role: "Software Engineer | Backend, Distributed Systems & Gen AI",
   location: "Bengaluru, Karnataka, India",
   summary:
     "Backend engineer focused on building fast, reliable systems at scale. I currently work on transit and payment infrastructure, and I actively build Gen AI projects around retrieval and semantic search.",
@@ -126,12 +126,24 @@ export const portfolioData = {
       title: "Working Style",
       description: "Pragmatic execution, collaborative debugging, and quality-driven delivery.",
     },
+    {
+      title: "Infrastructure Strength",
+      description: "Hands-on with containerization, Kubernetes deployments, autoscaling, and production monitoring.",
+    },
+    {
+      title: "System Thinking",
+      description: "Strong understanding of backend execution systems, async workflows, and designing frontend experiences around distributed architectures."
+    }
   ] as FocusInsight[],
   highlights: [
     "Built and maintained Java Spring Boot APIs for a high-volume transit environment.",
     "Delivered Android app features with MVVM architecture and hardware SDK integrations.",
     "Designed event-driven microservice workflows using Kafka, gRPC, and JWT auth.",
     "Exploring Gen AI systems with RAG pipelines, FAISS vector search, and LangChain.",
+    "Deployed production-grade backend using Kubernetes (k3s) with autoscaling and ingress routing.",
+    "Built observability pipelines using Prometheus, Grafana, and Micrometer for real-time system insights.",
+    "Designed frontend flows for async distributed systems (polling, job lifecycle, failure states).",
+    "Collaborated on system design for sandboxed code execution platforms handling untrusted workloads.",
   ],
   experience: [
     {
@@ -240,7 +252,13 @@ export const portfolioData = {
         "Implemented JWT authentication, role-based access control, and per-endpoint rate limiting using Bucket4j (Redis-backed).",
         "Built resilient payment flows with Resilience4j (Circuit Breaker + Retry) and fallback queuing for failed escrow operations.",
         "Integrated Prometheus + Grafana monitoring with custom Micrometer business metrics (jobs, bids, payments, auth).",
-        "Developed Flutter MVVM mobile client using Riverpod with persistent session management and structured API logging."
+        "Developed Flutter MVVM mobile client using Riverpod with persistent session management and structured API logging.",
+        "Deployed full-stack system on AWS EC2 using Kubernetes (k3s) with NGINX Ingress, HPA autoscaling, and rolling updates.",
+        "Containerized services using Docker and orchestrated multi-service deployment (PostgreSQL, Redis, backend, monitoring stack).",
+        "Configured liveness/readiness probes, resource limits, and horizontal pod autoscaling (CPU + memory based).",
+        "Implemented distributed rate limiting, caching, and locking using Redis + Redisson for consistency across instances.",
+        "Built production-grade observability pipeline with Prometheus scraping and Grafana dashboards for latency, throughput, and failures.",
+        "Designed fault-tolerant geo-index sync with retry queues and eventual consistency guarantees between Redis and PostgreSQL."
       ],
       stack: [
         "Java",
@@ -254,8 +272,34 @@ export const portfolioData = {
         "Prometheus",
         "Grafana",
         "Docker",
+        "Kubernetes (k3s)",
+        "NGINX Ingress",
+        "AWS (EC2, VPC)",
         "Flutter",
         "Riverpod"
+      ]
+    },
+    {
+      name: "CodeRunrAI Mobile",
+      timeline: "Mar 2026",
+      summary:
+        "A LeetCode-style mobile coding platform enabling real-time code execution, output visualization, and system design exploration of sandboxed execution systems.",
+      bullets: [
+        "Built a Flutter-based multi-language code editor with syntax highlighting and dynamic language loading from backend APIs.",
+        "Implemented real-time execution polling with clear state transitions (Idle → Running → Completed) using Riverpod.",
+        "Designed execution result UI showing stdout, stderr, execution time, memory usage, and status handling.",
+        "Architected feature-first modular structure using Riverpod for scalable state management and maintainability.",
+        "Integrated resilient networking with retry interceptors and structured API handling.",
+        "Collaborated on system design of backend execution engine (sandboxing, async processing, resource limits) to align frontend behavior with backend lifecycle.",
+        "Designed UX flows around async job execution, polling strategies, and failure states for a distributed execution system.",
+        "Prepared integration design for upcoming AI-powered code analysis workflows."
+      ],
+      stack: [
+        "Flutter",
+        "Dart",
+        "Riverpod",
+        "Dio",
+        "Material UI"
       ]
     }
   ] as ProjectItem[],
@@ -287,8 +331,27 @@ export const portfolioData = {
       ],
     },
     {
-      category: "Cloud + Dev Workflow",
-      items: ["AWS", "Docker", "Jenkins", "GitHub Actions", "Maven", "JUnit"],
+      category: "Dev Workflow & CI/CD",
+      items: [
+        "GitHub Actions",
+        "Jenkins",
+        "Maven",
+        "JUnit"
+      ],
+    },
+    {
+      category: "DevOps & Infrastructure",
+      items: [
+        "Docker",
+        "Kubernetes (k3s)",
+        "NGINX Ingress",
+        "AWS (EC2, VPC)",
+        "Prometheus",
+        "Grafana",
+        "CI/CD",
+        "System Monitoring",
+        "Autoscaling (HPA)"
+      ],
     },
     {
       category: "Gen AI",
