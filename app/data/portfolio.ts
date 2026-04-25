@@ -271,7 +271,7 @@ export const portfolioData = {
       timeline: "Dec 2024 – Present",
       summary:
         "A hyperlocal physical freelancing platform with geo-indexed job discovery, bid-based allocation, escrow payments, and production-grade observability.",
-      href: "https://github.com/beingadish/aroundu-backend",
+      href: "https://github.com/orgs/AroundUPlatform/repositories",
       bullets: [
         "Designed Redis GEO-based proximity search with PostgreSQL as source of truth and automated geo-sync reconciliation.",
         "Implemented JWT authentication, role-based access control, and per-endpoint rate limiting using Bucket4j (Redis-backed).",
