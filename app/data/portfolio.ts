@@ -10,6 +10,37 @@ export type QuickLinkItem = {
   download?: boolean;
 };
 
+export const profilePhotoSrc = "/profile-photo.jpeg";
+
+export const contactDetails = {
+  email: "aadarshpandey.pandey@gmail.com",
+  phone: "+91-9170077741",
+};
+
+export const primaryQuickLinks = {
+  github: { label: "GitHub", href: "https://github.com/beingadish", icon: "github" },
+  linkedin: { label: "LinkedIn", href: "https://linkedin.com/in/beingadish", icon: "linkedin" },
+  leetcode: { label: "LeetCode", href: "https://leetcode.com/u/ax777x", icon: "leetcode" },
+  medium: { label: "Medium", href: "https://medium.com/@beingadish", icon: "medium" },
+} satisfies Record<"github" | "linkedin" | "leetcode" | "medium", QuickLinkItem>;
+
+export const emailSocialLink: SocialLink = {
+  label: "Email",
+  href: `mailto:${contactDetails.email}`,
+};
+
+const toSocialLink = ({ label, href }: Pick<QuickLinkItem, "label" | "href">): SocialLink => ({
+  label,
+  href,
+});
+
+export const resumeQuickLink: QuickLinkItem = {
+  label: "Resume",
+  href: "https://drive.google.com/file/d/1AS8TRM0VmFL58XJSyoIHHFDbcpF38ZL_/view?usp=sharing",
+  icon: "resume",
+  download: true,
+};
+
 export type FocusInsight = {
   title: string;
   description: string;
@@ -83,31 +114,25 @@ export const portfolioData = {
     "Backend engineer focused on building fast, reliable systems at scale. I currently work on transit and payment infrastructure, and I actively build Gen AI projects around retrieval and semantic search.",
   pitch:
     "I design production-grade APIs, event pipelines, and mobile-backed integrations that handle real-world traffic with strong reliability. My work focuses on backend systems, distributed workflows, and production readiness across high-volume platforms.",
-  contact: {
-    email: "aadarshpandey.pandey@gmail.com",
-    phone: "+91-9170077741",
-  },
+  contact: contactDetails,
   // Replace image here
-  profilePhoto: "/profile-photo.jpeg",
+  profilePhoto: profilePhotoSrc,
   quickLinks: [
     // Replace link here
-    { label: "GitHub", href: "https://github.com/beingadish", icon: "github" },
+    primaryQuickLinks.github,
     // Replace link here
-    { label: "LinkedIn", href: "https://linkedin.com/in/beingadish", icon: "linkedin" },
+    primaryQuickLinks.linkedin,
     // Replace link here
-    { label: "LeetCode", href: "https://leetcode.com/u/ax777x", icon: "leetcode" },
+    primaryQuickLinks.leetcode,
     // Replace link here
-    { label: "Medium", href: "https://medium.com/@beingadish", icon: "medium" },
+    primaryQuickLinks.medium,
     // Replace link here
-    { label: "Resume", href: "https://drive.google.com/file/d/1JpOOvQViYRL-kvhg3naycKMYJrUHycBt/view?usp=sharing", icon: "resume", download: true },
+    resumeQuickLink,
   ] as QuickLinkItem[],
   socialLinks: [
-    { label: "LinkedIn", href: "https://linkedin.com/in/beingadish" },
-    { label: "GitHub", href: "https://github.com/beingadish" },
-    {
-      label: "Email",
-      href: "mailto:aadarshpandey.pandey@gmail.com",
-    },
+    toSocialLink(primaryQuickLinks.linkedin),
+    toSocialLink(primaryQuickLinks.github),
+    emailSocialLink,
   ] as SocialLink[],
   focusInsights: [
     {
@@ -461,14 +486,14 @@ export const portfolioData = {
       heading: "Profile Overview",
       preview: "Repository and contribution snapshot from the public GitHub profile.",
       // Replace link here
-      href: "https://github.com/beingadish",
+      href: primaryQuickLinks.github.href,
     },
     {
       platform: "LeetCode",
       heading: "Submission Heatmap",
       preview: "Submission consistency snapshot from the public LeetCode profile.",
       // Replace link here
-      href: "https://leetcode.com/u/ax777x",
+      href: primaryQuickLinks.leetcode.href,
     },
   ] as ShowcaseItem[],
   education: [

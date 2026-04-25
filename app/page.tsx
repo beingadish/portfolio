@@ -10,7 +10,7 @@ import { ShowcaseLiveContent } from "./components/showcase-live-content";
 import { ThemeToggle } from "./components/theme-toggle";
 import { MobileArticleSlider } from "./components/mobile-article-slider";
 import ExperienceTimeline from "./components/experience-timeline";
-import { portfolioData } from "./data/portfolio";
+import { portfolioData, resumeQuickLink } from "./data/portfolio";
 import {
   ANALYTICS_EVENTS,
   getProjectType,
@@ -381,9 +381,8 @@ function SectionHeader({
 }
 
 export default function Home() {
-  const resumeLink =
-    portfolioData.quickLinks.find((item) => item.icon === "resume")?.href ??
-    "https://drive.google.com/file/d/1JpOOvQViYRL-kvhg3naycKMYJrUHycBt/view?usp=sharing";
+  const resumeLink = resumeQuickLink.href;
+  const resumeDownload = resumeQuickLink.download ? true : undefined;
   const emailAddress = portfolioData.contact.email;
   const gmailComposeLink = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(emailAddress)}`;
 
@@ -486,7 +485,7 @@ export default function Home() {
                   href={resumeLink}
                   target="_blank"
                   rel="noreferrer"
-                  download
+                  download={resumeDownload}
                   data-analytics-event={ANALYTICS_EVENTS.RESUME_CLICK_HERO}
                   data-analytics-location="hero"
                   data-analytics-type="primary_cta"
@@ -889,7 +888,7 @@ export default function Home() {
               href={resumeLink}
               target="_blank"
               rel="noreferrer"
-              download
+              download={resumeDownload}
               data-analytics-event={ANALYTICS_EVENTS.RESUME_CLICK_FOOTER}
               data-analytics-location="footer"
             >
