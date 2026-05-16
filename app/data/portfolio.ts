@@ -36,7 +36,7 @@ const toSocialLink = ({ label, href }: Pick<QuickLinkItem, "label" | "href">): S
 
 export const resumeQuickLink: QuickLinkItem = {
   label: "Resume",
-  href: "https://drive.google.com/file/d/1AS8TRM0VmFL58XJSyoIHHFDbcpF38ZL_/view?usp=sharing",
+  href: "https://drive.google.com/file/d/1KwvgQkzvXe6wTS3O2fJASk_zSrrO0tfW/view?usp=sharing",
   icon: "resume",
   download: true,
 };
