@@ -455,10 +455,11 @@ export default function Home() {
           <article className="section-panel reveal flex h-full self-stretch flex-col p-5 sm:p-6 [animation-delay:120ms]">
             <div>
               <p className="eyebrow">Software Engineer Portfolio</p>
-              <h1 className="display-font mt-2 text-[2.85rem] font-semibold leading-[1.06] tracking-tight text-[var(--ink)] sm:text-6xl">
+              <h1 className="hero-name display-font mt-2 text-[2.85rem] font-extrabold leading-[1.04] tracking-tight sm:text-6xl">
                 {portfolioData.name}
+                <span className="term-cursor" aria-hidden="true" />
               </h1>
-              <p className="mt-2 text-lg leading-relaxed text-[var(--muted)] sm:text-xl">{portfolioData.role}</p>
+              <p className="mt-2 text-lg leading-relaxed text-[var(--teal)] sm:text-xl">{portfolioData.role}</p>
               <p className="hero-meta mt-2 flex items-start gap-1.5">
                 <span className="mt-1 shrink-0">
                   <LocationPinIcon />
@@ -501,21 +502,41 @@ export default function Home() {
 
           <aside className="section-panel reveal flex h-full flex-col p-6 sm:p-7 [animation-delay:200ms]">
             <div className="flex items-center justify-between">
-              <p className="eyebrow">Profile</p>
-              <span className="chip text-xs">Developer Snapshot</span>
+              <p className="eyebrow">Session</p>
+              <span className="chip text-xs">~/portfolio</span>
             </div>
 
-            <div className="surface-card mt-4 overflow-hidden rounded-2xl">
-              <Image
-                src={portfolioData.profilePhoto}
-                alt="Demo profile placeholder"
-                width={640}
-                height={640}
-                sizes="(max-width: 1024px) 100vw, 42vw"
-                quality={72}
-                className="h-auto w-full object-cover"
-                priority
-              />
+            <div className="terminal-window mt-4">
+              <div className="terminal-bar">
+                <span className="terminal-dot terminal-dot-red" />
+                <span className="terminal-dot terminal-dot-amber" />
+                <span className="terminal-dot terminal-dot-green" />
+              </div>
+              <div className="terminal-body">
+                <p className="terminal-line">
+                  <span className="terminal-prompt">-&gt; </span>
+                  <span className="terminal-ok">INITIALIZING PORTFOLIO... [OK]</span>
+                </p>
+                <p className="terminal-line">
+                  <span className="terminal-prompt">-&gt; </span>BACKEND | MOBILE | AI ENGINEER
+                </p>
+                <p className="terminal-line">
+                  <span className="terminal-prompt">-&gt; </span>BUILDING SCALABLE SYSTEMS AND
+                  INTELLIGENT SOLUTIONS.
+                  <span className="term-cursor" aria-hidden="true" />
+                </p>
+              </div>
+            </div>
+
+            <div className="wire-cube-wrap mt-auto pt-6">
+              <div className="wire-cube" aria-hidden="true">
+                <span className="wire-face" />
+                <span className="wire-face" />
+                <span className="wire-face" />
+                <span className="wire-face" />
+                <span className="wire-face" />
+                <span className="wire-face" />
+              </div>
             </div>
           </aside>
         </section>
