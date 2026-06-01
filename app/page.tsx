@@ -7,7 +7,6 @@ import { MobileNav } from "./components/mobile-nav";
 import { NavDock } from "./components/nav-dock";
 import { LiquidGlassToggle } from "./components/liquid-glass-toggle";
 import { ShowcaseLiveContent } from "./components/showcase-live-content";
-import { ThemeToggle } from "./components/theme-toggle";
 import { MobileArticleSlider } from "./components/mobile-article-slider";
 import ExperienceTimeline from "./components/experience-timeline";
 import { portfolioData, resumeQuickLink } from "./data/portfolio";
@@ -399,6 +398,36 @@ export default function Home() {
     return () => document.removeEventListener("animationend", handleAnimationEnd);
   }, []);
 
+  // Performance: pause the heavy hero 3D animations when scrolled out of view
+  // and when the browser tab is hidden, to avoid pegging the CPU/GPU.
+  useEffect(() => {
+    const stage = document.querySelector<HTMLElement>(".quantum-stage");
+    if (!stage) return;
+
+    const setPaused = (paused: boolean) => {
+      document.documentElement.classList.toggle("anim-paused", paused);
+    };
+
+    let onScreen = true;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        onScreen = entry.isIntersecting;
+        setPaused(!onScreen || document.hidden);
+      },
+      { threshold: 0.05 }
+    );
+    observer.observe(stage);
+
+    const handleVisibility = () => setPaused(!onScreen || document.hidden);
+    document.addEventListener("visibilitychange", handleVisibility);
+
+    return () => {
+      observer.disconnect();
+      document.removeEventListener("visibilitychange", handleVisibility);
+      document.documentElement.classList.remove("anim-paused");
+    };
+  }, []);
+
   return (
     <div className="relative isolate overflow-x-clip pb-16">
       <div className="pointer-events-none fixed inset-0 -z-20 bg-grid-pattern opacity-70" />
@@ -444,23 +473,22 @@ export default function Home() {
               <div className="hidden lg:block">
                 <LiquidGlassToggle />
               </div>
-              <ThemeToggle />
             </div>
           </div>
         </NavDock>
 
         <div className="h-5 sm:h-6" aria-hidden="true" />
 
-        <section className="mt-4 grid items-stretch gap-5 md:gap-4 lg:auto-rows-fr lg:grid-cols-[1.1fr_0.9fr]">
-          <article className="section-panel reveal flex h-full self-stretch flex-col p-5 sm:p-6 [animation-delay:120ms]">
+        <section className="hero-grid mt-4 grid items-stretch gap-6 md:gap-6 lg:auto-rows-fr lg:grid-cols-[1.15fr_0.85fr]">
+          <article className="section-panel hero-intro reveal flex h-full self-stretch flex-col justify-center p-6 sm:p-9 [animation-delay:120ms]">
             <div>
               <p className="eyebrow">Software Engineer Portfolio</p>
-              <h1 className="hero-name display-font mt-2 text-[2.85rem] font-extrabold leading-[1.04] tracking-tight sm:text-6xl">
+              <h1 className="hero-name display-font mt-3 text-[3rem] font-extrabold leading-[1.04] tracking-tight sm:text-[4rem]">
                 {portfolioData.name}
                 <span className="term-cursor" aria-hidden="true" />
               </h1>
-              <p className="mt-2 text-lg leading-relaxed text-[var(--teal)] sm:text-xl">{portfolioData.role}</p>
-              <p className="hero-meta mt-2 flex items-start gap-1.5">
+              <p className="mt-3 text-lg leading-relaxed text-[var(--teal)] sm:text-xl">{portfolioData.role}</p>
+              <p className="hero-meta mt-3 flex items-start gap-1.5">
                 <span className="mt-1 shrink-0">
                   <LocationPinIcon />
                 </span>
@@ -468,19 +496,19 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="mt-3">
+            <div className="mt-5">
               <p className="hero-summary max-w-2xl">{portfolioData.summary}</p>
-              <p className="hero-pitch mt-2 max-w-2xl">{portfolioData.pitch}</p>
+              <p className="hero-pitch mt-3 max-w-2xl">{portfolioData.pitch}</p>
             </div>
 
-            <div className="mt-auto pt-5">
+            <div className="mt-7">
               <div className="flex flex-wrap gap-2">
                 <span className="chip">Backend Engineering</span>
                 <span className="chip">Distributed Systems</span>
                 <span className="chip">Production Readiness</span>
               </div>
 
-              <div className="hero-actions mt-3 flex flex-wrap items-center gap-3">
+              <div className="hero-actions mt-4 flex flex-wrap items-center gap-3">
                 <a
                   className="btn-primary px-6 py-3"
                   href={resumeLink}
@@ -500,7 +528,7 @@ export default function Home() {
             </div>
           </article>
 
-          <aside className="section-panel reveal flex h-full flex-col p-6 sm:p-7 [animation-delay:200ms]">
+          <aside className="section-panel hero-session reveal flex h-full flex-col p-6 sm:p-7 [animation-delay:200ms]">
             <div className="flex items-center justify-between">
               <p className="eyebrow">Session</p>
               <span className="chip text-xs">~/portfolio</span>
@@ -528,14 +556,52 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="wire-cube-wrap mt-auto pt-6">
-              <div className="wire-cube" aria-hidden="true">
-                <span className="wire-face" />
-                <span className="wire-face" />
-                <span className="wire-face" />
-                <span className="wire-face" />
-                <span className="wire-face" />
-                <span className="wire-face" />
+            <div className="quantum-stage mt-4 flex-1" aria-hidden="true">
+              <div className="quantum-core">
+                {/* Voxel cube: 3x3x3 grid of wireframe blocks that pop & shift */}
+                <div className="voxel-cube">
+                  {Array.from({ length: 27 }).map((_, i) => {
+                    const x = (i % 3) - 1;
+                    const y = (Math.floor(i / 3) % 3) - 1;
+                    const z = Math.floor(i / 9) - 1;
+                    const dist = Math.abs(x) + Math.abs(y) + Math.abs(z);
+                    const isCorner = dist === 3;
+                    const isEdge = dist === 2;
+                    const cls = isCorner ? "voxel voxel-pop" : isEdge ? "voxel voxel-shift" : "voxel";
+                    const style = {
+                      "--x": `${x}`,
+                      "--y": `${y}`,
+                      "--z": `${z}`,
+                      "--d": `${((i * 0.17) % 2.4).toFixed(2)}s`,
+                    } as CSSProperties;
+                    return (
+                      <span key={i} className={cls} style={style}>
+                        <span className="vface" />
+                        <span className="vface" />
+                        <span className="vface" />
+                        <span className="vface" />
+                        <span className="vface" />
+                        <span className="vface" />
+                      </span>
+                    );
+                  })}
+                </div>
+
+                {/* Swirling code + math tokens */}
+                <div className="token-orbit">
+                  <span className="qtoken">∑</span>
+                  <span className="qtoken">∇f(x)</span>
+                  <span className="qtoken">{"{ }"}</span>
+                  <span className="qtoken">σ(z)</span>
+                  <span className="qtoken">λ</span>
+                  <span className="qtoken">∫dx</span>
+                  <span className="qtoken">=&gt;</span>
+                  <span className="qtoken">π</span>
+                  <span className="qtoken">∂L/∂w</span>
+                  <span className="qtoken">async</span>
+                  <span className="qtoken">∞</span>
+                  <span className="qtoken">e^iπ</span>
+                </div>
               </div>
             </div>
           </aside>
@@ -614,17 +680,22 @@ export default function Home() {
           <ExperienceTimeline>
             <div className="experience-scroll">
               <div className="experience-scroll-inner">
-                <ol className="experience-list mt-8">
-                {portfolioData.experience.map((item) => {
+                <ol className="experience-list term-timeline mt-8">
+                {portfolioData.experience.map((item, index) => {
                   const isCurrentRole = item.period.toLowerCase().includes("present");
                   return (
-                    <li key={`${item.company}-${item.period}`} className="experience-item mb-8 last:mb-0">
-                      <span className="timeline-marker" aria-hidden="true">
+                    <li key={`${item.company}-${item.period}`} className="experience-item term-entry mb-8 last:mb-0">
+                      <span className="timeline-marker term-node" aria-hidden="true">
                         {isCurrentRole ? <span className="timeline-dot-ripple" /> : null}
                         <span className={`timeline-dot ${isCurrentRole ? "timeline-dot-current" : "timeline-dot-past"}`} />
+                        <span className="term-node-index">{String(index + 1).padStart(2, "0")}</span>
                       </span>
-                      <article className="surface-card rounded-2xl p-5">
-                        <div className="flex flex-col items-start gap-2 md:flex-row md:items-center md:justify-between">
+                      <article className="surface-card term-card rounded-2xl p-5">
+                        <div className="term-card-head">
+                          <span className="term-card-prompt">~/career $ cat role.json</span>
+                          {isCurrentRole ? <span className="term-live">● LIVE</span> : null}
+                        </div>
+                        <div className="mt-3 flex flex-col items-start gap-2 md:flex-row md:items-center md:justify-between">
                           <h3 className="text-lg font-semibold text-[var(--ink)]">{item.title}</h3>
                           <span className="chip text-xs">{item.period}</span>
                         </div>
@@ -635,7 +706,7 @@ export default function Home() {
                         <ul className="mt-4 space-y-2 text-sm leading-relaxed text-[var(--ink)]">
                           {item.bullets.map((bullet) => (
                             <li key={bullet} className="flex gap-2">
-                              <span className="mt-[7px] h-1.5 w-1.5 rounded-full bg-[var(--teal)]" />
+                              <span className="term-bullet-arrow">▹</span>
                               <span>{bullet}</span>
                             </li>
                           ))}

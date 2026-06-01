@@ -2,7 +2,6 @@
 
 import { useId, useState, useEffect } from "react";
 import { ANALYTICS_EVENTS } from "../lib/analytics";
-import { ThemeToggle } from "./theme-toggle";
 import { LiquidGlassToggle } from "./liquid-glass-toggle";
 import type { QuickLinkItem } from "../data/portfolio";
 
@@ -60,7 +59,6 @@ export function MobileNav({
 
         <div className="flex items-center gap-2">
           <LiquidGlassToggle />
-          <ThemeToggle />
         </div>
       </div>
 
