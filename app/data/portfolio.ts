@@ -172,10 +172,31 @@ export const portfolioData = {
   ],
   experience: [
     {
+      title: "Software Engineer Analyst",
+      company: "Accenture Solutions Private Limited",
+      location: "Bengaluru, India",
+      period: "June 2026 - Present",
+      bullets: [
+        "Promoted to Software Engineer Analyst, continuing to lead backend and Android initiatives across the transit platform.",
+      ],
+      stack: [
+        "Java",
+        "Kotlin",
+        "Spring Boot",
+        "Kafka",
+        "Redis",
+        "PostgreSQL",
+        "Hibernate",
+        "Docker",
+        "AWS",
+        "Android Native",
+      ],
+    },
+    {
       title: "Associate Software Engineer",
       company: "Accenture Solutions Private Limited",
       location: "Bengaluru, India",
-      period: "Oct 2024 - Present",
+      period: "Oct 2024 - May 2026",
       bullets: [
         "Built and improved Java Spring Boot REST APIs processing 100,000+ daily transit transactions across 10+ agencies.",
         "Reduced payment API latency by 35% using Redis caching, indexing, and query tuning.",
