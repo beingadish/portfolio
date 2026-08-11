@@ -172,29 +172,33 @@ export const portfolioData = {
   ],
   experience: [
     {
-      title: "Software Engineer Analyst",
-      company: "Accenture Solutions Private Limited",
+      title: "Software Engineer",
+      company: "Accenture",
       location: "Bengaluru, India",
       period: "June 2026 - Present",
       bullets: [
-        "Promoted to Software Engineer Analyst, continuing to lead backend and Android initiatives across the transit platform.",
+        "Working on a large-scale fleet telemetry consumption and processing system that generates insights from heavy mining and construction machinery.",
+        "Contributing to backend and cloud development across Java, Spring Boot, MQTT, AWS IoT Core, Lambda, Kinesis, DynamoDB, ECS Fargate, SQS/SNS, CloudFormation, and Snowflake.",
+        "Building resilient telemetry flows for intermittent connectivity, retries, idempotency, duplicate and out-of-order events, data validation, and observability."
       ],
       stack: [
         "Java",
-        "Kotlin",
         "Spring Boot",
-        "Kafka",
-        "Redis",
-        "PostgreSQL",
-        "Hibernate",
-        "Docker",
-        "AWS",
-        "Android Native",
+        "Lambda",
+        "ECS",
+        "MQTT",
+        "S3",
+        "NGINX",
+        "DynamoDB",
+        "Kinesis",
+        "SQS",
+        "SNS",
+        "AWS"
       ],
     },
     {
       title: "Associate Software Engineer",
-      company: "Accenture Solutions Private Limited",
+      company: "Accenture",
       location: "Bengaluru, India",
       period: "Oct 2024 - May 2026",
       bullets: [
