@@ -100,9 +100,9 @@ export const PROJECT_SHOWCASES: Record<string, ProjectShowcase> = {
     timeline: "Apr 2025 - Present",
     githubUrl: "https://github.com/beingadish/Clynic",
     localPath: "/Users/beingadish/Developer/CODE/SpringBoot/Clynic",
-    liveUrl: process.env.NEXT_PUBLIC_CLYNIC_URL || "https://clynic-demo.vercel.app",
-    backendApiUrl: process.env.NEXT_PUBLIC_CLYNIC_API_URL || "https://api.clynic.aws.beingadish.blog",
-    status: "provisioning",
+    liveUrl: process.env.NEXT_PUBLIC_CLYNIC_URL || "http://13.203.201.69/clynic/",
+    backendApiUrl: process.env.NEXT_PUBLIC_CLYNIC_API_URL || "http://13.203.201.69/clynic-api",
+    status: "live",
     stack: [
       "Spring Boot 3",
       "Java 21",
@@ -146,10 +146,13 @@ export const PROJECT_SHOWCASES: Record<string, ProjectShowcase> = {
       },
     ],
     endpoints: [
-      { method: "POST", path: "/api/v1/patients", description: "Create and register tenant-scoped patient records" },
+      { method: "POST", path: "/auth/login", description: "Multi-tenant JWT token exchange and role resolution" },
+      { method: "GET", path: "/patients", description: "Fetch tenant-scoped human and veterinary patient records" },
+      { method: "GET", path: "/appointments", description: "Real-time clinical ward and surgery appointment schedule" },
+      { method: "GET", path: "/tenants/{id}/departments", description: "Hospital department and clinical specialty registry" },
       { method: "gRPC", path: "billing.BillingService/ProcessInvoice", description: "Internal binary RPC for zero-copy invoice generation" },
       { method: "KAFKA", path: "clinical.events.discharge", description: "Discharge event broadcast across hospital wards" },
-      { method: "GET", path: "/api/v1/analytics/summary", description: "Real-time clinical ward occupancy and financial metrics" },
+      { method: "GET", path: "/health", description: "Gateway and microservice liveness probe" },
     ],
   },
 
