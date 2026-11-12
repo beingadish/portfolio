@@ -274,118 +274,6 @@ export const PROJECT_SHOWCASES: Record<string, ProjectShowcase> = {
       { method: "GET", path: "/healthz", description: "Liveness and database readiness probe" },
     ],
   },
-
-  campusdesk: {
-    slug: "campusdesk",
-    name: "CampusDesk",
-    subtitle: "75% Mandatory Attendance Forecaster & College Lecture Planner",
-    summary:
-      "A student-first lecture planner and attendance calculator with an inverse safe bunk forecaster, subject-wise analytics, and zero-cost static hosting deployed on AWS EC2 and Vercel.",
-    timeline: "Aug 2026 - Present",
-    githubUrl: "https://github.com/beingadish/CampusDesk",
-    localPath: "/Users/beingadish/Developer/CODE/Projects/CampusDesk",
-    liveUrl: "http://13.203.201.69/campusdesk/",
-    backendApiUrl: "http://13.203.201.69",
-    status: "live",
-    stack: [
-      "React 18",
-      "TypeScript",
-      "Vite",
-      "Tailwind CSS",
-      "NGINX",
-      "AWS EC2",
-      "Vercel",
-    ],
-    awsServices: [
-      "AWS EC2 (t3.micro)",
-      "NGINX Ingress",
-      "AWS Security Groups",
-      "Vercel Edge",
-    ],
-    metrics: [
-      { label: "Operating Cost", value: "$0.00 / mo", sublabel: "Free Tier & static edge" },
-      { label: "Memory Footprint", value: "0 MB", sublabel: "Pure client-side reactivity" },
-      { label: "Calculation Latency", value: "< 1ms", sublabel: "Synchronous local state" },
-      { label: "Exam Rule Engine", value: "75% Criteria", sublabel: "Inverse bunk solver" },
-    ],
-    architectureHighlights: [
-      {
-        title: "Inverse Attendance Forecaster",
-        description:
-          "Formulates real-time mathematical inequality solvers to compute safe bunks and required attendances to satisfy college attendance regulations.",
-      },
-      {
-        title: "Zero-Cost Multi-Cloud Deployment",
-        description:
-          "Served simultaneously via NGINX reverse-proxy on AWS EC2 and globally distributed Vercel Edge networks.",
-      },
-      {
-        title: "Offline-First Local Storage Architecture",
-        description:
-          "Zero backend dependency with instantaneous state hydration, zero external API tracking, and high privacy.",
-      },
-    ],
-    endpoints: [
-      { method: "GET", path: "/campusdesk/", description: "Static SPA entrypoint with relative asset hydration" },
-      { method: "GET", path: "/campusdesk/assets/index.js", description: "Vite compiled React client bundle" },
-    ],
-  },
-
-  gradeorbit: {
-    slug: "gradeorbit",
-    name: "GradeOrbit",
-    subtitle: "Engineering SGPA/CGPA Calculator & Honors Degree Predictor",
-    summary:
-      "An academic performance tracker and target honors predictor for engineering students with semester-wise SGPA tracking, cumulative CGPA calculation, and credit-weighted goal solvers.",
-    timeline: "Sep 2026 - Present",
-    githubUrl: "https://github.com/beingadish/GradeOrbit",
-    localPath: "/Users/beingadish/Developer/CODE/Projects/GradeOrbit",
-    liveUrl: "http://13.203.201.69/gradeorbit/",
-    backendApiUrl: "http://13.203.201.69",
-    status: "live",
-    stack: [
-      "React 18",
-      "TypeScript",
-      "Vite",
-      "Tailwind CSS",
-      "NGINX",
-      "AWS EC2",
-      "Vercel",
-    ],
-    awsServices: [
-      "AWS EC2 (t3.micro)",
-      "NGINX Ingress",
-      "AWS Security Groups",
-      "Vercel Edge",
-    ],
-    metrics: [
-      { label: "Target Forecaster", value: "10-Pt UGC", sublabel: "Inverse weighted credit solver" },
-      { label: "Operating Cost", value: "$0.00 / mo", sublabel: "Zero backend overhead" },
-      { label: "Memory Footprint", value: "0 MB", sublabel: "Pure client-side state" },
-      { label: "Honors Classification", value: "Automatic", sublabel: "Distinction / 1st / 2nd" },
-    ],
-    architectureHighlights: [
-      {
-        title: "Credit-Weighted Degree Honors Solver",
-        description:
-          "Calculates the exact semester GPA needed across remaining credits to graduate with target honors such as First Class with Distinction.",
-      },
-      {
-        title: "Dynamic Grade Point Mapping Engine",
-        description:
-          "Pre-calibrated 10-point Indian UGC/AICTE scales mapping letters (O, A+, A, B+, B, C, P, F) directly to weighted points.",
-      },
-      {
-        title: "Modular Semester Registry",
-        description:
-          "Allows adding, modifying, or deleting courses dynamically per semester with instant recalculation of total degree credits.",
-      },
-    ],
-    endpoints: [
-      { method: "GET", path: "/gradeorbit/", description: "Static SPA entrypoint with relative asset hydration" },
-      { method: "GET", path: "/gradeorbit/assets/index.js", description: "Vite compiled React client bundle" },
-    ],
-  },
 };
 
 export const CONNECTED_PROJECT_SLUGS = [
@@ -393,8 +281,6 @@ export const CONNECTED_PROJECT_SLUGS = [
   "clynic",
   "janmat",
   "talkingyt",
-  "campusdesk",
-  "gradeorbit",
 ] as const;
 
 export function getAllProjectSlugs(): string[] {

@@ -302,7 +302,7 @@ export const portfolioData = {
       ],
     },
     {
-      name: "Clynic 2.0 (Multi-Tenant Hospital Microservices)",
+      name: "Clynic (Multi-Tenant Hospital Microservices)",
       timeline: "Apr 2025 - Present",
       summary:
         "A domain-driven multi-tenant microservices platform for clinical and veterinary care featuring Spring Cloud Gateway, realm-per-tenant Keycloak auth, internal gRPC contracts, Kafka streams, and a Vite/React web app.",
@@ -352,34 +352,6 @@ export const portfolioData = {
         "Docker",
         "WebSockets",
       ],
-    },
-    {
-      name: "CampusDesk (75% Attendance & Lecture Planner)",
-      timeline: "Aug 2026 - Present",
-      summary:
-        "A lightweight, student-first lecture planner and 75% mandatory attendance calculator featuring a mathematical safe bunk forecaster, subject-wise analytics, and offline-first storage.",
-      href: "https://github.com/beingadish/CampusDesk",
-      demoUrl: "/projects/campusdesk",
-      bullets: [
-        "Engineered an automated safe bunk forecaster that computes permissible cuts and minimum attendances required to maintain 75% semester exam eligibility.",
-        "Built subject-wise attendance counters with undo capabilities, visual percentage health rings, and local storage state persistence.",
-        "Containerized and deployed on AWS EC2 via NGINX with zero cloud costs and Vercel edge compatibility.",
-      ],
-      stack: ["React", "TypeScript", "Vite", "Tailwind CSS", "NGINX", "AWS EC2", "Vercel"],
-    },
-    {
-      name: "GradeOrbit (Engineering SGPA & Honors Forecaster)",
-      timeline: "Sep 2026 - Present",
-      summary:
-        "An academic performance tracker and target honors predictor for engineering students with semester-wise SGPA tracking, cumulative CGPA calculation, and credit-weighted goal solvers.",
-      href: "https://github.com/beingadish/GradeOrbit",
-      demoUrl: "/projects/gradeorbit",
-      bullets: [
-        "Formulated an inverse credit-weighted solver that calculates the minimum average SGPA needed across remaining semesters to graduate with target honors.",
-        "Implemented 10-point UGC/AICTE and 4.0 US grading scales with real-time division classification and transcript exports.",
-        "Architected with zero backend costs, client-side state preservation, and cross-platform responsive design.",
-      ],
-      stack: ["React", "TypeScript", "Vite", "Tailwind CSS", "NGINX", "AWS EC2", "Vercel"],
     },
     {
       name: "CodeRunrAI Mobile",
