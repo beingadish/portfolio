@@ -163,7 +163,7 @@ export const PROJECT_SHOWCASES: Record<string, ProjectShowcase> = {
     githubUrl: "https://github.com/beingadish/JanMat",
     localPath: "/Users/beingadish/Developer/CODE/Projects/JanMat",
     liveUrl: process.env.NEXT_PUBLIC_JANMAT_URL || "http://13.203.201.69",
-    backendApiUrl: process.env.NEXT_PUBLIC_JANMAT_API_URL || "http://13.203.201.69:3000",
+    backendApiUrl: process.env.NEXT_PUBLIC_JANMAT_API_URL || "http://13.203.201.69",
     status: "live",
     stack: [
       "Rust",
