@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useRef, useEffect } from "react";
 import { useAudioTour } from "../context/audio-tour-context";
 import { useLanguage } from "../context/language-context";
 import type { LanguageCode } from "../data/translations";
@@ -308,6 +308,132 @@ export function PortfolioAudioTour() {
   const [showSpeedMenu, setShowSpeedMenu] = useState(false);
   const [showLangMenu, setShowLangMenu] = useState(false);
 
+  // Floatable & Draggable position state
+  const [position, setPosition] = useState<{ x: number; y: number } | null>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const dragStartRef = useRef<{ mouseX: number; mouseY: number; elemX: number; elemY: number } | null>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
+
+  const handlePointerDown = (clientX: number, clientY: number) => {
+    if (!panelRef.current) return;
+    const rect = panelRef.current.getBoundingClientRect();
+    const currentX = rect.left;
+    const currentY = rect.top;
+
+    dragStartRef.current = {
+      mouseX: clientX,
+      mouseY: clientY,
+      elemX: currentX,
+      elemY: currentY,
+    };
+    setIsDragging(true);
+  };
+
+  const onMouseDown = (e: React.MouseEvent) => {
+    if (e.button !== 0) return;
+    const target = e.target as HTMLElement;
+    if (target.closest("button, a, input, select, [role='listbox'], [role='menu']")) return;
+    e.preventDefault();
+    handlePointerDown(e.clientX, e.clientY);
+  };
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    const target = e.target as HTMLElement;
+    if (target.closest("button, a, input, select, [role='listbox'], [role='menu']")) return;
+    const touch = e.touches[0];
+    if (!touch) return;
+    handlePointerDown(touch.clientX, touch.clientY);
+  };
+
+  useEffect(() => {
+    if (!isDragging) return;
+
+    const onMouseMove = (e: MouseEvent) => {
+      if (!dragStartRef.current || !panelRef.current) return;
+      const dx = e.clientX - dragStartRef.current.mouseX;
+      const dy = e.clientY - dragStartRef.current.mouseY;
+
+      const panelWidth = panelRef.current.offsetWidth;
+      const panelHeight = panelRef.current.offsetHeight;
+
+      const minX = 12;
+      const maxX = Math.max(12, window.innerWidth - panelWidth - 12);
+      const minY = 64; // Below top masthead
+      const maxY = Math.max(64, window.innerHeight - panelHeight - 12);
+
+      const nextX = Math.min(Math.max(minX, dragStartRef.current.elemX + dx), maxX);
+      const nextY = Math.min(Math.max(minY, dragStartRef.current.elemY + dy), maxY);
+
+      setPosition({ x: nextX, y: nextY });
+    };
+
+    const onTouchMove = (e: TouchEvent) => {
+      if (!dragStartRef.current || !panelRef.current) return;
+      const touch = e.touches[0];
+      if (!touch) return;
+      e.preventDefault();
+
+      const dx = touch.clientX - dragStartRef.current.mouseX;
+      const dy = touch.clientY - dragStartRef.current.mouseY;
+
+      const panelWidth = panelRef.current.offsetWidth;
+      const panelHeight = panelRef.current.offsetHeight;
+
+      const minX = 12;
+      const maxX = Math.max(12, window.innerWidth - panelWidth - 12);
+      const minY = 64;
+      const maxY = Math.max(64, window.innerHeight - panelHeight - 12);
+
+      const nextX = Math.min(Math.max(minX, dragStartRef.current.elemX + dx), maxX);
+      const nextY = Math.min(Math.max(minY, dragStartRef.current.elemY + dy), maxY);
+
+      setPosition({ x: nextX, y: nextY });
+    };
+
+    const onEnd = () => {
+      setIsDragging(false);
+      dragStartRef.current = null;
+    };
+
+    window.addEventListener("mousemove", onMouseMove);
+    window.addEventListener("mouseup", onEnd);
+    window.addEventListener("touchmove", onTouchMove, { passive: false });
+    window.addEventListener("touchend", onEnd);
+    window.addEventListener("touchcancel", onEnd);
+
+    return () => {
+      window.removeEventListener("mousemove", onMouseMove);
+      window.removeEventListener("mouseup", onEnd);
+      window.removeEventListener("touchmove", onTouchMove);
+      window.removeEventListener("touchend", onEnd);
+      window.removeEventListener("touchcancel", onEnd);
+    };
+  }, [isDragging]);
+
+  // Keep clamped on window resize
+  useEffect(() => {
+    const onResize = () => {
+      if (!position || !panelRef.current) return;
+      const panelWidth = panelRef.current.offsetWidth;
+      const panelHeight = panelRef.current.offsetHeight;
+      const maxX = Math.max(12, window.innerWidth - panelWidth - 12);
+      const maxY = Math.max(64, window.innerHeight - panelHeight - 12);
+
+      setPosition((prev) => {
+        if (!prev) return null;
+        return {
+          x: Math.min(Math.max(12, prev.x), maxX),
+          y: Math.min(Math.max(64, prev.y), maxY),
+        };
+      });
+    };
+
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, [position]);
+
+  const isNearTop = position !== null && position.y < 340;
+
   const currentLangLabel = useMemo(() => {
     const found = languages.find((l) => l.code === currentLanguage);
     return found ? `${found.name} (${found.nativeName})` : currentLanguage.toUpperCase();
@@ -362,14 +488,67 @@ export function PortfolioAudioTour() {
 
   return (
     <aside
+      ref={panelRef}
       aria-label="Audio Tour Player Bar"
-      className="fixed bottom-5 left-1/2 -translate-x-1/2 z-40 w-[95vw] max-w-2xl sm:max-w-3xl transition-all duration-300 animate-in fade-in slide-in-from-bottom-3"
+      className={`fixed z-40 w-[95vw] max-w-2xl sm:max-w-3xl ${
+        isDragging
+          ? "cursor-grabbing select-none transition-none shadow-[0_25px_60px_rgba(0,0,0,0.9)] scale-[1.01]"
+          : "transition-all duration-300"
+      } ${
+        position ? "" : "bottom-5 left-1/2 -translate-x-1/2 animate-in fade-in slide-in-from-bottom-3"
+      }`}
+      style={
+        position
+          ? {
+              left: `${position.x}px`,
+              top: `${position.y}px`,
+              transform: "none",
+              bottom: "auto",
+              right: "auto",
+            }
+          : undefined
+      }
     >
       <div className="relative rounded-2xl border border-white/15 bg-[#0c0d12]/95 backdrop-blur-xl shadow-[0_20px_50px_rgba(0,0,0,0.8)] p-4 sm:p-5 flex flex-col gap-3.5 text-[#edeae3]">
-        {/* Top Header Row: Status, Language Badge, Speed Selector, Auto-Tour, Reset, Minimize */}
-        <div className="flex items-center justify-between gap-2 border-b border-white/10 pb-3">
-          {/* Brand & Language Badge */}
-          <div className="flex items-center gap-2.5 min-w-0">
+        {/* Top Header Row: Status, Language Badge, Float Grip, Speed Selector, Auto-Tour, Reset, Minimize */}
+        <div
+          onMouseDown={onMouseDown}
+          onTouchStart={onTouchStart}
+          className="flex items-center justify-between gap-2 border-b border-white/10 pb-3 cursor-grab active:cursor-grabbing select-none"
+        >
+          {/* Brand, Drag Grip & Language Badge */}
+          <div className="flex items-center gap-2 sm:gap-2.5 min-w-0">
+            {/* Visual Drag Grip Indicator */}
+            <div
+              id="audio-bar-drag-handle"
+              data-drag-handle="true"
+              onMouseDown={(e) => {
+                if (e.button !== 0) return;
+                e.preventDefault();
+                e.stopPropagation();
+                handlePointerDown(e.clientX, e.clientY);
+              }}
+              onTouchStart={(e) => {
+                const touch = e.touches[0];
+                if (!touch) return;
+                handlePointerDown(touch.clientX, touch.clientY);
+              }}
+              className="flex items-center gap-1.5 text-[#8c8f9a] hover:text-[#edeae3] px-2 py-1 rounded-md bg-white/5 hover:bg-white/10 border border-white/15 transition-all shrink-0 cursor-grab active:cursor-grabbing select-none"
+              title="Click and drag anywhere to float/move this audio bar"
+            >
+              <svg className="w-3.5 h-3.5 fill-current pointer-events-none" viewBox="0 0 24 24">
+                <circle cx="8" cy="6" r="1.5" />
+                <circle cx="16" cy="6" r="1.5" />
+                <circle cx="8" cy="12" r="1.5" />
+                <circle cx="16" cy="12" r="1.5" />
+                <circle cx="8" cy="18" r="1.5" />
+                <circle cx="16" cy="18" r="1.5" />
+              </svg>
+              <span className="font-mono text-[10px] uppercase tracking-wider text-[#edeae3] font-medium pointer-events-none">
+                {isDragging ? "Moving..." : "Drag"}
+              </span>
+            </div>
+
             <span
               className={`w-2.5 h-2.5 rounded-full shrink-0 ${
                 isPlaying
@@ -400,7 +579,11 @@ export function PortfolioAudioTour() {
               </button>
 
               {showLangMenu && (
-                <div className="absolute bottom-full mb-2 left-0 w-60 sm:w-64 max-h-72 overflow-y-auto custom-scrollbar bg-[#121318]/98 backdrop-blur-xl border border-white/20 rounded-xl shadow-[0_15px_40px_rgba(0,0,0,0.9)] p-1.5 z-50 flex flex-col gap-0.5 animate-in fade-in slide-in-from-bottom-2">
+                <div
+                  className={`absolute ${
+                    isNearTop ? "top-full mt-2" : "bottom-full mb-2"
+                  } left-0 w-60 sm:w-64 max-h-72 overflow-y-auto custom-scrollbar bg-[#121318]/98 backdrop-blur-xl border border-white/20 rounded-xl shadow-[0_15px_40px_rgba(0,0,0,0.9)] p-1.5 z-50 flex flex-col gap-0.5 animate-in fade-in slide-in-from-bottom-2`}
+                >
                   <div className="px-2.5 py-1 text-[10px] font-mono uppercase tracking-wider text-[#8c8f9a] border-b border-white/10 mb-1">
                     Select Audio Tour Language
                   </div>
@@ -455,7 +638,11 @@ export function PortfolioAudioTour() {
               </button>
 
               {showSpeedMenu && (
-                <div className="absolute bottom-full mb-1 right-0 bg-[#14151c] border border-white/20 rounded-xl shadow-2xl p-1.5 flex gap-1 z-50">
+                <div
+                  className={`absolute ${
+                    isNearTop ? "top-full mt-2" : "bottom-full mb-1"
+                  } right-0 bg-[#14151c] border border-white/20 rounded-xl shadow-2xl p-1.5 flex gap-1 z-50`}
+                >
                   {SPEED_OPTIONS.map((rate) => (
                     <button
                       key={rate}
@@ -519,6 +706,21 @@ export function PortfolioAudioTour() {
               </svg>
               <span className="hidden sm:inline">{labels.sections}</span>
             </button>
+
+            {/* Re-dock button if user has moved/floated the panel */}
+            {position && (
+              <button
+                type="button"
+                onClick={() => setPosition(null)}
+                title="Dock audio bar back to bottom center"
+                className="px-2 py-1 rounded-md border border-white/15 bg-white/5 hover:bg-white/10 text-xs font-mono text-[#8c8f9a] hover:text-[#edeae3] transition-colors cursor-pointer flex items-center gap-1"
+              >
+                <svg className="w-3 h-3 fill-none stroke-current" strokeWidth="2" viewBox="0 0 24 24">
+                  <path d="M4 20h16M12 4v12m0 0l-4-4m4 4l4-4" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+                <span className="hidden sm:inline">Dock</span>
+              </button>
+            )}
 
             {/* Reset / Stop */}
             <button
