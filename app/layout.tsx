@@ -4,6 +4,8 @@ import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { AnalyticsClickTracker } from "./components/analytics-click-tracker";
 import { LanguageProvider } from "./context/language-context";
+import { AudioTourProvider } from "./context/audio-tour-context";
+import { PortfolioAudioTour } from "./components/portfolio-audio-tour";
 import "./globals.css";
 
 const jetBrainsMono = JetBrains_Mono({
@@ -103,7 +105,10 @@ export default function RootLayout({
           </filter>
         </svg>
         <LanguageProvider>
-          {children}
+          <AudioTourProvider>
+            {children}
+            <PortfolioAudioTour />
+          </AudioTourProvider>
         </LanguageProvider>
         <AnalyticsClickTracker />
         <Analytics />

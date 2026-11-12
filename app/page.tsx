@@ -6,6 +6,7 @@ import { MobileNav } from "./components/mobile-nav";
 import { NavDock } from "./components/nav-dock";
 import { LanguageSelector } from "./components/language-selector";
 import { KineticNodeMesh } from "./components/kinetic-node-mesh";
+import { SectionAudioButton } from "./components/portfolio-audio-tour";
 import { useLanguage } from "./context/language-context";
 import { portfolioData, resumeQuickLink } from "./data/portfolio";
 import { ANALYTICS_EVENTS, getProjectType } from "./lib/analytics";
@@ -233,6 +234,7 @@ function SpecimenSectionHeader({
   subtitle,
   title,
   copy,
+  sectionKey,
 }: {
   marker: string;
   subtitle?: string;
@@ -243,18 +245,21 @@ function SpecimenSectionHeader({
 }) {
   return (
     <div className="flex flex-col gap-3 border-b border-white/10 pb-5">
-      <div className="flex items-center gap-3">
-        <span className="font-mono text-[11px] tracking-widest uppercase text-[#8c8f9a]">
-          {marker}
-        </span>
-        {subtitle && (
-          <>
-            <span className="h-px w-6 bg-white/15" />
-            <span className="font-mono text-[11px] text-[#555760] uppercase hidden sm:inline">
-              {subtitle}
-            </span>
-          </>
-        )}
+      <div className="flex items-center justify-between gap-3">
+        <div className="flex items-center gap-3">
+          <span className="font-mono text-[11px] tracking-widest uppercase text-[#8c8f9a]">
+            {marker}
+          </span>
+          {subtitle && (
+            <>
+              <span className="h-px w-6 bg-white/15" />
+              <span className="font-mono text-[11px] text-[#555760] uppercase hidden sm:inline">
+                {subtitle}
+              </span>
+            </>
+          )}
+        </div>
+        {sectionKey && <SectionAudioButton sectionId={sectionKey} />}
       </div>
       <h2 className="text-2xl sm:text-3xl font-light text-[#edeae3] tracking-tight">
         {title}
@@ -316,24 +321,24 @@ export default function Home() {
       <header className="fixed top-0 left-0 w-full z-50 bg-[#090a0d]/85 backdrop-blur-md border-b border-white/10 transition-colors">
         <div className="max-w-7xl mx-auto px-6 sm:px-10 h-16 flex items-center justify-between">
           {/* Identity & Status */}
-          <div className="flex items-center gap-6">
-            <a href="#hero" className="group flex items-baseline gap-2.5">
-              <span className="font-mono text-xs uppercase tracking-widest text-[#edeae3] font-semibold">
+          <div className="flex items-center gap-5 shrink-0">
+            <a href="#hero" className="group flex items-baseline gap-2.5 whitespace-nowrap shrink-0">
+              <span className="font-mono text-xs uppercase tracking-widest text-[#edeae3] font-semibold whitespace-nowrap">
                 Aadarsh Pandey
               </span>
               <span className="text-[#555760] font-mono text-xs">/</span>
-              <span className="font-editorial-italic font-serif italic text-xs text-[#8c8f9a] group-hover:text-white transition-colors">
+              <span className="font-editorial-italic font-serif italic text-xs text-[#8c8f9a] group-hover:text-white transition-colors whitespace-nowrap">
                 Software Engineer
               </span>
             </a>
-            <div className="hidden 2xl:flex items-center gap-2 pl-5 border-l border-white/10 font-mono text-[11px] text-[#8c8f9a] whitespace-nowrap shrink-0">
+            <div className="hidden 2xl:flex items-center gap-2 pl-4 border-l border-white/10 font-mono text-[11px] text-[#8c8f9a] whitespace-nowrap shrink-0">
               <span className="w-1.5 h-1.5 rounded-full bg-[#2dd4bf] animate-pulse shrink-0" />
               <span className="uppercase tracking-wider">Open to roles</span>
             </div>
           </div>
 
           {/* Desktop Nav Links */}
-          <nav className="hidden md:flex items-center gap-6 font-mono text-xs text-[#8c8f9a]">
+          <nav className="hidden xl:flex items-center gap-5 font-mono text-xs text-[#8c8f9a]">
             {navItems.slice(0, 7).map((item, idx) => (
               <a
                 key={item.href}
@@ -383,7 +388,7 @@ export default function Home() {
             </a>
 
             {/* Mobile Nav Menu Drawer */}
-            <div className="md:hidden">
+            <div className="xl:hidden">
               <MobileNav navItems={navItems} quickLinks={portfolioData.quickLinks} />
             </div>
           </div>
@@ -398,14 +403,17 @@ export default function Home() {
           
           {/* Left Column: Intro */}
           <div className="lg:col-span-7 flex flex-col gap-7">
-            <div className="flex items-center gap-3">
-              <span className="font-mono text-[11px] tracking-widest uppercase text-[#8c8f9a]">
-                Software Engineer
-              </span>
-              <span className="h-px w-8 bg-white/15" />
-              <span className="font-mono text-[11px] text-[#555760] uppercase">
-                Bengaluru, India
-              </span>
+            <div className="flex items-center justify-between gap-3">
+              <div className="flex items-center gap-3">
+                <span className="font-mono text-[11px] tracking-widest uppercase text-[#8c8f9a]">
+                  Software Engineer
+                </span>
+                <span className="h-px w-8 bg-white/15" />
+                <span className="font-mono text-[11px] text-[#555760] uppercase">
+                  Bengaluru, India
+                </span>
+              </div>
+              <SectionAudioButton sectionId="hero" />
             </div>
 
             <h1 className="text-4xl sm:text-5xl lg:text-[54px] leading-[1.15] tracking-tight font-light text-[#edeae3]">
@@ -1059,9 +1067,12 @@ export default function Home() {
           className="p-8 sm:p-12 rounded-xl border border-white/15 bg-[#121318]/90 backdrop-blur-md flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8 relative overflow-hidden scroll-mt-28"
         >
           <div className="flex flex-col gap-2.5 max-w-xl">
-            <div className="flex items-center gap-2 font-mono text-xs text-[#2dd4bf]">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#2dd4bf]" />
-              <span className="uppercase tracking-wider">Get in Touch</span>
+            <div className="flex items-center justify-between gap-3">
+              <div className="flex items-center gap-2 font-mono text-xs text-[#2dd4bf]">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#2dd4bf]" />
+                <span className="uppercase tracking-wider">Get in Touch</span>
+              </div>
+              <SectionAudioButton sectionId="contact" />
             </div>
             <h3 className="text-2xl sm:text-3xl font-light text-[#edeae3] tracking-tight">
               Let&apos;s work on something <span className="font-editorial-italic font-serif italic text-white">interesting</span> together.
