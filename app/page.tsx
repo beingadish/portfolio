@@ -433,35 +433,6 @@ export default function Home() {
     return () => document.removeEventListener("animationend", handleAnimationEnd);
   }, []);
 
-  // Performance: pause the heavy hero 3D animations when scrolled out of view
-  // and when the browser tab is hidden, to avoid pegging the CPU/GPU.
-  useEffect(() => {
-    const stage = document.querySelector<HTMLElement>(".quantum-stage");
-    if (!stage) return;
-
-    const setPaused = (paused: boolean) => {
-      document.documentElement.classList.toggle("anim-paused", paused);
-    };
-
-    let onScreen = true;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        onScreen = entry.isIntersecting;
-        setPaused(!onScreen || document.hidden);
-      },
-      { threshold: 0.05 }
-    );
-    observer.observe(stage);
-
-    const handleVisibility = () => setPaused(!onScreen || document.hidden);
-    document.addEventListener("visibilitychange", handleVisibility);
-
-    return () => {
-      observer.disconnect();
-      document.removeEventListener("visibilitychange", handleVisibility);
-      document.documentElement.classList.remove("anim-paused");
-    };
-  }, []);
 
   return (
     <div className="relative isolate overflow-x-clip pb-16">
@@ -598,51 +569,94 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="quantum-stage mt-4 flex-1" aria-hidden="true">
-              <div className="quantum-core">
-                {/* Voxel cube: 3x3x3 grid of wireframe blocks that pop & shift */}
-                <div className="voxel-cube">
-                  {Array.from({ length: 27 }).map((_, i) => {
-                    const x = (i % 3) - 1;
-                    const y = (Math.floor(i / 3) % 3) - 1;
-                    const z = Math.floor(i / 9) - 1;
-                    const dist = Math.abs(x) + Math.abs(y) + Math.abs(z);
-                    const isCorner = dist === 3;
-                    const isEdge = dist === 2;
-                    const cls = isCorner ? "voxel voxel-pop" : isEdge ? "voxel voxel-shift" : "voxel";
-                    const style = {
-                      "--x": `${x}`,
-                      "--y": `${y}`,
-                      "--z": `${z}`,
-                      "--d": `${((i * 0.17) % 2.4).toFixed(2)}s`,
-                    } as CSSProperties;
-                    return (
-                      <span key={i} className={cls} style={style}>
-                        <span className="vface" />
-                        <span className="vface" />
-                        <span className="vface" />
-                        <span className="vface" />
-                        <span className="vface" />
-                        <span className="vface" />
-                      </span>
-                    );
-                  })}
+            {/* Systems Topology & Telemetry Specimen (Zero-CPU authentic architecture graph) */}
+            <div className="telemetry-specimen mt-4 flex-1 flex flex-col justify-between gap-3 rounded-xl border border-[var(--line)] bg-[var(--surface-subtle)]/70 p-4">
+              <div className="flex items-center justify-between border-b border-[var(--line)] pb-2 text-[10px] font-mono">
+                <div className="flex items-center gap-1.5 text-[var(--teal)] font-semibold uppercase tracking-wider">
+                  <span className="relative flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--teal)] opacity-60" />
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-[var(--teal)]" />
+                  </span>
+                  <span>PRESTO FPS &amp; Fleet Telemetry Specimen</span>
                 </div>
+                <span className="text-emerald-400 font-semibold">-35% Latency</span>
+              </div>
 
-                {/* Swirling code + math tokens */}
-                <div className="token-orbit">
-                  <span className="qtoken">∑</span>
-                  <span className="qtoken">∇f(x)</span>
-                  <span className="qtoken">{"{ }"}</span>
-                  <span className="qtoken">σ(z)</span>
-                  <span className="qtoken">λ</span>
-                  <span className="qtoken">∫dx</span>
-                  <span className="qtoken">=&gt;</span>
-                  <span className="qtoken">π</span>
-                  <span className="qtoken">∂L/∂w</span>
-                  <span className="qtoken">async</span>
-                  <span className="qtoken">∞</span>
-                  <span className="qtoken">e^iπ</span>
+              {/* Clean Architectural Cluster Graph (pure vector SVG with interactive nodes) */}
+              <div className="relative w-full h-36 rounded-lg bg-[var(--surface-base,#080f12)]/60 border border-[var(--line)]/60 flex items-center justify-center p-2 overflow-hidden group/mesh">
+                <svg className="w-full h-full" viewBox="0 0 380 130" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <defs>
+                    <pattern id="specimen-grid" width="20" height="20" patternUnits="userSpaceOnUse">
+                      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="currentColor" strokeWidth="0.5" className="text-[var(--line)]/30" />
+                    </pattern>
+                  </defs>
+                  <rect width="100%" height="100%" fill="url(#specimen-grid)" opacity="0.6" />
+
+                  {/* Mesh connections */}
+                  <line x1="50" y1="65" x2="130" y2="35" stroke="currentColor" strokeWidth="1" strokeDasharray="3 3" className="text-[var(--teal)]/40" />
+                  <line x1="50" y1="65" x2="130" y2="95" stroke="currentColor" strokeWidth="1" strokeDasharray="3 3" className="text-[var(--teal)]/40" />
+                  <line x1="130" y1="35" x2="230" y2="65" stroke="currentColor" strokeWidth="1.2" className="text-[var(--teal)]/60" />
+                  <line x1="130" y1="95" x2="230" y2="65" stroke="currentColor" strokeWidth="1.2" className="text-[var(--teal)]/60" />
+                  <line x1="230" y1="65" x2="330" y2="35" stroke="currentColor" strokeWidth="1" strokeDasharray="3 3" className="text-[var(--teal)]/40" />
+                  <line x1="230" y1="65" x2="330" y2="95" stroke="currentColor" strokeWidth="1" strokeDasharray="3 3" className="text-[var(--teal)]/40" />
+
+                  {/* Node 1: Ingress / IoT Core */}
+                  <g className="cursor-pointer transition-transform hover:scale-110 origin-[50px_65px]">
+                    <circle cx="50" cy="65" r="14" fill="var(--surface-subtle)" stroke="var(--line)" strokeWidth="1.5" />
+                    <circle cx="50" cy="65" r="4" fill="var(--teal)" />
+                    <text x="50" y="93" textAnchor="middle" fill="var(--muted)" fontSize="8.5" fontFamily="monospace">AWS IOT</text>
+                  </g>
+
+                  {/* Node 2: Kafka Ingest */}
+                  <g className="cursor-pointer transition-transform hover:scale-110 origin-[130px_35px]">
+                    <circle cx="130" cy="35" r="15" fill="var(--surface-subtle)" stroke="var(--line)" strokeWidth="1.5" />
+                    <circle cx="130" cy="35" r="5" fill="#f59e0b" />
+                    <text x="130" y="20" textAnchor="middle" fill="var(--muted)" fontSize="8.5" fontFamily="monospace">KAFKA 2M+</text>
+                  </g>
+
+                  {/* Node 3: Spring Boot Microservices */}
+                  <g className="cursor-pointer transition-transform hover:scale-110 origin-[130px_95px]">
+                    <circle cx="130" cy="95" r="15" fill="var(--surface-subtle)" stroke="var(--line)" strokeWidth="1.5" />
+                    <circle cx="130" cy="95" r="5" fill="var(--teal)" />
+                    <text x="130" y="122" textAnchor="middle" fill="var(--muted)" fontSize="8.5" fontFamily="monospace">SPRING BOOT</text>
+                  </g>
+
+                  {/* Node 4: Redis Caching & Postgres */}
+                  <g className="cursor-pointer transition-transform hover:scale-110 origin-[230px_65px]">
+                    <circle cx="230" cy="65" r="18" fill="var(--surface-subtle)" stroke="var(--teal)" strokeWidth="1.5" />
+                    <circle cx="230" cy="65" r="6" fill="var(--teal)" />
+                    <text x="230" y="98" textAnchor="middle" fill="var(--ink)" fontWeight="600" fontSize="9" fontFamily="monospace">REDIS &amp; PG</text>
+                  </g>
+
+                  {/* Node 5: Vector / RAG */}
+                  <g className="cursor-pointer transition-transform hover:scale-110 origin-[330px_35px]">
+                    <circle cx="330" cy="35" r="14" fill="var(--surface-subtle)" stroke="var(--line)" strokeWidth="1.5" />
+                    <circle cx="330" cy="35" r="4" fill="var(--teal)" />
+                    <text x="330" y="20" textAnchor="middle" fill="var(--muted)" fontSize="8.5" fontFamily="monospace">PGVECTOR</text>
+                  </g>
+
+                  {/* Node 6: Observability */}
+                  <g className="cursor-pointer transition-transform hover:scale-110 origin-[330px_95px]">
+                    <circle cx="330" cy="95" r="14" fill="var(--surface-subtle)" stroke="var(--line)" strokeWidth="1.5" />
+                    <circle cx="330" cy="95" r="4" fill="var(--teal)" />
+                    <text x="330" y="122" textAnchor="middle" fill="var(--muted)" fontSize="8.5" fontFamily="monospace">GRAFANA</text>
+                  </g>
+                </svg>
+              </div>
+
+              {/* Specimen Telemetry Metric Strip */}
+              <div className="grid grid-cols-3 gap-2 pt-1 text-[11px] font-mono">
+                <div className="rounded-lg border border-[var(--line)] bg-[var(--surface)] p-2">
+                  <span className="text-[9px] uppercase text-[var(--muted)] block">Transit Volume</span>
+                  <span className="font-semibold text-[var(--ink)]">1M+ TX/Day</span>
+                </div>
+                <div className="rounded-lg border border-[var(--line)] bg-[var(--surface)] p-2">
+                  <span className="text-[9px] uppercase text-[var(--muted)] block">Settlement Ingest</span>
+                  <span className="font-semibold text-[var(--teal)]">2M+ Events/D</span>
+                </div>
+                <div className="rounded-lg border border-[var(--line)] bg-[var(--surface)] p-2">
+                  <span className="text-[9px] uppercase text-[var(--muted)] block">Payment Latency</span>
+                  <span className="font-semibold text-emerald-400">-35% P99</span>
                 </div>
               </div>
             </div>
