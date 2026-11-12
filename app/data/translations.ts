@@ -207,10 +207,10 @@ export const translations: Record<LanguageCode, TranslationDictionary> = {
     },
     audio: {
       readAloud: "Listen Aloud",
-      playing: "இயங்குகிறது",
+      playing: "Playing",
       paused: "Audio Paused",
       stopped: "Audio Stopped",
-      listenSection: "கேளுங்கள்",
+      listenSection: "Listen",
       speed: "Speed",
       voice: "Voice Specialist",
       male: "Studio Male",
@@ -389,12 +389,6 @@ export const translations: Record<LanguageCode, TranslationDictionary> = {
             "title": "Introduction",
             "targetElementId": "hero",
             "text": "Hello there, Aadarsh Pandey this side! I am a software engineer with keen interest and experience in scalable backend systems, distributed architectures, high-volume telemetry pipelines, and Generative AI."
-      },
-      {
-        "id": "footprint",
-        "title": "பணி அனுபவம்",
-        "targetElementId": "telemetry",
-        "text": "அக்சென்ச்சரில், தினமும் பத்து லட்சத்திற்கும் அதிகமான பரிவர்த்தனைகளைக் கையாளும் பிரெஸ்டோ எஃப்பிஎஸ் போக்குவரத்து மைக்ரோசர்வீஸ்கள் மற்றும் ஏடபிள்யூஎஸ் ஐஓடி அமைப்புகளை உருவாக்குகிறேன்."
       },
       {
         "id": "footprint",
@@ -1205,10 +1199,10 @@ export const translations: Record<LanguageCode, TranslationDictionary> = {
     },
     audio: {
       readAloud: "கேட்கவும்",
-      playing: "குரல் உருவாக்கப்படுகிறது...",
+      playing: "இயங்குகிறது",
       paused: "ஆடியோ இடைநிறுத்தப்பட்டது",
       stopped: "ஆடியோ நிறுத்தப்பட்டது",
-      listenSection: "இப்பகுதியைக் கேளுங்கள்",
+      listenSection: "கேளுங்கள்",
       speed: "வேகம்",
       voice: "குரல் நிபுணர்",
       male: "ஸ்டுடியோ ஆண்",
@@ -1366,6 +1360,12 @@ export const translations: Record<LanguageCode, TranslationDictionary> = {
             "title": "அறிமுகம்",
             "targetElementId": "hero",
             "text": "வணக்கம்! நான் ஆதர்ஷ் பாண்டே. அளவிடக்கூடிய பின்தள அமைப்புகள், விநியோகிக்கப்பட்ட கட்டமைப்பு மற்றும் ஜெனரேட்டிவ் ஏஐ தொழில்நுட்பங்களில் மிகுந்த ஆர்வமும் அனுபவமும் கொண்ட மென்பொருள் பொறியாளர்."
+      },
+      {
+        "id": "footprint",
+        "title": "பணி அனுபவம்",
+        "targetElementId": "telemetry",
+        "text": "அக்சென்ச்சரில், தினமும் பத்து லட்சத்திற்கும் அதிகமான பரிவர்த்தனைகளைக் கையாளும் போக்குவரத்து மைக்ரோசர்வீஸ்கள் மற்றும் ஏடபிள்யூஎஸ் ஐஓடி அமைப்புகளை உருவாக்குகிறேன்."
       },
       {
             "id": "mindset",

@@ -337,9 +337,9 @@ export default function Home() {
                 Software Engineer
               </span>
             </a>
-            <div className="hidden lg:flex items-center gap-2 pl-5 border-l border-white/10 font-mono text-[11px] text-[#8c8f9a]">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#2dd4bf] animate-pulse" />
-              <span className="uppercase tracking-wider">Available for select roles &amp; advisory</span>
+            <div className="hidden 2xl:flex items-center gap-2 pl-5 border-l border-white/10 font-mono text-[11px] text-[#8c8f9a] whitespace-nowrap shrink-0">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#2dd4bf] animate-pulse shrink-0" />
+              <span className="uppercase tracking-wider">Open to roles</span>
             </div>
           </div>
 
