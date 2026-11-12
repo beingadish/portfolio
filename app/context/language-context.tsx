@@ -73,20 +73,30 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
-  const scrollToSection = (briefId: string, targetId: string) => {
+  const scrollToSection = (briefId: string, targetId?: string) => {
     if (typeof window === "undefined") return;
-    if (briefId === "intro") {
-      const heroEl = document.getElementById("hero") || document.getElementById("about");
-      if (heroEl) {
-        heroEl.scrollIntoView({ behavior: "smooth", block: "start" });
-        return;
-      }
-      window.scrollTo({ top: 0, behavior: "smooth" });
-      return;
-    }
-    const el = document.getElementById(targetId);
+    const targetMap: Record<string, string> = {
+      intro: "hero",
+      hero: "hero",
+      about: "hero",
+      footprint: "telemetry",
+      telemetry: "telemetry",
+      mindset: "doctrine",
+      doctrine: "doctrine",
+      philosophy: "doctrine",
+      projects: "projects",
+      experience: "experience",
+      skills: "skills",
+      writing: "writing",
+      connect: "contact",
+      contact: "contact",
+    };
+    const resolvedId = targetMap[briefId] || (targetId ? targetMap[targetId] || targetId : "hero");
+    const el = document.getElementById(resolvedId);
     if (el) {
       el.scrollIntoView({ behavior: "smooth", block: "start" });
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
 
@@ -184,6 +194,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
           setIsPaused(false);
           setIsAutoBriefing(false);
           setAutoBriefIndex(-1);
+          setActiveSection(null);
         },
       });
     },
@@ -229,7 +240,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
       setIsAudioPanelVisible(true);
       setCurrentSentenceIndex(index);
       setCurrentSentenceText(sentences[index]);
-      setActiveSection("full-intro");
+      setActiveSection("intro");
 
       ninadaEngine.speakSentences(sentenceToPlay, currentLanguage, {
         voice: voiceGender,
@@ -248,6 +259,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
         onError: () => {
           setIsPlaying(false);
           setIsPaused(false);
+          setActiveSection(null);
         },
       });
     },
@@ -278,6 +290,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
         onError: () => {
           setIsPlaying(false);
           setIsPaused(false);
+          setActiveSection(null);
         },
       });
     },
@@ -286,26 +299,63 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 
   const playSection = useCallback(
     (sectionKey: string, overrideText?: string) => {
-      if (activeSection === sectionKey && isPlaying) {
+      const isTargetActive =
+        isPlaying &&
+        (activeSection === sectionKey ||
+          (sectionKey === "hero" && activeSection === "intro") ||
+          (sectionKey === "telemetry" && (activeSection === "footprint" || activeSection === "telemetry")) ||
+          (sectionKey === "footprint" && (activeSection === "footprint" || activeSection === "telemetry")) ||
+          (sectionKey === "doctrine" && (activeSection === "mindset" || activeSection === "doctrine")) ||
+          (sectionKey === "mindset" && (activeSection === "mindset" || activeSection === "doctrine")) ||
+          (sectionKey === "contact" && (activeSection === "connect" || activeSection === "contact")) ||
+          (sectionKey === "connect" && (activeSection === "connect" || activeSection === "contact")));
+
+      if (isTargetActive) {
         stopAudio();
         return;
       }
 
-      const briefs = translations[currentLanguage]?.sectionBriefs || translations.en.sectionBriefs;
+      const dict = translations[currentLanguage] || translations.en;
+      const briefs = dict.sectionBriefs || translations.en.sectionBriefs;
+
       const briefMapping: Record<string, string> = {
         hero: "intro",
         intro: "intro",
-        about: "mindset",
+        about: "intro",
+        telemetry: "footprint",
+        footprint: "footprint",
+        doctrine: "mindset",
         mindset: "mindset",
-        experience: "experience",
+        philosophy: "mindset",
         projects: "projects",
+        experience: "experience",
+        skills: "skills",
+        writing: "writing",
+        achievements: "experience",
+        education: "intro",
         contact: "connect",
         connect: "connect",
       };
 
       const targetBriefId = briefMapping[sectionKey];
-      const matchingBrief = targetBriefId ? briefs.find((b) => b.id === targetBriefId) : undefined;
-      const speechText = matchingBrief?.text || overrideText;
+      let matchingBrief = targetBriefId ? briefs.find((b) => b.id === targetBriefId) : undefined;
+
+      // Localized fallback per section if not in briefs
+      let speechText = matchingBrief?.text;
+      if (!speechText) {
+        if (sectionKey === "skills") {
+          speechText = `${dict.skills.title}. ${dict.skills.copy}`;
+        } else if (sectionKey === "writing") {
+          speechText = `${dict.writing.title}. ${dict.writing.copy}`;
+        } else if (sectionKey === "achievements") {
+          speechText = `${dict.achievements.title}. ${dict.achievements.copy}`;
+        } else if (sectionKey === "education") {
+          speechText = `${dict.education.title}. ${dict.education.copy}`;
+        } else {
+          speechText = overrideText || briefs[0]?.text || "";
+        }
+      }
+
       if (!speechText) return;
 
       ninadaEngine.stop();
@@ -317,6 +367,8 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
       setActiveSection(sectionKey);
       setCurrentSentenceIndex(0);
       setCurrentSentenceText(speechText);
+
+      scrollToSection(sectionKey);
 
       ninadaEngine.speakSingle(speechText, currentLanguage, {
         voice: voiceGender,

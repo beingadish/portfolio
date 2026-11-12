@@ -3,7 +3,6 @@
 import type { LanguageCode } from "../data/translations";
 
 export type NinadaVoiceGender = "male" | "female";
-
 export type NinadaPlaybackState = "idle" | "loading" | "playing" | "paused";
 
 export type NinadaPlayOptions = {
@@ -16,92 +15,135 @@ export type NinadaPlayOptions = {
   onError?: (err: Error) => void;
 };
 
-// Map each language code to its standard BCP-47 locale tags and speech synthesis voice identifiers
-const LANG_LOCALE_MAP: Record<LanguageCode, { bcp47: string[]; fallbackLocales: string[] }> = {
-  en: { bcp47: ["en-IN", "en-GB", "en-US"], fallbackLocales: ["en"] },
-  hi: { bcp47: ["hi-IN", "hi"], fallbackLocales: ["hi"] },
-  sa: { bcp47: ["sa-IN", "hi-IN", "sa"], fallbackLocales: ["hi-IN", "hi"] }, // Sanskrit phonemes map accurately to Devanagari hi-IN
-  kn: { bcp47: ["kn-IN", "kn"], fallbackLocales: ["kn"] },
-  ta: { bcp47: ["ta-IN", "ta-LK", "ta"], fallbackLocales: ["ta"] },
-  te: { bcp47: ["te-IN", "te"], fallbackLocales: ["te"] },
-  ml: { bcp47: ["ml-IN", "ml"], fallbackLocales: ["ml"] },
-  mr: { bcp47: ["mr-IN", "mr"], fallbackLocales: ["mr", "hi-IN"] },
-  bn: { bcp47: ["bn-IN", "bn-BD", "bn"], fallbackLocales: ["bn"] },
-  gu: { bcp47: ["gu-IN", "gu"], fallbackLocales: ["gu"] },
-  pa: { bcp47: ["pa-IN", "pa-PK", "pa"], fallbackLocales: ["pa"] },
-  or: { bcp47: ["or-IN", "or", "ory"], fallbackLocales: ["or", "hi-IN"] },
+// Map each language code to its TTS engine locale
+const GOOGLE_TTS_LANG_MAP: Record<LanguageCode, string> = {
+  en: "en",
+  hi: "hi",
+  sa: "hi", // Sanskrit phonemes map accurately to Hindi (Devanagari script)
+  kn: "kn",
+  ta: "ta",
+  te: "te",
+  ml: "ml",
+  mr: "mr",
+  bn: "bn",
+  gu: "gu",
+  pa: "pa",
+  or: "hi", // Odia transliterated to Devanagari using ISCII/Unicode offset
 };
 
+// Transliterate Odia Unicode block (0x0B00-0x0B7F) to Devanagari (0x0900-0x097F)
+function transliterateOdiaToDevanagari(text: string): string {
+  return text.replace(/[\u0B00-\u0B7F]/g, (ch) => {
+    const code = ch.charCodeAt(0) - 0x0B00 + 0x0900;
+    return String.fromCharCode(code);
+  });
+}
+
+/**
+ * Sanitize text for TTS so that punctuation is never read literally (no "comma", "dash", etc.)
+ */
+function sanitizeSpeechText(text: string, lang: LanguageCode): string {
+  let cleaned = text;
+
+  if (lang === "or") {
+    cleaned = transliterateOdiaToDevanagari(cleaned);
+  }
+
+  // Replace commas, dashes, colons, slashes with spaces to prevent literal "comma" pronunciation
+  cleaned = cleaned
+    .replace(/[,，]/g, " ")
+    .replace(/[-—–_]/g, " ")
+    .replace(/[:;]/g, " ")
+    .replace(/[[\]{}()<>/\\|~^]/g, "")
+    .replace(/[*#§@]/g, "")
+    .replace(/["'“”]/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+
+  return cleaned;
+}
+
+/**
+ * Split long paragraphs into natural sentence-sized chunks for smooth streaming & caching
+ */
+function chunkSpeechText(text: string, maxLen = 140): string[] {
+  if (!text || text.length <= maxLen) return [text.trim()];
+
+  // Split on sentence boundaries (. ! ? ।)
+  const rawSentences = text.split(/([.!?।]+)/);
+  const chunks: string[] = [];
+  let current = "";
+
+  for (let i = 0; i < rawSentences.length; i += 2) {
+    const sentence = (rawSentences[i] || "") + (rawSentences[i + 1] || "");
+    const trimmed = sentence.trim();
+    if (!trimmed) continue;
+
+    if (current.length + trimmed.length + 1 <= maxLen) {
+      current = current ? `${current} ${trimmed}` : trimmed;
+    } else {
+      if (current) chunks.push(current);
+      if (trimmed.length > maxLen) {
+        // Break long sentence by words
+        const words = trimmed.split(/\s+/);
+        let subChunk = "";
+        for (const word of words) {
+          if (subChunk.length + word.length + 1 <= maxLen) {
+            subChunk = subChunk ? `${subChunk} ${word}` : word;
+          } else {
+            if (subChunk) chunks.push(subChunk);
+            subChunk = word;
+          }
+        }
+        if (subChunk) current = subChunk;
+        else current = "";
+      } else {
+        current = trimmed;
+      }
+    }
+  }
+
+  if (current) chunks.push(current);
+  return chunks.filter((c) => c.trim().length > 0);
+}
+
 class NinadaAudioEngine {
-  private audioContext: AudioContext | null = null;
+  // In-memory audio element cache keyed by `${lang}:${sanitizedText}`
+  private audioCache = new Map<string, HTMLAudioElement>();
+  private currentAudio: HTMLAudioElement | null = null;
   private currentUtterance: SpeechSynthesisUtterance | null = null;
   private isCancelled = false;
-  private isPaused = false;
+  private isPausedState = false;
   private sentenceQueue: string[] = [];
   private currentSentenceIndex = -1;
   private currentLang: LanguageCode = "en";
   private currentOptions: NinadaPlayOptions = {};
 
-  constructor() {
-    // Lazy AudioContext initialization on first user interaction
-  }
-
-  private getAudioContext(): AudioContext {
-    if (!this.audioContext && typeof window !== "undefined") {
-      const AudioCtx = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
-      if (AudioCtx) {
-        this.audioContext = new AudioCtx({ sampleRate: 24000 });
-      }
-    }
-    if (this.audioContext && this.audioContext.state === "suspended") {
-      this.audioContext.resume();
-    }
-    return this.audioContext as AudioContext;
-  }
-
   /**
-   * Find the most suitable voice for the given language and gender.
+   * Preload an audio chunk into cache
    */
-  private pickVoice(lang: LanguageCode, gender: NinadaVoiceGender): SpeechSynthesisVoice | null {
-    if (typeof window === "undefined" || !("speechSynthesis" in window)) {
-      return null;
+  public prefetch(text: string, lang: LanguageCode): void {
+    if (typeof window === "undefined" || !text) return;
+    const sanitized = sanitizeSpeechText(text, lang);
+    if (!sanitized) return;
+
+    const cacheKey = `${lang}:${sanitized}`;
+    if (this.audioCache.has(cacheKey)) return;
+
+    try {
+      const tl = GOOGLE_TTS_LANG_MAP[lang] || "en";
+      const url = `https://translate.google.com/translate_tts?ie=UTF-8&tl=${tl}&client=tw-ob&q=${encodeURIComponent(sanitized)}`;
+      const audio = new Audio();
+      audio.preload = "auto";
+      audio.src = url;
+      this.audioCache.set(cacheKey, audio);
+    } catch {
+      // Ignore prefetch failures
     }
-    const voices = window.speechSynthesis.getVoices();
-    if (!voices || voices.length === 0) return null;
-
-    const { bcp47, fallbackLocales } = LANG_LOCALE_MAP[lang];
-    const candidateLocales = [...bcp47, ...fallbackLocales];
-
-    // Priority 1: Match locale AND gender
-    for (const locale of candidateLocales) {
-      const exactMatch = voices.find((v) => {
-        const matchesLocale = v.lang.toLowerCase().replace("_", "-").startsWith(locale.toLowerCase());
-        if (!matchesLocale) return false;
-        const nameLower = v.name.toLowerCase();
-        if (gender === "female") {
-          return nameLower.includes("female") || nameLower.includes("woman") || nameLower.includes("lekha") || nameLower.includes("veena");
-        } else {
-          return nameLower.includes("male") || nameLower.includes("man") || nameLower.includes("rishi") || nameLower.includes("anil");
-        }
-      });
-      if (exactMatch) return exactMatch;
-    }
-
-    // Priority 2: Match locale
-    for (const locale of candidateLocales) {
-      const match = voices.find((v) => v.lang.toLowerCase().replace("_", "-").startsWith(locale.toLowerCase()));
-      if (match) return match;
-    }
-
-    // Priority 3: Any Indian voice (often starts with en-IN or hi-IN)
-    const indianVoice = voices.find((v) => v.lang.toLowerCase().includes("-in"));
-    if (indianVoice) return indianVoice;
-
-    return voices[0] || null;
   }
 
   /**
-   * Play an array of sentences sequentially with callbacks for live highlighting.
+   * Play an array of sentences sequentially with instant caching
    */
   public async speakSentences(
     sentences: string[],
@@ -110,19 +152,17 @@ class NinadaAudioEngine {
   ): Promise<void> {
     this.stop();
     this.isCancelled = false;
-    this.isPaused = false;
+    this.isPausedState = false;
     this.sentenceQueue = sentences;
     this.currentSentenceIndex = 0;
     this.currentLang = lang;
     this.currentOptions = options;
 
-    if (typeof window === "undefined") return;
+    if (typeof window === "undefined" || sentences.length === 0) return;
 
-    // Wake AudioContext
-    try {
-      this.getAudioContext();
-    } catch {
-      // AudioContext optional if browser speech synthesis is used directly
+    // Prefetch all remaining sentences in background
+    for (let i = 0; i < sentences.length; i++) {
+      this.prefetch(sentences[i], lang);
     }
 
     await this.playNextSentence();
@@ -136,51 +176,144 @@ class NinadaAudioEngine {
       return;
     }
 
-    const text = this.sentenceQueue[this.currentSentenceIndex];
+    const rawText = this.sentenceQueue[this.currentSentenceIndex];
     const index = this.currentSentenceIndex;
+    const lang = this.currentLang;
 
-    this.currentOptions.onSentenceStart?.(index, text);
+    this.currentOptions.onSentenceStart?.(index, rawText);
 
-    if (typeof window !== "undefined" && "speechSynthesis" in window) {
-      window.speechSynthesis.cancel();
+    // Prefetch next sentence in advance for 0ms transition
+    if (this.currentSentenceIndex + 1 < this.sentenceQueue.length) {
+      this.prefetch(this.sentenceQueue[this.currentSentenceIndex + 1], lang);
+    }
 
-      const utterance = new SpeechSynthesisUtterance(text);
-      this.currentUtterance = utterance;
+    const sanitized = sanitizeSpeechText(rawText, lang);
+    if (!sanitized) {
+      this.currentSentenceIndex += 1;
+      this.playNextSentence();
+      return;
+    }
 
-      const voice = this.pickVoice(this.currentLang, this.currentOptions.voice || "female");
-      if (voice) {
-        utterance.voice = voice;
-        utterance.lang = voice.lang;
-      } else {
-        utterance.lang = LANG_LOCALE_MAP[this.currentLang].bcp47[0];
-      }
-
-      // Slightly tuned rate and pitch according to Ninada 24kHz specs
-      utterance.rate = this.currentOptions.rate ?? 1.0;
-      utterance.pitch = this.currentOptions.pitch ?? (this.currentOptions.voice === "male" ? 0.95 : 1.05);
-
-      utterance.onend = () => {
+    const chunks = chunkSpeechText(sanitized, 140);
+    try {
+      await this.playChunksSequentially(chunks, lang, this.currentOptions.rate ?? 1.0);
+      if (!this.isCancelled) {
         this.currentOptions.onSentenceEnd?.(index);
         this.currentSentenceIndex += 1;
-        if (!this.isCancelled) {
-          // Slight natural pause between sentences (200ms)
-          setTimeout(() => {
-            this.playNextSentence();
-          }, 200);
+        // Natural 180ms breathing pause between sections
+        setTimeout(() => {
+          if (!this.isCancelled) this.playNextSentence();
+        }, 180);
+      }
+    } catch {
+      // Fallback: try Web Speech synthesis ONLY if native voice exists for this language
+      this.fallbackWebSpeech(sanitized, lang);
+    }
+  }
+
+  private playChunksSequentially(chunks: string[], lang: LanguageCode, rate: number): Promise<void> {
+    return new Promise((resolve, reject) => {
+      let chunkIdx = 0;
+
+      const playNextChunk = () => {
+        if (this.isCancelled) {
+          resolve();
+          return;
+        }
+
+        if (chunkIdx >= chunks.length) {
+          resolve();
+          return;
+        }
+
+        const chunkText = chunks[chunkIdx];
+        const cacheKey = `${lang}:${chunkText}`;
+        let audio = this.audioCache.get(cacheKey);
+
+        const tl = GOOGLE_TTS_LANG_MAP[lang] || "en";
+        const url = `https://translate.google.com/translate_tts?ie=UTF-8&tl=${tl}&client=tw-ob&q=${encodeURIComponent(chunkText)}`;
+
+        if (!audio) {
+          audio = new Audio(url);
+          this.audioCache.set(cacheKey, audio);
+        } else if (audio.src !== url) {
+          audio.src = url;
+        }
+
+        this.currentAudio = audio;
+        audio.playbackRate = Math.min(2.0, Math.max(0.5, rate));
+
+        audio.onended = () => {
+          chunkIdx += 1;
+          playNextChunk();
+        };
+
+        audio.onerror = () => {
+          reject(new Error("Audio playback error"));
+        };
+
+        const playPromise = audio.play();
+        if (playPromise !== undefined) {
+          playPromise.catch((err) => {
+            if (this.isCancelled) {
+              resolve();
+            } else {
+              reject(err);
+            }
+          });
         }
       };
 
-      utterance.onerror = (e) => {
-        if (e.error === "canceled" || e.error === "interrupted") return;
-        this.currentOptions.onError?.(new Error(`Speech synthesis error: ${e.error}`));
+      playNextChunk();
+    });
+  }
+
+  private fallbackWebSpeech(text: string, lang: LanguageCode): void {
+    if (typeof window === "undefined" || !("speechSynthesis" in window)) {
+      this.currentOptions.onFinish?.();
+      return;
+    }
+
+    const voices = window.speechSynthesis.getVoices();
+    // Only use speech synthesis if a native voice for this language is actually present
+    const langPrefix = lang.toLowerCase();
+    const hasNativeVoice = voices.find((v) => v.lang.toLowerCase().startsWith(langPrefix));
+
+    if (!hasNativeVoice && lang !== "en") {
+      // Do NOT fall back to an English voice for Indian languages (prevents the "comma comma" bug)
+      this.currentOptions.onFinish?.();
+      return;
+    }
+
+    try {
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      this.currentUtterance = utterance;
+
+      if (hasNativeVoice) {
+        utterance.voice = hasNativeVoice;
+        utterance.lang = hasNativeVoice.lang;
+      } else {
+        utterance.lang = "en-IN";
+      }
+
+      utterance.rate = this.currentOptions.rate ?? 1.0;
+
+      utterance.onend = () => {
+        if (!this.isCancelled) {
+          this.currentSentenceIndex += 1;
+          this.playNextSentence();
+        }
+      };
+
+      utterance.onerror = () => {
         this.currentSentenceIndex += 1;
         this.playNextSentence();
       };
 
       window.speechSynthesis.speak(utterance);
-    } else {
-      // Browser does not support speech synthesis
-      this.currentOptions.onError?.(new Error("Browser speech synthesis is not supported on this device."));
+    } catch {
+      this.currentOptions.onFinish?.();
     }
   }
 
@@ -192,14 +325,20 @@ class NinadaAudioEngine {
   }
 
   public pause(): void {
-    this.isPaused = true;
+    this.isPausedState = true;
+    if (this.currentAudio && !this.currentAudio.paused) {
+      this.currentAudio.pause();
+    }
     if (typeof window !== "undefined" && "speechSynthesis" in window) {
       window.speechSynthesis.pause();
     }
   }
 
   public resume(): void {
-    this.isPaused = false;
+    this.isPausedState = false;
+    if (this.currentAudio && this.currentAudio.paused) {
+      this.currentAudio.play().catch(() => {});
+    }
     if (typeof window !== "undefined" && "speechSynthesis" in window) {
       window.speechSynthesis.resume();
     }
@@ -207,14 +346,32 @@ class NinadaAudioEngine {
 
   public stop(): void {
     this.isCancelled = true;
-    this.isPaused = false;
+    this.isPausedState = false;
     this.currentSentenceIndex = -1;
+
+    if (this.currentAudio) {
+      try {
+        this.currentAudio.pause();
+        this.currentAudio.currentTime = 0;
+      } catch {
+        // Ignore
+      }
+      this.currentAudio = null;
+    }
+
     if (typeof window !== "undefined" && "speechSynthesis" in window) {
-      window.speechSynthesis.cancel();
+      try {
+        window.speechSynthesis.cancel();
+      } catch {
+        // Ignore
+      }
     }
   }
 
   public isSpeaking(): boolean {
+    if (this.currentAudio && !this.currentAudio.paused && !this.currentAudio.ended) {
+      return true;
+    }
     if (typeof window !== "undefined" && "speechSynthesis" in window) {
       return window.speechSynthesis.speaking;
     }

@@ -263,7 +263,7 @@ function SpecimenSectionHeader({
         {sectionKey && (
           <SectionListenButton
             sectionKey={sectionKey}
-            text={listenText || `${marker}. ${title}. ${copy || ""}`}
+            text={listenText}
           />
         )}
       </div>
@@ -402,10 +402,10 @@ export default function Home() {
       </header>
 
       {/* Main Viewport Container */}
-      <main className="relative z-10 pt-28 pb-24 max-w-7xl mx-auto px-6 sm:px-10 flex flex-col gap-y-28">
+      <main className="relative z-10 pt-28 pb-24 max-w-7xl mx-auto px-6 sm:px-10 flex flex-col gap-y-20 sm:gap-y-24">
 
         {/* Section 01: Hero — Name, Role & Node Mesh */}
-        <section id="hero" className="pt-6 sm:pt-10 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start border-b border-white/10 pb-20 scroll-mt-28">
+        <section id="hero" className="pt-4 sm:pt-8 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start scroll-mt-28">
           
           {/* Left Column: Intro */}
           <div className="lg:col-span-7 flex flex-col gap-7">
@@ -419,10 +419,7 @@ export default function Home() {
                   Bengaluru, India
                 </span>
               </div>
-              <SectionListenButton
-                sectionKey="hero"
-                text={`Hi, I'm ${portfolioData.name}, a Software Engineer at Accenture. I build high-throughput distributed systems — transit payment microservices handling over a million transactions a day, IoT fleet telemetry pipelines, and event-driven backends on AWS and Java 21. I'm based in Bengaluru and open to select engineering roles.`}
-              />
+              <SectionListenButton sectionKey="hero" />
             </div>
 
             <h1 className="text-4xl sm:text-5xl lg:text-[54px] leading-[1.12] tracking-tight font-light text-[#edeae3]">
@@ -1078,9 +1075,12 @@ export default function Home() {
           className="p-8 sm:p-12 rounded-xl border border-white/15 bg-[#121318]/90 backdrop-blur-md flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8 relative overflow-hidden scroll-mt-28"
         >
           <div className="flex flex-col gap-2.5 max-w-xl">
-            <div className="flex items-center gap-2 font-mono text-xs text-[#2dd4bf]">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#2dd4bf]" />
-              <span className="uppercase tracking-wider">Get in Touch</span>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2 font-mono text-xs text-[#2dd4bf]">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#2dd4bf]" />
+                <span className="uppercase tracking-wider">Get in Touch</span>
+              </div>
+              <SectionListenButton sectionKey="contact" />
             </div>
             <h3 className="text-2xl sm:text-3xl font-light text-[#edeae3] tracking-tight">
               Let&apos;s work on something <span className="font-editorial-italic font-serif italic text-white">interesting</span> together.

@@ -161,7 +161,7 @@ export type TranslationDictionary = {
     emailBtn: string;
   };
   sectionBriefs: Array<{
-    id: "intro" | "mindset" | "experience" | "projects" | "connect";
+    id: "intro" | "footprint" | "mindset" | "experience" | "projects" | "connect" | string;
     title: string;
     text: string;
     targetElementId: string;
@@ -207,10 +207,10 @@ export const translations: Record<LanguageCode, TranslationDictionary> = {
     },
     audio: {
       readAloud: "Listen Aloud",
-      playing: "Synthesizing Speech...",
+      playing: "இயங்குகிறது",
       paused: "Audio Paused",
       stopped: "Audio Stopped",
-      listenSection: "Listen to this section",
+      listenSection: "கேளுங்கள்",
       speed: "Speed",
       voice: "Voice Specialist",
       male: "Studio Male",
@@ -387,13 +387,25 @@ export const translations: Record<LanguageCode, TranslationDictionary> = {
       {
             "id": "intro",
             "title": "Introduction",
-            "targetElementId": "about",
+            "targetElementId": "hero",
             "text": "Hello there, Aadarsh Pandey this side! I am a software engineer with keen interest and experience in scalable backend systems, distributed architectures, high-volume telemetry pipelines, and Generative AI."
+      },
+      {
+        "id": "footprint",
+        "title": "பணி அனுபவம்",
+        "targetElementId": "telemetry",
+        "text": "அக்சென்ச்சரில், தினமும் பத்து லட்சத்திற்கும் அதிகமான பரிவர்த்தனைகளைக் கையாளும் பிரெஸ்டோ எஃப்பிஎஸ் போக்குவரத்து மைக்ரோசர்வீஸ்கள் மற்றும் ஏடபிள்யூஎஸ் ஐஓடி அமைப்புகளை உருவாக்குகிறேன்."
+      },
+      {
+        "id": "footprint",
+        "title": "At Work",
+        "targetElementId": "telemetry",
+        "text": "At Accenture, I engineer high-throughput transit microservices for PRESTO FPS processing over a million daily transactions, and heavy machinery IoT fleet telemetry on AWS."
       },
       {
             "id": "mindset",
             "title": "Engineering Mindset",
-            "targetElementId": "about",
+            "targetElementId": "doctrine",
             "text": "When it comes to building systems, I believe in deep system thinking and production reliability—crafting clean, maintainable microservices that handle real-world traffic and tricky edge cases with complete stability."
       },
       {
@@ -461,10 +473,10 @@ export const translations: Record<LanguageCode, TranslationDictionary> = {
     },
     audio: {
       readAloud: "ऑडियो सुनें",
-      playing: "ध्वनि उत्पन्न हो रही है...",
+      playing: "प्ले हो रहा है",
       paused: "ऑडियो रुका हुआ है",
       stopped: "ऑडियो बंद है",
-      listenSection: "इस अनुभाग को सुनें",
+      listenSection: "सुनें",
       speed: "गति",
       voice: "आवाज़ विशेषज्ञ",
       male: "स्टूडियो पुरुष",
@@ -635,13 +647,19 @@ export const translations: Record<LanguageCode, TranslationDictionary> = {
       {
             "id": "intro",
             "title": "परिचय",
-            "targetElementId": "about",
+            "targetElementId": "hero",
             "text": "नमस्ते! यहाँ आदर्श पाण्डेय। मैं एक सॉफ्टवेयर इंजीनियर हूँ, जिसे स्केलेबल बैकएंड सिस्टम्स, डिस्ट्रिब्यूटेड आर्किटेक्चर और जेनरेटिव एआई में गहरी रुचि और ठोस अनुभव है।"
+      },
+      {
+        "id": "footprint",
+        "title": "कार्यक्षेत्र",
+        "targetElementId": "telemetry",
+        "text": "एक्सेंचर में, मैं प्रेस्टो एफपीएस के लिए हाई-थ्रूपुट ट्रांजिट माइक्रोसर्विसेज बनाता हूँ जो प्रतिदिन दस लाख से अधिक लेनदेन संभालती हैं, और एडब्ल्यूएस पर भारी मशीनरी आईओटी टेलीमेट्री प्रोसेस करती हैं।"
       },
       {
             "id": "mindset",
             "title": "इंजीनियरिंग सोच",
-            "targetElementId": "about",
+            "targetElementId": "doctrine",
             "text": "सिस्टम बनाते समय मेरी प्राथमिकता हमेशा प्रोडक्शन विश्वसनीयता और स्पष्टता होती है—ऐसा कोड लिखना जो भारी लोड में भी बिना किसी रुकावट के लगातार काम करे।"
       },
       {
@@ -709,10 +727,10 @@ export const translations: Record<LanguageCode, TranslationDictionary> = {
     },
     audio: {
       readAloud: "श्रावयतु",
-      playing: "ध्वनिः उत्पद्यते...",
+      playing: "प्रचलति",
       paused: "ध्वनिः स्थगिता",
       stopped: "ध्वनिः समाप्ता",
-      listenSection: "इमं विभागं शृण्वन्तु",
+      listenSection: "श्रूयताम्",
       speed: "गतिः",
       voice: "स्वर-विशेषज्ञः",
       male: "पुरुष-स्वरः",
@@ -868,13 +886,19 @@ export const translations: Record<LanguageCode, TranslationDictionary> = {
       {
             "id": "intro",
             "title": "परिचयः",
-            "targetElementId": "about",
+            "targetElementId": "hero",
             "text": "सर्वेभ्यो नमः! अहम् आदर्श पाण्डेयः। अहम् एकः तन्त्रांश-अभियन्ता अस्मि, यस्य पश्चभाग-प्रणालीषु, वितरितासु व्यवस्थासु नूतन-कृत्रिमबुद्धौ च गभीरः अनुरागः अनुभवश्च वर्तते।"
+      },
+      {
+        "id": "footprint",
+        "title": "उत्पादन-कार्यम्",
+        "targetElementId": "telemetry",
+        "text": "एक्सेञ्चर्-संस्थायां, अहं प्रेस्टो एफपीएस कृते उच्च-क्षमता-युक्त-पश्चभाग-प्रणालीषु कार्यं करोमि याः प्रतिदिनं दश-लक्षं व्यवहारान् निर्वहन्ति, एडब्ल्यूएस-उपकरणेषु च दूरमापन-प्रक्रियाम् चालयन्ति।"
       },
       {
             "id": "mindset",
             "title": "अभियान्त्रिकी-दृष्टिः",
-            "targetElementId": "about",
+            "targetElementId": "doctrine",
             "text": "मम अभियान्त्रिकी-दृष्टिः सर्वदा प्रणाली-स्थिरतायाः स्वच्छ-सङ्केत-लेखनस्य च पक्षे अस्ति, येन कार्यं सर्वदा सुचारुरूपेण चलेत्।"
       },
       {
@@ -942,10 +966,10 @@ export const translations: Record<LanguageCode, TranslationDictionary> = {
     },
     audio: {
       readAloud: "ಧ್ವನಿಯನ್ನು ಆಲಿಸಿ",
-      playing: "ಧ್ವನಿ ರಚಿಸಲಾಗುತ್ತಿದೆ...",
+      playing: "ಪ್ಲೇ ಆಗುತ್ತಿದೆ",
       paused: "ಧ್ವನಿಯನ್ನು ವಿರಾಮಗೊಳಿಸಲಾಗಿದೆ",
       stopped: "ಧ್ವನಿಯನ್ನು ನಿಲ್ಲಿಸಲಾಗಿದೆ",
-      listenSection: "ಈ ವಿಭಾಗವನ್ನು ಆಲಿಸಿ",
+      listenSection: "ಆಲಿಸಿ",
       speed: "ವೇಗ",
       voice: "ಧ್ವನಿ ತಜ್ಞರು",
       male: "ಸ್ಟುಡಿಯೋ ಪುರುಷ",
@@ -1101,13 +1125,19 @@ export const translations: Record<LanguageCode, TranslationDictionary> = {
       {
             "id": "intro",
             "title": "ಪರಿಚಯ",
-            "targetElementId": "about",
+            "targetElementId": "hero",
             "text": "ನಮಸ್ಕಾರ ಎಲ್ಲರಿಗೂ, ನಾನು ಆದರ್ಶ್ ಪಾಂಡೆ! ನಾನು ಸ್ಕೇಲೆಬಲ್ ಬ್ಯಾಕೆಂಡ್ ಸಿಸ್ಟಮ್ಸ್, ಡಿಸ್ಟ್ರಿಬ್ಯೂಟೆಡ್ ಆರ್ಕಿಟೆಕ್ಚರ್ ಮತ್ತು ಜೆನ್ ಎಐ ತಂತ್ರಜ್ಞಾನಗಳಲ್ಲಿ ಆಸಕ್ತಿ ಮತ್ತು ಅನುಭವ ಹೊಂದಿರುವ ಸಾಫ್ಟ್‌ವೇರ್ ಇಂಜಿನಿಯರ್."
+      },
+      {
+        "id": "footprint",
+        "title": "ಕೆಲಸ ಮತ್ತು ಅನುಭವ",
+        "targetElementId": "telemetry",
+        "text": "ಆಕ್ಸೆಂಚರ್‌ನಲ್ಲಿ, ನಾನು ಪ್ರೆಸ್ಟೋ ಎಫ್‌ಪಿಎಸ್‌ಗಾಗಿ ಪ್ರತಿದಿನ ಹತ್ತು ಲಕ್ಷಕ್ಕೂ ಹೆಚ್ಚು ವಹಿವಾಟುಗಳನ್ನು ನಿರ್ವಹಿಸುವ ಹೈ-ಥ್ರೂಪುಟ್ ಟ್ರಾನ್ಸಿಟ್ ಮೈಕ್ರೋಸರ್ವಿಸಸ್‌ಗಳು ಮತ್ತು ಎಡಬ್ಲ್ಯೂಎಸ್‌ನಲ್ಲಿ ಐಒಟಿ ಟೆಲಿಮೆಟ್ರಿಯನ್ನು ನಿರ್ಮಿಸುತ್ತೇನೆ."
       },
       {
             "id": "mindset",
             "title": "ಇಂಜಿನಿಯರಿಂಗ್ ಚಿಂತನೆ",
-            "targetElementId": "about",
+            "targetElementId": "doctrine",
             "text": "ಉನ್ನತ ವಿಶ್ವಾಸಾರ್ಹತೆ, ಸ್ಪಷ್ಟವಾದ ಕೋಡಿಂಗ್ ಮತ್ತು ಯಾವುದೇ ಸಂದರ್ಭದಲ್ಲೂ ದೃಢವಾಗಿ ಕಾರ್ಯನಿರ್ವಹಿಸುವ ವ್ಯವಸ್ಥೆಗಳನ್ನು ನಿರ್ಮಿಸುವುದು ನನ್ನ ಮುಖ್ಯ ಗುರಿ."
       },
       {
@@ -1334,13 +1364,13 @@ export const translations: Record<LanguageCode, TranslationDictionary> = {
       {
             "id": "intro",
             "title": "அறிமுகம்",
-            "targetElementId": "about",
+            "targetElementId": "hero",
             "text": "வணக்கம்! நான் ஆதர்ஷ் பாண்டே. அளவிடக்கூடிய பின்தள அமைப்புகள், விநியோகிக்கப்பட்ட கட்டமைப்பு மற்றும் ஜெனரேட்டிவ் ஏஐ தொழில்நுட்பங்களில் மிகுந்த ஆர்வமும் அனுபவமும் கொண்ட மென்பொருள் பொறியாளர்."
       },
       {
             "id": "mindset",
             "title": "பொறியியல் அணுகுமுறை",
-            "targetElementId": "about",
+            "targetElementId": "doctrine",
             "text": "எனது பொறியியல் அணுகுமுறை உயர் நம்பகத்தன்மை, தெளிவான வடிவமைப்பு மற்றும் அதிக சுமைகளிலும் நிலைத்தன்மையுடன் செயல்படும் குறியீட்டை உருவாக்குவதாகும்."
       },
       {
@@ -1408,10 +1438,10 @@ export const translations: Record<LanguageCode, TranslationDictionary> = {
     },
     audio: {
       readAloud: "వినండి",
-      playing: "వాయిస్ తయారవుతోంది...",
+      playing: "ప్లే అవుతోంది",
       paused: "ఆడియో పాజ్ చేయబడింది",
       stopped: "ఆడియో ఆపబడింది",
-      listenSection: "ఈ విభాగం వినండి",
+      listenSection: "వినండి",
       speed: "వేగం",
       voice: "వాయిస్ స్పెషలిస్ట్",
       male: "స్టూడియో పురుష",
@@ -1567,13 +1597,19 @@ export const translations: Record<LanguageCode, TranslationDictionary> = {
       {
             "id": "intro",
             "title": "పరిచయం",
-            "targetElementId": "about",
+            "targetElementId": "hero",
             "text": "నమస్తే! నేను ఆదర్శ్ పాండే. స్కేలబుల్ బ్యాకెండ్ సిస్టమ్స్, డిస్ట్రిబ్యూటెడ్ ఆర్కిటెక్చర్ మరియు జెనరేటివ్ ఏఐలలో మంచి అనుభవం మరియు ఆసక్తి ఉన్న సాఫ్ట్‌వేర్ ఇంజనీర్‌ని."
+      },
+      {
+        "id": "footprint",
+        "title": "ఉత్పత్తి అనుభవం",
+        "targetElementId": "telemetry",
+        "text": "యాక్సెంట్చర్‌లో, రోజుకు పది లక్షలకు పైగా లావాదేవీలను నిర్వహించే ప్రెస్టో ఎఫ్‌పిఎస్ రవాణా మైక్రోసర్వీసెస్ మరియు ఏడబ్ల్యుఎస్ ఐఓటీ టెలిమెట్రీ వ్యవస్థలను నిర్మిస్తున్నాను."
       },
       {
             "id": "mindset",
             "title": "ఇంజనీరింగ్ విధానం",
-            "targetElementId": "about",
+            "targetElementId": "doctrine",
             "text": "నా ఇంజనీరింగ్ విధానం ఎల్లప్పుడూ సిస్టమ్ విశ్వసనీయత, స్పష్టమైన పద్ధతులు మరియు అధిక ట్రాఫిక్‌లోనూ స్థిరంగా పనిచేసే కోడ్‌పై ఆధారపడి ఉంటుంది."
       },
       {
@@ -1641,10 +1677,10 @@ export const translations: Record<LanguageCode, TranslationDictionary> = {
     },
     audio: {
       readAloud: "കേൾക്കുക",
-      playing: "ശബ്ദം സൃഷ്ടിക്കുന്നു...",
+      playing: "പ്ലേ ചെയ്യുന്നു",
       paused: "ഓഡിയോ താൽക്കാലികമായി നിർത്തി",
       stopped: "ഓഡിയോ നിർത്തി",
-      listenSection: "ഈ ഭാഗം കേൾക്കുക",
+      listenSection: "കേൾക്കൂ",
       speed: "വേഗത",
       voice: "ശബ്ദ വിദഗ്ദ്ധൻ",
       male: "സ്റ്റുഡിയോ പുരുഷൻ",
@@ -1800,13 +1836,19 @@ export const translations: Record<LanguageCode, TranslationDictionary> = {
       {
             "id": "intro",
             "title": "ആമുഖം",
-            "targetElementId": "about",
+            "targetElementId": "hero",
             "text": "നമസ്കാരം! ഞാൻ ആദർശ് പാണ്ഡെ. സ്കേലബിൾ ബാക്കെൻഡ് സിസ്റ്റങ്ങൾ, ഡിസ്ട്രിബ്യൂട്ടഡ് ആർക്കിടെക്ചർ, ജനറേറ്റീവ് എഐ എന്നിവയിൽ താല്പര്യവും അനുഭവപരിചയവുമുള്ള ഒരു സോഫ്റ്റ്‌വെയർ എഞ്ചിനീയറാണ് ഞാൻ."
+      },
+      {
+        "id": "footprint",
+        "title": "പ്രവർത്തന പരിചയം",
+        "targetElementId": "telemetry",
+        "text": "ആക്സെഞ്ചറിൽ, പ്രതിദിനം പത്ത് ലക്ഷത്തിലധികം ഇടപാടുകൾ കൈകാര്യം ചെയ്യുന്ന പ്രെസ്റ്റോ എഫ്പിഎസ് ട്രാൻസിറ്റ് മൈക്രോസർവീസുകളും എഡബ്ല്യുഎസ് ഐഒടി ടെലിമെട്രി സംവിധാനങ്ങളും ഞാൻ വികസിപ്പിക്കുന്നു."
       },
       {
             "id": "mindset",
             "title": "എഞ്ചിനീയറിംഗ് വീക്ഷണം",
-            "targetElementId": "about",
+            "targetElementId": "doctrine",
             "text": "ഉയർന്ന വിശ്വാസ്യത, സിസ്റ്റം ചിന്താഗതി, ഏത് സാഹചര്യത്തിലും സുസ്ഥിരമായി പ്രവർത്തിക്കുന്ന മികച്ച കോഡ് എന്നിവയാണ് എന്റെ പ്രവർത്തന ശൈലി."
       },
       {
@@ -1874,10 +1916,10 @@ export const translations: Record<LanguageCode, TranslationDictionary> = {
     },
     audio: {
       readAloud: "ऑडिओ ऐका",
-      playing: "आवाज तयार होत आहे...",
+      playing: "सुरू आहे",
       paused: "ऑडिओ थांबवला आहे",
       stopped: "ऑडिओ बंद केला",
-      listenSection: "हा विभाग ऐका",
+      listenSection: "ऐका",
       speed: "गती",
       voice: "आवाज तज्ज्ञ",
       male: "स्टुडिओ पुरुष",
@@ -2033,13 +2075,19 @@ export const translations: Record<LanguageCode, TranslationDictionary> = {
       {
             "id": "intro",
             "title": "परिचय",
-            "targetElementId": "about",
+            "targetElementId": "hero",
             "text": "नमस्कार! मी आदर्श पाण्डेय. स्केलेबल बॅकएंड सिस्टीम्स, डिस्ट्रिब्युटेड आर्किटेक्चर आणि जनरेटिव्ह एआय तंत्रज्ञानामध्ये विशेष रुची आणि अनुभव असलेला एक सॉफ्टवेअर इंजिनिअर."
+      },
+      {
+        "id": "footprint",
+        "title": "कामाचा अनुभव",
+        "targetElementId": "telemetry",
+        "text": "अ‍ॅक्सेंचरमध्ये, मी प्रेस्टो एफपीएस साठी दररोज दहा लाखांपेक्षा जास्त व्यवहार हाताळणाऱ्या हाय-थ्रूपूट ट्रान्झिट मायक्रोसर्व्हिसेस आणि एडब्ल्यूएस वरील आयओटी फ्लीट टेलिमेट्री प्रणालींवर काम करतो."
       },
       {
             "id": "mindset",
             "title": "इंजिनिअरिंग दृष्टिकोन",
-            "targetElementId": "about",
+            "targetElementId": "doctrine",
             "text": "माझा दृष्टिकोन नेहमीच सिस्टीमची स्थिरता, स्पष्टता आणि जास्त ट्रॅफिकमध्येही विश्वासार्हतेने काम करणाऱ्या कोडवर असतो."
       },
       {
@@ -2107,10 +2155,10 @@ export const translations: Record<LanguageCode, TranslationDictionary> = {
     },
     audio: {
       readAloud: "অডিও শুনুন",
-      playing: "কণ্ঠ তৈরি হচ্ছে...",
+      playing: "চলছে",
       paused: "অডিও থামানো হয়েছে",
       stopped: "অডিও বন্ধ",
-      listenSection: "এই অংশটি শুনুন",
+      listenSection: "শুনুন",
       speed: "গতি",
       voice: "কণ্ঠ বিশেষজ্ঞ",
       male: "স্টুডিও পুরুষ",
@@ -2266,13 +2314,19 @@ export const translations: Record<LanguageCode, TranslationDictionary> = {
       {
             "id": "intro",
             "title": "পরিচিতি",
-            "targetElementId": "about",
+            "targetElementId": "hero",
             "text": "নমস্কার! আমি আদর্শ পান্ডে। স্কেলেবল ব্যাকএন্ড সিস্টেম, ডিস্ট্রিবিউটেড আর্কিটেকচার এবং জেনারেটিভ এআই প্রযুক্তিতে গভীর আগ্রহ ও অভিজ্ঞতা সম্পন্ন একজন সফটওয়্যার ইঞ্জিনিয়ার।"
+      },
+      {
+        "id": "footprint",
+        "title": "কাজের অভিজ্ঞতা",
+        "targetElementId": "telemetry",
+        "text": "অ্যাকসেন্টারে, আমি প্রেস্টো এফপিএসের জন্য উচ্চ-ক্ষমতাসম্পন্ন ট্রানজিট মাইক্রোসার্ভিস তৈরি করি যা প্রতিদিন দশ লক্ষেরও বেশি লেনদেন পরিচালনা করে, এবং এডব্লিউএসে আইওটি টেলিমেট্রি প্রসেস করে।"
       },
       {
             "id": "mindset",
             "title": "ইঞ্জিনিয়ারিং দর্শন",
-            "targetElementId": "about",
+            "targetElementId": "doctrine",
             "text": "আমার ইঞ্জিনিয়ারিং দর্শন হলো সিস্টেমের নির্ভরযোগ্যতা, স্পষ্ট পরিকল্পনা এবং এমন টেকসই কোড লেখা যা জটিল পরিস্থিতিতেও অনায়াসে চলে।"
       },
       {
@@ -2340,10 +2394,10 @@ export const translations: Record<LanguageCode, TranslationDictionary> = {
     },
     audio: {
       readAloud: "ઓડિયો સાંભળો",
-      playing: "અવાજ બની રહ્યો છે...",
+      playing: "વાગી રહ્યું છે",
       paused: "ઓડિયો થોભાવ્યો છે",
       stopped: "ઓડિયો બંધ કર્યો",
-      listenSection: "આ વિભાગ સાંભળો",
+      listenSection: "સાંભળો",
       speed: "ઝડપ",
       voice: "અવાજ નિષ્ણાત",
       male: "સ્ટુડિયો પુરુષ",
@@ -2499,13 +2553,19 @@ export const translations: Record<LanguageCode, TranslationDictionary> = {
       {
             "id": "intro",
             "title": "પરિચય",
-            "targetElementId": "about",
+            "targetElementId": "hero",
             "text": "નમસ્તે! હું આદર્શ પાંડે. સ્કેલેબલ બેકએન્ડ સિસ્ટમ્સ, ડિસ્ટ્રિબ્યુટેડ આર્કિટેક્ચર અને જનરેટિવ એઆઈમાં ઊંડો રસ અને અનુભવ ધરાવતો સોફ્ટવેર એન્જિનિયર છું."
+      },
+      {
+        "id": "footprint",
+        "title": "કામ અને અનુભવ",
+        "targetElementId": "telemetry",
+        "text": "એક્સેન્ચરમાં, હું પ્રેસ્ટો એફપીએસ માટે રોજના દસ લાખથી વધુ વ્યવહારો સંભાળતી હાઇ-થ્રુપુટ ટ્રાન્ઝિટ માઇક્રોસર્વિસિસ અને એડબ્લ્યુએસ પર આઇઓટી ટેલિમેટ્રી સિસ્ટમ્સ પર કામ કરું છું."
       },
       {
             "id": "mindset",
             "title": "એન્જિનિયરિંગ અભિગમ",
-            "targetElementId": "about",
+            "targetElementId": "doctrine",
             "text": "મારો મુખ્ય વિચાર સિસ્ટમ વિશ્વસનીયતા, સ્પષ્ટ કોડિંગ અને ભારે ટ્રાફિકમાં પણ અડગ રહે તેવા માઇક્રોસર્વિસિસ બનાવવાનો છે."
       },
       {
@@ -2573,10 +2633,10 @@ export const translations: Record<LanguageCode, TranslationDictionary> = {
     },
     audio: {
       readAloud: "ਆਡੀਓ ਸੁਣੋ",
-      playing: "ਆਵਾਜ਼ ਤਿਆਰ ਹੋ ਰਹੀ ਹੈ...",
+      playing: "ਚੱਲ ਰਿਹਾ ਹੈ",
       paused: "ਆਡੀਓ ਰੋਕੀ ਗਈ",
       stopped: "ਆਡੀਓ ਬੰਦ ਕੀਤੀ ਗਈ",
-      listenSection: "ਇਹ ਭਾਗ ਸੁਣੋ",
+      listenSection: "ਸੁਣੋ",
       speed: "ਗਤੀ",
       voice: "ਆਵਾਜ਼ ਮਾਹਰ",
       male: "ਸਟੂਡੀਓ ਪੁਰਸ਼",
@@ -2732,13 +2792,19 @@ export const translations: Record<LanguageCode, TranslationDictionary> = {
       {
             "id": "intro",
             "title": "ਜਾਣ-ਪਛਾਣ",
-            "targetElementId": "about",
+            "targetElementId": "hero",
             "text": "ਸਤਿ ਸ਼੍ਰੀ ਅਕਾਲ ਜੀ! ਮੈਂ ਆਦਰਸ਼ ਪਾਂਡੇ। ਮੈਂ ਇੱਕ ਸਾਫਟਵੇਅਰ ਇੰਜੀਨੀਅਰ ਹਾਂ, ਜਿਸਦੀ ਸਕੇਲੇਬਲ ਬੈਕਐਂਡ ਸਿਸਟਮਾਂ, ਡਿਸਟ੍ਰੀਬਿਊਟਿਡ ਆਰਕੀਟੈਕਚਰ ਅਤੇ ਜੈਨ ਏਆਈ ਵਿੱਚ ਡੂੰਘੀ ਦਿਲਚਸਪੀ ਤੇ ਤਜਰਬਾ ਹੈ।"
+      },
+      {
+        "id": "footprint",
+        "title": "ਕੰਮ ਦਾ ਤਜਰਬਾ",
+        "targetElementId": "telemetry",
+        "text": "ਐਕਸੈਂਚਰ ਵਿਖੇ, ਮੈਂ ਪ੍ਰੈਸਟੋ ਐਫਪੀਐਸ ਲਈ ਰੋਜ਼ਾਨਾ ਦਸ ਲੱਖ ਤੋਂ ਵੱਧ ਲੈਣ-ਦੇਣ ਸੰਭਾਲਣ ਵਾਲੀਆਂ ਹਾਈ-ਥ੍ਰੂਪੁੱਟ ਟਰਾਂਜ਼ਿਟ ਮਾਈਕ੍ਰੋਸਰਵਿਸਾਂ ਅਤੇ ਏਡਬਲਿਊਐਸ ਤੇ ਆਈਓਟੀ ਟੈਲੀਮੈਟਰੀ ਪ੍ਰਣਾਲੀਆਂ ਤੇ ਕੰਮ ਕਰਦਾ ਹਾਂ।"
       },
       {
             "id": "mindset",
             "title": "ਇੰਜੀਨੀਅਰਿੰਗ ਸੋਚ",
-            "targetElementId": "about",
+            "targetElementId": "doctrine",
             "text": "ਮੇਰੀ ਸੋਚ ਹਮੇਸ਼ਾ ਸਿਸਟਮ ਭਰੋਸੇਯੋਗਤਾ ਅਤੇ ਸਾਫ਼ ਕੋਡ 'ਤੇ ਹੁੰਦੀ ਹੈ, ਜੋ ਭਾਰੀ ਟ੍ਰੈਫਿਕ ਵਿੱਚ ਵੀ ਬਿਨਾਂ ਰੁਕਾਵਟ ਨਿਰੰਤਰ ਕੰਮ ਕਰ ਸਕੇ।"
       },
       {
@@ -2806,10 +2872,10 @@ export const translations: Record<LanguageCode, TranslationDictionary> = {
     },
     audio: {
       readAloud: "ଅଡିଓ ଶୁଣନ୍ତୁ",
-      playing: "ସ୍ୱର ପ୍ରସ୍ତୁତ ହେଉଛି...",
+      playing: "ଚାଲୁଅଛି",
       paused: "ଅଡିଓ ବନ୍ଦ ରହିଛି",
       stopped: "ଅଡିଓ ସମାପ୍ତ ହୋଇଛି",
-      listenSection: "ଏହି ଅଂଶ ଶୁଣନ୍ତୁ",
+      listenSection: "ଶୁଣନ୍ତୁ",
       speed: "ଗତି",
       voice: "ସ୍ୱର ବିଶେଷଜ୍ଞ",
       male: "ଷ୍ଟୁଡିଓ ପୁରୁଷ",
@@ -2965,13 +3031,19 @@ export const translations: Record<LanguageCode, TranslationDictionary> = {
       {
             "id": "intro",
             "title": "ପରିଚୟ",
-            "targetElementId": "about",
+            "targetElementId": "hero",
             "text": "ନମସ୍କାର! ମୁଁ ଆଦର୍ଶ ପାଣ୍ଡେ। ସ୍କେଲେବଲ୍ ବ୍ୟାକ୍ଏଣ୍ଡ୍ ସିଷ୍ଟମ୍, ଡିଷ୍ଟ୍ରିବ୍ୟୁଟେଡ୍ ଆର୍କିଟେକ୍ଚର୍ ଏବଂ ଜେନେରେଟିଭ୍ ଏଆଇ କ୍ଷେତ୍ରରେ ଅଭିଜ୍ଞତା ଥିବା ଜଣେ ସଫ୍ଟୱେର୍ ଇଞ୍ଜିନିୟର୍।"
+      },
+      {
+        "id": "footprint",
+        "title": "କାର୍ଯ୍ୟ ଅଭିଜ୍ଞତା",
+        "targetElementId": "telemetry",
+        "text": "ଆକ୍ସେଞ୍ଚରରେ, ମୁଁ ପ୍ରେଷ୍ଟୋ ଏଫପିଏସ ପାଇଁ ଦୈନିକ ଦଶ ଲକ୍ଷରୁ ଅଧିକ କାରବାର ପରିଚାଳନା କରୁଥିବା ହାଇ-ଥ୍ରୁପୁଟ୍ ଟ୍ରାଞ୍ଜିଟ୍ ମାଇକ୍ରୋସର୍ଭିସ୍ ଏବଂ ଏଡବ୍ଲ୍ୟୁଏସରେ ଆଇଓଟି ଟେଲିମେଟ୍ରି ବିକଶିତ କରୁଛି।"
       },
       {
             "id": "mindset",
             "title": "ଇଞ୍ଜିନିୟରିଂ ଚିନ୍ତାଧାରା",
-            "targetElementId": "about",
+            "targetElementId": "doctrine",
             "text": "ମୋର ଇଞ୍ଜିନିୟରିଂ ଚିନ୍ତାଧାରା ସର୍ବଦା ସିଷ୍ଟମର ସ୍ଥାୟୀତ୍ୱ, ସ୍ପଷ୍ଟତା ଏବଂ ଅତ୍ୟଧିକ ଚାପରେ ବି ସୁଚାରୁ ରୂପେ ଚାଲୁଥିବା କୋଡ୍ ଉପରେ ପର୍ଯ୍ୟବସିତ।"
       },
       {
