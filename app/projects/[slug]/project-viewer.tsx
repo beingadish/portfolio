@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import type { ProjectShowcase } from "../../data/project-showcases";
 import { ProjectAudioBar } from "../../components/project-audio-bar";
-import { AwsArchitectureDiagramView } from "../../components/aws-architecture-diagram";
+import { ArchitectureViewer } from "../../components/architecture-viewer";
 import { OpenApiSwaggerViewer } from "../../components/openapi-swagger-viewer";
 
 interface ProjectViewerProps {
@@ -81,7 +81,7 @@ export function ProjectViewer({ project, allProjects }: ProjectViewerProps) {
                 : "text-[#8c8f9a] hover:text-[#edeae3]"
             }`}
           >
-            AWS Architecture
+            Architecture
           </button>
           <button
             onClick={() => setActiveTab("api")}
@@ -254,7 +254,7 @@ export function ProjectViewer({ project, allProjects }: ProjectViewerProps) {
                       <div>
                         <h3 className="text-lg font-medium text-[#edeae3]">{project.name} Interface</h3>
                         <p className="mt-1 text-xs text-[#8c8f9a] leading-relaxed">
-                          Sprint target: Frontend hosted on Vercel, connected to backend microservices on AWS ({project.awsServices[0]}).
+                          Production deployment: Interactive client application coupled to scalable backend microservices and databases.
                         </p>
                       </div>
 
@@ -272,7 +272,7 @@ export function ProjectViewer({ project, allProjects }: ProjectViewerProps) {
                           <span className="text-[10px] uppercase text-[#8c8f9a]">Backend Host</span>
                           <span className="text-[#f59e0b] font-medium flex items-center gap-1">
                             <span className="w-1.5 h-1.5 rounded-full bg-[#f59e0b]" />
-                            AWS Cloud
+                            Cloud Backend
                           </span>
                           <span className="text-[10px] text-[#6e717d] truncate">{project.backendApiUrl}</span>
                         </div>
@@ -301,7 +301,7 @@ export function ProjectViewer({ project, allProjects }: ProjectViewerProps) {
                           onClick={() => setActiveTab("architecture")}
                           className="px-4 py-2 rounded-lg border border-[#2dd4bf]/40 bg-[#2dd4bf]/10 text-[#2dd4bf] text-xs font-mono hover:bg-[#2dd4bf]/20 transition-colors"
                         >
-                          Inspect AWS Architecture Topology →
+                          Inspect System Architecture →
                         </button>
                       </div>
                     </div>
@@ -312,15 +312,15 @@ export function ProjectViewer({ project, allProjects }: ProjectViewerProps) {
           </div>
         )}
 
-        {/* TAB 2: Architecture Topology & AWS Cloud Services */}
+        {/* TAB 2: System Architecture & Engineering Design */}
         {activeTab === "architecture" && (
           <div className="max-w-5xl w-full mx-auto p-4 sm:p-8 flex flex-col gap-8">
             <div>
               <span className="font-mono text-xs text-[#2dd4bf] uppercase tracking-wider">
-                System Design &amp; Cloud Infrastructure
+                System Design &amp; Infrastructure
               </span>
               <h2 className="text-2xl sm:text-3xl font-light text-white mt-1">
-                {project.name} AWS Architecture
+                {project.name} Architecture
               </h2>
               <p className="mt-2 text-sm text-[#9da1ad] max-w-3xl leading-relaxed">
                 {project.summary}
@@ -338,15 +338,8 @@ export function ProjectViewer({ project, allProjects }: ProjectViewerProps) {
               ))}
             </div>
 
-            {/* Visual Interactive AWS Architecture Topology Diagram */}
-            <div className="flex flex-col gap-3">
-              <h3 className="font-mono text-xs uppercase tracking-wider text-[#8c8f9a] flex items-center gap-2">
-                <span>Interactive Cloud Architecture Diagram</span>
-                <span className="text-[#2dd4bf]">●</span>
-                <span className="text-[11px] text-white/50 font-normal">AWS Verified Blueprint</span>
-              </h3>
-              <AwsArchitectureDiagramView slug={project.slug} />
-            </div>
+            {/* Visual Interactive Architecture, ERD, and Data Flow Explorer */}
+            <ArchitectureViewer slug={project.slug} />
 
             {/* Architecture Highlights */}
             <div className="flex flex-col gap-4 pt-4 border-t border-white/10">
