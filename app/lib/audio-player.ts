@@ -36,6 +36,32 @@ class PortfolioAudioPlayer {
       this.masterAudio = new Audio();
       this.masterAudio.id = "portfolio-master-audio";
       this.masterAudio.preload = "auto";
+      this.masterAudio.defaultPlaybackRate = this.currentRate;
+      this.masterAudio.playbackRate = this.currentRate;
+      if ("preservesPitch" in this.masterAudio) {
+        (this.masterAudio as unknown as { preservesPitch: boolean }).preservesPitch = true;
+      }
+
+      // Enforce currentRate across all media lifecycle states (loadedmetadata, canplay, play, ratechange)
+      const enforceRate = () => {
+        if (!this.masterAudio) return;
+        try {
+          this.masterAudio.defaultPlaybackRate = this.currentRate;
+          if (Math.abs(this.masterAudio.playbackRate - this.currentRate) > 0.01) {
+            this.masterAudio.playbackRate = this.currentRate;
+          }
+        } catch {
+          // ignore
+        }
+      };
+
+      this.masterAudio.addEventListener("loadedmetadata", enforceRate);
+      this.masterAudio.addEventListener("loadeddata", enforceRate);
+      this.masterAudio.addEventListener("canplay", enforceRate);
+      this.masterAudio.addEventListener("play", enforceRate);
+      this.masterAudio.addEventListener("playing", enforceRate);
+      this.masterAudio.addEventListener("ratechange", enforceRate);
+
       if (!document.getElementById("portfolio-master-audio")) {
         this.masterAudio.style.display = "none";
         document.body.appendChild(this.masterAudio);
@@ -98,6 +124,8 @@ class PortfolioAudioPlayer {
     this.isPausedState = false;
     if (this.masterAudio && this.masterAudio.paused) {
       try {
+        this.masterAudio.defaultPlaybackRate = this.currentRate;
+        this.masterAudio.playbackRate = this.currentRate;
         this.masterAudio.play().catch(() => {});
       } catch {
         // ignore
@@ -106,10 +134,23 @@ class PortfolioAudioPlayer {
   }
 
   public setRate(rate: number): void {
-    this.currentRate = Math.min(2.0, Math.max(0.5, rate));
-    if (this.masterAudio) {
-      this.masterAudio.playbackRate = this.currentRate;
+    const clampedRate = Math.min(2.0, Math.max(0.5, rate));
+    this.currentRate = clampedRate;
+    if (this.currentOptions) {
+      this.currentOptions.rate = clampedRate;
     }
+    if (this.masterAudio) {
+      try {
+        this.masterAudio.defaultPlaybackRate = clampedRate;
+        this.masterAudio.playbackRate = clampedRate;
+      } catch {
+        // ignore
+      }
+    }
+  }
+
+  public getRate(): number {
+    return this.currentRate;
   }
 
   public async playSequence(
@@ -127,6 +168,12 @@ class PortfolioAudioPlayer {
     this.currentOptions = options;
     if (options.rate) {
       this.currentRate = options.rate;
+    }
+
+    const audio = this.getAudioElement();
+    if (audio) {
+      audio.defaultPlaybackRate = this.currentRate;
+      audio.playbackRate = this.currentRate;
     }
 
     if (typeof window === "undefined" || tracks.length === 0) return;
@@ -203,6 +250,12 @@ class PortfolioAudioPlayer {
       this.currentRate = options.rate;
     }
 
+    const audio = this.getAudioElement();
+    if (audio) {
+      audio.defaultPlaybackRate = this.currentRate;
+      audio.playbackRate = this.currentRate;
+    }
+
     if (typeof window === "undefined") return;
 
     options.onTrackStart?.(0, briefId, text);
@@ -231,7 +284,17 @@ class PortfolioAudioPlayer {
 
       audio.pause();
       audio.currentTime = 0;
-      audio.playbackRate = this.currentRate;
+
+      const enforceRate = () => {
+        try {
+          audio.defaultPlaybackRate = this.currentRate;
+          if (Math.abs(audio.playbackRate - this.currentRate) > 0.01) {
+            audio.playbackRate = this.currentRate;
+          }
+        } catch {
+          // ignore
+        }
+      };
 
       let hasFallenBackToS3 = false;
 
@@ -246,7 +309,8 @@ class PortfolioAudioPlayer {
           hasFallenBackToS3 = true;
           audio.src = s3;
           audio.load();
-          audio.play().catch((err) => {
+          enforceRate();
+          audio.play().then(enforceRate).catch((err) => {
             audio.onended = null;
             audio.onerror = null;
             reject(err);
@@ -260,15 +324,17 @@ class PortfolioAudioPlayer {
 
       audio.src = local;
       audio.load();
+      enforceRate();
 
       const p = audio.play();
       if (p !== undefined) {
-        p.catch((err) => {
+        p.then(enforceRate).catch((err) => {
           if (!hasFallenBackToS3) {
             hasFallenBackToS3 = true;
             audio.src = s3;
             audio.load();
-            audio.play().catch((innerErr) => {
+            enforceRate();
+            audio.play().then(enforceRate).catch((innerErr) => {
               audio.onended = null;
               audio.onerror = null;
               reject(innerErr);
