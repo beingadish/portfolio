@@ -100,8 +100,8 @@ export const PROJECT_SHOWCASES: Record<string, ProjectShowcase> = {
     timeline: "Apr 2025 - Present",
     githubUrl: "https://github.com/beingadish/Clynic",
     localPath: "/Users/beingadish/Developer/CODE/SpringBoot/Clynic",
-    liveUrl: process.env.NEXT_PUBLIC_CLYNIC_URL || "http://13.203.201.69/clynic/",
-    backendApiUrl: process.env.NEXT_PUBLIC_CLYNIC_API_URL || "http://13.203.201.69/clynic-api",
+    liveUrl: process.env.NEXT_PUBLIC_CLYNIC_URL || "http://15.252.147.14/clynic/",
+    backendApiUrl: process.env.NEXT_PUBLIC_CLYNIC_API_URL || "http://15.252.147.14/clynic-api",
     status: "live",
     stack: [
       "Spring Boot 3",
@@ -165,8 +165,8 @@ export const PROJECT_SHOWCASES: Record<string, ProjectShowcase> = {
     timeline: "Jun 2026 - Present",
     githubUrl: "https://github.com/beingadish/JanMat",
     localPath: "/Users/beingadish/Developer/CODE/Projects/JanMat",
-    liveUrl: process.env.NEXT_PUBLIC_JANMAT_URL || "http://13.203.201.69",
-    backendApiUrl: process.env.NEXT_PUBLIC_JANMAT_API_URL || "http://13.203.201.69",
+    liveUrl: process.env.NEXT_PUBLIC_JANMAT_URL || "http://15.252.147.14",
+    backendApiUrl: process.env.NEXT_PUBLIC_JANMAT_API_URL || "http://15.252.147.14",
     status: "live",
     stack: [
       "Rust",
