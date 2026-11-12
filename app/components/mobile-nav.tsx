@@ -3,7 +3,6 @@
 import { useId, useState, useEffect } from "react";
 import { ANALYTICS_EVENTS } from "../lib/analytics";
 import { LiquidGlassToggle } from "./liquid-glass-toggle";
-import { LanguageSelector } from "./language-selector";
 import type { QuickLinkItem } from "../data/portfolio";
 
 type NavItem = {
@@ -59,7 +58,6 @@ export function MobileNav({
         </button>
 
         <div className="flex items-center gap-2">
-          <LanguageSelector compact />
           <LiquidGlassToggle />
         </div>
       </div>

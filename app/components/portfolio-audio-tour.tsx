@@ -232,7 +232,7 @@ export function SectionAudioButton({
     <button
       type="button"
       onClick={handleClick}
-      aria-label={`${isThisPlaying ? labels.playing : labels.listen} audio brief`}
+      aria-label={`${isThisPlaying ? "Playing" : "Listen"} audio brief`}
       className={`group inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border font-mono text-xs transition-all cursor-pointer select-none ${
         isThisPlaying
           ? "border-[#2dd4bf]/40 bg-[#2dd4bf]/10 text-[#2dd4bf] shadow-[0_0_12px_rgba(45,212,191,0.25)] font-semibold"
@@ -244,7 +244,7 @@ export function SectionAudioButton({
       {isThisPlaying ? (
         <>
           <EqualizerIcon />
-          <span className="font-semibold tracking-wide">{labels.playing}</span>
+          <span className="font-semibold tracking-wide">Playing</span>
         </>
       ) : isThisPaused ? (
         <>
@@ -252,7 +252,7 @@ export function SectionAudioButton({
             <rect x="6" y="4" width="4" height="16" rx="1" />
             <rect x="14" y="4" width="4" height="16" rx="1" />
           </svg>
-          <span className="font-medium tracking-wide">{labels.paused}</span>
+          <span className="font-medium tracking-wide">Paused</span>
         </>
       ) : (
         <>
@@ -269,7 +269,7 @@ export function SectionAudioButton({
             <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
             <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
           </svg>
-          <span className="tracking-wide">{labels.listen}</span>
+          <span className="tracking-wide">Listen</span>
         </>
       )}
     </button>
@@ -301,11 +301,12 @@ export function PortfolioAudioTour() {
     briefs,
   } = useAudioTour();
 
-  const { currentLanguage, languages } = useLanguage();
+  const { currentLanguage, languages, setLanguage } = useLanguage();
   const labels = UI_LABELS[currentLanguage] || UI_LABELS.en;
 
   const [isSectionsExpanded, setIsSectionsExpanded] = useState(false);
   const [showSpeedMenu, setShowSpeedMenu] = useState(false);
+  const [showLangMenu, setShowLangMenu] = useState(false);
 
   const currentLangLabel = useMemo(() => {
     const found = languages.find((l) => l.code === currentLanguage);
@@ -382,10 +383,58 @@ export function PortfolioAudioTour() {
               {labels.tour}
             </span>
             <span className="text-white/20 text-xs font-mono">•</span>
-            {/* Informational Language Badge (NOT a dropdown) */}
-            <span className="font-mono text-xs text-[#8c8f9a] bg-white/5 border border-white/10 px-2.5 py-0.5 rounded-md truncate max-w-[140px] sm:max-w-none">
-              {currentLangLabel}
-            </span>
+            {/* Interactive Indic & English Language Selector Dropdown */}
+            <div className="relative">
+              <button
+                type="button"
+                onClick={() => {
+                  setShowLangMenu(!showLangMenu);
+                  setShowSpeedMenu(false);
+                }}
+                title="Select language for audio tour"
+                className="flex items-center gap-1.5 font-mono text-xs text-[#edeae3] bg-white/5 hover:bg-white/10 border border-white/15 px-2.5 py-1 rounded-md transition-colors cursor-pointer select-none"
+              >
+                <span className="text-[#2dd4bf] text-xs">🌐</span>
+                <span className="font-medium truncate max-w-[95px] sm:max-w-[140px]">{currentLangLabel}</span>
+                <span className="text-[9px] text-[#8c8f9a]">▾</span>
+              </button>
+
+              {showLangMenu && (
+                <div className="absolute bottom-full mb-2 left-0 w-60 sm:w-64 max-h-72 overflow-y-auto custom-scrollbar bg-[#121318]/98 backdrop-blur-xl border border-white/20 rounded-xl shadow-[0_15px_40px_rgba(0,0,0,0.9)] p-1.5 z-50 flex flex-col gap-0.5 animate-in fade-in slide-in-from-bottom-2">
+                  <div className="px-2.5 py-1 text-[10px] font-mono uppercase tracking-wider text-[#8c8f9a] border-b border-white/10 mb-1">
+                    Select Audio Tour Language
+                  </div>
+                  {languages.map((lang) => {
+                    const isSelected = currentLanguage === lang.code;
+                    return (
+                      <button
+                        key={lang.code}
+                        type="button"
+                        onClick={() => {
+                          setLanguage(lang.code);
+                          setShowLangMenu(false);
+                        }}
+                        className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs font-mono transition-all cursor-pointer ${
+                          isSelected
+                            ? "bg-[#2dd4bf]/20 text-[#2dd4bf] border border-[#2dd4bf]/40 font-semibold"
+                            : "text-[#edeae3] hover:bg-white/10 border border-transparent"
+                        }`}
+                      >
+                        <div className="flex items-center gap-2 min-w-0">
+                          <span className="text-[10px] text-[#555760] font-mono shrink-0 uppercase">
+                            {lang.code}
+                          </span>
+                          <span className="truncate">{lang.name}</span>
+                        </div>
+                        <span className="text-xs text-[#8c8f9a] font-sans ml-2 shrink-0">
+                          {lang.nativeName}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Action Toolbar */}
@@ -394,7 +443,10 @@ export function PortfolioAudioTour() {
             <div className="relative">
               <button
                 type="button"
-                onClick={() => setShowSpeedMenu(!showSpeedMenu)}
+                onClick={() => {
+                  setShowSpeedMenu(!showSpeedMenu);
+                  setShowLangMenu(false);
+                }}
                 title="Change speed: 1x, 1.2x, 1.5x, 1.8x, 2x"
                 className="px-2.5 py-1 rounded-md border border-white/15 bg-white/5 hover:bg-white/10 text-xs font-mono font-medium text-[#edeae3] transition-colors flex items-center gap-1 cursor-pointer"
               >

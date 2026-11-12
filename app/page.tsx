@@ -4,7 +4,6 @@ import type { CSSProperties } from "react";
 import { useEffect, useState } from "react";
 import { MobileNav } from "./components/mobile-nav";
 import { NavDock } from "./components/nav-dock";
-import { LanguageSelector } from "./components/language-selector";
 import { KineticNodeMesh } from "./components/kinetic-node-mesh";
 import { SectionAudioButton } from "./components/portfolio-audio-tour";
 import { useLanguage } from "./context/language-context";
@@ -353,14 +352,12 @@ export default function Home() {
             ))}
           </nav>
 
-          {/* Clock, Language, Quick Links & Dispatch */}
+          {/* Clock, Quick Links & Dispatch */}
           <div className="flex items-center gap-3">
             <div className="hidden xl:flex items-center gap-2.5 font-mono text-[13px] text-[#555760] border-r border-white/10 pr-3">
               <span>BLR · UTC+5:30</span>
               <span className="text-[#edeae3] tabular-nums font-medium">{liveTime}</span>
             </div>
-
-            <LanguageSelector />
 
             <div className="hidden sm:flex items-center gap-1.5">
               {portfolioData.quickLinks.map((item) => (
