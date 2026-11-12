@@ -5,6 +5,7 @@ import Link from "next/link";
 import type { ProjectShowcase } from "../../data/project-showcases";
 import { ProjectAudioBar } from "../../components/project-audio-bar";
 import { AwsArchitectureDiagramView } from "../../components/aws-architecture-diagram";
+import { OpenApiSwaggerViewer } from "../../components/openapi-swagger-viewer";
 
 interface ProjectViewerProps {
   project: ProjectShowcase;
@@ -394,38 +395,14 @@ export function ProjectViewer({ project, allProjects }: ProjectViewerProps) {
                 Service API Specification
               </span>
               <h2 className="text-2xl sm:text-3xl font-light text-white mt-1">
-                API Routes &amp; Event Channels
+                API Routes &amp; OpenAPI Swagger Contract
               </h2>
               <p className="mt-2 text-sm text-[#9da1ad] max-w-3xl leading-relaxed">
-                Core RPC, REST, and streaming message contracts exposed by {project.name}.
+                Complete production REST, gRPC, and event stream specifications with parameter schemas, request bodies, response models, and interactive live execution.
               </p>
             </div>
 
-            <div className="rounded-xl border border-white/10 bg-[#121318] divide-y divide-white/10 font-mono text-xs overflow-hidden">
-              {project.endpoints.map((ep) => {
-                const methodColor = {
-                  GET: "text-[#10b981] bg-[#10b981]/10 border-[#10b981]/30",
-                  POST: "text-[#3b82f6] bg-[#3b82f6]/10 border-[#3b82f6]/30",
-                  PUT: "text-[#f59e0b] bg-[#f59e0b]/10 border-[#f59e0b]/30",
-                  DELETE: "text-[#ef4444] bg-[#ef4444]/10 border-[#ef4444]/30",
-                  gRPC: "text-[#a855f7] bg-[#a855f7]/10 border-[#a855f7]/30",
-                  KAFKA: "text-[#ec4899] bg-[#ec4899]/10 border-[#ec4899]/30",
-                  ZK: "text-[#06b6d4] bg-[#06b6d4]/10 border-[#06b6d4]/30",
-                }[ep.method] || "text-[#2dd4bf] bg-[#2dd4bf]/10 border-[#2dd4bf]/30";
-
-                return (
-                  <div key={ep.path} className="p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-white/[0.02] transition-colors">
-                    <div className="flex items-center gap-3">
-                      <span className={`px-2 py-0.5 rounded border text-[11px] font-semibold tracking-wider ${methodColor}`}>
-                        {ep.method}
-                      </span>
-                      <code className="text-white font-mono text-[13px]">{ep.path}</code>
-                    </div>
-                    <span className="text-[#9da1ad] font-sans text-xs">{ep.description}</span>
-                  </div>
-                );
-              })}
-            </div>
+            <OpenApiSwaggerViewer project={project} />
           </div>
         )}
       </main>
