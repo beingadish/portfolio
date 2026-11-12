@@ -1293,6 +1293,12 @@ li.flex > span:last-child {
   border-color: color-mix(in srgb, var(--teal) 40%, transparent);
 }
 
+.font-editorial-italic {
+  font-family: "Newsreader", Georgia, "Times New Roman", serif;
+  font-style: italic;
+  font-weight: 400;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .term-cursor { animation: none; }
   .hero-name { animation: none; }

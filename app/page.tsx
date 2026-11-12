@@ -8,6 +8,7 @@ import { NavDock } from "./components/nav-dock";
 import { LiquidGlassToggle } from "./components/liquid-glass-toggle";
 import { LanguageSelector } from "./components/language-selector";
 import { SectionListenButton } from "./components/ninada-player";
+import { KineticNodeMesh } from "./components/kinetic-node-mesh";
 import { useLanguage } from "./context/language-context";
 import { ShowcaseLiveContent } from "./components/showcase-live-content";
 import { MobileArticleSlider } from "./components/mobile-article-slider";
@@ -489,6 +490,14 @@ export default function Home() {
         <section id="hero" className="hero-grid mt-4 grid items-stretch gap-6 md:gap-6 lg:auto-rows-fr lg:grid-cols-[1.15fr_0.85fr]">
           <article className="section-panel hero-intro reveal flex h-full self-stretch flex-col justify-center p-6 sm:p-9 [animation-delay:120ms]">
             <div>
+              {/* Minimal Architectural Specimen Marker */}
+              <div className="flex items-center gap-2 mb-2.5 font-mono text-[10px] uppercase tracking-widest text-[var(--muted)]">
+                <span className="w-1.5 h-1.5 rounded-full bg-[var(--teal)] animate-pulse" />
+                <span>SPECIMEN // 2026-ENG · BENGALURU, INDIA</span>
+                <span className="hidden sm:inline">•</span>
+                <span className="hidden sm:inline text-[var(--teal)]">FLEET TELEMETRY &amp; TRANSIT INFRASTRUCTURE</span>
+              </div>
+
               <div className="flex items-center justify-between gap-3">
                 <p className="eyebrow">{t.hero.eyebrow}</p>
                 <SectionListenButton
@@ -496,32 +505,38 @@ export default function Home() {
                   text={`${t.hero.name}. ${t.hero.role}. ${t.hero.summary} ${t.hero.pitch}`}
                 />
               </div>
-              <h1 className="hero-name display-font mt-3 text-[3rem] font-extrabold leading-[1.04] tracking-tight sm:text-[4rem]">
+              <h1 className="hero-name display-font mt-2 text-[2.75rem] font-extrabold leading-[1.04] tracking-tight sm:text-[3.75rem]">
                 {t.hero.name}
                 <span className="term-cursor" aria-hidden="true" />
               </h1>
-              <p className="mt-3 text-lg leading-relaxed text-[var(--teal)] sm:text-xl">{t.hero.role}</p>
-              <p className="hero-meta mt-3 flex items-start gap-1.5">
-                <span className="mt-1 shrink-0">
+              <p className="mt-2.5 text-lg leading-relaxed text-[var(--teal)] sm:text-xl font-medium">{t.hero.role}</p>
+              <p className="hero-meta mt-2.5 flex items-start gap-1.5 text-xs text-[var(--muted)]">
+                <span className="mt-0.5 shrink-0">
                   <LocationPinIcon />
                 </span>
                 <span>{t.hero.location}</span>
               </p>
             </div>
 
-            <div className="mt-5">
-              <p className="hero-summary max-w-2xl">{t.hero.summary}</p>
-              <p className="hero-pitch mt-3 max-w-2xl">{t.hero.pitch}</p>
+            <div className="mt-5 space-y-3">
+              <p className="hero-summary max-w-2xl text-base sm:text-lg leading-relaxed text-[var(--ink)]">
+                Engineering resilient <span className="font-editorial-italic font-serif italic text-[var(--teal)]">distributed backends</span>, high-throughput <span className="font-editorial-italic font-serif italic text-[var(--teal)]">event pipelines</span>, and grounded <span className="font-editorial-italic font-serif italic text-[var(--teal)]">semantic retrieval</span>.
+              </p>
+              <p className="hero-pitch max-w-2xl text-sm leading-relaxed text-[var(--muted)]">
+                {t.hero.pitch}
+              </p>
             </div>
 
-            <div className="mt-7">
-              <div className="flex flex-wrap gap-2">
-                <span className="chip">{t.hero.chips.backend}</span>
-                <span className="chip">{t.hero.chips.distributed}</span>
-                <span className="chip">{t.hero.chips.reliability}</span>
+            <div className="mt-6">
+              <div className="flex flex-wrap gap-2 text-xs font-mono">
+                <span className="chip">Java 21 / Spring Boot</span>
+                <span className="chip">Kafka &amp; MQTT</span>
+                <span className="chip">AWS (IoT Core, ECS, Kinesis)</span>
+                <span className="chip">Redis GEO &amp; Postgres</span>
+                <span className="chip">Kubernetes (k3s)</span>
               </div>
 
-              <div className="hero-actions mt-4 flex flex-wrap items-center gap-3">
+              <div className="hero-actions mt-5 flex flex-wrap items-center gap-3">
                 <a
                   className="btn-primary px-6 py-3"
                   href={resumeLink}
@@ -541,13 +556,13 @@ export default function Home() {
             </div>
           </article>
 
-          <aside className="section-panel hero-session reveal flex h-full flex-col p-6 sm:p-7 [animation-delay:200ms]">
+          <aside className="section-panel hero-session reveal flex h-full flex-col p-5 sm:p-6 [animation-delay:200ms]">
             <div className="flex items-center justify-between">
               <p className="eyebrow">{t.hero.sessionTitle}</p>
               <span className="chip text-xs">{t.hero.sessionChip}</span>
             </div>
 
-            <div className="terminal-window mt-4">
+            <div className="terminal-window mt-3.5">
               <div className="terminal-bar">
                 <span className="terminal-dot terminal-dot-red" />
                 <span className="terminal-dot terminal-dot-amber" />
@@ -569,93 +584,22 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Systems Topology & Telemetry Specimen (Zero-CPU authentic architecture graph) */}
-            <div className="telemetry-specimen mt-4 flex-1 flex flex-col justify-between gap-3 rounded-xl border border-[var(--line)] bg-[var(--surface-subtle)]/70 p-4">
-              <div className="flex items-center justify-between border-b border-[var(--line)] pb-2 text-[10px] font-mono">
-                <div className="flex items-center gap-1.5 text-[var(--teal)] font-semibold uppercase tracking-wider">
-                  <span className="relative flex h-2 w-2">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--teal)] opacity-60" />
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-[var(--teal)]" />
-                  </span>
-                  <span>PRESTO FPS &amp; Fleet Telemetry Specimen</span>
-                </div>
-                <span className="text-emerald-400 font-semibold">-35% Latency</span>
-              </div>
+            {/* Interactive Kinetic Node Mesh (Subtle, responsive, 0.2% CPU) */}
+            <div className="mt-3.5 flex-1 flex flex-col justify-between gap-3 min-h-[260px]">
+              <KineticNodeMesh className="flex-1 min-h-[180px]" />
 
-              {/* Clean Architectural Cluster Graph (pure vector SVG with interactive nodes) */}
-              <div className="relative w-full h-36 rounded-lg bg-[var(--surface-base,#080f12)]/60 border border-[var(--line)]/60 flex items-center justify-center p-2 overflow-hidden group/mesh">
-                <svg className="w-full h-full" viewBox="0 0 380 130" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <defs>
-                    <pattern id="specimen-grid" width="20" height="20" patternUnits="userSpaceOnUse">
-                      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="currentColor" strokeWidth="0.5" className="text-[var(--line)]/30" />
-                    </pattern>
-                  </defs>
-                  <rect width="100%" height="100%" fill="url(#specimen-grid)" opacity="0.6" />
-
-                  {/* Mesh connections */}
-                  <line x1="50" y1="65" x2="130" y2="35" stroke="currentColor" strokeWidth="1" strokeDasharray="3 3" className="text-[var(--teal)]/40" />
-                  <line x1="50" y1="65" x2="130" y2="95" stroke="currentColor" strokeWidth="1" strokeDasharray="3 3" className="text-[var(--teal)]/40" />
-                  <line x1="130" y1="35" x2="230" y2="65" stroke="currentColor" strokeWidth="1.2" className="text-[var(--teal)]/60" />
-                  <line x1="130" y1="95" x2="230" y2="65" stroke="currentColor" strokeWidth="1.2" className="text-[var(--teal)]/60" />
-                  <line x1="230" y1="65" x2="330" y2="35" stroke="currentColor" strokeWidth="1" strokeDasharray="3 3" className="text-[var(--teal)]/40" />
-                  <line x1="230" y1="65" x2="330" y2="95" stroke="currentColor" strokeWidth="1" strokeDasharray="3 3" className="text-[var(--teal)]/40" />
-
-                  {/* Node 1: Ingress / IoT Core */}
-                  <g className="cursor-pointer transition-transform hover:scale-110 origin-[50px_65px]">
-                    <circle cx="50" cy="65" r="14" fill="var(--surface-subtle)" stroke="var(--line)" strokeWidth="1.5" />
-                    <circle cx="50" cy="65" r="4" fill="var(--teal)" />
-                    <text x="50" y="93" textAnchor="middle" fill="var(--muted)" fontSize="8.5" fontFamily="monospace">AWS IOT</text>
-                  </g>
-
-                  {/* Node 2: Kafka Ingest */}
-                  <g className="cursor-pointer transition-transform hover:scale-110 origin-[130px_35px]">
-                    <circle cx="130" cy="35" r="15" fill="var(--surface-subtle)" stroke="var(--line)" strokeWidth="1.5" />
-                    <circle cx="130" cy="35" r="5" fill="#f59e0b" />
-                    <text x="130" y="20" textAnchor="middle" fill="var(--muted)" fontSize="8.5" fontFamily="monospace">KAFKA 2M+</text>
-                  </g>
-
-                  {/* Node 3: Spring Boot Microservices */}
-                  <g className="cursor-pointer transition-transform hover:scale-110 origin-[130px_95px]">
-                    <circle cx="130" cy="95" r="15" fill="var(--surface-subtle)" stroke="var(--line)" strokeWidth="1.5" />
-                    <circle cx="130" cy="95" r="5" fill="var(--teal)" />
-                    <text x="130" y="122" textAnchor="middle" fill="var(--muted)" fontSize="8.5" fontFamily="monospace">SPRING BOOT</text>
-                  </g>
-
-                  {/* Node 4: Redis Caching & Postgres */}
-                  <g className="cursor-pointer transition-transform hover:scale-110 origin-[230px_65px]">
-                    <circle cx="230" cy="65" r="18" fill="var(--surface-subtle)" stroke="var(--teal)" strokeWidth="1.5" />
-                    <circle cx="230" cy="65" r="6" fill="var(--teal)" />
-                    <text x="230" y="98" textAnchor="middle" fill="var(--ink)" fontWeight="600" fontSize="9" fontFamily="monospace">REDIS &amp; PG</text>
-                  </g>
-
-                  {/* Node 5: Vector / RAG */}
-                  <g className="cursor-pointer transition-transform hover:scale-110 origin-[330px_35px]">
-                    <circle cx="330" cy="35" r="14" fill="var(--surface-subtle)" stroke="var(--line)" strokeWidth="1.5" />
-                    <circle cx="330" cy="35" r="4" fill="var(--teal)" />
-                    <text x="330" y="20" textAnchor="middle" fill="var(--muted)" fontSize="8.5" fontFamily="monospace">PGVECTOR</text>
-                  </g>
-
-                  {/* Node 6: Observability */}
-                  <g className="cursor-pointer transition-transform hover:scale-110 origin-[330px_95px]">
-                    <circle cx="330" cy="95" r="14" fill="var(--surface-subtle)" stroke="var(--line)" strokeWidth="1.5" />
-                    <circle cx="330" cy="95" r="4" fill="var(--teal)" />
-                    <text x="330" y="122" textAnchor="middle" fill="var(--muted)" fontSize="8.5" fontFamily="monospace">GRAFANA</text>
-                  </g>
-                </svg>
-              </div>
-
-              {/* Specimen Telemetry Metric Strip */}
-              <div className="grid grid-cols-3 gap-2 pt-1 text-[11px] font-mono">
-                <div className="rounded-lg border border-[var(--line)] bg-[var(--surface)] p-2">
-                  <span className="text-[9px] uppercase text-[var(--muted)] block">Transit Volume</span>
+              {/* Specimen Telemetry Metric Strip from Official Resume */}
+              <div className="grid grid-cols-3 gap-2 pt-0.5 text-[11px] font-mono">
+                <div className="rounded-lg border border-[var(--line)] bg-[var(--surface-subtle)]/90 p-2.5">
+                  <span className="text-[9px] uppercase text-[var(--muted)] block tracking-wider">Transit Volume</span>
                   <span className="font-semibold text-[var(--ink)]">1M+ TX/Day</span>
                 </div>
-                <div className="rounded-lg border border-[var(--line)] bg-[var(--surface)] p-2">
-                  <span className="text-[9px] uppercase text-[var(--muted)] block">Settlement Ingest</span>
-                  <span className="font-semibold text-[var(--teal)]">2M+ Events/D</span>
+                <div className="rounded-lg border border-[var(--line)] bg-[var(--surface-subtle)]/90 p-2.5">
+                  <span className="text-[9px] uppercase text-[var(--muted)] block tracking-wider">Kafka Ingest</span>
+                  <span className="font-semibold text-[var(--teal)]">2M+ Ev/Day</span>
                 </div>
-                <div className="rounded-lg border border-[var(--line)] bg-[var(--surface)] p-2">
-                  <span className="text-[9px] uppercase text-[var(--muted)] block">Payment Latency</span>
+                <div className="rounded-lg border border-[var(--line)] bg-[var(--surface-subtle)]/90 p-2.5">
+                  <span className="text-[9px] uppercase text-[var(--muted)] block tracking-wider">Payment Latency</span>
                   <span className="font-semibold text-emerald-400">-35% P99</span>
                 </div>
               </div>
@@ -663,17 +607,72 @@ export default function Home() {
           </aside>
         </section>
 
+        {/* Operational Pulse Bar (Derived from Authentic Resume) */}
         <section className="section-panel reveal mt-4 p-5 sm:p-6 [animation-delay:220ms]">
-          <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-4">
-            {portfolioData.focusInsights.map((insight, idx) => {
-              const item = t.focusInsights[idx] || insight;
-              return (
-                <article key={insight.title} className="surface-subtle rounded-xl p-3">
-                  <h2 className="text-sm font-semibold text-[var(--ink)]">{item.title}</h2>
-                  <p className="mt-1 text-sm leading-relaxed text-[var(--muted)]">{item.description}</p>
-                </article>
-              );
-            })}
+          <div className="flex items-center justify-between border-b border-[var(--line)]/60 pb-3 mb-3 text-xs font-mono">
+            <div className="flex items-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-[var(--teal)] animate-ping" />
+              <span className="text-[var(--teal)] font-semibold uppercase tracking-wider">Operational Footprint &amp; Systems</span>
+            </div>
+            <span className="text-[var(--muted)] hidden sm:inline">ACCENTURE PRODUCTION ARCHITECTURE</span>
+          </div>
+
+          <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-4 font-mono">
+            <article className="surface-subtle rounded-xl p-3.5 border border-[var(--line)]/40 flex flex-col justify-between">
+              <div>
+                <span className="text-[10px] text-[var(--teal)] uppercase tracking-wider block mb-1">01 // FLEET TELEMETRY</span>
+                <h3 className="text-xs font-bold text-[var(--ink)]">Heavy Machinery Processing</h3>
+                <p className="mt-1.5 text-[11px] leading-relaxed text-[var(--muted)] font-sans">
+                  Java, Spring Boot, MQTT, AWS IoT Core, Lambda, Kinesis, DynamoDB, ECS Fargate, Snowflake.
+                </p>
+              </div>
+              <div className="mt-3 pt-2 border-t border-[var(--line)]/40 text-[10px] text-[var(--muted)] flex items-center justify-between">
+                <span>Intermittent Flows</span>
+                <span className="text-[var(--teal)] font-semibold">Live System</span>
+              </div>
+            </article>
+
+            <article className="surface-subtle rounded-xl p-3.5 border border-[var(--line)]/40 flex flex-col justify-between">
+              <div>
+                <span className="text-[10px] text-[var(--teal)] uppercase tracking-wider block mb-1">02 // TRANSIT SCALE</span>
+                <h3 className="text-xs font-bold text-[var(--ink)]">PRESTO FPS (1M+ TX/D)</h3>
+                <p className="mt-1.5 text-[11px] leading-relaxed text-[var(--muted)] font-sans">
+                  -35% payment confirmation latency via Redis caching &amp; composite SQL indexes across 10+ agencies.
+                </p>
+              </div>
+              <div className="mt-3 pt-2 border-t border-[var(--line)]/40 text-[10px] text-[var(--muted)] flex items-center justify-between">
+                <span>Kafka Settlement</span>
+                <span className="text-[var(--teal)] font-semibold">2M+ Events/D</span>
+              </div>
+            </article>
+
+            <article className="surface-subtle rounded-xl p-3.5 border border-[var(--line)]/40 flex flex-col justify-between">
+              <div>
+                <span className="text-[10px] text-[var(--teal)] uppercase tracking-wider block mb-1">03 // MODULAR MONOLITH</span>
+                <h3 className="text-xs font-bold text-[var(--ink)]">AroundU Platform</h3>
+                <p className="mt-1.5 text-[11px] leading-relaxed text-[var(--muted)] font-sans">
+                  Java 21, Redis GEO proximity index, Resilience4j circuit breakers, deployed on AWS EC2 with k3s.
+                </p>
+              </div>
+              <div className="mt-3 pt-2 border-t border-[var(--line)]/40 text-[10px] text-[var(--muted)] flex items-center justify-between">
+                <span>Orchestration</span>
+                <span className="text-[var(--teal)] font-semibold">k3s + Ingress</span>
+              </div>
+            </article>
+
+            <article className="surface-subtle rounded-xl p-3.5 border border-[var(--line)]/40 flex flex-col justify-between">
+              <div>
+                <span className="text-[10px] text-[var(--teal)] uppercase tracking-wider block mb-1">04 // SEMANTIC RETRIEVAL</span>
+                <h3 className="text-xs font-bold text-[var(--ink)]">TalkingYoutube RAG</h3>
+                <p className="mt-1.5 text-[11px] leading-relaxed text-[var(--muted)] font-sans">
+                  FastAPI, Google Gemini embeddings, PostgreSQL + pgvector, ON DELETE CASCADE video pruning.
+                </p>
+              </div>
+              <div className="mt-3 pt-2 border-t border-[var(--line)]/40 text-[10px] text-[var(--muted)] flex items-center justify-between">
+                <span>Hardened Stack</span>
+                <span className="text-[var(--teal)] font-semibold">Docker Scout</span>
+              </div>
+            </article>
           </div>
         </section>
       </header>
