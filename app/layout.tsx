@@ -3,6 +3,8 @@ import { JetBrains_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { AnalyticsClickTracker } from "./components/analytics-click-tracker";
+import { LanguageProvider } from "./context/language-context";
+import { NinadaPlayer } from "./components/ninada-player";
 import "./globals.css";
 
 const jetBrainsMono = JetBrains_Mono({
@@ -82,7 +84,10 @@ export default function RootLayout({
             <feComposite in="displaced" in2="SourceGraphic" operator="over" />
           </filter>
         </svg>
-        {children}
+        <LanguageProvider>
+          {children}
+          <NinadaPlayer />
+        </LanguageProvider>
         <AnalyticsClickTracker />
         <Analytics />
         <SpeedInsights />

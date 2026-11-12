@@ -1535,3 +1535,20 @@ html.anim-paused body::after {
   line-height: 1.5;
   flex-shrink: 0;
 }
+
+
+/* Ninada Multilingual & Audio Styles */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: var(--line);
+  border-radius: 9999px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: var(--teal);
+}

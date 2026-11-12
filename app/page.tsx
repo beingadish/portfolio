@@ -6,6 +6,9 @@ import { useEffect } from "react";
 import { MobileNav } from "./components/mobile-nav";
 import { NavDock } from "./components/nav-dock";
 import { LiquidGlassToggle } from "./components/liquid-glass-toggle";
+import { LanguageSelector } from "./components/language-selector";
+import { SectionListenButton } from "./components/ninada-player";
+import { useLanguage } from "./context/language-context";
 import { ShowcaseLiveContent } from "./components/showcase-live-content";
 import { MobileArticleSlider } from "./components/mobile-article-slider";
 import ExperienceTimeline from "./components/experience-timeline";
@@ -373,14 +376,26 @@ function SectionHeader({
   eyebrow,
   title,
   copy,
+  sectionKey,
+  listenText,
 }: {
   eyebrow: string;
   title: string;
   copy: string;
+  sectionKey?: string;
+  listenText?: string;
 }) {
   return (
     <header>
-      <p className="eyebrow">{eyebrow}</p>
+      <div className="flex items-center justify-between gap-3">
+        <p className="eyebrow">{eyebrow}</p>
+        {sectionKey && (
+          <SectionListenButton
+            sectionKey={sectionKey}
+            text={listenText || `${eyebrow}. ${title}. ${copy}`}
+          />
+        )}
+      </div>
       <h2 className="section-title mt-1 text-[1.95rem] leading-[1.16] sm:text-4xl">{title}</h2>
       <p className="section-copy mt-3">{copy}</p>
     </header>
@@ -388,6 +403,18 @@ function SectionHeader({
 }
 
 export default function Home() {
+  const { t, currentLanguage } = useLanguage();
+
+  const navItems = [
+    { label: t.nav.about, href: "#about" },
+    { label: t.nav.showcase, href: "#showcase" },
+    { label: t.nav.experience, href: "#experience" },
+    { label: t.nav.projects, href: "#projects" },
+    { label: t.nav.skills, href: "#skills" },
+    { label: t.nav.writing, href: "#writing" },
+    { label: t.nav.contact, href: "#contact" },
+  ];
+
   const resumeLink = resumeQuickLink.href;
   const resumeDownload = resumeQuickLink.download ? true : undefined;
   const emailAddress = portfolioData.contact.email;
@@ -464,6 +491,7 @@ export default function Home() {
             </ul>
 
             <div className="ms-auto flex items-center gap-2">
+              <LanguageSelector />
               {portfolioData.quickLinks.map((item) => (
                 <a
                   key={item.label}
@@ -490,30 +518,36 @@ export default function Home() {
         <section className="hero-grid mt-4 grid items-stretch gap-6 md:gap-6 lg:auto-rows-fr lg:grid-cols-[1.15fr_0.85fr]">
           <article className="section-panel hero-intro reveal flex h-full self-stretch flex-col justify-center p-6 sm:p-9 [animation-delay:120ms]">
             <div>
-              <p className="eyebrow">Software Engineer Portfolio</p>
+              <div className="flex items-center justify-between gap-3">
+                <p className="eyebrow">{t.hero.eyebrow}</p>
+                <SectionListenButton
+                  sectionKey="hero"
+                  text={`${t.hero.name}. ${t.hero.role}. ${t.hero.summary} ${t.hero.pitch}`}
+                />
+              </div>
               <h1 className="hero-name display-font mt-3 text-[3rem] font-extrabold leading-[1.04] tracking-tight sm:text-[4rem]">
-                {portfolioData.name}
+                {t.hero.name}
                 <span className="term-cursor" aria-hidden="true" />
               </h1>
-              <p className="mt-3 text-lg leading-relaxed text-[var(--teal)] sm:text-xl">{portfolioData.role}</p>
+              <p className="mt-3 text-lg leading-relaxed text-[var(--teal)] sm:text-xl">{t.hero.role}</p>
               <p className="hero-meta mt-3 flex items-start gap-1.5">
                 <span className="mt-1 shrink-0">
                   <LocationPinIcon />
                 </span>
-                <span>{portfolioData.location}</span>
+                <span>{t.hero.location}</span>
               </p>
             </div>
 
             <div className="mt-5">
-              <p className="hero-summary max-w-2xl">{portfolioData.summary}</p>
-              <p className="hero-pitch mt-3 max-w-2xl">{portfolioData.pitch}</p>
+              <p className="hero-summary max-w-2xl">{t.hero.summary}</p>
+              <p className="hero-pitch mt-3 max-w-2xl">{t.hero.pitch}</p>
             </div>
 
             <div className="mt-7">
               <div className="flex flex-wrap gap-2">
-                <span className="chip">Backend Engineering</span>
-                <span className="chip">Distributed Systems</span>
-                <span className="chip">Production Readiness</span>
+                <span className="chip">{t.hero.chips.backend}</span>
+                <span className="chip">{t.hero.chips.distributed}</span>
+                <span className="chip">{t.hero.chips.reliability}</span>
               </div>
 
               <div className="hero-actions mt-4 flex flex-wrap items-center gap-3">
@@ -527,10 +561,10 @@ export default function Home() {
                   data-analytics-location="hero"
                   data-analytics-type="primary_cta"
                 >
-                  Download Resume
+                  {t.hero.downloadResume}
                 </a>
                 <a className="btn-secondary px-6 py-3" href="#projects">
-                  View Projects
+                  {t.hero.viewProjects}
                 </a>
               </div>
             </div>
@@ -538,8 +572,8 @@ export default function Home() {
 
           <aside className="section-panel hero-session reveal flex h-full flex-col p-6 sm:p-7 [animation-delay:200ms]">
             <div className="flex items-center justify-between">
-              <p className="eyebrow">Session</p>
-              <span className="chip text-xs">~/portfolio</span>
+              <p className="eyebrow">{t.hero.sessionTitle}</p>
+              <span className="chip text-xs">{t.hero.sessionChip}</span>
             </div>
 
             <div className="terminal-window mt-4">
@@ -548,17 +582,17 @@ export default function Home() {
                 <span className="terminal-dot terminal-dot-amber" />
                 <span className="terminal-dot terminal-dot-green" />
               </div>
+
               <div className="terminal-body">
                 <p className="terminal-line">
                   <span className="terminal-prompt">-&gt; </span>
-                  <span className="terminal-ok">INITIALIZING PORTFOLIO... [OK]</span>
+                  <span className="terminal-ok">{t.hero.terminal.init}</span>
                 </p>
                 <p className="terminal-line">
-                  <span className="terminal-prompt">-&gt; </span>BACKEND | MOBILE | AI ENGINEER
+                  <span className="terminal-prompt">-&gt; </span>{t.hero.terminal.roleLine}
                 </p>
                 <p className="terminal-line">
-                  <span className="terminal-prompt">-&gt; </span>BUILDING SCALABLE SYSTEMS AND
-                  INTELLIGENT SOLUTIONS.
+                  <span className="terminal-prompt">-&gt; </span>{t.hero.terminal.buildingLine}
                   <span className="term-cursor" aria-hidden="true" />
                 </p>
               </div>
@@ -617,12 +651,15 @@ export default function Home() {
 
         <section className="section-panel reveal mt-4 p-5 sm:p-6 [animation-delay:220ms]">
           <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-4">
-            {portfolioData.focusInsights.map((insight) => (
-              <article key={insight.title} className="surface-subtle rounded-xl p-3">
-                <h2 className="text-sm font-semibold text-[var(--ink)]">{insight.title}</h2>
-                <p className="mt-1 text-sm leading-relaxed text-[var(--muted)]">{insight.description}</p>
-              </article>
-            ))}
+            {portfolioData.focusInsights.map((insight, idx) => {
+              const item = t.focusInsights[idx] || insight;
+              return (
+                <article key={insight.title} className="surface-subtle rounded-xl p-3">
+                  <h2 className="text-sm font-semibold text-[var(--ink)]">{item.title}</h2>
+                  <p className="mt-1 text-sm leading-relaxed text-[var(--muted)]">{item.description}</p>
+                </article>
+              );
+            })}
           </div>
         </section>
       </header>
@@ -630,12 +667,14 @@ export default function Home() {
       <main className="mx-auto mt-5 max-w-6xl space-y-6 px-5 sm:px-10 md:mt-6 md:space-y-5">
         <section id="about" className="section-panel reveal defer-render p-6 sm:p-8 [animation-delay:240ms]">
           <SectionHeader
-            eyebrow="About"
-            title="Building reliable products with a people-first engineering approach."
-            copy={portfolioData.summary}
+            eyebrow={t.about.eyebrow}
+            title={t.about.title}
+            copy={t.about.copy}
+            sectionKey="about"
+            listenText={`${t.about.eyebrow}. ${t.about.title}. ${t.about.copy}. ${t.about.highlights.join(" ")}`}
           />
           <div className="mt-7 grid gap-5 md:gap-4 lg:grid-cols-2">
-            {portfolioData.highlights.map((item) => (
+            {(t.about.highlights && t.about.highlights.length > 0 ? t.about.highlights : portfolioData.highlights).map((item) => (
               <div key={item} className="surface-subtle rounded-2xl p-4">
                 <p className="text-sm leading-relaxed text-[var(--ink)]">{item}</p>
               </div>
@@ -645,9 +684,10 @@ export default function Home() {
 
         <section id="showcase" className="section-panel reveal defer-render p-6 sm:p-8 [animation-delay:260ms]">
           <SectionHeader
-            eyebrow="Showcase"
-            title="Engineering profile snapshots"
-            copy="Live public snapshots from pinned GitHub repositories and LeetCode activity."
+            eyebrow={t.showcase.eyebrow}
+            title={t.showcase.title}
+            copy={t.showcase.copy}
+            sectionKey="showcase"
           />
           <div className="mt-7 grid gap-5 md:gap-4 md:grid-cols-2">
             {portfolioData.staticShowcases.map((item) => {
@@ -667,7 +707,7 @@ export default function Home() {
                         data-analytics-event={showcaseEventName ?? undefined}
                         data-analytics-section={showcaseEventName ? "showcase" : undefined}
                       >
-                        Open Profile
+                        {t.showcase.openProfile}
                         <ExternalIcon />
                       </a>
                     }
@@ -680,9 +720,10 @@ export default function Home() {
 
         <section id="experience" className="section-panel reveal defer-render p-6 sm:p-8 [animation-delay:300ms]">
           <SectionHeader
-            eyebrow="Experience"
-            title="Production engineering with measurable performance impact."
-            copy="I work across backend APIs, data pipelines, Android integrations, and cloud delivery to ship resilient systems."
+            eyebrow={t.experience.eyebrow}
+            title={t.experience.title}
+            copy={t.experience.copy}
+            sectionKey="experience"
           />
 
           <ExperienceTimeline>
@@ -690,6 +731,11 @@ export default function Home() {
               <div className="experience-scroll-inner">
                 <ol className="experience-list term-timeline mt-8">
                 {portfolioData.experience.map((item, index) => {
+                  const roleData = t.experience.roles[index] || item;
+                  const roleTitle = roleData.title || item.title;
+                  const roleCompany = roleData.company || item.company;
+                  const roleLocation = roleData.location || item.location;
+                  const roleBullets = roleData.bullets || item.bullets;
                   const isCurrentRole = item.period.toLowerCase().includes("present");
                   return (
                     <li key={`${item.company}-${item.period}`} className="experience-item term-entry mb-8 last:mb-0">
@@ -701,18 +747,18 @@ export default function Home() {
                       <article className="surface-card term-card rounded-2xl p-5">
                         <div className="term-card-head">
                           <span className="term-card-prompt">~/career $ cat role.json</span>
-                          {isCurrentRole ? <span className="term-live">● LIVE</span> : null}
+                          {isCurrentRole ? <span className="term-live">● {t.experience.liveBadge}</span> : null}
                         </div>
                         <div className="mt-3 flex flex-col items-start gap-2 md:flex-row md:items-center md:justify-between">
-                          <h3 className="text-lg font-semibold text-[var(--ink)]">{item.title}</h3>
+                          <h3 className="text-lg font-semibold text-[var(--ink)]">{roleTitle}</h3>
                           <span className="chip text-xs">{item.period}</span>
                         </div>
                         <p className="mt-1 text-sm font-medium text-[var(--muted)]">
-                          {item.company} • {item.location}
+                          {roleCompany} • {roleLocation}
                         </p>
 
                         <ul className="mt-4 space-y-2 text-sm leading-relaxed text-[var(--ink)]">
-                          {item.bullets.map((bullet) => (
+                          {roleBullets.map((bullet) => (
                             <li key={bullet} className="flex gap-2">
                               <span className="term-bullet-arrow">▹</span>
                               <span>{bullet}</span>
@@ -737,13 +783,19 @@ export default function Home() {
 
         <section id="projects" className="section-panel reveal defer-render p-6 sm:p-8 [animation-delay:340ms]">
           <SectionHeader
-            eyebrow="Projects"
-            title="Systems and products built outside day-to-day work."
-            copy="I build hands-on projects that mirror real production concerns: architecture, throughput, observability, and maintainability."
+            eyebrow={t.projects.eyebrow}
+            title={t.projects.title}
+            copy={t.projects.copy}
+            sectionKey="projects"
           />
 
           <div className="mt-8 grid gap-5 md:gap-4 md:grid-cols-2">
             {portfolioData.projects.map((project, index) => {
+              const projectData = t.projects.items[index] || project;
+              const projectName = projectData.name || project.name;
+              const projectSummary = projectData.summary || project.summary;
+              const projectBullets = projectData.bullets || project.bullets;
+
               const isOddLastCard =
                 portfolioData.projects.length % 2 === 1 &&
                 index === portfolioData.projects.length - 1;
@@ -754,16 +806,16 @@ export default function Home() {
                   <div>
                     <div className="flex flex-col items-start gap-2 md:flex-row md:items-start md:justify-between md:gap-3">
                       <h3 className="display-font min-w-0 break-words text-[2rem] leading-tight font-semibold text-[var(--ink)] sm:text-3xl">
-                        {project.name}
+                        {projectName}
                       </h3>
                       <span className="chip self-start shrink-0 text-xs">{project.timeline}</span>
                     </div>
-                    <p className="mt-3 text-sm leading-relaxed text-[var(--muted)]">{project.summary}</p>
+                    <p className="mt-3 text-sm leading-relaxed text-[var(--muted)]">{projectSummary}</p>
                   </div>
 
                   <div className="mt-4 flex-1">
                     <ul className="space-y-2 text-sm text-[var(--ink)]">
-                      {project.bullets.map((bullet) => (
+                      {projectBullets.map((bullet) => (
                         <li key={bullet} className="flex gap-2">
                           <span className="mt-[7px] h-1.5 w-1.5 rounded-full bg-[var(--amber)]" />
                           <span>{bullet}</span>
@@ -810,9 +862,10 @@ export default function Home() {
 
         <section id="skills" className="section-panel reveal defer-render p-6 sm:p-8 [animation-delay:360ms]">
           <SectionHeader
-            eyebrow="Skills"
-            title="A practical toolkit for backend, mobile, and AI-driven features."
-            copy="I focus on technologies that deliver measurable performance and reliable developer workflows."
+            eyebrow={t.skills.eyebrow}
+            title={t.skills.title}
+            copy={t.skills.copy}
+            sectionKey="skills"
           />
 
           <div className="mt-7 grid gap-5 md:gap-4 md:grid-cols-2">
@@ -827,7 +880,7 @@ export default function Home() {
               </article>
             ))}
             <article className="surface-card rounded-2xl p-5">
-              <h3 className="text-base font-semibold text-[var(--ink)]">Language & Collections</h3>
+              <h3 className="text-base font-semibold text-[var(--ink)]">{t.skills.languageCollections}</h3>
               <div className="mt-3 flex flex-wrap gap-2">
                 {["C++", "STL", "Java", "Collections Framework", "Python", "Dart"].map((item) => (
                   <TechChip key={item} label={item} />
@@ -840,9 +893,10 @@ export default function Home() {
         <section className="defer-render grid gap-6 lg:grid-cols-2">
           <article className="section-panel reveal p-6 sm:p-8 [animation-delay:380ms]">
             <SectionHeader
-              eyebrow="Achievements"
-              title="Milestones"
-              copy="Selected certifications and outcomes that reflect consistency in learning and execution."
+              eyebrow={t.achievements.eyebrow}
+              title={t.achievements.title}
+              copy={t.achievements.copy}
+              sectionKey="achievements"
             />
             <ul className="mt-6 space-y-3">
               {portfolioData.achievements.map((achievement) => (
@@ -868,9 +922,10 @@ export default function Home() {
 
           <article className="section-panel reveal p-6 sm:p-8 [animation-delay:410ms]">
             <SectionHeader
-              eyebrow="Education"
-              title="Academic Foundation"
-              copy="Core computer science fundamentals and practical problem-solving through engineering coursework."
+              eyebrow={t.education.eyebrow}
+              title={t.education.title}
+              copy={t.education.copy}
+              sectionKey="education"
             />
             <div className="mt-6 space-y-4">
               {portfolioData.education.map((item) => {
@@ -907,9 +962,10 @@ export default function Home() {
 
         <section id="writing" className="section-panel reveal defer-render p-6 sm:p-8 [animation-delay:430ms]">
           <SectionHeader
-            eyebrow="Writing"
-            title="Medium Articles"
-            copy="A selection of my published writing on backend engineering and system design."
+            eyebrow={t.writing.eyebrow}
+            title={t.writing.title}
+            copy={t.writing.copy}
+            sectionKey="writing"
           />
           
           {/* Mobile: Auto-slider */}
@@ -932,7 +988,7 @@ export default function Home() {
                       data-analytics-article-title={entry.title}
                       data-analytics-platform="medium"
                     >
-                      Read Article
+                      {t.writing.readArticle}
                       <ExternalIcon />
                     </a>
                   </article>
@@ -967,7 +1023,7 @@ export default function Home() {
                     data-analytics-article-title={entry.title}
                     data-analytics-platform="medium"
                   >
-                    Read Article
+                    {t.writing.readArticle}
                     <ExternalIcon />
                   </a>
                 </article>
@@ -978,9 +1034,11 @@ export default function Home() {
 
         <section id="contact" className="section-panel reveal defer-render p-6 sm:p-8 [animation-delay:460ms]">
           <SectionHeader
-            eyebrow="Contact"
-            title="Let us build something meaningful."
-            copy="Open to impactful software engineering opportunities across backend systems, distributed architecture, and product engineering."
+            eyebrow={t.contact.eyebrow}
+            title={t.contact.title}
+            copy={t.contact.copy}
+            sectionKey="contact"
+            listenText={`${t.contact.eyebrow}. ${t.contact.title}. ${t.contact.copy}`}
           />
           <div className="mt-6 flex flex-wrap gap-3">
             <a
@@ -992,7 +1050,7 @@ export default function Home() {
               data-analytics-event={ANALYTICS_EVENTS.RESUME_CLICK_FOOTER}
               data-analytics-location="footer"
             >
-              Resume
+              {t.contact.resumeBtn}
             </a>
             <a
               className="btn-secondary px-6 py-3"
@@ -1003,7 +1061,7 @@ export default function Home() {
               data-analytics-section="contact"
               data-analytics-method="gmail_compose"
             >
-              Email
+              {t.contact.emailBtn}
             </a>
           </div>
           <p className="mt-3 text-sm text-[var(--muted)]">{emailAddress}</p>
