@@ -83,4 +83,38 @@ export const PROJECT_AUDIO_TRACKS: Record<string, ProjectAudioTrack> = {
       text: "Welcome to the technical walkthrough of TalkingYouTube. TalkingYouTube delivers grounded conversational retrieval-augmented generation over long-form YouTube video transcripts. When a YouTube video URL is submitted, the ingestion pipeline extracts transcript tracks, chunks the text semantically with sliding windows, and generates 768-dimensional dense vector embeddings using Google's Gemini embedding model. These vectors are stored directly in PostgreSQL using the pgvector extension with Hierarchical Navigable Small World indexing, enabling vector similarity queries to execute in under 25 milliseconds while keeping relational session metadata tightly coupled. When answering questions, the system extracts relevant semantic chunks and formats timestamped citations, allowing the user to click and jump directly to the exact moment in the YouTube video where the topic is discussed. The stack is built with FastAPI and Next.js, containerized with Docker Compose, and hardened using Docker Scout to reduce vulnerabilities from 28 high-severity CVEs down to four. In production, it is deployed across AWS App Runner and Amazon Aurora PostgreSQL.",
     },
   },
+
+  campusdesk: {
+    slug: "campusdesk",
+    name: "CampusDesk",
+    brief: {
+      audioUrl: "/audio/projects/campusdesk_brief.wav",
+      duration: "0:42",
+      durationSeconds: 42,
+      text: "CampusDesk is a lightweight, student-first lecture planner and mandatory 75% attendance calculator built with React 18, TypeScript, and Tailwind CSS. It features an automated safe bunk forecaster that mathematically computes permissible lecture cuts and minimum required classes to maintain semester examination eligibility. Designed for zero-lag mobile responsiveness, it runs completely client-side with offline local storage state hydration, zero external API tracking, and is deployed on AWS EC2 via NGINX with zero operating cost.",
+    },
+    detailed: {
+      audioUrl: "/audio/projects/campusdesk_detailed.wav",
+      duration: "1:33",
+      durationSeconds: 93,
+      text: "Welcome to the technical architecture deep dive of CampusDesk. College students across Indian technical universities face strict 75% mandatory attendance regulations where falling below the threshold risks semester debarment. CampusDesk eliminates guesswork with an inverse mathematical inequality solver. Instead of simple percentage divisions, the engine dynamically solves for two scenarios: first, safe bunk forecast, determining the exact number of consecutive upcoming lectures a student can skip without dropping below seventy-five percent; and second, target recovery forecast, computing the exact number of consecutive classes required to recover if currently in the warning zone. Built with React 18 and Vite, the entire state machine executes synchronously in under one millisecond with optimistic UI updates. All subject profiles, lecture tallies, and past history are hydrated and persisted strictly in browser local storage, ensuring complete student privacy with zero telemetry or server-side logging. For deployment, CampusDesk is containerized into a tiny static artifact served via NGINX reverse-proxying on an AWS EC2 t3.micro instance alongside edge routing on Vercel, incurring zero monthly infrastructure cost.",
+    },
+  },
+
+  gradeorbit: {
+    slug: "gradeorbit",
+    name: "GradeOrbit",
+    brief: {
+      audioUrl: "/audio/projects/gradeorbit_brief.wav",
+      duration: "0:41",
+      durationSeconds: 41,
+      text: "GradeOrbit is an academic performance tracker and target honors predictor engineered for engineering students using React, TypeScript, and Vite. It provides real-time semester-wise SGPA tracking, cumulative CGPA calculation, and an inverse credit-weighted solver that calculates the minimum GPA required across remaining semesters to graduate with target honors such as First Class with Distinction. It operates with zero backend overhead, instant client-side calculation, and is hosted on AWS EC2 and Vercel Edge.",
+    },
+    detailed: {
+      audioUrl: "/audio/projects/gradeorbit_detailed.wav",
+      duration: "1:27",
+      durationSeconds: 87,
+      text: "Welcome to the technical architecture overview of GradeOrbit. In modern credit-based choice systems and engineering degree programs, students need to plan multi-year academic trajectories to secure degree honors and eligibility for campus placements and higher education. GradeOrbit solves this through a credit-weighted inverse solver. By inputting completed semester SGPAs and credit allocations alongside anticipated future credits, the algorithm computes the exact average SGPA required across future semesters to achieve a target CGPA threshold, such as 8.5 for First Class with Distinction. The engine supports standard 10-point UGC and AICTE grading scales with custom grade-to-point mappings. Built on React 18 and TypeScript with modular components, all calculations occur client-side with zero network round trips. State is seamlessly preserved across browser reloads using responsive local storage bindings. The production application is served as static optimized assets on AWS EC2 with NGINX edge caching and globally replicated Vercel Edge CDN nodes, guaranteeing zero backend latency, zero database maintenance, and zero operational expenditure.",
+    },
+  },
 };
