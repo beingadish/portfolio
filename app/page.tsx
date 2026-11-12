@@ -308,7 +308,7 @@ export default function Home() {
   ];
 
   const resumeLink = resumeQuickLink.href;
-  const resumeDownload = resumeQuickLink.download ? true : undefined;
+  const resumeDownload = resumeQuickLink.download ? "Aadarsh_Pandey_Resume.pdf" : undefined;
   const emailAddress = portfolioData.contact.email;
   const gmailComposeLink = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(emailAddress)}`;
 
@@ -370,7 +370,7 @@ export default function Home() {
                   target="_blank"
                   rel="noreferrer"
                   title={item.label}
-                  download={item.download ? true : undefined}
+                  download={item.download ? "Aadarsh_Pandey_Resume.pdf" : undefined}
                   className="p-1.5 text-[#8c8f9a] hover:text-[#edeae3] transition-colors rounded hover:bg-white/5"
                 >
                   <QuickLinkIcon icon={item.icon} />

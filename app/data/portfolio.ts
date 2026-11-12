@@ -36,7 +36,7 @@ const toSocialLink = ({ label, href }: Pick<QuickLinkItem, "label" | "href">): S
 
 export const resumeQuickLink: QuickLinkItem = {
   label: "Resume",
-  href: "https://drive.google.com/file/d/1tuL15jEH01hhfqQ21v3g6QrIrKJAsBRk/view?usp=sharing",
+  href: "https://beingadish-portfolio-audio.s3.ap-south-1.amazonaws.com/Aadarsh_Pandey_Resume.pdf",
   icon: "resume",
   download: true,
 };
