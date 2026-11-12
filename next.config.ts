@@ -80,6 +80,37 @@ const nextConfig: NextConfig = {
       );
     }
 
+    // Server-side backend gateway rewrites (keeps Elastic IP completely hidden)
+    const backendGateway = process.env.BACKEND_GATEWAY_URL;
+    if (backendGateway) {
+      rewritesList.push(
+        {
+          source: "/live/aroundu",
+          destination: `${backendGateway}/aroundu/`,
+        },
+        {
+          source: "/live/aroundu/:path*",
+          destination: `${backendGateway}/aroundu/:path*`,
+        },
+        {
+          source: "/live/clynic",
+          destination: `${backendGateway}/clynic/`,
+        },
+        {
+          source: "/live/clynic/:path*",
+          destination: `${backendGateway}/clynic/:path*`,
+        },
+        {
+          source: "/live/janmat",
+          destination: `${backendGateway}/`,
+        },
+        {
+          source: "/live/janmat/:path*",
+          destination: `${backendGateway}/:path*`,
+        }
+      );
+    }
+
     return rewritesList;
   },
 };

@@ -157,13 +157,12 @@ export function OpenApiSwaggerViewer({ project }: OpenApiSwaggerViewerProps) {
       }
       const queryString = queryParts.length > 0 ? `?${queryParts.join("&")}` : "";
 
-      // Determine target baseUrl
-      const baseUrl = project.backendApiUrl || "http://15.252.147.14";
-      const targetUrl = `${baseUrl.replace(/\/$/, "")}${resolvedPath}${queryString}`;
+      // Execute through the secure server-side gateway proxy so that internal IP infrastructure is completely private
+      const proxyUrl = `/api/proxy?service=${encodeURIComponent(project.slug)}&path=${encodeURIComponent(resolvedPath + queryString)}`;
 
-      // If GET, attempt direct fetch (all our backends have CORS allowed)
+      // If GET, attempt dispatch via secure proxy
       if (ep.method === "GET") {
-        const response = await fetch(targetUrl, {
+        const response = await fetch(proxyUrl, {
           method: "GET",
           headers: { Accept: "application/json" },
         });
@@ -180,10 +179,10 @@ export function OpenApiSwaggerViewer({ project }: OpenApiSwaggerViewerProps) {
           },
         }));
       } else {
-        // For POST/PUT, if it's live or simulated
+        // For POST/PUT, dispatch body through secure proxy
         const bodyContent = bodyValues[key] || JSON.stringify(ep.requestBody?.example || {}, null, 2);
         try {
-          const response = await fetch(targetUrl, {
+          const response = await fetch(proxyUrl, {
             method: ep.method,
             headers: {
               "Content-Type": "application/json",
@@ -283,14 +282,14 @@ export function OpenApiSwaggerViewer({ project }: OpenApiSwaggerViewerProps) {
         <div className="flex flex-wrap items-center justify-between gap-3 bg-[#0a0b0e] border border-white/10 rounded-lg px-4 py-2.5 font-mono text-xs">
           <div className="flex items-center gap-2">
             <span className="text-[#8c8f9a]">Servers:</span>
-            <span className="text-[#2dd4bf] font-medium">{project.backendApiUrl || "http://15.252.147.14"}</span>
+            <span className="text-[#2dd4bf] font-medium">{project.backendApiUrl || "https://api.beingadish.com"}</span>
             <span className="px-1.5 py-0.5 rounded bg-white/5 text-[10px] text-[#6e717d]">
               Production AWS ap-south-1
             </span>
           </div>
           <button
             onClick={() =>
-              copyToClipboard(project.backendApiUrl || "http://15.252.147.14", "base-url")
+              copyToClipboard(project.backendApiUrl || "https://api.beingadish.com", "base-url")
             }
             className="text-[11px] text-[#8c8f9a] hover:text-white transition-colors flex items-center gap-1"
           >

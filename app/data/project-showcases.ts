@@ -65,8 +65,8 @@ export const PROJECT_SHOWCASES: Record<string, ProjectShowcase> = {
     timeline: "Jan 2026 - Present",
     githubUrl: "https://github.com/orgs/AroundUPlatform/repositories",
     localPath: "/Users/beingadish/Developer/CODE/Projects/AroundU",
-    liveUrl: process.env.NEXT_PUBLIC_AROUNDU_URL || "http://15.252.147.14/aroundu/",
-    backendApiUrl: process.env.NEXT_PUBLIC_AROUNDU_API_URL || "http://15.252.147.14:20232",
+    liveUrl: process.env.NEXT_PUBLIC_AROUNDU_URL || "/live/aroundu/",
+    backendApiUrl: process.env.NEXT_PUBLIC_AROUNDU_API_URL || "https://api.aroundu.beingadish.com",
     apkUrl: "https://beingadish-releases.s3.ap-south-1.amazonaws.com/AroundU.apk",
     status: "live",
     stack: [
@@ -83,7 +83,7 @@ export const PROJECT_SHOWCASES: Record<string, ProjectShowcase> = {
       "Grafana",
     ],
     awsServices: [
-      "AWS EC2 (Elastic IP 15.252.147.14)",
+      "AWS EC2 (Production Dedicated Ingress)",
       "Amazon S3 (APK Distribution)",
       "Amazon ElastiCache Redis",
       "Amazon RDS PostgreSQL",
@@ -532,8 +532,8 @@ export const PROJECT_SHOWCASES: Record<string, ProjectShowcase> = {
     timeline: "Apr 2025 - Present",
     githubUrl: "https://github.com/beingadish/Clynic",
     localPath: "/Users/beingadish/Developer/CODE/SpringBoot/Clynic",
-    liveUrl: process.env.NEXT_PUBLIC_CLYNIC_URL || "http://15.252.147.14/clynic/",
-    backendApiUrl: process.env.NEXT_PUBLIC_CLYNIC_API_URL || "http://15.252.147.14/clynic-api",
+    liveUrl: process.env.NEXT_PUBLIC_CLYNIC_URL || "/live/clynic/",
+    backendApiUrl: process.env.NEXT_PUBLIC_CLYNIC_API_URL || "https://api.clynic.beingadish.com",
     status: "live",
     stack: [
       "Java 21",
@@ -548,7 +548,7 @@ export const PROJECT_SHOWCASES: Record<string, ProjectShowcase> = {
       "AWS CDK",
     ],
     awsServices: [
-      "AWS EC2 (Elastic IP 15.252.147.14)",
+      "AWS EC2 (Production Dedicated Ingress)",
       "Amazon ECS Fargate",
       "Amazon RDS PostgreSQL (Multi-AZ)",
       "Amazon Managed Streaming for Apache Kafka (MSK)",
@@ -920,8 +920,8 @@ export const PROJECT_SHOWCASES: Record<string, ProjectShowcase> = {
     timeline: "Jun 2026 - Present",
     githubUrl: "https://github.com/beingadish/JanMat",
     localPath: "/Users/beingadish/Developer/CODE/Projects/JanMat",
-    liveUrl: process.env.NEXT_PUBLIC_JANMAT_URL || "http://15.252.147.14",
-    backendApiUrl: process.env.NEXT_PUBLIC_JANMAT_API_URL || "http://15.252.147.14",
+    liveUrl: process.env.NEXT_PUBLIC_JANMAT_URL || "/live/janmat/",
+    backendApiUrl: process.env.NEXT_PUBLIC_JANMAT_API_URL || "https://api.janmat.beingadish.com",
     status: "live",
     stack: [
       "Rust (Tokio + Axum)",
@@ -936,7 +936,7 @@ export const PROJECT_SHOWCASES: Record<string, ProjectShowcase> = {
       "NGINX",
     ],
     awsServices: [
-      "AWS EC2 (Elastic IP 15.252.147.14)",
+      "AWS EC2 (Production Dedicated Ingress)",
       "Amazon ElastiCache Redis",
       "Amazon RDS PostgreSQL",
       "AWS Application Load Balancer",
@@ -946,7 +946,7 @@ export const PROJECT_SHOWCASES: Record<string, ProjectShowcase> = {
       { label: "Memory Footprint", value: "1.98 MB RAM", sublabel: "Tokio + Axum microservice" },
       { label: "Vote Commitment", value: "Sub-millisecond", sublabel: "Blake3 cryptographic audit hash" },
       { label: "Privacy Protection", value: "ZK Nullifiers", sublabel: "Anonymous verifiable ballots" },
-      { label: "Live Gateway", value: "NGINX Reverse Proxy", sublabel: "15.252.147.14 permanent IP" },
+      { label: "Live Gateway", value: "NGINX Reverse Proxy", sublabel: "Dedicated Ingress Gateway" },
     ],
     architectureHighlights: [
       {
