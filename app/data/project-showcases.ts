@@ -65,7 +65,7 @@ export const PROJECT_SHOWCASES: Record<string, ProjectShowcase> = {
     timeline: "Jan 2026 - Present",
     githubUrl: "https://github.com/orgs/AroundUPlatform/repositories",
     localPath: "/Users/beingadish/Developer/CODE/Projects/AroundU",
-    liveUrl: process.env.NEXT_PUBLIC_AROUNDU_URL || "/live/aroundu/",
+    liveUrl: process.env.NEXT_PUBLIC_AROUNDU_URL || "/aroundu/index.html",
     backendApiUrl: process.env.NEXT_PUBLIC_AROUNDU_API_URL || "https://api.aroundu.beingadish.com",
     apkUrl: "https://beingadish-releases.s3.ap-south-1.amazonaws.com/AroundU.apk",
     status: "live",
@@ -532,7 +532,7 @@ export const PROJECT_SHOWCASES: Record<string, ProjectShowcase> = {
     timeline: "Apr 2025 - Present",
     githubUrl: "https://github.com/beingadish/Clynic",
     localPath: "/Users/beingadish/Developer/CODE/SpringBoot/Clynic",
-    liveUrl: process.env.NEXT_PUBLIC_CLYNIC_URL || "/live/clynic/",
+    liveUrl: process.env.NEXT_PUBLIC_CLYNIC_URL || "/clynic/index.html",
     backendApiUrl: process.env.NEXT_PUBLIC_CLYNIC_API_URL || "https://api.clynic.beingadish.com",
     status: "live",
     stack: [
@@ -920,7 +920,7 @@ export const PROJECT_SHOWCASES: Record<string, ProjectShowcase> = {
     timeline: "Jun 2026 - Present",
     githubUrl: "https://github.com/beingadish/JanMat",
     localPath: "/Users/beingadish/Developer/CODE/Projects/JanMat",
-    liveUrl: process.env.NEXT_PUBLIC_JANMAT_URL || "/live/janmat/",
+    liveUrl: process.env.NEXT_PUBLIC_JANMAT_URL || "/janmat/index.html",
     backendApiUrl: process.env.NEXT_PUBLIC_JANMAT_API_URL || "https://api.janmat.beingadish.com",
     status: "live",
     stack: [

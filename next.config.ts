@@ -80,10 +80,26 @@ const nextConfig: NextConfig = {
       );
     }
 
-    // Server-side backend gateway rewrites (keeps Elastic IP completely hidden)
+    // Server-side backend gateway rewrites (keeps Elastic IP completely hidden in git-ignored .env.local)
     const backendGateway = process.env.BACKEND_GATEWAY_URL;
     if (backendGateway) {
       rewritesList.push(
+        {
+          source: "/clynic-api/:path*",
+          destination: `${backendGateway}/clynic-api/:path*`,
+        },
+        {
+          source: "/aroundu-api/:path*",
+          destination: `${backendGateway}/aroundu-api/:path*`,
+        },
+        {
+          source: "/pub/:path*",
+          destination: `${backendGateway}/pub/:path*`,
+        },
+        {
+          source: "/citizen/:path*",
+          destination: `${backendGateway}/citizen/:path*`,
+        },
         {
           source: "/live/aroundu",
           destination: `${backendGateway}/aroundu/`,
