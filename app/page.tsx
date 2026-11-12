@@ -2,6 +2,7 @@
 
 import type { CSSProperties } from "react";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { MobileNav } from "./components/mobile-nav";
 import { NavDock } from "./components/nav-dock";
 import { KineticNodeMesh } from "./components/kinetic-node-mesh";
@@ -692,18 +693,30 @@ export default function Home() {
                     </div>
 
                     {/* Link Action */}
-                    <div className="lg:col-span-1 flex lg:justify-end items-start pt-1">
+                    <div className="lg:col-span-1 flex flex-row lg:flex-col gap-2 items-start lg:items-end pt-1">
+                      {project.demoUrl && (
+                        <Link
+                          href={project.demoUrl}
+                          className="inline-flex items-center gap-1.5 font-mono text-xs sm:text-sm text-[#2dd4bf] hover:text-white transition-colors border border-[#2dd4bf]/40 bg-[#2dd4bf]/10 hover:bg-[#2dd4bf]/20 px-3 py-1.5 rounded font-medium whitespace-nowrap shadow-sm"
+                          data-analytics-event={ANALYTICS_EVENTS.PROJECT_CLICK}
+                          data-analytics-project-name={project.name}
+                          data-analytics-project-type="demo"
+                        >
+                          <span>Live</span>
+                          <span className="text-[11px]">→</span>
+                        </Link>
+                      )}
                       {project.href ? (
                         <a
                           href={project.href}
                           target="_blank"
                           rel="noreferrer"
-                          className="inline-flex items-center gap-1.5 font-mono text-xs sm:text-sm text-[#8c8f9a] hover:text-[#edeae3] transition-colors border border-white/10 px-3 py-1.5 rounded bg-white/5 hover:bg-white/10"
+                          className="inline-flex items-center gap-1.5 font-mono text-xs sm:text-sm text-[#8c8f9a] hover:text-[#edeae3] transition-colors border border-white/10 px-3 py-1.5 rounded bg-white/5 hover:bg-white/10 whitespace-nowrap"
                           data-analytics-event={ANALYTICS_EVENTS.PROJECT_CLICK}
                           data-analytics-project-name={project.name}
                           data-analytics-project-type={getProjectType(project.href)}
                         >
-                          <span>View</span>
+                          <span>Code</span>
                           <ExternalIcon className="h-3.5 w-3.5" />
                         </a>
                       ) : (

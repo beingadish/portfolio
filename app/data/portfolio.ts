@@ -62,6 +62,7 @@ export type ProjectItem = {
   bullets: string[];
   stack: string[];
   href?: string;
+  demoUrl?: string;
 };
 
 export type SkillGroup = {
@@ -257,6 +258,7 @@ export const portfolioData = {
       summary:
         "A production-grade modular monolith in Java 21 for job discovery, bidding, escrow payments, OTP verification, and reviews, using Strategy, Decorator, Builder, and Chain of Responsibility.",
       href: "https://github.com/orgs/AroundUPlatform/repositories",
+      demoUrl: "/projects/aroundu",
       bullets: [
         "Designed a production-grade modular monolith in Java 21 for job discovery, bidding, escrow payments, OTP verification, and reviews, using Strategy, Decorator, Builder, and Chain of Responsibility.",
         "Engineered geo-spatial search using Redis GEO as a secondary index and PostgreSQL as the source of truth, with fallback queries and retries; deployed on AWS EC2 with Kubernetes (k3s), NGINX Ingress, and HPA.",
@@ -282,6 +284,7 @@ export const portfolioData = {
       summary:
         "A persistent semantic RAG system for YouTube transcripts using FastAPI, Google Gemini embeddings, and PostgreSQL + pgvector, retaining sessions, embeddings, and chat history with grounded, timestamped citations.",
       href: "https://github.com/beingadish/TalkingYT",
+      demoUrl: "/projects/talkingyt",
       bullets: [
         "Built a persistent semantic RAG system for YouTube transcripts using FastAPI, Google Gemini embeddings, and PostgreSQL + pgvector, retaining sessions, embeddings, and chat history with grounded, timestamped citations.",
         "Designed per-video embedding removal with ON DELETE CASCADE; containerized and hardened the stack with Docker Compose and Docker Scout, reducing frontend criticals/highs from 1C/28H to 1C/4H.",
@@ -304,6 +307,7 @@ export const portfolioData = {
       summary:
         "A microservices architecture with secure APIs, event-driven communication, and production-like cloud simulation.",
       href: "https://github.com/beingadish/Clynic",
+      demoUrl: "/projects/clynic",
       bullets: [
         "Implemented JWT-authenticated services for patient and billing flows with gRPC communication.",
         "Built Kafka analytics stream and API gateway request validation.",

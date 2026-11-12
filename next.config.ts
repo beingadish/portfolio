@@ -22,6 +22,53 @@ const nextConfig: NextConfig = {
   experimental: {
     optimizePackageImports: ['@vercel/analytics', '@vercel/speed-insights'],
   },
+  // Support for reverse-proxying project interfaces hosted on Vercel under
+  // the main portfolio domain (e.g. beingadish.blog/projects/clynic)
+  async rewrites() {
+    const rewritesList = [];
+
+    // Optional environment variable overrides for direct Vercel multi-zone proxying
+    if (process.env.CLYNIC_VERCEL_REWRITE_URL) {
+      rewritesList.push(
+        {
+          source: "/projects/clynic",
+          destination: process.env.CLYNIC_VERCEL_REWRITE_URL,
+        },
+        {
+          source: "/projects/clynic/:path*",
+          destination: `${process.env.CLYNIC_VERCEL_REWRITE_URL}/:path*`,
+        }
+      );
+    }
+
+    if (process.env.TALKINGYT_VERCEL_REWRITE_URL) {
+      rewritesList.push(
+        {
+          source: "/projects/talkingyt",
+          destination: process.env.TALKINGYT_VERCEL_REWRITE_URL,
+        },
+        {
+          source: "/projects/talkingyt/:path*",
+          destination: `${process.env.TALKINGYT_VERCEL_REWRITE_URL}/:path*`,
+        }
+      );
+    }
+
+    if (process.env.AROUNDU_VERCEL_REWRITE_URL) {
+      rewritesList.push(
+        {
+          source: "/projects/aroundu",
+          destination: process.env.AROUNDU_VERCEL_REWRITE_URL,
+        },
+        {
+          source: "/projects/aroundu/:path*",
+          destination: `${process.env.AROUNDU_VERCEL_REWRITE_URL}/:path*`,
+        }
+      );
+    }
+
+    return rewritesList;
+  },
 };
 
 export default nextConfig;
