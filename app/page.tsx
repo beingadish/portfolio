@@ -1,61 +1,30 @@
 "use client";
 
-import Image from "next/image";
 import type { CSSProperties } from "react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { MobileNav } from "./components/mobile-nav";
 import { NavDock } from "./components/nav-dock";
-import { LiquidGlassToggle } from "./components/liquid-glass-toggle";
 import { LanguageSelector } from "./components/language-selector";
 import { SectionListenButton } from "./components/ninada-player";
 import { KineticNodeMesh } from "./components/kinetic-node-mesh";
+import { InteractiveTopologySim } from "./components/interactive-topology-sim";
 import { useLanguage } from "./context/language-context";
-import { ShowcaseLiveContent } from "./components/showcase-live-content";
-import { MobileArticleSlider } from "./components/mobile-article-slider";
-import ExperienceTimeline from "./components/experience-timeline";
 import { portfolioData, resumeQuickLink } from "./data/portfolio";
-import {
-  ANALYTICS_EVENTS,
-  getProjectType,
-  getShowcaseEventName,
-} from "./lib/analytics";
-
-const navItems = [
-  { label: "About", href: "#about" },
-  { label: "Showcase", href: "#showcase" },
-  { label: "Experience", href: "#experience" },
-  { label: "Projects", href: "#projects" },
-  { label: "Skills", href: "#skills" },
-  { label: "Writing", href: "#writing" },
-  { label: "Contact", href: "#contact" },
-];
+import { ANALYTICS_EVENTS, getProjectType } from "./lib/analytics";
 
 type SemanticIconName = "code" | "cloud" | "network" | "layers" | "message" | "chip";
 
 type TechIconSource =
-  | {
-    kind: "simple";
-    slug: string;
-    color: string;
-  }
-  | {
-    kind: "external";
-    url: string;
-  }
-  | {
-    kind: "semantic";
-    icon: SemanticIconName;
-    color?: string;
-  };
+  | { kind: "simple"; slug: string; color: string }
+  | { kind: "external"; url: string }
+  | { kind: "semantic"; icon: SemanticIconName; color?: string };
 
-const fallbackTechIcon: TechIconSource = {
-  kind: "semantic",
-  icon: "code",
-};
+const fallbackTechIcon: TechIconSource = { kind: "semantic", icon: "code" };
 
 const techIconSources: Record<string, TechIconSource> = {
   "C++": { kind: "simple", slug: "cplusplus", color: "00599C" },
   Java: { kind: "simple", slug: "openjdk", color: "ED8B00" },
+  "Java 21": { kind: "simple", slug: "openjdk", color: "ED8B00" },
   Resilience4j: { kind: "simple", slug: "openjdk", color: "ED8B00" },
   Bucket4j: { kind: "simple", slug: "openjdk", color: "ED8B00" },
   Micrometer: { kind: "simple", slug: "openjdk", color: "ED8B00" },
@@ -64,12 +33,12 @@ const techIconSources: Record<string, TechIconSource> = {
   Kotlin: { kind: "simple", slug: "kotlin", color: "7F52FF" },
   "Spring Boot": { kind: "simple", slug: "springboot", color: "6DB33F" },
   Kafka: { kind: "simple", slug: "apachekafka", color: "231F20" },
-  Redis: { kind: "external", url: "https://api.iconify.design/logos:redis.svg"},
+  Redis: { kind: "external", url: "https://api.iconify.design/logos:redis.svg" },
   PostgreSQL: { kind: "simple", slug: "postgresql", color: "4169E1" },
   Hibernate: { kind: "simple", slug: "hibernate", color: "59666C" },
   Docker: { kind: "simple", slug: "docker", color: "2496ED" },
-  AWS: { kind: "external", url: "https://api.iconify.design/logos:aws.svg"},
-  "Android Native": { kind: "simple", slug: "android", color: "3DDC84" }, 
+  AWS: { kind: "external", url: "https://api.iconify.design/logos:aws.svg" },
+  "Android Native": { kind: "simple", slug: "android", color: "3DDC84" },
   Flutter: { kind: "simple", slug: "flutter", color: "02569B" },
   Riverpod: { kind: "simple", slug: "flutter", color: "02569B" },
   Firebase: { kind: "simple", slug: "firebase", color: "FFCA28" },
@@ -77,53 +46,26 @@ const techIconSources: Record<string, TechIconSource> = {
   "Node.js": { kind: "simple", slug: "nodedotjs", color: "5FA04E" },
   "Google Maps API": { kind: "simple", slug: "googlemaps", color: "4285F4" },
   Razorpay: { kind: "simple", slug: "razorpay", color: "0C2451" },
-  DynamoDB : {kind: "external", url: "https://www.svgrepo.com/show/353450/aws-dynamodb.svg"},
-  Kinesis : {kind: "external", url: "https://cloud-icons.onemodel.app/aws/Architecture-Service-Icons_01312023/Arch_Analytics/Arch_64/Arch_Amazon-Kinesis-Data-Streams_64.svg"},
-  SNS : {kind: "external", url: "https://www.svgrepo.com/show/353462/aws-sns.svg"},
-  SQS : {kind: "external", url: "https://www.svgrepo.com/show/353463/aws-sqs.svg"},
-  Lambda : {kind: "external", url: "https://cloud-icons.onemodel.app/aws/Resource-Icons_01312023/Res_Compute/Res_48_Light/Res_AWS-Lambda_Lambda-Function_48_Light.svg"}, ECS : {kind: "external", url: "https://cloud-icons.onemodel.app/aws/Resource-Icons_01312023/Res_Containers/Res_48_Light/Res_Amazon-Elastic-Container-Service_ECS-Anywhere_48_Light.svg"},
+  DynamoDB: { kind: "external", url: "https://www.svgrepo.com/show/353450/aws-dynamodb.svg" },
+  Kinesis: { kind: "external", url: "https://cloud-icons.onemodel.app/aws/Architecture-Service-Icons_01312023/Arch_Analytics/Arch_64/Arch_Amazon-Kinesis-Data-Streams_64.svg" },
+  SNS: { kind: "external", url: "https://www.svgrepo.com/show/353462/aws-sns.svg" },
+  SQS: { kind: "external", url: "https://www.svgrepo.com/show/353463/aws-sqs.svg" },
+  Lambda: { kind: "external", url: "https://cloud-icons.onemodel.app/aws/Resource-Icons_01312023/Res_Compute/Res_48_Light/Res_AWS-Lambda_Lambda-Function_48_Light.svg" },
+  "ECS Fargate": { kind: "external", url: "https://cloud-icons.onemodel.app/aws/Resource-Icons_01312023/Res_Containers/Res_48_Light/Res_Amazon-Elastic-Container-Service_ECS-Anywhere_48_Light.svg" },
   JWT: { kind: "simple", slug: "jsonwebtokens", color: "000000" },
   MongoDB: { kind: "simple", slug: "mongodb", color: "47A248" },
   gRPC: { kind: "external", url: "https://api.iconify.design/logos:grpc.svg" },
   MQTT: { kind: "external", url: "https://images.seeklogo.com/logo-png/39/1/mqtt-logo-png_seeklogo-399397.png" },
   S3: { kind: "external", url: "https://www.svgrepo.com/show/448270/aws-s3.svg" },
   NGINX: { kind: "external", url: "https://api.iconify.design/logos:nginx.svg" },
-  LocalStack:  { kind: "external", url: "https://api.iconify.design/logos:aws.svg" },
-  "AWS CDK": { kind: "external", url: "https://api.iconify.design/logos:aws.svg" },
-  "AWS (EC2, VPC)": { kind: "external", url: "https://api.iconify.design/logos:aws-ec2.svg" },
-  "Material UI": { kind: "external", url: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNTYiIGhlaWdodD0iMTUwIiB2aWV3Qm94PSIwIDAgMjU2IDE1MCI+PHBhdGggZmlsbD0iIzM0YTg1MyIgZD0iTTI1NS4yODUgMTQzLjQ3Yy0uMDg0LS41MjQtLjE2NC0xLjA0Mi0uMjUxLTEuNTZhMTI4LjEgMTI4LjEgMCAwIDAtMTIuNzk0LTM4LjI4OGExMjguOCAxMjguOCAwIDAgMC0yMy40NS0zMS44NmExMjkuMiAxMjkuMiAwIDAgMC0yMi43MTMtMTguMDA1Yy4wNDktLjA4LjA5LS4xNjguMTQtLjI1YzIuNTgyLTQuNDYxIDUuMTcyLTguOTE3IDcuNzU1LTEzLjM4bDcuNTc2LTEzLjA2OGMxLjgxOC0zLjEyNiAzLjYzMi02LjI2IDUuNDM4LTkuMzg2cS42NDMtMS4xMTUgMS4wMjMtMi4yOTdhMTEuNzggMTEuNzggMCAwIDAtLjM2LTguMTg4cS0uMzItLjc2LS43NDMtMS40NzJhMTEuNyAxMS43IDAgMCAwLTQuMDgtNC4wNjRhMTEuODUgMTEuODUgMCAwIDAtNS4wMDUtMS42MWExMiAxMiAwIDAgMC0yLjIxOC4wMnEtLjkxMi4wOTQtMS44MTQuMzNhMTEuNzQgMTEuNzQgMCAwIDAtNy4xNTQgNS40NjdjLTEuODE0IDMuMTI3LTMuNjI4IDYuMjYtNS40MzggOS4zODZsLTcuNTc2IDEzLjA2OWMtMi41ODMgNC40NjItNS4xNzMgOC45MTgtNy43NTUgMTMuMzhjLS4yODIuNDg3LS41NjcuOTczLS44NDggMS40NjdxLS41ODYtLjIzNy0xLjE3Mi0uNDYyYy0xNC4yNC01LjQzLTI5LjY4OC04LjQtNDUuODM2LTguNGMtLjQ0MiAwLS44NzkgMC0xLjMyNC4wMDZjLTE0LjM1Ny4xNDMtMjguMTUyIDIuNjQtNDEuMDIyIDcuMTJhMTE5IDExOSAwIDAgMC00LjQyIDEuNjQyYy0uMjYyLS40NTUtLjUzMi0uOTExLS43OS0xLjM2N2MtMi41ODMtNC40NjItNS4xNzMtOC45MTgtNy43NTUtMTMuMzhsLTcuNTc2LTEzLjA3YTM5MTUgMzkxNSAwIDAgMS01LjQzOS05LjM4NkExMS43NCAxMS43NCAwIDAgMCA0OC41LjA0OGExMS43IDExLjcgMCAwIDAtNS4wMSAxLjYxMmExMS43IDExLjcgMCAwIDAtNC4wNzcgNC4wNjNjLS4yODEuNDc0LS41MzIuOTY3LS43NDIgMS40NzNhMTEuOCAxMS44IDAgMCAwLS4zNjUgOC4xODhjLjI1OS43ODYuNTk0IDEuNTU0IDEuMDIzIDIuMjk2YTM5NzMgMzk3MyAwIDAgMSA1LjQzOSA5LjM4NnEzLjc5MyA2LjUzNSA3LjU4IDEzLjA2OWMyLjU4MiA0LjQ2MiA1LjE2OCA4LjkxOCA3Ljc1IDEzLjM4Yy4wMi4wMzguMDQ2LjA3NS4wNjUuMTEyQTEyOSAxMjkgMCAwIDAgNDUuMzIgNjQuMzhhMTI5LjcgMTI5LjcgMCAwIDAtMjIuMiAyNC4wMTVhMTI4IDEyOCAwIDAgMC05LjM0IDE1LjI0YTEyOC4yIDEyOC4yIDAgMCAwLTEwLjg0MyAyOC43NjRhMTMxIDEzMSAwIDAgMC0xLjk1MSA5LjUyNGMtLjA4Ny41MTgtLjE2NyAxLjA0Mi0uMjQ3IDEuNTZBMTI1IDEyNSAwIDAgMCAwIDE0OS4xMThoMjU2cS0uMzA3LTIuODM3LS43MzQtNS42MzZ6Ii8+PHBhdGggZmlsbD0iIzIwMjEyNCIgZD0iTTE5NC41OSAxMTMuNzEyYzUuMTIyLTMuNDEgNS44NjctMTEuMyAxLjY2MS0xNy42MmMtNC4yMDMtNi4zMjMtMTEuNzYzLTguNjgyLTE2Ljg4My01LjI3M2MtNS4xMjIgMy40MS01Ljg2OCAxMS4zLTEuNjYyIDE3LjYyMWM0LjIwMyA2LjMyMiAxMS43NjQgOC42ODIgMTYuODgzIDUuMjcybS0xMTYuMDcxLTUuMjVjNC4yMDYtNi4zMjEgMy40Ni0xNC4yMS0xLjY2Mi0xNy42MmMtNS4xMjMtMy40MS0xMi42OC0xLjA1LTE2Ljg4NiA1LjI3Yy00LjIwMyA2LjMyMy0zLjQ1OCAxNC4yMTIgMS42NjIgMTcuNjIyYzUuMTIyIDMuNDEgMTIuNjgzIDEuMDUgMTYuODg2LTUuMjcyIi8+PC9zdmc+" },
   "Kubernetes (k3s)": { kind: "external", url: "https://api.iconify.design/logos:kubernetes.svg" },
-  "Autoscaling (HPA)": { kind: "external", url: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgdmlld0JveD0iMCAwIDMyIDMyIj48cGF0aCBmaWxsPSJjdXJyZW50Q29sb3IiIGQ9Ik0yMiAyOEgxMnYtMmgxMFYxMEg2djEwSDRWMTBhMiAyIDAgMCAxIDItMmgxNmEyIDIgMCAwIDEgMiAydjE2YTIgMiAwIDAgMS0yIDIiLz48cGF0aCBmaWxsPSJjdXJyZW50Q29sb3IiIGQ9Ik0yOCAyMmgtMnYtMmgyVjRIMTJ2MmgtMlY0YTIgMiAwIDAgMSAyLTJoMTZhMiAyIDAgMCAxIDIgMnYxNmEyIDIgMCAwIDEtMiAyIi8+PHBhdGggZmlsbD0iY3VycmVudENvbG9yIiBkPSJNMTAgMTR2Mmg0LjU4NkwzIDI3LjU4Nkw0LjQxNCAyOUwxNiAxNy40MTRWMjJoMnYtOHoiLz48L3N2Zz4=" },
-  "NGINX Ingress": { kind: "external", url: "https://api.iconify.design/logos:nginx.svg" },
-  "CI/CD": { kind: "external", url: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNiIgaGVpZ2h0PSIzNiIgdmlld0JveD0iMCAwIDM2IDM2Ij48cGF0aCBmaWxsPSJjdXJyZW50Q29sb3IiIGQ9Ik0yMy41MyAxOS44MWE3LjUgNy41IDAgMCAxLTEuNjUtLjE4YTEwLjUgMTAuNSAwIDAgMSAuNzIgMi4xM2guOTNhOS41IDkuNSAwIDAgMCAzLS40OWwtLjkzLTEuODFhNy43IDcuNyAwIDAgMS0yLjA3LjM1bS01LjE3LTEuOTRsLS4zNi0uMzhhNy40IDcuNCAwIDAgMS0yLjItNS45MmE3LjMgNy4zIDAgMCAxIDEuNTQtNEwxNy4yNiA5YTEgMSAwIDAgMCAuOTEgMWguMDlhMSAxIDAgMCAwIDEtLjkxTDE5LjYgNWExIDEgMCAwIDAtLjI5LS43OWExIDEgMCAwIDAtLjc5LS4yMWwtNC4wOS4zNWExIDEgMCAwIDAgLjE3IDJsMS4yOS0uMTFhOS40NSA5LjQ1IDAgMCAwLTIuMDUgNS4zMmE5LjI4IDkuMjggMCAwIDAgMi42NyA3LjI2bC4zMS4zN2E3LjMzIDcuMzMgMCAwIDEgMi4wNiA0LjkxYTcuNCA3LjQgMCAwIDEtLjI2IDIuNDdsMS44LjkxYTguOCA4LjggMCAwIDAgLjQ1LTMuNTFhOS4yOCA5LjI4IDAgMCAwLTIuNTEtNi4xbTE0LjA0LjA0bC0xLjIxLjA5YTkuNjUgOS42NSAwIDAgMC03LjY2LTE1LjU1YTkuMyA5LjMgMCAwIDAtMyAuNDlsLjkxIDEuOGE3LjY3IDcuNjcgMCAwIDEgOS43NiA3LjM5YTcuNTggNy41OCAwIDAgMS0xLjY1IDQuNzJsLjEtMS41NGExIDEgMCAxIDAtMi0uMTNsLS4yOCA0LjA4YTEgMSAwIDAgMCAuMzEuNzhhLjk0Ljk0IDAgMCAwIC42OS4yOGguMWw0LjA4LS40MmExIDEgMCAwIDAgLjktMS4xYTEgMSAwIDAgMC0xLjA1LS44OU00LjA3IDIwLjQ0aC4wOGw0LjA5LS4zNWExIDEgMCAxIDAtLjE3LTJsLTEuMzkuMTJhNy42MyA3LjYzIDAgMCAxIDQuNTItMS40OWE4IDggMCAwIDEgMS42My4xOGExMC4yIDEwLjIgMCAwIDEtLjcxLTIuMTNoLS45MmE5LjY2IDkuNjYgMCAwIDAtNS45IDJsLjEyLTEuMzFhMSAxIDAgMCAwLS45Mi0xLjA4YTEgMSAwIDAgMC0xLjA4LjkxbC0uMzUgNC4wOGExIDEgMCAwIDAgMSAxLjA4Wm0xNC4zNSA3Ljc5bC00LjA5LjI3YTEgMSAwIDAgMCAuMTMgMmwxLjU0LS4xMWE3LjcxIDcuNzEgMCAwIDEtMTIuNTQtNmE3LjYgNy42IDAgMCAxIC4yOS0yTDIgMjEuNDZhOS42IDkuNiAwIDAgMC0uNDcgMi45NUE5LjcgOS43IDAgMCAwIDE3LjE5IDMybC0uMTIgMS4xOGExIDEgMCAwIDAgLjg5IDEuMWguMTFhMSAxIDAgMCAwIDEtLjlsLjQyLTQuMDZhMSAxIDAgMCAwLTEuMDYtMS4xWiIvPjwvc3ZnPg==" },
-  "System Monitoring": { kind: "external", url: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBmaWxsPSIjNjY5ZGY2IiBkPSJNMTAuODMgMTUuODRoMi4zM3YyLjY0aC0yLjMzeiIvPjxwYXRoIGZpbGw9IiM0Mjg1ZjQiIGQ9Ik0xOC40OCAxMy44N2EuNTYuNTYgMCAwIDEtLjQtLjE3TDE0IDkuNDdsLTIuNzQgMi44OWEuNTcuNTcgMCAwIDEtLjc2LjA1bC0yLjA4LTEuNjhsLTIuMiAyLjkyYS41Ni41NiAwIDAgMS0uNDUuMjJIMnYxLjcxYS43NS43NSAwIDAgMCAuNzQuNzVoMTguNTJhLjc1Ljc1IDAgMCAwIC43NC0uNzV2LTEuNzFaIi8+PHBhdGggZmlsbD0iIzY2OWRmNiIgZD0iTTUuNSAxMi43Nkw3Ljg4IDkuNmEuNTUuNTUgMCAwIDEgLjM3LS4yMmEuNjMuNjMgMCAwIDEgLjQyLjEybDIuMTIgMS43MmwyLjgtMi45NGEuNTQuNTQgMCAwIDEgLjQtLjE3YS41NC41NCAwIDAgMSAuNC4xN2w0LjMzIDQuNDhIMjJWNmEuNzQuNzQgMCAwIDAtLjc0LS43NEgyLjc0QS43NC43NCAwIDAgMCAyIDZ2Ni44MVoiLz48cmVjdCB3aWR0aD0iNi42NyIgaGVpZ2h0PSIuNjEiIHg9IjguNjciIHk9IjE4LjE4IiBmaWxsPSIjNDI4NWY0IiByeD0iLjMiLz48L3N2Zz4=" },
-  "JUnit 5": { kind: "simple", slug: "junit5", color: "25A162" },
-  LangChain: { kind: "simple", slug: "langchain", color: "1C3C3C" },
+  k3s: { kind: "external", url: "https://api.iconify.design/logos:kubernetes.svg" },
   Prometheus: { kind: "external", url: "https://api.iconify.design/logos:prometheus.svg" },
   Grafana: { kind: "external", url: "https://api.iconify.design/logos:grafana.svg" },
-  FAISS: { kind: "external", url: "https://api.iconify.design/logos:meta-icon.svg" },
   Gemini: { kind: "simple", slug: "googlegemini", color: "8E75B2" },
-  Redisson: { kind: "simple", slug: "redis", color: "8E75B2" },
-  RAG: { kind: "semantic", icon: "layers" },
-  "Vector Embeddings": { kind: "external", url: "https://api.iconify.design/logos:chroma.svg" },
-  "Event Streaming": { kind: "semantic", icon: "network" },
-  Microservices: { kind: "semantic", icon: "layers" },
-  "System Reliability": { kind: "simple", slug: "prometheus", color: "E6522C" },
-  "Android (Java/Kotlin)": { kind: "simple", slug: "android", color: "3DDC84" },
-  MVVM: { kind: "semantic", icon: "layers" },
-  Retrofit: { kind: "semantic", icon: "network" },
-  "NFC/Hardware SDKs": { kind: "semantic", icon: "chip" },
-  Jenkins: { kind: "simple", slug: "jenkins", color: "D24939" },
-  "GitHub Actions": { kind: "simple", slug: "githubactions", color: "2088FF" },
-  Maven: { kind: "simple", slug: "apachemaven", color: "C71A36" },
-  JUnit: { kind: "simple", slug: "junit5", color: "25A162" },
-  Prompting: { kind: "semantic", icon: "message" },
-  "Vector Search Pipelines": { kind: "semantic", icon: "network" },
-  "STL (Standard Template Library)": { kind: "simple", slug: "cplusplus", color: "00599C" },
-  "Core Data Structures & Algorithms": { kind: "simple", slug: "cplusplus", color: "00599C" },
-  "Java Collections Framework": { kind: "simple", slug: "openjdk", color: "ED8B00" },
-  STL: { kind: "simple", slug: "cplusplus", color: "00599C" },
-  "Collections Framework": { kind: "simple", slug: "openjdk", color: "ED8B00" },
+  pgvector: { kind: "simple", slug: "postgresql", color: "4169E1" },
+  Snowflake: { kind: "simple", slug: "snowflake", color: "29B5E8" },
+  FastAPI: { kind: "simple", slug: "fastapi", color: "009688" },
 };
 
 function SemanticIcon({
@@ -171,110 +113,39 @@ function SemanticIcon({
     );
   }
 
-  if (icon === "message") {
-    return (
-      <svg viewBox="0 0 24 24" aria-hidden="true" className={`${sizeClass} shrink-0`} fill="none" style={style}>
-        <path
-          d="M5 6.5h14v8H9.2L5 18V6.5Z"
-          stroke="currentColor"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth="1.8"
-        />
-      </svg>
-    );
-  }
-
-  if (icon === "chip") {
-    return (
-      <svg viewBox="0 0 24 24" aria-hidden="true" className={`${sizeClass} shrink-0`} fill="none" style={style}>
-        <rect x="7.2" y="7.2" width="9.6" height="9.6" rx="1.5" stroke="currentColor" strokeWidth="1.8" />
-        <path d="M12 4v3M12 17v3M4 12h3m10 0h3M6.2 6.2l1.7 1.7m8.2 8.2 1.7 1.7M17.8 6.2l-1.7 1.7m-8.2 8.2-1.7 1.7" stroke="currentColor" strokeLinecap="round" strokeWidth="1.6" />
-      </svg>
-    );
-  }
-
   return (
     <svg viewBox="0 0 24 24" aria-hidden="true" className={`${sizeClass} shrink-0`} fill="none" style={style}>
-      <path
-        d="M6 17.5h12M6 6.5h12M6 12h6m4.4 0h1.6"
-        stroke="currentColor"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth="1.8"
-      />
+      <path d="m8 9-5 3 5 3m8-6 5 3-5 3m-4-8-4 12" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8" />
     </svg>
   );
 }
 
-function TechIcon({
-  label,
-  compact = false,
-}: {
-  label: string;
-  compact?: boolean;
-}) {
+function TechChip({ label }: { label: string }) {
   const source = techIconSources[label] ?? fallbackTechIcon;
-  const sizeClass = compact ? "h-3 w-3" : "h-3.5 w-3.5";
-  const iconSize = compact ? 12 : 14;
-
-  if (source.kind === "semantic") {
-    return (
-      <span className="tech-icon-shell">
-        <SemanticIcon icon={source.icon} compact={compact} color={source.color} />
-      </span>
-    );
-  }
-
-  if (source.kind === "external") {
-    return (
-      <span className="tech-icon-shell">
-        <Image
-          src={source.url}
-          alt=""
-          aria-hidden="true"
-          className={`${sizeClass} block shrink-0`}
-          width={iconSize}
-          height={iconSize}
-          loading="lazy"
-          fetchPriority="low"
-          sizes={`${iconSize}px`}
-          unoptimized
-          referrerPolicy="no-referrer"
-        />
-      </span>
-    );
-  }
 
   return (
-    <span className="tech-icon-shell">
-      <Image
-        src={`https://cdn.simpleicons.org/${source.slug}/${source.color}`}
-        alt=""
-        aria-hidden="true"
-        className={`${sizeClass} block shrink-0`}
-        width={iconSize}
-        height={iconSize}
-        loading="lazy"
-        fetchPriority="low"
-        sizes={`${iconSize}px`}
-        unoptimized
-        referrerPolicy="no-referrer"
-      />
-    </span>
-  );
-}
-
-function TechChip({
-  label,
-  compactIcon = false,
-}: {
-  label: string;
-  compactIcon?: boolean;
-}) {
-  return (
-    <span className="chip text-xs gap-1.5">
-      <TechIcon label={label} compact={compactIcon} />
+    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded border border-white/10 bg-[#14151c]/80 text-[#8c8f9a] hover:text-[#edeae3] hover:border-white/20 transition-all font-mono text-[11px]">
+      {source.kind === "semantic" ? (
+        <SemanticIcon icon={source.icon} compact color={source.color} />
+      ) : source.kind === "simple" ? (
+        <span className="tech-icon-shell h-3 w-3 shrink-0">
+          <img
+            src={`https://cdn.simpleicons.org/${source.slug}/${source.color}`}
+            alt=""
+            loading="lazy"
+            className="h-2.5 w-2.5"
+          />
+        </span>
+      ) : (
+        <span className="tech-icon-shell h-3 w-3 shrink-0">
+          <img
+            src={source.url}
+            alt=""
+            loading="lazy"
+            className="h-2.5 w-2.5 object-contain"
+          />
+        </span>
+      )}
       <span>{label}</span>
     </span>
   );
@@ -290,20 +161,6 @@ const ExternalIcon = ({ className = "h-3.5 w-3.5" }: { className?: string }) => 
       strokeLinejoin="round"
       strokeWidth="1.9"
     />
-  </svg>
-);
-
-const LocationPinIcon = () => (
-  <svg viewBox="0 0 20 20" aria-hidden="true" className="h-3 w-3">
-    <path
-      d="M10 17s5-4.6 5-8a5 5 0 1 0-10 0c0 3.4 5 8 5 8Z"
-      fill="none"
-      stroke="currentColor"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth="1.5"
-    />
-    <circle cx="10" cy="9" r="1.6" fill="none" stroke="currentColor" strokeWidth="1.5" />
   </svg>
 );
 
@@ -373,47 +230,89 @@ function QuickLinkIcon({
   );
 }
 
-function SectionHeader({
-  eyebrow,
+function SpecimenSectionHeader({
+  marker,
+  subtitle,
   title,
   copy,
   sectionKey,
   listenText,
 }: {
-  eyebrow: string;
+  marker: string;
+  subtitle?: string;
   title: string;
-  copy: string;
+  copy?: string;
   sectionKey?: string;
   listenText?: string;
 }) {
   return (
-    <header>
-      <div className="flex items-center justify-between gap-3">
-        <p className="eyebrow">{eyebrow}</p>
+    <div className="flex flex-col gap-3 border-b border-white/10 pb-5">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <span className="font-mono text-[11px] tracking-widest uppercase text-[#8c8f9a]">
+            {marker}
+          </span>
+          {subtitle && (
+            <>
+              <span className="h-px w-6 bg-white/15" />
+              <span className="font-mono text-[11px] text-[#555760] uppercase hidden sm:inline">
+                {subtitle}
+              </span>
+            </>
+          )}
+        </div>
         {sectionKey && (
           <SectionListenButton
             sectionKey={sectionKey}
-            text={listenText || `${eyebrow}. ${title}. ${copy}`}
+            text={listenText || `${marker}. ${title}. ${copy || ""}`}
           />
         )}
       </div>
-      <h2 className="section-title mt-1 text-[1.95rem] leading-[1.16] sm:text-4xl">{title}</h2>
-      <p className="section-copy mt-3">{copy}</p>
-    </header>
+      <h2 className="text-2xl sm:text-3xl font-light text-[#edeae3] tracking-tight">
+        {title}
+      </h2>
+      {copy && (
+        <p className="text-sm text-[#8c8f9a] font-sans leading-relaxed max-w-2xl">
+          {copy}
+        </p>
+      )}
+    </div>
   );
 }
 
 export default function Home() {
-  const { t, currentLanguage } = useLanguage();
+  const { t } = useLanguage();
+  const [liveTime, setLiveTime] = useState<string>("18:30:00");
+
+  useEffect(() => {
+    const updateTime = () => {
+      const now = new Date();
+      // Format Bengaluru time (Asia/Kolkata)
+      const options: Intl.DateTimeFormatOptions = {
+        timeZone: "Asia/Kolkata",
+        hour12: false,
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+      };
+      setLiveTime(new Intl.DateTimeFormat("en-GB", options).format(now));
+    };
+
+    updateTime();
+    const interval = setInterval(updateTime, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   const navItems = [
-    { label: t.nav.about, href: "#about" },
-    { label: t.nav.showcase, href: "#showcase" },
-    { label: t.nav.experience, href: "#experience" },
-    { label: t.nav.projects, href: "#projects" },
-    { label: t.nav.skills, href: "#skills" },
-    { label: t.nav.writing, href: "#writing" },
-    { label: t.nav.contact, href: "#contact" },
+    { label: "Index", href: "#hero" },
+    { label: "Telemetry", href: "#telemetry" },
+    { label: "Topology", href: "#topology" },
+    { label: "Doctrine", href: "#doctrine" },
+    { label: "Systems", href: "#projects" },
+    { label: "Experience", href: "#experience" },
+    { label: "Tooling", href: "#skills" },
+    { label: "Writing", href: "#writing" },
+    { label: "Dispatch", href: "#contact" },
   ];
 
   const resumeLink = resumeQuickLink.href;
@@ -421,49 +320,57 @@ export default function Home() {
   const emailAddress = portfolioData.contact.email;
   const gmailComposeLink = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(emailAddress)}`;
 
-  // Fix theme-switching bug: persist revealed state to prevent content-visibility from hiding elements
-  useEffect(() => {
-    const handleAnimationEnd = (event: AnimationEvent) => {
-      if (event.animationName === "reveal-up") {
-        const target = event.target as HTMLElement;
-        target.classList.add("is-revealed");
-      }
-    };
-
-    document.addEventListener("animationend", handleAnimationEnd);
-    return () => document.removeEventListener("animationend", handleAnimationEnd);
-  }, []);
-
-
   return (
-    <div className="relative isolate overflow-x-clip pb-16">
-      <div className="pointer-events-none fixed inset-0 -z-20 bg-grid-pattern opacity-70" />
-      <div className="pointer-events-none floating-orb fixed -left-20 top-10 -z-10 h-72 w-72 rounded-full bg-[radial-gradient(circle,#0f766e42_0%,transparent_68%)] blur-2xl" />
-      <div className="pointer-events-none floating-orb fixed -right-16 top-40 -z-10 h-80 w-80 rounded-full bg-[radial-gradient(circle,#e67e2240_0%,transparent_72%)] blur-2xl [animation-delay:1.2s]" />
+    <div className="relative isolate min-h-screen text-[#edeae3] selection:bg-[#edeae3] selection:text-[#090a0d]">
+      {/* Subtle background noise overlay */}
+      <div className="fixed inset-0 pointer-events-none noise-bg z-0 opacity-80" />
 
-      <header className="mx-auto max-w-6xl px-5 pt-24 sm:px-10 sm:pt-28">
-        <NavDock className="section-panel fixed left-1/2 top-4 z-40 w-[calc(100%-2.5rem)] max-w-6xl px-4 py-3 sm:w-[calc(100%-5rem)] sm:px-5 [animation-delay:70ms]">
-          <MobileNav navItems={navItems} quickLinks={portfolioData.quickLinks} />
+      {/* Architectural Masthead */}
+      <header className="fixed top-0 left-0 w-full z-50 bg-[#090a0d]/85 backdrop-blur-md border-b border-white/10 transition-colors">
+        <div className="max-w-7xl mx-auto px-6 sm:px-10 h-16 flex items-center justify-between">
+          {/* Identity & Status */}
+          <div className="flex items-center gap-6">
+            <a href="#hero" className="group flex items-baseline gap-2.5">
+              <span className="font-mono text-xs uppercase tracking-widest text-[#edeae3] font-semibold">
+                A. Pandey
+              </span>
+              <span className="text-[#555760] font-mono text-xs">/</span>
+              <span className="font-editorial-italic font-serif italic text-xs text-[#8c8f9a] group-hover:text-white transition-colors">
+                Systems Atelier
+              </span>
+            </a>
+            <div className="hidden lg:flex items-center gap-2 pl-5 border-l border-white/10 font-mono text-[11px] text-[#8c8f9a]">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#2dd4bf] animate-pulse" />
+              <span className="uppercase tracking-wider">Available for select roles &amp; advisory</span>
+            </div>
+          </div>
 
-          <div className="hidden flex-wrap items-center gap-3 md:flex">
-            <ul className="flex flex-wrap items-center gap-4 text-sm text-[var(--muted)]">
-              {navItems.map((item) => (
-                <li key={item.href}>
-                  <a
-                    className="nav-link"
-                    href={item.href}
-                    data-analytics-event={ANALYTICS_EVENTS.NAV_CLICK}
-                    data-analytics-nav-item={item.label}
-                    data-analytics-device="desktop"
-                  >
-                    {item.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
+          {/* Desktop Nav Links */}
+          <nav className="hidden md:flex items-center gap-6 font-mono text-xs text-[#8c8f9a]">
+            {navItems.slice(0, 7).map((item, idx) => (
+              <a
+                key={item.href}
+                href={item.href}
+                className="hover:text-[#edeae3] transition-colors"
+                data-analytics-event={ANALYTICS_EVENTS.NAV_CLICK}
+                data-analytics-nav-item={item.label}
+              >
+                <span className="text-[#555760] mr-1">0{idx + 1}</span>
+                {item.label}
+              </a>
+            ))}
+          </nav>
 
-            <div className="ms-auto flex items-center gap-2">
-              <LanguageSelector />
+          {/* Clock, Language, Quick Links & Dispatch */}
+          <div className="flex items-center gap-3">
+            <div className="hidden xl:flex items-center gap-2.5 font-mono text-xs text-[#555760] border-r border-white/10 pr-3">
+              <span>BLR · UTC+5:30</span>
+              <span className="text-[#edeae3] tabular-nums font-medium">{liveTime}</span>
+            </div>
+
+            <LanguageSelector />
+
+            <div className="hidden sm:flex items-center gap-1.5">
               {portfolioData.quickLinks.map((item) => (
                 <a
                   key={item.label}
@@ -471,573 +378,624 @@ export default function Home() {
                   target="_blank"
                   rel="noreferrer"
                   title={item.label}
-                  aria-label={item.label}
                   download={item.download ? true : undefined}
-                  className={`quick-icon ${item.icon === "resume" ? "quick-icon-resume" : ""}`}
+                  className="p-1.5 text-[#8c8f9a] hover:text-[#edeae3] transition-colors rounded hover:bg-white/5"
                 >
                   <QuickLinkIcon icon={item.icon} />
                 </a>
               ))}
-              <div className="hidden lg:block">
-                <LiquidGlassToggle />
-              </div>
+            </div>
+
+            <a
+              href={gmailComposeLink}
+              target="_blank"
+              rel="noreferrer"
+              className="text-xs font-mono px-3 py-1.5 rounded border border-white/15 bg-white/5 hover:bg-white/10 hover:border-white/30 text-[#edeae3] transition-all hidden sm:inline-block"
+            >
+              Inquire
+            </a>
+
+            {/* Mobile Nav Menu Drawer */}
+            <div className="md:hidden">
+              <MobileNav navItems={navItems} quickLinks={portfolioData.quickLinks} />
             </div>
           </div>
-        </NavDock>
-
-        <div className="h-5 sm:h-6" aria-hidden="true" />
-
-        <section id="hero" className="hero-grid mt-4 grid items-stretch gap-6 md:gap-6 lg:auto-rows-fr lg:grid-cols-[1.15fr_0.85fr]">
-          <article className="section-panel hero-intro reveal flex h-full self-stretch flex-col justify-center p-6 sm:p-9 [animation-delay:120ms]">
-            <div>
-              {/* Minimal Architectural Specimen Marker */}
-              <div className="flex items-center gap-2 mb-2.5 font-mono text-[10px] uppercase tracking-widest text-[var(--muted)]">
-                <span className="w-1.5 h-1.5 rounded-full bg-[var(--teal)] animate-pulse" />
-                <span>SPECIMEN // 2026-ENG · BENGALURU, INDIA</span>
-                <span className="hidden sm:inline">•</span>
-                <span className="hidden sm:inline text-[var(--teal)]">FLEET TELEMETRY &amp; TRANSIT INFRASTRUCTURE</span>
-              </div>
-
-              <div className="flex items-center justify-between gap-3">
-                <p className="eyebrow">{t.hero.eyebrow}</p>
-                <SectionListenButton
-                  sectionKey="hero"
-                  text={`${t.hero.name}. ${t.hero.role}. ${t.hero.summary} ${t.hero.pitch}`}
-                />
-              </div>
-              <h1 className="hero-name display-font mt-2 text-[2.75rem] font-extrabold leading-[1.04] tracking-tight sm:text-[3.75rem]">
-                {t.hero.name}
-                <span className="term-cursor" aria-hidden="true" />
-              </h1>
-              <p className="mt-2.5 text-lg leading-relaxed text-[var(--teal)] sm:text-xl font-medium">{t.hero.role}</p>
-              <p className="hero-meta mt-2.5 flex items-start gap-1.5 text-xs text-[var(--muted)]">
-                <span className="mt-0.5 shrink-0">
-                  <LocationPinIcon />
-                </span>
-                <span>{t.hero.location}</span>
-              </p>
-            </div>
-
-            <div className="mt-5 space-y-3">
-              <p className="hero-summary max-w-2xl text-base sm:text-lg leading-relaxed text-[var(--ink)]">
-                Engineering resilient <span className="font-editorial-italic font-serif italic text-[var(--teal)]">distributed backends</span>, high-throughput <span className="font-editorial-italic font-serif italic text-[var(--teal)]">event pipelines</span>, and grounded <span className="font-editorial-italic font-serif italic text-[var(--teal)]">semantic retrieval</span>.
-              </p>
-              <p className="hero-pitch max-w-2xl text-sm leading-relaxed text-[var(--muted)]">
-                {t.hero.pitch}
-              </p>
-            </div>
-
-            <div className="mt-6">
-              <div className="flex flex-wrap gap-2 text-xs font-mono">
-                <span className="chip">Java 21 / Spring Boot</span>
-                <span className="chip">Kafka &amp; MQTT</span>
-                <span className="chip">AWS (IoT Core, ECS, Kinesis)</span>
-                <span className="chip">Redis GEO &amp; Postgres</span>
-                <span className="chip">Kubernetes (k3s)</span>
-              </div>
-
-              <div className="hero-actions mt-5 flex flex-wrap items-center gap-3">
-                <a
-                  className="btn-primary px-6 py-3"
-                  href={resumeLink}
-                  target="_blank"
-                  rel="noreferrer"
-                  download={resumeDownload}
-                  data-analytics-event={ANALYTICS_EVENTS.RESUME_CLICK_HERO}
-                  data-analytics-location="hero"
-                  data-analytics-type="primary_cta"
-                >
-                  {t.hero.downloadResume}
-                </a>
-                <a className="btn-secondary px-6 py-3" href="#projects">
-                  {t.hero.viewProjects}
-                </a>
-              </div>
-            </div>
-          </article>
-
-          <aside className="section-panel hero-session reveal flex h-full flex-col p-5 sm:p-6 [animation-delay:200ms]">
-            <div className="flex items-center justify-between">
-              <p className="eyebrow">{t.hero.sessionTitle}</p>
-              <span className="chip text-xs">{t.hero.sessionChip}</span>
-            </div>
-
-            <div className="terminal-window mt-3.5">
-              <div className="terminal-bar">
-                <span className="terminal-dot terminal-dot-red" />
-                <span className="terminal-dot terminal-dot-amber" />
-                <span className="terminal-dot terminal-dot-green" />
-              </div>
-
-              <div className="terminal-body">
-                <p className="terminal-line">
-                  <span className="terminal-prompt">-&gt; </span>
-                  <span className="terminal-ok">{t.hero.terminal.init}</span>
-                </p>
-                <p className="terminal-line">
-                  <span className="terminal-prompt">-&gt; </span>{t.hero.terminal.roleLine}
-                </p>
-                <p className="terminal-line">
-                  <span className="terminal-prompt">-&gt; </span>{t.hero.terminal.buildingLine}
-                  <span className="term-cursor" aria-hidden="true" />
-                </p>
-              </div>
-            </div>
-
-            {/* Interactive Kinetic Node Mesh (Subtle, responsive, 0.2% CPU) */}
-            <div className="mt-3.5 flex-1 flex flex-col justify-between gap-3 min-h-[260px]">
-              <KineticNodeMesh className="flex-1 min-h-[180px]" />
-
-              {/* Specimen Telemetry Metric Strip from Official Resume */}
-              <div className="grid grid-cols-3 gap-2 pt-0.5 text-[11px] font-mono">
-                <div className="rounded-lg border border-[var(--line)] bg-[var(--surface-subtle)]/90 p-2.5">
-                  <span className="text-[9px] uppercase text-[var(--muted)] block tracking-wider">Transit Volume</span>
-                  <span className="font-semibold text-[var(--ink)]">1M+ TX/Day</span>
-                </div>
-                <div className="rounded-lg border border-[var(--line)] bg-[var(--surface-subtle)]/90 p-2.5">
-                  <span className="text-[9px] uppercase text-[var(--muted)] block tracking-wider">Kafka Ingest</span>
-                  <span className="font-semibold text-[var(--teal)]">2M+ Ev/Day</span>
-                </div>
-                <div className="rounded-lg border border-[var(--line)] bg-[var(--surface-subtle)]/90 p-2.5">
-                  <span className="text-[9px] uppercase text-[var(--muted)] block tracking-wider">Payment Latency</span>
-                  <span className="font-semibold text-emerald-400">-35% P99</span>
-                </div>
-              </div>
-            </div>
-          </aside>
-        </section>
-
-        {/* Operational Pulse Bar (Derived from Authentic Resume) */}
-        <section className="section-panel reveal mt-4 p-5 sm:p-6 [animation-delay:220ms]">
-          <div className="flex items-center justify-between border-b border-[var(--line)]/60 pb-3 mb-3 text-xs font-mono">
-            <div className="flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-[var(--teal)] animate-ping" />
-              <span className="text-[var(--teal)] font-semibold uppercase tracking-wider">Operational Footprint &amp; Systems</span>
-            </div>
-            <span className="text-[var(--muted)] hidden sm:inline">ACCENTURE PRODUCTION ARCHITECTURE</span>
-          </div>
-
-          <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-4 font-mono">
-            <article className="surface-subtle rounded-xl p-3.5 border border-[var(--line)]/40 flex flex-col justify-between">
-              <div>
-                <span className="text-[10px] text-[var(--teal)] uppercase tracking-wider block mb-1">01 // FLEET TELEMETRY</span>
-                <h3 className="text-xs font-bold text-[var(--ink)]">Heavy Machinery Processing</h3>
-                <p className="mt-1.5 text-[11px] leading-relaxed text-[var(--muted)] font-sans">
-                  Java, Spring Boot, MQTT, AWS IoT Core, Lambda, Kinesis, DynamoDB, ECS Fargate, Snowflake.
-                </p>
-              </div>
-              <div className="mt-3 pt-2 border-t border-[var(--line)]/40 text-[10px] text-[var(--muted)] flex items-center justify-between">
-                <span>Intermittent Flows</span>
-                <span className="text-[var(--teal)] font-semibold">Live System</span>
-              </div>
-            </article>
-
-            <article className="surface-subtle rounded-xl p-3.5 border border-[var(--line)]/40 flex flex-col justify-between">
-              <div>
-                <span className="text-[10px] text-[var(--teal)] uppercase tracking-wider block mb-1">02 // TRANSIT SCALE</span>
-                <h3 className="text-xs font-bold text-[var(--ink)]">PRESTO FPS (1M+ TX/D)</h3>
-                <p className="mt-1.5 text-[11px] leading-relaxed text-[var(--muted)] font-sans">
-                  -35% payment confirmation latency via Redis caching &amp; composite SQL indexes across 10+ agencies.
-                </p>
-              </div>
-              <div className="mt-3 pt-2 border-t border-[var(--line)]/40 text-[10px] text-[var(--muted)] flex items-center justify-between">
-                <span>Kafka Settlement</span>
-                <span className="text-[var(--teal)] font-semibold">2M+ Events/D</span>
-              </div>
-            </article>
-
-            <article className="surface-subtle rounded-xl p-3.5 border border-[var(--line)]/40 flex flex-col justify-between">
-              <div>
-                <span className="text-[10px] text-[var(--teal)] uppercase tracking-wider block mb-1">03 // MODULAR MONOLITH</span>
-                <h3 className="text-xs font-bold text-[var(--ink)]">AroundU Platform</h3>
-                <p className="mt-1.5 text-[11px] leading-relaxed text-[var(--muted)] font-sans">
-                  Java 21, Redis GEO proximity index, Resilience4j circuit breakers, deployed on AWS EC2 with k3s.
-                </p>
-              </div>
-              <div className="mt-3 pt-2 border-t border-[var(--line)]/40 text-[10px] text-[var(--muted)] flex items-center justify-between">
-                <span>Orchestration</span>
-                <span className="text-[var(--teal)] font-semibold">k3s + Ingress</span>
-              </div>
-            </article>
-
-            <article className="surface-subtle rounded-xl p-3.5 border border-[var(--line)]/40 flex flex-col justify-between">
-              <div>
-                <span className="text-[10px] text-[var(--teal)] uppercase tracking-wider block mb-1">04 // SEMANTIC RETRIEVAL</span>
-                <h3 className="text-xs font-bold text-[var(--ink)]">TalkingYoutube RAG</h3>
-                <p className="mt-1.5 text-[11px] leading-relaxed text-[var(--muted)] font-sans">
-                  FastAPI, Google Gemini embeddings, PostgreSQL + pgvector, ON DELETE CASCADE video pruning.
-                </p>
-              </div>
-              <div className="mt-3 pt-2 border-t border-[var(--line)]/40 text-[10px] text-[var(--muted)] flex items-center justify-between">
-                <span>Hardened Stack</span>
-                <span className="text-[var(--teal)] font-semibold">Docker Scout</span>
-              </div>
-            </article>
-          </div>
-        </section>
+        </div>
       </header>
 
-      <main className="mx-auto mt-5 max-w-6xl space-y-6 px-5 sm:px-10 md:mt-6 md:space-y-5">
-        <section id="about" className="section-panel reveal defer-render p-6 sm:p-8 [animation-delay:240ms]">
-          <SectionHeader
-            eyebrow={t.about.eyebrow}
-            title={t.about.title}
-            copy={t.about.copy}
-            sectionKey="about"
-            listenText={`${t.about.eyebrow}. ${t.about.title}. ${t.about.copy}. ${t.about.highlights.join(" ")}`}
-          />
-          <div className="mt-7 grid gap-5 md:gap-4 lg:grid-cols-2">
-            {(t.about.highlights && t.about.highlights.length > 0 ? t.about.highlights : portfolioData.highlights).map((item) => (
-              <div key={item} className="surface-subtle rounded-2xl p-4">
-                <p className="text-sm leading-relaxed text-[var(--ink)]">{item}</p>
+      {/* Main Viewport Container */}
+      <main className="relative z-10 pt-28 pb-24 max-w-7xl mx-auto px-6 sm:px-10 flex flex-col gap-y-28">
+
+        {/* Section 01: Hero Statement & Kinetic Topology Monitor */}
+        <section id="hero" className="pt-6 sm:pt-10 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start border-b border-white/10 pb-20 scroll-mt-28">
+          
+          {/* Left Column: Architectural Thesis */}
+          <div className="lg:col-span-7 flex flex-col gap-7">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <span className="font-mono text-[11px] tracking-widest uppercase text-[#8c8f9a]">
+                  [ 01 / STATEMENT ]
+                </span>
+                <span className="h-px w-8 bg-white/15" />
+                <span className="font-mono text-[11px] text-[#555760] uppercase">
+                  Distributed Runtimes &amp; Craft
+                </span>
               </div>
-            ))}
-          </div>
-        </section>
+              <SectionListenButton
+                sectionKey="hero"
+                text={`${portfolioData.name}. ${portfolioData.role}. Architecting tangible systems rooted in sub-millisecond concurrency and resilient distributed software. Contributing to high-throughput transit microservices and heavy machinery fleet telemetry.`}
+              />
+            </div>
 
-        <section id="showcase" className="section-panel reveal defer-render p-6 sm:p-8 [animation-delay:260ms]">
-          <SectionHeader
-            eyebrow={t.showcase.eyebrow}
-            title={t.showcase.title}
-            copy={t.showcase.copy}
-            sectionKey="showcase"
-          />
-          <div className="mt-7 grid gap-5 md:gap-4 md:grid-cols-2">
-            {portfolioData.staticShowcases.map((item) => {
-              const showcaseEventName = getShowcaseEventName(item.platform);
+            <h1 className="text-4xl sm:text-5xl lg:text-[54px] leading-[1.12] tracking-tight font-light text-[#edeae3]">
+              Architecting <span className="font-editorial-italic font-serif italic text-white/95 font-light">tangible systems</span> rooted in sub-millisecond <span className="font-editorial-italic font-serif italic text-white/95 font-light">concurrency</span> and <span className="font-editorial-italic font-serif italic text-white/95 font-light">resilient backends</span>.
+            </h1>
 
-              return (
-                <article key={item.platform} className="project-card">
-                  <p className="eyebrow">{item.platform}</p>
-                  <ShowcaseLiveContent
-                    item={item}
-                    cta={
-                      <a
-                        className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-[var(--teal)] underline decoration-transparent transition hover:decoration-current"
-                        href={item.href}
-                        target="_blank"
-                        rel="noreferrer"
-                        data-analytics-event={showcaseEventName ?? undefined}
-                        data-analytics-section={showcaseEventName ? "showcase" : undefined}
-                      >
-                        {t.showcase.openProfile}
-                        <ExternalIcon />
-                      </a>
-                    }
-                  />
-                </article>
-              );
-            })}
-          </div>
-        </section>
+            <p className="text-base sm:text-lg text-[#8c8f9a] leading-relaxed font-light max-w-2xl">
+              Software Engineer Analyst at Accenture, architecting high-throughput transit microservices (PRESTO FPS, 1M+ daily transactions, 2M+ Kafka events/day, -35% latency) and heavy machinery IoT fleet telemetry processing across AWS and Java 21 runtimes. Based in Bengaluru.
+            </p>
 
-        <section id="experience" className="section-panel reveal defer-render p-6 sm:p-8 [animation-delay:300ms]">
-          <SectionHeader
-            eyebrow={t.experience.eyebrow}
-            title={t.experience.title}
-            copy={t.experience.copy}
-            sectionKey="experience"
-          />
+            {/* Architectural Studio Action Strip */}
+            <div className="flex flex-wrap items-center gap-3 pt-2 font-mono text-xs">
+              <a
+                className="inline-flex items-center gap-2 px-4 py-2.5 rounded bg-[#edeae3] text-[#090a0d] font-semibold hover:bg-white transition-all shadow-sm"
+                href="#projects"
+              >
+                <span>Inspect Systems</span>
+                <span className="text-[13px]">↓</span>
+              </a>
+              <a
+                className="inline-flex items-center gap-2 px-4 py-2.5 rounded border border-white/15 bg-[#121318]/60 hover:bg-[#1a1b22] hover:border-white/30 text-[#edeae3] transition-all"
+                href="#doctrine"
+              >
+                <span>Operating Doctrine</span>
+              </a>
+              <a
+                className="inline-flex items-center gap-1.5 px-3 py-2.5 text-[#8c8f9a] hover:text-[#edeae3] transition-colors"
+                href="https://github.com/beingadish"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <span>GitHub</span>
+                <ExternalIcon className="h-3 w-3" />
+              </a>
+              <a
+                className="inline-flex items-center gap-1.5 px-3 py-2.5 text-[#8c8f9a] hover:text-[#edeae3] transition-colors"
+                href={resumeLink}
+                target="_blank"
+                rel="noreferrer"
+                download={resumeDownload}
+              >
+                <span>Resume [PDF]</span>
+                <span className="text-[13px]">↓</span>
+              </a>
+            </div>
 
-          <ExperienceTimeline>
-            <div className="experience-scroll">
-              <div className="experience-scroll-inner">
-                <ol className="experience-list term-timeline mt-8">
-                {portfolioData.experience.map((item, index) => {
-                  const roleData = t.experience.roles[index] || item;
-                  const roleTitle = roleData.title || item.title;
-                  const roleCompany = roleData.company || item.company;
-                  const roleLocation = roleData.location || item.location;
-                  const roleBullets = roleData.bullets || item.bullets;
-                  const isCurrentRole = item.period.toLowerCase().includes("present");
-                  return (
-                    <li key={`${item.company}-${item.period}`} className="experience-item term-entry mb-8 last:mb-0">
-                      <span className="timeline-marker term-node" aria-hidden="true">
-                        {isCurrentRole ? <span className="timeline-dot-ripple" /> : null}
-                        <span className={`timeline-dot ${isCurrentRole ? "timeline-dot-current" : "timeline-dot-past"}`} />
-                        <span className="term-node-index">{String(index + 1).padStart(2, "0")}</span>
-                      </span>
-                      <article className="surface-card term-card rounded-2xl p-5">
-                        <div className="term-card-head">
-                          <span className="term-card-prompt">~/career $ cat role.json</span>
-                          {isCurrentRole ? <span className="term-live">● {t.experience.liveBadge}</span> : null}
-                        </div>
-                        <div className="mt-3 flex flex-col items-start gap-2 md:flex-row md:items-center md:justify-between">
-                          <h3 className="text-lg font-semibold text-[var(--ink)]">{roleTitle}</h3>
-                          <span className="chip text-xs">{item.period}</span>
-                        </div>
-                        <p className="mt-1 text-sm font-medium text-[var(--muted)]">
-                          {roleCompany} • {roleLocation}
-                        </p>
-
-                        <ul className="mt-4 space-y-2 text-sm leading-relaxed text-[var(--ink)]">
-                          {roleBullets.map((bullet) => (
-                            <li key={bullet} className="flex gap-2">
-                              <span className="term-bullet-arrow">▹</span>
-                              <span>{bullet}</span>
-                            </li>
-                          ))}
-                        </ul>
-
-                        <div className="mt-4 flex flex-wrap gap-2">
-                          {item.stack.map((tech) => (
-                            <TechChip key={tech} label={tech} />
-                          ))}
-                        </div>
-                      </article>
-                    </li>
-                  );
-                })}
-                </ol>
+            {/* Quick Specimen Metadata */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-3 border-t border-white/10 font-mono text-xs">
+              <div className="flex flex-col gap-0.5">
+                <span className="text-[10px] text-[#555760] uppercase">Location</span>
+                <span className="text-[#edeae3] text-[11px]">Bengaluru, India</span>
+              </div>
+              <div className="flex flex-col gap-0.5">
+                <span className="text-[10px] text-[#555760] uppercase">Primary Core</span>
+                <span className="text-[#edeae3] text-[11px]">Java 21 / Spring Boot</span>
+              </div>
+              <div className="flex flex-col gap-0.5">
+                <span className="text-[10px] text-[#555760] uppercase">Streaming</span>
+                <span className="text-[#edeae3] text-[11px]">Kafka &amp; Redis GEO</span>
+              </div>
+              <div className="flex flex-col gap-0.5">
+                <span className="text-[10px] text-[#555760] uppercase">Observability</span>
+                <span className="text-[#edeae3] text-[11px]">Prometheus &amp; Grafana</span>
               </div>
             </div>
-          </ExperienceTimeline>
+          </div>
+
+          {/* Right Column: Live Kinetic Node Mesh & Production Telemetry */}
+          <div className="lg:col-span-5 flex flex-col gap-4 bg-[#121318]/90 border border-white/10 rounded-xl p-6 backdrop-blur-md relative overflow-hidden group">
+            {/* Top Bar */}
+            <div className="flex items-center justify-between border-b border-white/10 pb-3">
+              <div className="flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#2dd4bf] animate-pulse" />
+                <span className="font-mono text-xs uppercase text-[#edeae3] font-medium tracking-wider">
+                  Topology Monitor
+                </span>
+              </div>
+              <span className="font-mono text-[11px] text-[#555760] tabular-nums">SYNC: 99.98%</span>
+            </div>
+
+            {/* Kinetic Node Mesh Canvas */}
+            <div className="relative w-full h-56 bg-[#090a0d] rounded-lg border border-white/5 overflow-hidden flex items-center justify-center">
+              <KineticNodeMesh className="w-full h-full" />
+              <div className="absolute bottom-2 left-3 pointer-events-none flex items-center gap-3 font-mono text-[10px] text-[#8c8f9a]">
+                <span>NODES: <span className="text-[#edeae3]">6 CORE HUBS</span></span>
+                <span>CONSENSUS: <span className="text-[#2dd4bf]">RAFT-QUORUM</span></span>
+              </div>
+            </div>
+
+            {/* Telemetry Metric Grid */}
+            <div className="grid grid-cols-2 gap-2.5 pt-1 font-mono text-xs">
+              <div className="p-3 bg-[#0e0f14] border border-white/5 rounded-lg flex flex-col gap-1">
+                <span className="text-[10px] uppercase text-[#555760] tracking-wider">Daily Transit Volume</span>
+                <span className="text-[#edeae3] text-[12px] font-semibold">1M+ TX / Day</span>
+              </div>
+              <div className="p-3 bg-[#0e0f14] border border-white/5 rounded-lg flex flex-col gap-1">
+                <span className="text-[10px] uppercase text-[#555760] tracking-wider">Kafka Event Ingest</span>
+                <span className="text-[#2dd4bf] text-[12px] font-semibold">2M+ Events / Day</span>
+              </div>
+              <div className="p-3 bg-[#0e0f14] border border-white/5 rounded-lg flex flex-col gap-1">
+                <span className="text-[10px] uppercase text-[#555760] tracking-wider">Payment Latency SLA</span>
+                <span className="text-[#edeae3] text-[12px] font-semibold">-35% P99 Confirm</span>
+              </div>
+              <div className="p-3 bg-[#0e0f14] border border-white/5 rounded-lg flex flex-col gap-1">
+                <span className="text-[10px] uppercase text-[#555760] tracking-wider">Orchestration</span>
+                <span className="text-[#8c8f9a] text-[12px] flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#2dd4bf]" />
+                  <code>AWS EC2 + k3s</code>
+                </span>
+              </div>
+            </div>
+
+            <div className="flex items-center justify-between text-[11px] font-mono text-[#555760] pt-1">
+              <span>Tick rate: <span className="text-[#8c8f9a]">120hz</span></span>
+              <span className="text-[10px] text-[#555760]">Hover canvas to stimulate nodes</span>
+            </div>
+          </div>
         </section>
 
-        <section id="projects" className="section-panel reveal defer-render p-6 sm:p-8 [animation-delay:340ms]">
-          <SectionHeader
-            eyebrow={t.projects.eyebrow}
-            title={t.projects.title}
-            copy={t.projects.copy}
+        {/* Section 02: Operational Systems Footprint */}
+        <section id="telemetry" className="flex flex-col gap-8 scroll-mt-28">
+          <SpecimenSectionHeader
+            marker="[ 02 / OPERATIONAL FOOTPRINT ]"
+            subtitle="Accenture Production Systems &amp; Scale"
+            title="Production Architecture &amp; Mission-Critical Telemetry"
+            copy="Engineered for high-volume transactions, intermittent telemetry streams, and zero-compromise transactional integrity."
+            sectionKey="footprint"
+          />
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 font-mono">
+            {/* Tile 01 */}
+            <article className="p-5 rounded-xl border border-white/10 bg-[#121318]/70 hover:border-white/20 transition-all flex flex-col justify-between gap-4">
+              <div>
+                <span className="text-[10px] text-[#2dd4bf] uppercase tracking-wider block mb-1">
+                  01 // FLEET TELEMETRY
+                </span>
+                <h3 className="text-sm font-semibold text-[#edeae3]">Heavy Machinery Ingest</h3>
+                <p className="mt-2 text-xs leading-relaxed text-[#8c8f9a] font-sans">
+                  IoT telemetry processing for mining and construction machinery across AWS IoT Core, Lambda, Kinesis, DynamoDB, ECS Fargate, and Snowflake.
+                </p>
+              </div>
+              <div className="pt-3 border-t border-white/10 text-[11px] text-[#555760] flex items-center justify-between">
+                <span>Intermittent Flows</span>
+                <span className="text-[#2dd4bf] font-medium">Production Live</span>
+              </div>
+            </article>
+
+            {/* Tile 02 */}
+            <article className="p-5 rounded-xl border border-white/10 bg-[#121318]/70 hover:border-white/20 transition-all flex flex-col justify-between gap-4">
+              <div>
+                <span className="text-[10px] text-[#2dd4bf] uppercase tracking-wider block mb-1">
+                  02 // TRANSIT SCALE
+                </span>
+                <h3 className="text-sm font-semibold text-[#edeae3]">PRESTO FPS (1M+ TX/D)</h3>
+                <p className="mt-2 text-xs leading-relaxed text-[#8c8f9a] font-sans">
+                  Spring Boot microservices across 10+ transit agencies; cut payment latency by 35% via Redis caching, composite SQL indexing, and Kafka settlement.
+                </p>
+              </div>
+              <div className="pt-3 border-t border-white/10 text-[11px] text-[#555760] flex items-center justify-between">
+                <span>Kafka Settlement</span>
+                <span className="text-[#2dd4bf] font-medium">2M+ Ev/Day</span>
+              </div>
+            </article>
+
+            {/* Tile 03 */}
+            <article className="p-5 rounded-xl border border-white/10 bg-[#121318]/70 hover:border-white/20 transition-all flex flex-col justify-between gap-4">
+              <div>
+                <span className="text-[10px] text-[#2dd4bf] uppercase tracking-wider block mb-1">
+                  03 // MODULAR MONOLITH
+                </span>
+                <h3 className="text-sm font-semibold text-[#edeae3]">AroundU Core Platform</h3>
+                <p className="mt-2 text-xs leading-relaxed text-[#8c8f9a] font-sans">
+                  Java 21 modular monolith with Redis GEO spatial index, Resilience4j circuit breakers, and k3s container orchestration with NGINX Ingress.
+                </p>
+              </div>
+              <div className="pt-3 border-t border-white/10 text-[11px] text-[#555760] flex items-center justify-between">
+                <span>Orchestration</span>
+                <span className="text-[#2dd4bf] font-medium">k3s + Ingress</span>
+              </div>
+            </article>
+
+            {/* Tile 04 */}
+            <article className="p-5 rounded-xl border border-white/10 bg-[#121318]/70 hover:border-white/20 transition-all flex flex-col justify-between gap-4">
+              <div>
+                <span className="text-[10px] text-[#2dd4bf] uppercase tracking-wider block mb-1">
+                  04 // SEMANTIC RETRIEVAL
+                </span>
+                <h3 className="text-sm font-semibold text-[#edeae3]">TalkingYoutube RAG</h3>
+                <p className="mt-2 text-xs leading-relaxed text-[#8c8f9a] font-sans">
+                  FastAPI transcript vector retrieval with Google Gemini embeddings, PostgreSQL + pgvector, and Docker Scout hardened containers.
+                </p>
+              </div>
+              <div className="pt-3 border-t border-white/10 text-[11px] text-[#555760] flex items-center justify-between">
+                <span>Vulnerability Profile</span>
+                <span className="text-[#2dd4bf] font-medium">Docker Scout</span>
+              </div>
+            </article>
+          </div>
+        </section>
+
+        {/* Section 03: Interactive Systems Topology & Latency Benchmark */}
+        <section id="topology" className="flex flex-col gap-6 scroll-mt-28">
+          <InteractiveTopologySim />
+        </section>
+
+        {/* Section 04: Operating Doctrine / Core Principles */}
+        <section id="doctrine" className="flex flex-col gap-8 scroll-mt-28">
+          <SpecimenSectionHeader
+            marker="[ 03 / OPERATING DOCTRINE ]"
+            subtitle="Engineering Philosophy"
+            title="Core Working Doctrines"
+            copy="Architectural tenets developed from managing production scale, real-time concurrency, and failure recovery."
+            sectionKey="doctrine"
+          />
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* Doctrine 01 */}
+            <div className="rounded-xl border border-white/10 bg-[#121318]/60 p-7 flex flex-col justify-between gap-6 hover:border-white/20 transition-all">
+              <div className="flex flex-col gap-3">
+                <div className="flex items-center justify-between font-mono text-xs text-[#555760]">
+                  <span>§ 01</span>
+                  <span className="text-[10px] uppercase tracking-wider text-[#8c8f9a]">Telemetry</span>
+                </div>
+                <h3 className="text-xl font-light text-[#edeae3]">
+                  Radical <span className="font-editorial-italic font-serif italic text-white font-normal">Observability</span>
+                </h3>
+                <p className="text-sm text-[#8c8f9a] leading-relaxed font-sans pt-1">
+                  If runtime state cannot be introspected down to the microsecond, it cannot be trusted. System stability begins with granular Micrometer metrics, structured tracing, and transparent alerts over guesswork.
+                </p>
+              </div>
+              <div className="font-mono text-[11px] text-[#555760] border-t border-white/5 pt-3">
+                METRIC-DRIVEN RESILIENCE
+              </div>
+            </div>
+
+            {/* Doctrine 02 */}
+            <div className="rounded-xl border border-white/10 bg-[#121318]/60 p-7 flex flex-col justify-between gap-6 hover:border-white/20 transition-all">
+              <div className="flex flex-col gap-3">
+                <div className="flex items-center justify-between font-mono text-xs text-[#555760]">
+                  <span>§ 02</span>
+                  <span className="text-[10px] uppercase tracking-wider text-[#8c8f9a]">Hardware</span>
+                </div>
+                <h3 className="text-xl font-light text-[#edeae3]">
+                  Mechanical <span className="font-editorial-italic font-serif italic text-white font-normal">Sympathy</span>
+                </h3>
+                <p className="text-sm text-[#8c8f9a] leading-relaxed font-sans pt-1">
+                  Software does not exist in an abstract vacuum. Knowledge of cache lines, NUMA zones, non-blocking asynchronous I/O, and partitioned event boundaries yields durable, sustainable architectures.
+                </p>
+              </div>
+              <div className="font-mono text-[11px] text-[#555760] border-t border-white/5 pt-3">
+                HONOR SILICON BOUNDARIES
+              </div>
+            </div>
+
+            {/* Doctrine 03 */}
+            <div className="rounded-xl border border-white/10 bg-[#121318]/60 p-7 flex flex-col justify-between gap-6 hover:border-white/20 transition-all">
+              <div className="flex flex-col gap-3">
+                <div className="flex items-center justify-between font-mono text-xs text-[#555760]">
+                  <span>§ 03</span>
+                  <span className="text-[10px] uppercase tracking-wider text-[#8c8f9a]">Execution</span>
+                </div>
+                <h3 className="text-xl font-light text-[#edeae3]">
+                  Deterministic <span className="font-editorial-italic font-serif italic text-white font-normal">Simplicity</span>
+                </h3>
+                <p className="text-sm text-[#8c8f9a] leading-relaxed font-sans pt-1">
+                  Clarity takes precedence over ornament. Predictable failure states, graceful circuit breaking, idempotent operations, and zero unexpected layout shifts are treated as essential functional requirements.
+                </p>
+              </div>
+              <div className="font-mono text-[11px] text-[#555760] border-t border-white/5 pt-3">
+                FAIL-SAFE BY DEFAULT
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Section 05: Selected Engineering Works / Projects */}
+        <section id="projects" className="flex flex-col gap-8 scroll-mt-28">
+          <SpecimenSectionHeader
+            marker="[ 04 / SYSTEMS INDEX ]"
+            subtitle="Selected Production &amp; Architecture Work"
+            title="Selected Engineering Systems"
+            copy="Engineered codebases with rigorous design patterns, low-latency data structures, and containerized deployments."
             sectionKey="projects"
           />
 
-          <div className="mt-8 grid gap-5 md:gap-4 md:grid-cols-2">
-            {portfolioData.projects.map((project, index) => {
-              const projectData = t.projects.items[index] || project;
-              const projectName = projectData.name || project.name;
-              const projectSummary = projectData.summary || project.summary;
-              const projectBullets = projectData.bullets || project.bullets;
-
-              const isOddLastCard =
-                portfolioData.projects.length % 2 === 1 &&
-                index === portfolioData.projects.length - 1;
-              const wrapperClass = isOddLastCard ? "md:col-span-2 md:mx-auto md:max-w-[46rem]" : "";
-
-              const cardContent = (
-                <article className={`project-card flex h-full min-h-[24rem] min-w-0 flex-col ${project.href ? "cursor-pointer" : ""}`}>
-                  <div>
-                    <div className="flex flex-col items-start gap-2 md:flex-row md:items-start md:justify-between md:gap-3">
-                      <h3 className="display-font min-w-0 break-words text-[2rem] leading-tight font-semibold text-[var(--ink)] sm:text-3xl">
-                        {projectName}
-                      </h3>
-                      <span className="chip self-start shrink-0 text-xs">{project.timeline}</span>
+          <div className="flex flex-col divide-y divide-white/10 border-t border-b border-white/10">
+            {portfolioData.projects.map((project, idx) => {
+              const projectNum = String(idx + 1).padStart(2, "0");
+              return (
+                <article
+                  key={project.name}
+                  className="py-8 px-4 -mx-4 rounded-lg hover:bg-[#14151c]/60 transition-all duration-200 group"
+                >
+                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+                    {/* Index & Timeline */}
+                    <div className="lg:col-span-2 flex flex-col gap-1 font-mono text-xs">
+                      <span className="text-[#555760] group-hover:text-[#2dd4bf] transition-colors font-medium">
+                        /{projectNum}
+                      </span>
+                      <span className="text-[11px] text-[#8c8f9a]">{project.timeline}</span>
                     </div>
-                    <p className="mt-3 text-sm leading-relaxed text-[var(--muted)]">{projectSummary}</p>
-                  </div>
 
-                  <div className="mt-4 flex-1">
-                    <ul className="space-y-2 text-sm text-[var(--ink)]">
-                      {projectBullets.map((bullet) => (
-                        <li key={bullet} className="flex gap-2">
-                          <span className="mt-[7px] h-1.5 w-1.5 rounded-full bg-[var(--amber)]" />
+                    {/* Title & Stack */}
+                    <div className="lg:col-span-5 flex flex-col gap-3">
+                      <div>
+                        <h3 className="text-xl sm:text-2xl font-light text-[#edeae3] group-hover:text-white group-hover:translate-x-1 transition-all flex items-baseline gap-2">
+                          <span>{project.name}</span>
+                        </h3>
+                        <p className="mt-1 text-xs text-[#8c8f9a] font-sans leading-relaxed">
+                          {project.summary}
+                        </p>
+                      </div>
+
+                      <div className="flex flex-wrap gap-1.5 pt-1">
+                        {project.stack.slice(0, 6).map((tech) => (
+                          <TechChip key={tech} label={tech} />
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Bullets & Technical Details */}
+                    <div className="lg:col-span-4 flex flex-col gap-2 text-xs text-[#8c8f9a] font-sans leading-relaxed">
+                      {project.bullets.map((bullet) => (
+                        <p key={bullet} className="flex gap-2">
+                          <span className="text-[#2dd4bf] shrink-0 font-mono">▹</span>
                           <span>{bullet}</span>
-                        </li>
+                        </p>
                       ))}
-                    </ul>
-                  </div>
+                    </div>
 
-                  <div className="mt-4 flex flex-wrap gap-2">
-                    {project.stack.map((tech) => (
-                      <TechChip key={tech} label={tech} />
-                    ))}
+                    {/* Link Action */}
+                    <div className="lg:col-span-1 flex lg:justify-end items-start pt-1">
+                      {project.href ? (
+                        <a
+                          href={project.href}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="inline-flex items-center gap-1.5 font-mono text-xs text-[#8c8f9a] hover:text-[#edeae3] transition-colors border border-white/10 px-2.5 py-1.5 rounded bg-white/5 hover:bg-white/10"
+                          data-analytics-event={ANALYTICS_EVENTS.PROJECT_CLICK}
+                          data-analytics-project-name={project.name}
+                          data-analytics-project-type={getProjectType(project.href)}
+                        >
+                          <span>SPEC</span>
+                          <ExternalIcon className="h-3 w-3" />
+                        </a>
+                      ) : (
+                        <span className="font-mono text-[10px] text-[#555760] uppercase">
+                          INTERNAL
+                        </span>
+                      )}
+                    </div>
                   </div>
                 </article>
-              );
-
-              if (project.href) {
-                return (
-                  <a
-                    key={project.name}
-                    href={project.href}
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label={`Open project: ${project.name}`}
-                    className={`block h-full min-w-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--teal)] ${wrapperClass}`}
-                    data-analytics-event={ANALYTICS_EVENTS.PROJECT_CLICK}
-                    data-analytics-project-name={project.name}
-                    data-analytics-project-type={getProjectType(project.href)}
-                    data-analytics-section="projects"
-                  >
-                    {cardContent}
-                  </a>
-                );
-              }
-
-              return (
-                <div key={project.name} className={`h-full min-w-0 ${wrapperClass}`}>
-                  {cardContent}
-                </div>
               );
             })}
           </div>
         </section>
 
-        <section id="skills" className="section-panel reveal defer-render p-6 sm:p-8 [animation-delay:360ms]">
-          <SectionHeader
-            eyebrow={t.skills.eyebrow}
-            title={t.skills.title}
-            copy={t.skills.copy}
+        {/* Section 06: Career Registry / Experience */}
+        <section id="experience" className="flex flex-col gap-8 scroll-mt-28">
+          <SpecimenSectionHeader
+            marker="[ 05 / CAREER REGISTRY ]"
+            subtitle="Professional Trajectory"
+            title="Engineering Experience &amp; Impact"
+            copy="Chronological record of high-concurrency systems, microservice architectures, and infrastructure roles."
+            sectionKey="experience"
+          />
+
+          <div className="flex flex-col divide-y divide-white/10 border-t border-b border-white/10">
+            {portfolioData.experience.map((item, idx) => {
+              const isCurrent = item.period.toLowerCase().includes("present");
+              return (
+                <article
+                  key={`${item.company}-${item.period}`}
+                  className="py-8 px-4 -mx-4 rounded-lg hover:bg-[#14151c]/60 transition-all group"
+                >
+                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+                    {/* Period & Live Tag */}
+                    <div className="lg:col-span-3 flex flex-col gap-2 font-mono text-xs">
+                      <div className="flex items-center gap-2">
+                        <span className={`w-1.5 h-1.5 rounded-full ${isCurrent ? "bg-[#2dd4bf] animate-pulse" : "bg-[#555760]"}`} />
+                        <span className="text-[#edeae3] font-medium">{item.period}</span>
+                      </div>
+                      <span className="text-[11px] text-[#8c8f9a]">{item.location}</span>
+                      {isCurrent && (
+                        <span className="w-fit text-[10px] font-semibold text-[#2dd4bf] border border-[#2dd4bf]/30 bg-[#2dd4bf]/10 px-2 py-0.5 rounded">
+                          ACTIVE APPOINTMENT
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Role & Company */}
+                    <div className="lg:col-span-4 flex flex-col gap-2">
+                      <div>
+                        <h3 className="text-xl font-light text-[#edeae3] group-hover:text-white">
+                          {item.title}
+                        </h3>
+                        <p className="text-xs font-mono text-[#2dd4bf] mt-0.5">{item.company}</p>
+                      </div>
+
+                      <div className="flex flex-wrap gap-1.5 pt-2">
+                        {item.stack.map((tech) => (
+                          <TechChip key={tech} label={tech} />
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Bullets */}
+                    <div className="lg:col-span-5 flex flex-col gap-2.5 text-xs text-[#8c8f9a] font-sans leading-relaxed">
+                      {item.bullets.map((bullet) => (
+                        <p key={bullet} className="flex gap-2">
+                          <span className="text-[#2dd4bf] shrink-0 font-mono">▹</span>
+                          <span>{bullet}</span>
+                        </p>
+                      ))}
+                    </div>
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+        </section>
+
+        {/* Section 07: Capabilities Registry / Tooling Matrix */}
+        <section id="skills" className="flex flex-col gap-8 scroll-mt-28">
+          <SpecimenSectionHeader
+            marker="[ 06 / TOOLING MATRIX ]"
+            subtitle="Current Production Runtimes"
+            title="Technical Capabilities &amp; Stack Registry"
+            copy="Disciplined categorization of programming languages, distributed engines, storage layers, and infrastructure tools."
             sectionKey="skills"
           />
 
-          <div className="mt-7 grid gap-5 md:gap-4 md:grid-cols-2">
-            {portfolioData.skillGroups.map((group) => (
-              <article key={group.category} className="surface-card rounded-2xl p-5">
-                <h3 className="text-base font-semibold text-[var(--ink)]">{group.category}</h3>
-                <div className="mt-3 flex flex-wrap gap-2">
-                  {group.items.map((item) => (
-                    <TechChip key={item} label={item} />
-                  ))}
-                </div>
-              </article>
-            ))}
-            <article className="surface-card rounded-2xl p-5">
-              <h3 className="text-base font-semibold text-[var(--ink)]">{t.skills.languageCollections}</h3>
-              <div className="mt-3 flex flex-wrap gap-2">
-                {["C++", "STL", "Java", "Collections Framework", "Python", "Dart"].map((item) => (
-                  <TechChip key={item} label={item} />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {/* Group: Backend & Distributed */}
+            <div className="rounded-xl border border-white/10 bg-[#121318]/70 p-5 flex flex-col gap-3">
+              <span className="font-mono text-[11px] text-[#2dd4bf] uppercase tracking-wider">
+                01 // Distributed Systems &amp; Streams
+              </span>
+              <p className="text-xs text-[#8c8f9a] font-sans">
+                Apache Kafka, Redis Cluster, Spring Boot, MQTT, gRPC, Event Streaming, Microservices, System Reliability.
+              </p>
+              <div className="flex flex-wrap gap-1.5 pt-1">
+                {["Spring Boot", "Kafka", "Redis", "MQTT", "gRPC", "REST APIs"].map((tech) => (
+                  <TechChip key={tech} label={tech} />
                 ))}
               </div>
-            </article>
+            </div>
+
+            {/* Group: Core Languages */}
+            <div className="rounded-xl border border-white/10 bg-[#121318]/70 p-5 flex flex-col gap-3">
+              <span className="font-mono text-[11px] text-[#2dd4bf] uppercase tracking-wider">
+                02 // Languages &amp; Foundations
+              </span>
+              <p className="text-xs text-[#8c8f9a] font-sans">
+                Java 21, Modern C++ (20/23), Python, Dart, Kotlin, SQL, 600+ DSA LeetCode solutions, STL, Collections.
+              </p>
+              <div className="flex flex-wrap gap-1.5 pt-1">
+                {["Java 21", "C++", "Python", "Dart", "Kotlin", "PostgreSQL"].map((tech) => (
+                  <TechChip key={tech} label={tech} />
+                ))}
+              </div>
+            </div>
+
+            {/* Group: Cloud & Infrastructure */}
+            <div className="rounded-xl border border-white/10 bg-[#121318]/70 p-5 flex flex-col gap-3">
+              <span className="font-mono text-[11px] text-[#2dd4bf] uppercase tracking-wider">
+                03 // Cloud &amp; Container Orchestration
+              </span>
+              <p className="text-xs text-[#8c8f9a] font-sans">
+                AWS (IoT Core, ECS Fargate, Kinesis, DynamoDB, Lambda), Docker, Kubernetes (k3s), NGINX Ingress, HPA.
+              </p>
+              <div className="flex flex-wrap gap-1.5 pt-1">
+                {["AWS", "Docker", "Kubernetes (k3s)", "NGINX", "DynamoDB", "Lambda"].map((tech) => (
+                  <TechChip key={tech} label={tech} />
+                ))}
+              </div>
+            </div>
+
+            {/* Group: Observability & Resilience */}
+            <div className="rounded-xl border border-white/10 bg-[#121318]/70 p-5 flex flex-col gap-3">
+              <span className="font-mono text-[11px] text-[#2dd4bf] uppercase tracking-wider">
+                04 // Observability &amp; Resilience
+              </span>
+              <p className="text-xs text-[#8c8f9a] font-sans">
+                Prometheus, Grafana, Micrometer, Resilience4j Circuit Breakers, Bucket4j, JUnit 5, Mockito.
+              </p>
+              <div className="flex flex-wrap gap-1.5 pt-1">
+                {["Prometheus", "Grafana", "Micrometer", "Resilience4j", "Bucket4j"].map((tech) => (
+                  <TechChip key={tech} label={tech} />
+                ))}
+              </div>
+            </div>
+
+            {/* Group: Storage & Gen AI */}
+            <div className="rounded-xl border border-white/10 bg-[#121318]/70 p-5 flex flex-col gap-3">
+              <span className="font-mono text-[11px] text-[#2dd4bf] uppercase tracking-wider">
+                05 // Storage &amp; Vector Search
+              </span>
+              <p className="text-xs text-[#8c8f9a] font-sans">
+                PostgreSQL, pgvector, Snowflake, Redis GEO, MongoDB, Google Gemini Embeddings, RAG Pipelines.
+              </p>
+              <div className="flex flex-wrap gap-1.5 pt-1">
+                {["PostgreSQL", "pgvector", "Redis", "Snowflake", "Gemini", "MongoDB"].map((tech) => (
+                  <TechChip key={tech} label={tech} />
+                ))}
+              </div>
+            </div>
+
+            {/* Group: Mobile & Client */}
+            <div className="rounded-xl border border-white/10 bg-[#121318]/70 p-5 flex flex-col gap-3">
+              <span className="font-mono text-[11px] text-[#2dd4bf] uppercase tracking-wider">
+                06 // Mobile &amp; Integration
+              </span>
+              <p className="text-xs text-[#8c8f9a] font-sans">
+                Android Native, MVVM architecture, Flutter, Riverpod, Retrofit, NFC &amp; Hardware SDKs.
+              </p>
+              <div className="flex flex-wrap gap-1.5 pt-1">
+                {["Android Native", "Flutter", "Riverpod", "Firebase", "JWT"].map((tech) => (
+                  <TechChip key={tech} label={tech} />
+                ))}
+              </div>
+            </div>
           </div>
         </section>
 
-        <section className="defer-render grid gap-6 lg:grid-cols-2">
-          <article className="section-panel reveal p-6 sm:p-8 [animation-delay:380ms]">
-            <SectionHeader
-              eyebrow={t.achievements.eyebrow}
-              title={t.achievements.title}
-              copy={t.achievements.copy}
-              sectionKey="achievements"
-            />
-            <ul className="mt-6 space-y-3">
-              {portfolioData.achievements.map((achievement) => (
-                <li key={achievement.title} className="flex gap-3 text-sm text-foreground">
-                  <span className="mt-1.75 h-2 w-2 rounded-full bg-(--teal)" />
-                  {achievement.link ? (
-                    <a
-                      className="inline-flex items-center gap-1 font-medium underline decoration-transparent transition hover:decoration-current"
-                      href={achievement.link}
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      <span>{achievement.title}</span>
-                      <ExternalIcon className="h-4 w-4 shrink-0" />
-                    </a>
-                  ) : (
-                    <span>{achievement.title}</span>
-                  )}
-                </li>
-              ))}
-            </ul>
-          </article>
-
-          <article className="section-panel reveal p-6 sm:p-8 [animation-delay:410ms]">
-            <SectionHeader
-              eyebrow={t.education.eyebrow}
-              title={t.education.title}
-              copy={t.education.copy}
-              sectionKey="education"
-            />
-            <div className="mt-6 space-y-4">
-              {portfolioData.education.map((item) => {
-                const educationContent = (
-                  <div className={`surface-card rounded-2xl p-4 ${item.href ? "cursor-pointer transition-shadow hover:shadow-[0_10px_24px_rgba(15,23,42,0.08)]" : ""}`}>
-                    <h3 className="text-base font-semibold text-foreground">{item.school}</h3>
-                    <p className="mt-1 text-sm text-(--muted)">{item.degree}</p>
-                    <p className="mt-2 text-xs uppercase tracking-wide text-(--muted)">
-                      {item.period} • {item.location}
-                    </p>
-                  </div>
-                );
-
-                if (item.href) {
-                  return (
-                    <a
-                      key={item.school}
-                      href={item.href}
-                      target="_blank"
-                      rel="noreferrer"
-                      aria-label={`Open education website: ${item.school}`}
-                      className="block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--teal)]"
-                    >
-                      {educationContent}
-                    </a>
-                  );
-                }
-
-                return <div key={item.school}>{educationContent}</div>;
-              })}
-            </div>
-          </article>
-        </section>
-
-        <section id="writing" className="section-panel reveal defer-render p-6 sm:p-8 [animation-delay:430ms]">
-          <SectionHeader
-            eyebrow={t.writing.eyebrow}
-            title={t.writing.title}
-            copy={t.writing.copy}
+        {/* Section 08: Technical Writing & Editorial Publications */}
+        <section id="writing" className="flex flex-col gap-8 scroll-mt-28">
+          <SpecimenSectionHeader
+            marker="[ 07 / EDITORIAL &amp; WRITING ]"
+            subtitle="First-Principles Research"
+            title="Technical Essays &amp; Publications"
+            copy="Deep-dive articles on rate limiters, consistent hashing, security, and high-concurrency system design (300+ claps on Medium)."
             sectionKey="writing"
           />
-          
-          {/* Mobile: Auto-slider */}
-          <div className="md:hidden mt-7">
-            <div className="mobile-article-slider-container">
-              <MobileArticleSlider itemCount={portfolioData.writing.length}>
-                {portfolioData.writing.map((entry) => (
-                  <article key={entry.title} className="project-card mobile-article-card px-1">
-                    <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[var(--teal)]">
-                      {entry.meta}
-                    </p>
-                    <h3 className="mt-2 text-lg font-semibold text-[var(--ink)]">{entry.title}</h3>
-                    <p className="mt-2 text-sm leading-relaxed text-[var(--muted)]">{entry.summary}</p>
-                    <a
-                      href={entry.href}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="mt-auto pt-4 inline-flex items-center gap-1 text-sm font-semibold text-[var(--teal)] underline decoration-transparent transition hover:decoration-current"
-                      data-analytics-event={ANALYTICS_EVENTS.ARTICLE_CLICK}
-                      data-analytics-article-title={entry.title}
-                      data-analytics-platform="medium"
-                    >
-                      {t.writing.readArticle}
-                      <ExternalIcon />
-                    </a>
-                  </article>
-                ))}
-              </MobileArticleSlider>
-            </div>
-          </div>
 
-          {/* Desktop: Grid */}
-          <div className="hidden md:grid mt-7 gap-5 md:gap-4 md:grid-cols-2">
-            {portfolioData.writing.map((entry, index) => {
-              const isOddLastCard =
-                portfolioData.writing.length % 2 === 1 &&
-                index === portfolioData.writing.length - 1;
-
+          <div className="flex flex-col divide-y divide-white/10 border-t border-b border-white/10">
+            {portfolioData.writing.map((entry, idx) => {
+              const entryNum = String(idx + 1).padStart(2, "0");
               return (
                 <article
                   key={entry.title}
-                  className={`project-card ${isOddLastCard ? "md:col-span-2 md:mx-auto md:max-w-[46rem]" : ""}`}
+                  className="py-6 px-4 -mx-4 rounded-lg hover:bg-[#14151c]/60 transition-all flex flex-col md:flex-row md:items-center justify-between gap-4 group"
                 >
-                  <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[var(--teal)]">
-                    {entry.meta}
-                  </p>
-                  <h3 className="mt-2 text-lg font-semibold text-[var(--ink)]">{entry.title}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-[var(--muted)]">{entry.summary}</p>
+                  <div className="flex flex-col gap-1.5 max-w-3xl">
+                    <div className="flex items-center gap-3 font-mono text-xs text-[#555760]">
+                      <span className="group-hover:text-[#2dd4bf] transition-colors font-medium">
+                        § {entryNum}
+                      </span>
+                      <span>•</span>
+                      <span className="text-[#8c8f9a]">{entry.meta}</span>
+                    </div>
+                    <h3 className="text-lg font-light text-[#edeae3] group-hover:text-white group-hover:translate-x-1 transition-all">
+                      {entry.title}
+                    </h3>
+                    <p className="text-xs text-[#8c8f9a] font-sans leading-relaxed line-clamp-2">
+                      {entry.summary}
+                    </p>
+                  </div>
+
                   <a
                     href={entry.href}
                     target="_blank"
                     rel="noreferrer"
-                    className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-[var(--teal)] underline decoration-transparent transition hover:decoration-current"
+                    className="inline-flex items-center gap-1.5 font-mono text-xs text-[#8c8f9a] hover:text-[#edeae3] transition-colors border border-white/10 px-3 py-1.5 rounded bg-white/5 hover:bg-white/10 shrink-0 self-start md:self-center"
                     data-analytics-event={ANALYTICS_EVENTS.ARTICLE_CLICK}
                     data-analytics-article-title={entry.title}
                     data-analytics-platform="medium"
                   >
-                    {t.writing.readArticle}
-                    <ExternalIcon />
+                    <span>Read Article</span>
+                    <ExternalIcon className="h-3 w-3" />
                   </a>
                 </article>
               );
@@ -1045,41 +1003,148 @@ export default function Home() {
           </div>
         </section>
 
-        <section id="contact" className="section-panel reveal defer-render p-6 sm:p-8 [animation-delay:460ms]">
-          <SectionHeader
-            eyebrow={t.contact.eyebrow}
-            title={t.contact.title}
-            copy={t.contact.copy}
-            sectionKey="contact"
-            listenText={`${t.contact.eyebrow}. ${t.contact.title}. ${t.contact.copy}`}
-          />
-          <div className="mt-6 flex flex-wrap gap-3">
+        {/* Section 09: Credentials, Honors & Education */}
+        <section id="credentials" className="grid grid-cols-1 lg:grid-cols-12 gap-8 scroll-mt-28">
+          {/* Achievements & Certifications */}
+          <div className="lg:col-span-7 flex flex-col gap-6">
+            <SpecimenSectionHeader
+              marker="[ 08 / HONORS &amp; LEADERSHIP ]"
+              title="Recognitions &amp; Certifications"
+              sectionKey="achievements"
+            />
+            <div className="flex flex-col gap-3 font-sans text-sm">
+              {portfolioData.achievements.map((item) => (
+                <div
+                  key={item.title}
+                  className="p-4 rounded-xl border border-white/10 bg-[#121318]/50 flex items-start gap-3 hover:border-white/20 transition-all"
+                >
+                  <span className="text-[#2dd4bf] font-mono text-xs mt-0.5 shrink-0">▹</span>
+                  <div className="flex-1">
+                    {item.link ? (
+                      <a
+                        href={item.link}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="text-[#edeae3] hover:text-white underline decoration-white/20 hover:decoration-white underline-offset-4 inline-flex items-center gap-1.5"
+                      >
+                        <span>{item.title}</span>
+                        <ExternalIcon className="h-3 w-3 text-[#8c8f9a]" />
+                      </a>
+                    ) : (
+                      <span className="text-[#edeae3]">{item.title}</span>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Education */}
+          <div className="lg:col-span-5 flex flex-col gap-6">
+            <SpecimenSectionHeader
+              marker="[ ACADEMIC FOUNDATION ]"
+              title="Education"
+              sectionKey="education"
+            />
+            <div className="flex flex-col gap-3">
+              {portfolioData.education.map((item) => (
+                <div
+                  key={item.school}
+                  className="p-5 rounded-xl border border-white/10 bg-[#121318]/50 flex flex-col gap-2"
+                >
+                  <div className="flex items-center justify-between font-mono text-xs text-[#555760]">
+                    <span>{item.period}</span>
+                    <span>{item.location}</span>
+                  </div>
+                  <h3 className="text-base font-light text-[#edeae3]">{item.school}</h3>
+                  <p className="text-xs text-[#8c8f9a] font-sans">{item.degree}</p>
+                  {item.href && (
+                    <a
+                      href={item.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="mt-2 text-xs font-mono text-[#2dd4bf] hover:underline inline-flex items-center gap-1"
+                    >
+                      <span>Institution Profile</span>
+                      <ExternalIcon className="h-3 w-3" />
+                    </a>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Section 10: Dispatch / Direct Inquiry */}
+        <section
+          id="contact"
+          className="p-8 sm:p-12 rounded-xl border border-white/15 bg-[#121318]/90 backdrop-blur-md flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8 relative overflow-hidden scroll-mt-28"
+        >
+          <div className="flex flex-col gap-2.5 max-w-xl">
+            <div className="flex items-center gap-2 font-mono text-xs text-[#2dd4bf]">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#2dd4bf]" />
+              <span className="uppercase tracking-wider">Direct Dispatch &amp; Inquiry</span>
+            </div>
+            <h3 className="text-2xl sm:text-3xl font-light text-[#edeae3] tracking-tight">
+              Seeking teams solving genuinely hard <span className="font-editorial-italic font-serif italic text-white">distributed systems</span> challenges.
+            </h3>
+            <p className="text-sm text-[#8c8f9a] font-sans leading-relaxed">
+              Available for software engineering roles, distributed architecture design, and technical advisory sprints.
+            </p>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-3 font-mono text-xs">
             <a
-              className="btn-primary px-6 py-3"
-              href={resumeLink}
-              target="_blank"
-              rel="noreferrer"
-              download={resumeDownload}
-              data-analytics-event={ANALYTICS_EVENTS.RESUME_CLICK_FOOTER}
-              data-analytics-location="footer"
-            >
-              {t.contact.resumeBtn}
-            </a>
-            <a
-              className="btn-secondary px-6 py-3"
+              className="px-5 py-3 rounded bg-[#edeae3] text-[#090a0d] font-semibold hover:bg-white transition-all shadow-sm flex items-center gap-2"
               href={gmailComposeLink}
               target="_blank"
               rel="noreferrer"
               data-analytics-event={ANALYTICS_EVENTS.EMAIL_CLICK}
               data-analytics-section="contact"
-              data-analytics-method="gmail_compose"
             >
-              {t.contact.emailBtn}
+              <span>Initiate Conversation</span>
+              <ExternalIcon className="h-3.5 w-3.5" />
+            </a>
+            <a
+              className="px-4 py-3 rounded border border-white/15 bg-white/5 hover:bg-white/10 hover:border-white/30 text-[#edeae3] transition-all flex items-center gap-2"
+              href={resumeLink}
+              target="_blank"
+              rel="noreferrer"
+              download={resumeDownload}
+              data-analytics-event={ANALYTICS_EVENTS.RESUME_CLICK_FOOTER}
+            >
+              <span>Download CV [PDF]</span>
+              <span className="text-[13px]">↓</span>
             </a>
           </div>
-          <p className="mt-3 text-sm text-[var(--muted)]">{emailAddress}</p>
         </section>
+
       </main>
+
+      {/* Refined Architectural Colophon Footer */}
+      <footer className="w-full bg-[#07080a] border-t border-white/10 py-10 font-mono text-xs text-[#8c8f9a]">
+        <div className="max-w-7xl mx-auto px-6 sm:px-10 flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="flex items-center gap-4">
+            <span className="font-editorial-italic font-serif italic text-sm text-[#edeae3]">
+              Aadarsh Pandey Specimen
+            </span>
+            <span className="text-[#555760]">/</span>
+            <span className="text-[#555760]">Bengaluru 12.9716° N, 77.5946° E</span>
+            <span className="text-[#555760]">/</span>
+            <span className="text-[#edeae3] tabular-nums">UTC+5:30 {liveTime}</span>
+          </div>
+
+          <div className="flex items-center gap-6 text-[11px] text-[#555760]">
+            <span>100% FACTUAL RESUME VERIFIED</span>
+            <a
+              href="#hero"
+              className="hover:text-[#edeae3] transition-colors"
+            >
+              BACK TO TOP ↑
+            </a>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
