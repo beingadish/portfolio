@@ -33,6 +33,8 @@ type LanguageContextValue = {
   resumeAudio: () => void;
   stopAudio: () => void;
   activeSection: string | null;
+  isAudioPanelVisible: boolean;
+  setIsAudioPanelVisible: (visible: boolean) => void;
 };
 
 const LanguageContext = createContext<LanguageContextValue | null>(null);
@@ -48,6 +50,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   const [voiceGender, setVoiceGender] = useState<NinadaVoiceGender>("female");
   const [speed, setSpeed] = useState(1.0);
   const [activeSection, setActiveSection] = useState<string | null>(null);
+  const [isAudioPanelVisible, setIsAudioPanelVisible] = useState(true);
 
   // Restore saved language on mount
   useEffect(() => {
@@ -110,6 +113,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
       const sentenceToPlay = [sentences[index]];
       setIsPlaying(true);
       setIsPaused(false);
+      setIsAudioPanelVisible(true);
       setCurrentSentenceIndex(index);
       setCurrentSentenceText(sentences[index]);
       setActiveSection("full-intro");
@@ -141,6 +145,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     const sentences = translations[currentLanguage].readOutSentences;
     setIsPlaying(true);
     setIsPaused(false);
+    setIsAudioPanelVisible(true);
     setActiveSection("full-intro");
 
     ninadaEngine.speakSentences(sentences, currentLanguage, {
@@ -168,6 +173,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     (text: string, sectionKey?: string) => {
       setIsPlaying(true);
       setIsPaused(false);
+      setIsAudioPanelVisible(true);
       setCurrentSentenceIndex(0);
       setCurrentSentenceText(text);
       setActiveSection(sectionKey || "custom");
@@ -227,6 +233,8 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
         resumeAudio,
         stopAudio,
         activeSection,
+        isAudioPanelVisible,
+        setIsAudioPanelVisible,
       }}
     >
       {children}

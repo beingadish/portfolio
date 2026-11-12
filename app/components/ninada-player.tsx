@@ -22,6 +22,8 @@ export function NinadaPlayer() {
     resumeAudio,
     stopAudio,
     activeSection,
+    isAudioPanelVisible,
+    setIsAudioPanelVisible,
   } = useLanguage();
 
   const [isExpanded, setIsExpanded] = useState(false);
@@ -30,6 +32,28 @@ export function NinadaPlayer() {
   const sentences = t.readOutSentences || [];
   const currentSentenceNum = currentSentenceIndex >= 0 ? currentSentenceIndex + 1 : 0;
   const totalSentences = sentences.length;
+
+  if (!isAudioPanelVisible) {
+    return (
+      <button
+        type="button"
+        onClick={() => setIsAudioPanelVisible(true)}
+        className="fixed bottom-4 right-4 z-40 flex items-center gap-2 rounded-full border border-[var(--line)] bg-[var(--surface-subtle)]/95 px-3.5 py-2 text-xs font-semibold text-[var(--teal)] shadow-2xl backdrop-blur-xl hover:border-[var(--teal)] transition active:scale-95 group"
+        title="Open Ninada Audio Studio"
+      >
+        <span className="flex h-2 w-2 rounded-full bg-[var(--teal)] animate-pulse" />
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-3.5 w-3.5">
+          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+          <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+          <path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
+        </svg>
+        <span>{t.audio.readAloud}</span>
+        <span className="rounded bg-[var(--teal)]/15 px-1.5 py-0.5 text-[10px] font-mono text-[var(--teal)]">
+          {t.meta.nativeName}
+        </span>
+      </button>
+    );
+  }
 
   return (
     <aside
@@ -144,8 +168,8 @@ export function NinadaPlayer() {
               </button>
             )}
 
-            {/* Language Selector in player */}
-            <LanguageSelector compact />
+            {/* Language Selector in player (dropUp ensures it opens upwards) */}
+            <LanguageSelector compact dropUp />
 
             {/* Settings / Options toggle button */}
             <button
@@ -161,6 +185,22 @@ export function NinadaPlayer() {
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="h-3.5 w-3.5">
                 <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
                 <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
+              </svg>
+            </button>
+
+            {/* Close / Dismiss Audio Panel Button */}
+            <button
+              type="button"
+              onClick={() => {
+                stopAudio();
+                setIsAudioPanelVisible(false);
+              }}
+              className="rounded-full border border-[var(--line)] bg-[var(--surface)] p-1.5 text-[var(--muted)] hover:text-red-400 hover:border-red-400/50 transition active:scale-95"
+              title="Close audio panel"
+              aria-label="Close audio panel"
+            >
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" className="h-3.5 w-3.5">
+                <path d="M18 6L6 18M6 6l12 12" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </button>
           </div>

@@ -408,6 +408,8 @@ li.flex > span:last-child {
 .nav-dock {
   transform: translate3d(-50%, 0, 0);
   top: 1.05rem;
+  overflow: visible !important;
+  contain: none !important;
   transition:
     transform 260ms ease,
     opacity 220ms ease;
