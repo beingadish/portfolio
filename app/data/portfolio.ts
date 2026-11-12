@@ -36,7 +36,7 @@ const toSocialLink = ({ label, href }: Pick<QuickLinkItem, "label" | "href">): S
 
 export const resumeQuickLink: QuickLinkItem = {
   label: "Resume",
-  href: "https://drive.google.com/file/d/1tuL15jEH01hhfqQ21v3g6QrIrKJAsBRk/view?usp=sharing",
+  href: "/Aadarsh_Pandey_Resume.pdf",
   icon: "resume",
   download: true,
 };
@@ -172,53 +172,49 @@ export const portfolioData = {
   ],
   experience: [
     {
-      title: "Software Engineer",
+      title: "Software Engineer Analyst",
       company: "Accenture",
       location: "Bengaluru, India",
       period: "June 2026 - Present",
       bullets: [
         "Working on a large-scale fleet telemetry consumption and processing system that generates insights from heavy mining and construction machinery.",
         "Contributing to backend and cloud development across Java, Spring Boot, MQTT, AWS IoT Core, Lambda, Kinesis, DynamoDB, ECS Fargate, SQS/SNS, CloudFormation, and Snowflake.",
-        "Building resilient telemetry flows for intermittent connectivity, retries, idempotency, duplicate and out-of-order events, data validation, and observability."
+        "Building resilient telemetry flows for intermittent connectivity, retries, idempotency, duplicate and out-of-order events, data validation, and observability.",
       ],
       stack: [
         "Java",
         "Spring Boot",
-        "Lambda",
-        "ECS",
         "MQTT",
-        "S3",
-        "NGINX",
-        "DynamoDB",
+        "AWS IoT Core",
+        "Lambda",
         "Kinesis",
-        "SQS",
-        "SNS",
-        "AWS"
+        "DynamoDB",
+        "ECS Fargate",
+        "SQS/SNS",
+        "CloudFormation",
+        "Snowflake",
       ],
     },
     {
       title: "Associate Software Engineer",
       company: "Accenture",
       location: "Bengaluru, India",
-      period: "Oct 2024 - May 2026",
+      period: "Sep 2024 - May 2026",
       bullets: [
-        "Built and improved Java Spring Boot REST APIs processing 100,000+ daily transit transactions across 10+ agencies.",
-        "Reduced payment API latency by 35% using Redis caching, indexing, and query tuning.",
-        "Delivered Android UI features in Java/Kotlin with MVVM architecture and Retrofit integrations.",
-        "Debugged NFC readers, QR scanners, and thermal printer SDK edge cases with 99%+ transaction success rate.",
-        "Maintained Kafka-based event pipelines handling 200K+ events/day with JWT-secured microservice endpoints.",
+        "Developed and maintained Java Spring Boot microservices for transit payment processing, supporting 1M+ daily transactions across 10+ agencies; implemented Redis caching and composite SQL indexes, reducing payment-confirmation latency by 35%.",
+        "Built Kafka consumers in Spring Boot for a settlement pipeline handling 2M+ events/day; integrated Spring Security and JWT for service-to-service authentication.",
+        "Refactored legacy payment validation with the Strategy pattern for agency-specific fare rules, improving maintainability.",
       ],
       stack: [
         "Java",
-        "Kotlin",
         "Spring Boot",
         "Kafka",
         "Redis",
         "PostgreSQL",
-        "Hibernate",
-        "Docker",
-        "AWS",
-        "Android Native",
+        "Spring Security",
+        "JWT",
+        "Microservices",
+        "Strategy Pattern",
       ],
     },
     {
@@ -256,6 +252,53 @@ export const portfolioData = {
   ] as ExperienceItem[],
   projects: [
     {
+      name: "AroundU (Hyperlocal Freelancing Platform)",
+      timeline: "Jan 2026 - Present",
+      summary:
+        "A production-grade modular monolith in Java 21 for job discovery, bidding, escrow payments, OTP verification, and reviews, using Strategy, Decorator, Builder, and Chain of Responsibility.",
+      href: "https://github.com/orgs/AroundUPlatform/repositories",
+      bullets: [
+        "Designed a production-grade modular monolith in Java 21 for job discovery, bidding, escrow payments, OTP verification, and reviews, using Strategy, Decorator, Builder, and Chain of Responsibility.",
+        "Engineered geo-spatial search using Redis GEO as a secondary index and PostgreSQL as the source of truth, with fallback queries and retries; deployed on AWS EC2 with Kubernetes (k3s), NGINX Ingress, and HPA.",
+        "Built resilient payments with Resilience4j (Circuit Breaker + Retry) and distributed locking; added observability with Actuator, Micrometer, Prometheus, Grafana, and custom aroundu.* metrics.",
+      ],
+      stack: [
+        "Java 21",
+        "Spring Boot",
+        "PostgreSQL",
+        "Redis",
+        "Resilience4j",
+        "JWT",
+        "Hibernate",
+        "Docker",
+        "k3s",
+        "Prometheus",
+        "Grafana",
+      ],
+    },
+    {
+      name: "TalkingYoutube (Semantic RAG System)",
+      timeline: "Oct 2025",
+      summary:
+        "A persistent semantic RAG system for YouTube transcripts using FastAPI, Google Gemini embeddings, and PostgreSQL + pgvector, retaining sessions, embeddings, and chat history with grounded, timestamped citations.",
+      href: "https://github.com/beingadish/TalkingYT",
+      bullets: [
+        "Built a persistent semantic RAG system for YouTube transcripts using FastAPI, Google Gemini embeddings, and PostgreSQL + pgvector, retaining sessions, embeddings, and chat history with grounded, timestamped citations.",
+        "Designed per-video embedding removal with ON DELETE CASCADE; containerized and hardened the stack with Docker Compose and Docker Scout, reducing frontend criticals/highs from 1C/28H to 1C/4H.",
+      ],
+      stack: [
+        "Python",
+        "FastAPI",
+        "Next.js",
+        "PostgreSQL",
+        "pgvector",
+        "Gemini",
+        "RAG",
+        "Docker",
+        "Docker Compose",
+      ],
+    },
+    {
       name: "Clynic Microservices",
       timeline: "Apr 2025",
       summary:
@@ -279,91 +322,18 @@ export const portfolioData = {
       ],
     },
     {
-      name: "TalkingYoutube",
-      timeline: "Oct 2025",
-      summary:
-        "A persistent semantic Q&A system for YouTube transcripts powered by PostgreSQL + pgvector retrieval, RAG, and grounded timestamped citations.",
-      href: "https://github.com/beingadish/TalkingYT",
-      bullets: [
-        "Built a FastAPI + Next.js RAG app with Gemini embeddings and PostgreSQL + pgvector for persistent sessions, embeddings, and chat history.",
-        "Designed per-video embedding removal via ON DELETE CASCADE so deleting a video drops only its chunks while leaving the rest of the index intact.",
-        "Implemented transcript-grounded answers with deep-linked timestamp citations, markdown rendering, and a browser TTS read-aloud engine.",
-        "Containerized the full stack with Docker Compose and hardened images with Docker Scout, eliminating all fixable CVEs (frontend 1C/28H to 1C/4H).",
-        "Added optional RAGAS answer-relevancy scoring that degrades gracefully, reaching ~0.81-0.97 relevancy on grounded responses.",
-      ],
-      stack: [
-        "Python",
-        "FastAPI",
-        "Next.js",
-        "PostgreSQL",
-        "pgvector",
-        "Gemini",
-        "RAG",
-        "Docker",
-        "RAGAS",
-      ],
-    },
-    {
-      name: "AroundU",
-      timeline: "Dec 2024 – Present",
-      summary:
-        "A hyperlocal physical freelancing platform with geo-indexed job discovery, bid-based allocation, escrow payments, and production-grade observability.",
-      href: "https://github.com/orgs/AroundUPlatform/repositories",
-      bullets: [
-        "Designed Redis GEO-based proximity search with PostgreSQL as source of truth and automated geo-sync reconciliation.",
-        "Implemented JWT authentication, role-based access control, and per-endpoint rate limiting using Bucket4j (Redis-backed).",
-        "Built resilient payment flows with Resilience4j (Circuit Breaker + Retry) and fallback queuing for failed escrow operations.",
-        "Integrated Prometheus + Grafana monitoring with custom Micrometer business metrics (jobs, bids, payments, auth).",
-        "Developed Flutter MVVM mobile client using Riverpod with persistent session management and structured API logging.",
-        "Deployed full-stack system on AWS EC2 using Kubernetes (k3s) with NGINX Ingress, HPA autoscaling, and rolling updates.",
-        "Containerized services using Docker and orchestrated multi-service deployment (PostgreSQL, Redis, backend, monitoring stack).",
-        "Configured liveness/readiness probes, resource limits, and horizontal pod autoscaling (CPU + memory based).",
-        "Implemented distributed rate limiting, caching, and locking using Redis + Redisson for consistency across instances.",
-        "Built production-grade observability pipeline with Prometheus scraping and Grafana dashboards for latency, throughput, and failures.",
-        "Designed fault-tolerant geo-index sync with retry queues and eventual consistency guarantees between Redis and PostgreSQL."
-      ],
-      stack: [
-        "Java",
-        "Spring Boot",
-        "PostgreSQL",
-        "Redis",
-        "Redisson",
-        "Resilience4j",
-        "Bucket4j",
-        "Micrometer",
-        "Prometheus",
-        "Grafana",
-        "Docker",
-        "Kubernetes (k3s)",
-        "NGINX Ingress",
-        "AWS (EC2, VPC)",
-        "Flutter",
-        "Riverpod"
-      ]
-    },
-    {
       name: "CodeRunrAI Mobile",
       timeline: "Mar 2026",
       summary:
         "A LeetCode-style mobile coding platform enabling real-time code execution, output visualization, and system design exploration of sandboxed execution systems.",
+      href: "https://github.com/beingadish",
       bullets: [
         "Built a Flutter-based multi-language code editor with syntax highlighting and dynamic language loading from backend APIs.",
         "Implemented real-time execution polling with clear state transitions (Idle → Running → Completed) using Riverpod.",
         "Designed execution result UI showing stdout, stderr, execution time, memory usage, and status handling.",
-        "Architected feature-first modular structure using Riverpod for scalable state management and maintainability.",
-        "Integrated resilient networking with retry interceptors and structured API handling.",
-        "Collaborated on system design of backend execution engine (sandboxing, async processing, resource limits) to align frontend behavior with backend lifecycle.",
-        "Designed UX flows around async job execution, polling strategies, and failure states for a distributed execution system.",
-        "Prepared integration design for upcoming AI-powered code analysis workflows."
       ],
-      stack: [
-        "Flutter",
-        "Dart",
-        "Riverpod",
-        "Dio",
-        "Material UI"
-      ]
-    }
+      stack: ["Flutter", "Dart", "Riverpod", "Dio", "Material UI"],
+    },
   ] as ProjectItem[],
   skillGroups: [
     {
@@ -443,20 +413,24 @@ export const portfolioData = {
   ] as LanguageItem[],
   achievements: [
     {
+      title: "Received 300+* claps on Medium Articles",
+      link: "https://medium.com/@beingadish",
+    },
+    {
       title: "Google Cloud Certified Generative AI Leader (July 2025)",
-      // Replace link here
       link: "https://drive.google.com/file/d/1UzSXNm8I74ECWbNxRQ-sMhPkWHvIR8f5/view?usp=drive_link",
     },
     {
-      title:
-        "Application Domain Head — Blockchain Research Lab, AKGEC (2022-2024)",
-      // Replace link here
-      link: "https://www.akgec.ac.in/blockchain-research-lab/",
+      title: "Solved 600+ DSA problems in C++ across LeetCode, Codeforces, GeeksforGeeks, and takeUForward",
+      link: "https://leetcode.com/u/ax777x",
     },
     {
-      title: "2nd position - TechSprint'23 Hackathon (250+ participants)",
-      // Replace link here
+      title: "2nd Position in TechSprint'23 Hackathon (250+ participants)",
       link: "https://drive.google.com/file/d/1pJ8nd5nOqR27JWJM1EyKT97U4IZ3D-JK/view",
+    },
+    {
+      title: "Application Domain Head at Blockchain Research Lab, AKGEC (2022-2024)",
+      link: "https://www.akgec.ac.in/blockchain-research-lab/",
     },
   ] as AchievementItem[],
   writing: [
@@ -498,7 +472,7 @@ export const portfolioData = {
     {
       title: "Understanding HTTP for Backend Engineers: Where It All Starts",
       summary:
-        "A foundational deep dive into HTTP concepts—methods, status codes, headers, and statelessness—aimed at engineers building reliable backend services.",
+        "A foundational deep dive into HTTP concepts including methods, status codes, headers, and statelessness, aimed at engineers building reliable backend services.",
       meta: "Medium • 15 min read",
       href: "https://medium.com/javaguides/understanding-http-for-backend-engineers-where-it-all-starts-56c633b9bb0e",
     },
