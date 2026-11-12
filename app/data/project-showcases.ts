@@ -9,6 +9,7 @@ export interface ProjectShowcase {
   liveUrl?: string; // Vercel deployment URL
   backendApiUrl?: string; // AWS API Gateway / ALB / ECS URL
   swaggerUrl?: string;
+  apkUrl?: string; // S3 Direct APK Download URL
   status: "live" | "provisioning" | "demo";
   stack: string[];
   metrics: {
@@ -38,9 +39,10 @@ export const PROJECT_SHOWCASES: Record<string, ProjectShowcase> = {
     timeline: "Jan 2026 - Present",
     githubUrl: "https://github.com/orgs/AroundUPlatform/repositories",
     localPath: "/Users/beingadish/Developer/CODE/Projects/AroundU",
-    liveUrl: process.env.NEXT_PUBLIC_AROUNDU_URL || "https://aroundu-demo.vercel.app",
-    backendApiUrl: process.env.NEXT_PUBLIC_AROUNDU_API_URL || "https://api.aroundu.aws.beingadish.blog",
-    status: "provisioning",
+    liveUrl: process.env.NEXT_PUBLIC_AROUNDU_URL || "http://15.252.147.14/aroundu/",
+    backendApiUrl: process.env.NEXT_PUBLIC_AROUNDU_API_URL || "http://15.252.147.14:20232",
+    apkUrl: "https://beingadish-portfolio-audio.s3.ap-south-1.amazonaws.com/releases/AroundU.apk",
+    status: "live",
     stack: [
       "Java 21",
       "Spring Boot 3",

@@ -106,6 +106,19 @@ export function ProjectViewer({ project, allProjects }: ProjectViewerProps) {
             <span className="text-[11px]">↗</span>
           </a>
 
+          {project.apkUrl && (
+            <a
+              href={project.apkUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-1.5 text-xs font-mono bg-[#10b981]/15 text-[#10b981] hover:bg-[#10b981]/25 border border-[#10b981]/30 font-medium px-3 py-1.5 rounded transition-all shadow-sm"
+              title="Download Android APK (Direct S3 Link)"
+            >
+              <span>📱 Download APK</span>
+              <span className="text-[11px]">⬇</span>
+            </a>
+          )}
+
           {project.liveUrl && (
             <a
               href={project.liveUrl}
@@ -216,7 +229,7 @@ export function ProjectViewer({ project, allProjects }: ProjectViewerProps) {
                     <span className="w-2.5 h-2.5 rounded-full bg-[#10b981]/80" />
                   </div>
                   <span className="text-[11px] font-mono text-[#8c8f9a] truncate max-w-[280px]">
-                    {project.name} · Vercel Hosted UI
+                    {project.name} · {project.apkUrl ? "Live Console & S3 APK" : "Live App Preview"}
                   </span>
                   <div className="w-8" />
                 </div>
