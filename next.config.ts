@@ -80,6 +80,22 @@ const nextConfig: NextConfig = {
       );
     }
 
+    // Static app entry rewrites
+    rewritesList.push(
+      {
+        source: "/aroundu",
+        destination: "/aroundu/index.html",
+      },
+      {
+        source: "/clynic",
+        destination: "/clynic/index.html",
+      },
+      {
+        source: "/janmat",
+        destination: "/janmat/index.html",
+      }
+    );
+
     // Server-side backend gateway rewrites (keeps Elastic IP completely hidden in git-ignored .env.local)
     const backendGateway = process.env.BACKEND_GATEWAY_URL;
     if (backendGateway) {
@@ -91,6 +107,18 @@ const nextConfig: NextConfig = {
         {
           source: "/aroundu-api/:path*",
           destination: `${backendGateway}/aroundu-api/:path*`,
+        },
+        {
+          source: "/api/health",
+          destination: `${backendGateway}/api/health`,
+        },
+        {
+          source: "/api/pub/:path*",
+          destination: `${backendGateway}/pub/:path*`,
+        },
+        {
+          source: "/api/citizen/:path*",
+          destination: `${backendGateway}/citizen/:path*`,
         },
         {
           source: "/pub/:path*",
