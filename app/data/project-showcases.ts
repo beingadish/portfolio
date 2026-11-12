@@ -162,9 +162,9 @@ export const PROJECT_SHOWCASES: Record<string, ProjectShowcase> = {
     timeline: "Jun 2026 - Present",
     githubUrl: "https://github.com/beingadish/JanMat",
     localPath: "/Users/beingadish/Developer/CODE/Projects/JanMat",
-    liveUrl: process.env.NEXT_PUBLIC_JANMAT_URL || "https://janmat-demo.vercel.app",
-    backendApiUrl: process.env.NEXT_PUBLIC_JANMAT_API_URL || "https://api.janmat.aws.beingadish.blog",
-    status: "provisioning",
+    liveUrl: process.env.NEXT_PUBLIC_JANMAT_URL || "http://13.203.201.69",
+    backendApiUrl: process.env.NEXT_PUBLIC_JANMAT_API_URL || "http://13.203.201.69:3000",
+    status: "live",
     stack: [
       "Rust",
       "Tokio Async",

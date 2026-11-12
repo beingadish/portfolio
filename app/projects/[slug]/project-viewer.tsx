@@ -221,67 +221,79 @@ export function ProjectViewer({ project, allProjects }: ProjectViewerProps) {
                   <div className="w-8" />
                 </div>
 
-                {/* If liveUrl is provided and accessible, render iframe, else interactive deployment preview */}
-                <div className="flex-1 relative bg-[#090a0d] flex flex-col items-center justify-center p-6 text-center">
-                  <div className="max-w-md flex flex-col items-center gap-4">
-                    <div className="w-12 h-12 rounded-xl bg-[#2dd4bf]/10 border border-[#2dd4bf]/30 flex items-center justify-center text-[#2dd4bf] text-xl font-mono">
-                      ⚡
-                    </div>
-                    <div>
-                      <h3 className="text-lg font-medium text-[#edeae3]">{project.name} Interface</h3>
-                      <p className="mt-1 text-xs text-[#8c8f9a] leading-relaxed">
-                        Sprint target: Frontend hosted on Vercel, connected to backend microservices on AWS ({project.awsServices[0]}).
-                      </p>
-                    </div>
-
-                    {/* Deployment Target Info Cards */}
-                    <div className="w-full grid grid-cols-2 gap-2 text-left font-mono text-xs pt-2">
-                      <div className="p-3 rounded-lg bg-[#14151c] border border-white/10 flex flex-col gap-1">
-                        <span className="text-[10px] uppercase text-[#8c8f9a]">Frontend Host</span>
-                        <span className="text-[#2dd4bf] font-medium flex items-center gap-1">
-                          <span className="w-1.5 h-1.5 rounded-full bg-[#2dd4bf]" />
-                          Vercel
-                        </span>
-                        <span className="text-[10px] text-[#6e717d] truncate">{project.liveUrl}</span>
+                {/* If liveUrl is provided and status is live, render live iframe, else interactive deployment preview */}
+                {project.status === "live" && project.liveUrl ? (
+                  <div className="flex-1 w-full h-full relative bg-[#090a0d]">
+                    <iframe
+                      key={iframeKey}
+                      src={project.liveUrl}
+                      title={`${project.name} Live Application`}
+                      className="w-full h-full border-0 bg-[#090a0d]"
+                      sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+                    />
+                  </div>
+                ) : (
+                  <div className="flex-1 relative bg-[#090a0d] flex flex-col items-center justify-center p-6 text-center">
+                    <div className="max-w-md flex flex-col items-center gap-4">
+                      <div className="w-12 h-12 rounded-xl bg-[#2dd4bf]/10 border border-[#2dd4bf]/30 flex items-center justify-center text-[#2dd4bf] text-xl font-mono">
+                        ⚡
                       </div>
-                      <div className="p-3 rounded-lg bg-[#14151c] border border-white/10 flex flex-col gap-1">
-                        <span className="text-[10px] uppercase text-[#8c8f9a]">Backend Host</span>
-                        <span className="text-[#f59e0b] font-medium flex items-center gap-1">
-                          <span className="w-1.5 h-1.5 rounded-full bg-[#f59e0b]" />
-                          AWS Cloud
-                        </span>
-                        <span className="text-[10px] text-[#6e717d] truncate">{project.backendApiUrl}</span>
+                      <div>
+                        <h3 className="text-lg font-medium text-[#edeae3]">{project.name} Interface</h3>
+                        <p className="mt-1 text-xs text-[#8c8f9a] leading-relaxed">
+                          Sprint target: Frontend hosted on Vercel, connected to backend microservices on AWS ({project.awsServices[0]}).
+                        </p>
                       </div>
-                    </div>
 
-                    <div className="flex flex-wrap items-center justify-center gap-2 pt-2">
-                      {project.liveUrl && (
+                      {/* Deployment Target Info Cards */}
+                      <div className="w-full grid grid-cols-2 gap-2 text-left font-mono text-xs pt-2">
+                        <div className="p-3 rounded-lg bg-[#14151c] border border-white/10 flex flex-col gap-1">
+                          <span className="text-[10px] uppercase text-[#8c8f9a]">Frontend Host</span>
+                          <span className="text-[#2dd4bf] font-medium flex items-center gap-1">
+                            <span className="w-1.5 h-1.5 rounded-full bg-[#2dd4bf]" />
+                            Vercel
+                          </span>
+                          <span className="text-[10px] text-[#6e717d] truncate">{project.liveUrl}</span>
+                        </div>
+                        <div className="p-3 rounded-lg bg-[#14151c] border border-white/10 flex flex-col gap-1">
+                          <span className="text-[10px] uppercase text-[#8c8f9a]">Backend Host</span>
+                          <span className="text-[#f59e0b] font-medium flex items-center gap-1">
+                            <span className="w-1.5 h-1.5 rounded-full bg-[#f59e0b]" />
+                            AWS Cloud
+                          </span>
+                          <span className="text-[10px] text-[#6e717d] truncate">{project.backendApiUrl}</span>
+                        </div>
+                      </div>
+
+                      <div className="flex flex-wrap items-center justify-center gap-2 pt-2">
+                        {project.liveUrl && (
+                          <a
+                            href={project.liveUrl}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="px-4 py-2 rounded-lg bg-[#2dd4bf] text-[#090a0d] font-semibold text-xs font-mono hover:bg-[#2dd4bf]/90 transition-colors shadow-sm"
+                          >
+                            Launch Direct App ↗
+                          </a>
+                        )}
                         <a
-                          href={project.liveUrl}
+                          href={project.githubUrl}
                           target="_blank"
                           rel="noreferrer"
-                          className="px-4 py-2 rounded-lg bg-[#2dd4bf] text-[#090a0d] font-semibold text-xs font-mono hover:bg-[#2dd4bf]/90 transition-colors shadow-sm"
+                          className="px-4 py-2 rounded-lg border border-white/10 bg-white/5 text-[#edeae3] text-xs font-mono hover:bg-white/10 transition-colors"
                         >
-                          Launch Direct App ↗
+                          GitHub Repository ↗
                         </a>
-                      )}
-                      <a
-                        href={project.githubUrl}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="px-4 py-2 rounded-lg border border-white/10 bg-white/5 text-[#edeae3] text-xs font-mono hover:bg-white/10 transition-colors"
-                      >
-                        GitHub Repository ↗
-                      </a>
-                      <button
-                        onClick={() => setActiveTab("architecture")}
-                        className="px-4 py-2 rounded-lg border border-[#2dd4bf]/40 bg-[#2dd4bf]/10 text-[#2dd4bf] text-xs font-mono hover:bg-[#2dd4bf]/20 transition-colors"
-                      >
-                        Inspect AWS Architecture Topology →
-                      </button>
+                        <button
+                          onClick={() => setActiveTab("architecture")}
+                          className="px-4 py-2 rounded-lg border border-[#2dd4bf]/40 bg-[#2dd4bf]/10 text-[#2dd4bf] text-xs font-mono hover:bg-[#2dd4bf]/20 transition-colors"
+                        >
+                          Inspect AWS Architecture Topology →
+                        </button>
+                      </div>
                     </div>
                   </div>
-                </div>
+                )}
               </div>
             </div>
           </div>
