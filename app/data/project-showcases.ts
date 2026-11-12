@@ -188,6 +188,123 @@ export const PROJECT_SHOWCASES: Record<string, ProjectShowcase> = {
       { method: "GET", path: "/actuator/prometheus", description: "Scrape target for Prometheus & Grafana" },
     ],
   },
+
+  awsiot: {
+    slug: "awsiot",
+    name: "AWS IoT Fleet Telemetry",
+    subtitle: "Industrial Heavy Machinery IoT Stream Pipeline",
+    summary:
+      "A resilient cloud telemetry consumption pipeline handling intermittent sensor streams from heavy mining and construction machinery across AWS IoT Core, MQTT, Lambda, Kinesis, and DynamoDB.",
+    timeline: "Jul 2026 - Present",
+    githubUrl: "https://github.com/beingadish",
+    liveUrl: process.env.NEXT_PUBLIC_AWSIOT_URL || "https://awsiot-demo.vercel.app",
+    backendApiUrl: process.env.NEXT_PUBLIC_AWSIOT_API_URL || "https://api.iot.aws.beingadish.blog",
+    status: "provisioning",
+    stack: [
+      "Java 21",
+      "Spring Boot 3",
+      "AWS IoT Core",
+      "MQTT",
+      "AWS SAM",
+      "AWS Lambda",
+      "Amazon Kinesis",
+      "Amazon DynamoDB",
+      "Docker",
+    ],
+    awsServices: [
+      "AWS IoT Core",
+      "Amazon Kinesis Data Streams",
+      "AWS Lambda (Serverless)",
+      "Amazon DynamoDB",
+      "Amazon S3",
+      "Amazon CloudWatch",
+    ],
+    metrics: [
+      { label: "Ingest SLA", value: "< 15ms", sublabel: "MQTT publish to Kinesis" },
+      { label: "Stream Sharding", value: "Autoscaled", sublabel: "Kinesis partition keys" },
+      { label: "Idempotency", value: "DynamoDB Lock", sublabel: "Zero duplicate records" },
+      { label: "Deploy Tooling", value: "AWS SAM", sublabel: "Infrastructure as Code" },
+    ],
+    architectureHighlights: [
+      {
+        title: "Intermittent Connectivity & Out-of-Order Handling",
+        description:
+          "Buffers device state in local device queues, replaying bursts through MQTT topics upon reconnection with sequence reconciliation.",
+      },
+      {
+        title: "Kinesis Stream Fanout to Serverless Lambdas",
+        description:
+          "High-throughput stream processing utilizing enhanced fan-out consumer Lambdas with custom batch window aggregation.",
+      },
+      {
+        title: "Idempotent DynamoDB Deduplication",
+        description:
+          "Conditional write expressions and TTL expiration prevent duplicate billing and telemetry points from processing multiple times.",
+      },
+    ],
+    endpoints: [
+      { method: "POST", path: "iot/fleet/{deviceId}/telemetry", description: "MQTT topic for telemetry sensor packets" },
+      { method: "GET", path: "/api/v1/telemetry/latest", description: "Query current machine status and coordinates" },
+      { method: "POST", path: "/api/v1/alerts/threshold", description: "Configure machine pressure/heat trigger alerts" },
+    ],
+  },
+
+  janmat: {
+    slug: "janmat",
+    name: "JanMat Polling Engine",
+    subtitle: "High-Throughput Public Sentiment & Polling Platform",
+    summary:
+      "A high-concurrency public sentiment engine engineered with a Rust async backend for microsecond vote counting and a reactive web application hosted on Vercel.",
+    timeline: "Jun 2026 - Present",
+    githubUrl: "https://github.com/beingadish/JanMat",
+    liveUrl: process.env.NEXT_PUBLIC_JANMAT_URL || "https://janmat-demo.vercel.app",
+    backendApiUrl: process.env.NEXT_PUBLIC_JANMAT_API_URL || "https://api.janmat.aws.beingadish.blog",
+    status: "provisioning",
+    stack: [
+      "Rust",
+      "Tokio Async",
+      "Actix-web",
+      "PostgreSQL",
+      "Redis",
+      "React",
+      "Vite",
+      "Docker",
+    ],
+    awsServices: [
+      "AWS App Runner",
+      "Amazon Aurora PostgreSQL",
+      "Amazon ElastiCache Redis",
+      "AWS CloudFront",
+    ],
+    metrics: [
+      { label: "Vote Tallying Latency", value: "< 1ms", sublabel: "In-memory atomic counters" },
+      { label: "Concurrency", value: "100K+ conn", sublabel: "Zero-cost Rust async" },
+      { label: "Frontend Host", value: "Vercel", sublabel: "React + Vite SPA" },
+      { label: "Container Engine", value: "App Runner", sublabel: "Serverless container runtime" },
+    ],
+    architectureHighlights: [
+      {
+        title: "Sub-Millisecond Vote Ingestion in Rust",
+        description:
+          "Non-blocking asynchronous network IO using Tokio runtime, persisting atomic counts to Redis before flushing to PostgreSQL.",
+      },
+      {
+        title: "Cryptographic Tamper-Proof Ballot Audits",
+        description:
+          "Every vote is hashed with a verifiable audit receipt, allowing users to verify their vote was counted without revealing their identity.",
+      },
+      {
+        title: "Edge Cached Dynamic Results",
+        description:
+          "Live polling updates streamed via WebSockets or long-polling, cached at AWS CloudFront edge with short invalidation windows.",
+      },
+    ],
+    endpoints: [
+      { method: "POST", path: "/api/v1/polls/{id}/vote", description: "Submit encrypted vote with duplicate prevention" },
+      { method: "GET", path: "/api/v1/polls/{id}/results", description: "Fetch cached real-time tally" },
+      { method: "GET", path: "/api/v1/polls/{id}/ws", description: "WebSocket stream for live results" },
+    ],
+  },
 };
 
 export function getAllProjectSlugs(): string[] {
