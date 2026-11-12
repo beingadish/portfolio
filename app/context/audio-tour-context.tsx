@@ -30,16 +30,16 @@ const AudioTourContext = createContext<AudioTourContextValue | null>(null);
 export function AudioTourProvider({ children }: { children: ReactNode }) {
   const { currentLanguage } = useLanguage();
 
+  const briefs = AUDIO_TOURS[currentLanguage] || AUDIO_TOURS.en;
+
   const [isPlaying, setIsPlaying] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
   const [isTourActive, setIsTourActive] = useState(false);
-  const [currentBriefId, setCurrentBriefId] = useState<string | null>(null);
-  const [currentBriefIndex, setCurrentBriefIndex] = useState(-1);
-  const [currentBriefText, setCurrentBriefText] = useState("");
+  const [currentBriefId, setCurrentBriefId] = useState<string | null>("intro");
+  const [currentBriefIndex, setCurrentBriefIndex] = useState(0);
+  const [currentBriefText, setCurrentBriefText] = useState(briefs[0]?.text || "");
   const [speed, setSpeedState] = useState(1.0);
-  const [isPanelVisible, setIsPanelVisible] = useState(false);
-
-  const briefs = AUDIO_TOURS[currentLanguage] || AUDIO_TOURS.en;
+  const [isPanelVisible, setIsPanelVisible] = useState(true);
 
   const scrollToTarget = (targetId?: string) => {
     if (typeof window === "undefined" || !targetId) return;
@@ -67,9 +67,6 @@ export function AudioTourProvider({ children }: { children: ReactNode }) {
     setIsPlaying(false);
     setIsPaused(false);
     setIsTourActive(false);
-    setCurrentBriefId(null);
-    setCurrentBriefIndex(-1);
-    setCurrentBriefText("");
   }, []);
 
   const pauseAudio = useCallback(() => {
@@ -89,10 +86,21 @@ export function AudioTourProvider({ children }: { children: ReactNode }) {
     portfolioAudioPlayer.setRate(rate);
   }, []);
 
-  // Stop playback when language changes
+  // Update text when language changes and pause active playback
   useEffect(() => {
-    stopAudio();
-  }, [currentLanguage, stopAudio]);
+    portfolioAudioPlayer.stop();
+    setIsPlaying(false);
+    setIsPaused(false);
+    setIsTourActive(false);
+
+    const activeBriefs = AUDIO_TOURS[currentLanguage] || AUDIO_TOURS.en;
+    setCurrentBriefIndex((prevIdx) => {
+      const validIdx = prevIdx >= 0 && prevIdx < activeBriefs.length ? prevIdx : 0;
+      setCurrentBriefId(activeBriefs[validIdx]?.id || "intro");
+      setCurrentBriefText(activeBriefs[validIdx]?.text || "");
+      return validIdx;
+    });
+  }, [currentLanguage]);
 
   const startTour = useCallback(
     (fromIndex: number = 0) => {

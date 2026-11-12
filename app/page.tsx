@@ -123,7 +123,7 @@ function TechChip({ label }: { label: string }) {
   const source = techIconSources[label] ?? fallbackTechIcon;
 
   return (
-    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded border border-white/10 bg-[#14151c]/80 text-[#8c8f9a] hover:text-[#edeae3] hover:border-white/20 transition-all font-mono text-[11px]">
+    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded border border-white/10 bg-[#14151c]/80 text-[#8c8f9a] hover:text-[#edeae3] hover:border-white/20 transition-all font-mono text-xs">
       {source.kind === "semantic" ? (
         <SemanticIcon icon={source.icon} compact color={source.color} />
       ) : source.kind === "simple" ? (
@@ -247,13 +247,13 @@ function SpecimenSectionHeader({
     <div className="flex flex-col gap-3 border-b border-white/10 pb-5">
       <div className="flex items-center justify-between gap-3">
         <div className="flex items-center gap-3">
-          <span className="font-mono text-[11px] tracking-widest uppercase text-[#8c8f9a]">
+          <span className="font-mono text-xs tracking-widest uppercase text-[#8c8f9a]">
             {marker}
           </span>
           {subtitle && (
             <>
               <span className="h-px w-6 bg-white/15" />
-              <span className="font-mono text-[11px] text-[#555760] uppercase hidden sm:inline">
+              <span className="font-mono text-xs text-[#6e717d] uppercase hidden sm:inline">
                 {subtitle}
               </span>
             </>
@@ -265,7 +265,7 @@ function SpecimenSectionHeader({
         {title}
       </h2>
       {copy && (
-        <p className="text-sm text-[#8c8f9a] font-sans leading-relaxed max-w-2xl">
+        <p className="text-[15px] sm:text-base text-[#9da1ad] font-sans leading-relaxed max-w-3xl">
           {copy}
         </p>
       )}
@@ -323,22 +323,22 @@ export default function Home() {
           {/* Identity & Status */}
           <div className="flex items-center gap-5 shrink-0">
             <a href="#hero" className="group flex items-baseline gap-2.5 whitespace-nowrap shrink-0">
-              <span className="font-mono text-xs uppercase tracking-widest text-[#edeae3] font-semibold whitespace-nowrap">
+              <span className="font-mono text-[13px] sm:text-sm uppercase tracking-wider text-[#edeae3] font-semibold whitespace-nowrap">
                 Aadarsh Pandey
               </span>
               <span className="text-[#555760] font-mono text-xs">/</span>
-              <span className="font-editorial-italic font-serif italic text-xs text-[#8c8f9a] group-hover:text-white transition-colors whitespace-nowrap">
+              <span className="font-editorial-italic font-serif italic text-[13px] sm:text-sm text-[#8c8f9a] group-hover:text-white transition-colors whitespace-nowrap">
                 Software Engineer
               </span>
             </a>
-            <div className="hidden 2xl:flex items-center gap-2 pl-4 border-l border-white/10 font-mono text-[11px] text-[#8c8f9a] whitespace-nowrap shrink-0">
+            <div className="hidden 2xl:flex items-center gap-2 pl-4 border-l border-white/10 font-mono text-xs text-[#8c8f9a] whitespace-nowrap shrink-0">
               <span className="w-1.5 h-1.5 rounded-full bg-[#2dd4bf] animate-pulse shrink-0" />
               <span className="uppercase tracking-wider">Open to roles</span>
             </div>
           </div>
 
           {/* Desktop Nav Links */}
-          <nav className="hidden xl:flex items-center gap-5 font-mono text-xs text-[#8c8f9a]">
+          <nav className="hidden xl:flex items-center gap-5 font-mono text-[13px] text-[#8c8f9a]">
             {navItems.slice(0, 7).map((item, idx) => (
               <a
                 key={item.href}
@@ -355,7 +355,7 @@ export default function Home() {
 
           {/* Clock, Language, Quick Links & Dispatch */}
           <div className="flex items-center gap-3">
-            <div className="hidden xl:flex items-center gap-2.5 font-mono text-xs text-[#555760] border-r border-white/10 pr-3">
+            <div className="hidden xl:flex items-center gap-2.5 font-mono text-[13px] text-[#555760] border-r border-white/10 pr-3">
               <span>BLR · UTC+5:30</span>
               <span className="text-[#edeae3] tabular-nums font-medium">{liveTime}</span>
             </div>
@@ -382,7 +382,7 @@ export default function Home() {
               href={gmailComposeLink}
               target="_blank"
               rel="noreferrer"
-              className="text-xs font-mono px-3 py-1.5 rounded border border-white/15 bg-white/5 hover:bg-white/10 hover:border-white/30 text-[#edeae3] transition-all hidden sm:inline-block"
+              className="text-xs sm:text-[13px] font-mono px-3.5 py-1.5 rounded border border-white/15 bg-white/5 hover:bg-white/10 hover:border-white/30 text-[#edeae3] transition-all hidden sm:inline-block"
             >
               Inquire
             </a>
@@ -405,11 +405,11 @@ export default function Home() {
           <div className="lg:col-span-7 flex flex-col gap-7">
             <div className="flex items-center justify-between gap-3">
               <div className="flex items-center gap-3">
-                <span className="font-mono text-[11px] tracking-widest uppercase text-[#8c8f9a]">
+                <span className="font-mono text-xs tracking-widest uppercase text-[#8c8f9a]">
                   Software Engineer
                 </span>
                 <span className="h-px w-8 bg-white/15" />
-                <span className="font-mono text-[11px] text-[#555760] uppercase">
+                <span className="font-mono text-xs text-[#6e717d] uppercase">
                   Bengaluru, India
                 </span>
               </div>
@@ -422,12 +422,12 @@ export default function Home() {
               {" "}I build <span className="font-editorial-italic font-serif italic text-white/95 font-light">scalable backends</span> and <span className="font-editorial-italic font-serif italic text-white/95 font-light">distributed systems</span>.
             </h1>
 
-            <p className="text-base sm:text-lg text-[#8c8f9a] leading-relaxed font-light max-w-2xl">
+            <p className="text-lg sm:text-[19px] text-[#9da1ad] leading-relaxed font-light max-w-3xl">
               Software Engineer at Accenture in Bengaluru, engineering high-throughput backend microservices and IoT telemetry pipelines. Specialized in Java, Spring Boot, Kafka, and AWS cloud infrastructure, building systems that process millions of daily transactions with high reliability.
             </p>
 
             {/* Action Strip */}
-            <div className="flex flex-wrap items-center gap-3 pt-2 font-mono text-xs">
+            <div className="flex flex-wrap items-center gap-3 pt-2 font-mono text-sm">
               <a
                 className="inline-flex items-center gap-2 px-4 py-2.5 rounded bg-[#edeae3] text-[#090a0d] font-semibold hover:bg-white transition-all shadow-sm"
                 href="#projects"
@@ -448,7 +448,7 @@ export default function Home() {
                 rel="noreferrer"
               >
                 <span>GitHub</span>
-                <ExternalIcon className="h-3 w-3" />
+                <ExternalIcon className="h-3.5 w-3.5" />
               </a>
               <a
                 className="inline-flex items-center gap-1.5 px-3 py-2.5 text-[#8c8f9a] hover:text-[#edeae3] transition-colors"
@@ -464,21 +464,21 @@ export default function Home() {
 
             {/* Quick Stats */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-3 border-t border-white/10 font-mono text-xs">
-              <div className="flex flex-col gap-0.5">
-                <span className="text-[10px] text-[#555760] uppercase">Location</span>
-                <span className="text-[#edeae3] text-[11px]">Bengaluru, India</span>
+              <div className="flex flex-col gap-1">
+                <span className="text-xs text-[#6e717d] uppercase tracking-wider">Location</span>
+                <span className="text-[#edeae3] text-sm sm:text-[15px] font-medium">Bengaluru, India</span>
               </div>
-              <div className="flex flex-col gap-0.5">
-                <span className="text-[10px] text-[#555760] uppercase">Primary Stack</span>
-                <span className="text-[#edeae3] text-[11px]">Java 21 / Spring Boot</span>
+              <div className="flex flex-col gap-1">
+                <span className="text-xs text-[#6e717d] uppercase tracking-wider">Primary Stack</span>
+                <span className="text-[#edeae3] text-sm sm:text-[15px] font-medium">Java 21 / Spring Boot</span>
               </div>
-              <div className="flex flex-col gap-0.5">
-                <span className="text-[10px] text-[#555760] uppercase">Streaming</span>
-                <span className="text-[#edeae3] text-[11px]">Kafka &amp; Redis GEO</span>
+              <div className="flex flex-col gap-1">
+                <span className="text-xs text-[#6e717d] uppercase tracking-wider">Streaming</span>
+                <span className="text-[#edeae3] text-sm sm:text-[15px] font-medium">Kafka &amp; Redis GEO</span>
               </div>
-              <div className="flex flex-col gap-0.5">
-                <span className="text-[10px] text-[#555760] uppercase">Observability</span>
-                <span className="text-[#edeae3] text-[11px]">Prometheus &amp; Grafana</span>
+              <div className="flex flex-col gap-1">
+                <span className="text-xs text-[#6e717d] uppercase tracking-wider">Observability</span>
+                <span className="text-[#edeae3] text-sm sm:text-[15px] font-medium">Prometheus &amp; Grafana</span>
               </div>
             </div>
           </div>
@@ -489,48 +489,48 @@ export default function Home() {
             <div className="flex items-center justify-between border-b border-white/10 pb-3">
               <div className="flex items-center gap-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#2dd4bf] animate-pulse" />
-                <span className="font-mono text-xs uppercase text-[#edeae3] font-medium tracking-wider">
+                <span className="font-mono text-sm uppercase text-[#edeae3] font-medium tracking-wider">
                   Topology Monitor
                 </span>
               </div>
-              <span className="font-mono text-[11px] text-[#555760] tabular-nums">SYNC: 99.98%</span>
+              <span className="font-mono text-xs text-[#8c8f9a] tabular-nums">SYNC: 99.98%</span>
             </div>
 
             {/* Kinetic Node Mesh Canvas */}
             <div className="relative w-full h-56 bg-[#090a0d] rounded-lg border border-white/5 overflow-hidden flex items-center justify-center">
               <KineticNodeMesh className="w-full h-full" />
-              <div className="absolute bottom-2 left-3 pointer-events-none flex items-center gap-3 font-mono text-[10px] text-[#8c8f9a]">
+              <div className="absolute bottom-2 left-3 pointer-events-none flex items-center gap-3 font-mono text-xs text-[#8c8f9a]">
                 <span>NODES: <span className="text-[#edeae3]">6 CORE HUBS</span></span>
                 <span>CONSENSUS: <span className="text-[#2dd4bf]">RAFT-QUORUM</span></span>
               </div>
             </div>
 
             {/* Telemetry Metric Grid */}
-            <div className="grid grid-cols-2 gap-2.5 pt-1 font-mono text-xs">
-              <div className="p-3 bg-[#0e0f14] border border-white/5 rounded-lg flex flex-col gap-1">
-                <span className="text-[10px] uppercase text-[#555760] tracking-wider">Daily Transit Volume</span>
-                <span className="text-[#edeae3] text-[12px] font-semibold">1M+ TX / Day</span>
+            <div className="grid grid-cols-2 gap-2.5 pt-1 font-mono">
+              <div className="p-3.5 bg-[#0e0f14] border border-white/5 rounded-lg flex flex-col gap-1">
+                <span className="text-xs uppercase text-[#8c8f9a] tracking-wider">Daily Transit Volume</span>
+                <span className="text-[#edeae3] text-sm sm:text-[15px] font-semibold">1M+ TX / Day</span>
               </div>
-              <div className="p-3 bg-[#0e0f14] border border-white/5 rounded-lg flex flex-col gap-1">
-                <span className="text-[10px] uppercase text-[#555760] tracking-wider">Kafka Event Ingest</span>
-                <span className="text-[#2dd4bf] text-[12px] font-semibold">2M+ Events / Day</span>
+              <div className="p-3.5 bg-[#0e0f14] border border-white/5 rounded-lg flex flex-col gap-1">
+                <span className="text-xs uppercase text-[#8c8f9a] tracking-wider">Kafka Event Ingest</span>
+                <span className="text-[#2dd4bf] text-sm sm:text-[15px] font-semibold">2M+ Events / Day</span>
               </div>
-              <div className="p-3 bg-[#0e0f14] border border-white/5 rounded-lg flex flex-col gap-1">
-                <span className="text-[10px] uppercase text-[#555760] tracking-wider">Payment Latency SLA</span>
-                <span className="text-[#edeae3] text-[12px] font-semibold">-35% P99 Confirm</span>
+              <div className="p-3.5 bg-[#0e0f14] border border-white/5 rounded-lg flex flex-col gap-1">
+                <span className="text-xs uppercase text-[#8c8f9a] tracking-wider">Payment Latency SLA</span>
+                <span className="text-[#edeae3] text-sm sm:text-[15px] font-semibold">-35% P99 Confirm</span>
               </div>
-              <div className="p-3 bg-[#0e0f14] border border-white/5 rounded-lg flex flex-col gap-1">
-                <span className="text-[10px] uppercase text-[#555760] tracking-wider">Orchestration</span>
-                <span className="text-[#8c8f9a] text-[12px] flex items-center gap-1.5">
+              <div className="p-3.5 bg-[#0e0f14] border border-white/5 rounded-lg flex flex-col gap-1">
+                <span className="text-xs uppercase text-[#8c8f9a] tracking-wider">Orchestration</span>
+                <span className="text-[#8c8f9a] text-sm sm:text-[15px] flex items-center gap-1.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#2dd4bf]" />
                   <code>AWS EC2 + k3s</code>
                 </span>
               </div>
             </div>
 
-            <div className="flex items-center justify-between text-[11px] font-mono text-[#555760] pt-1">
+            <div className="flex items-center justify-between text-xs font-mono text-[#6e717d] pt-1">
               <span>Tick rate: <span className="text-[#8c8f9a]">120hz</span></span>
-              <span className="text-[10px] text-[#555760]">Hover canvas to stimulate nodes</span>
+              <span className="text-xs text-[#6e717d]">Hover canvas to stimulate nodes</span>
             </div>
           </div>
         </section>
@@ -549,15 +549,15 @@ export default function Home() {
             {/* Tile 01 */}
             <article className="p-5 rounded-xl border border-white/10 bg-[#121318]/70 hover:border-white/20 transition-all flex flex-col justify-between gap-4">
               <div>
-                <span className="text-[10px] text-[#2dd4bf] uppercase tracking-wider block mb-1">
+                <span className="text-xs text-[#2dd4bf] uppercase tracking-wider block mb-1">
                   01 // FLEET TELEMETRY
                 </span>
-                <h3 className="text-sm font-semibold text-[#edeae3]">Heavy Machinery Ingest</h3>
-                <p className="mt-2 text-xs leading-relaxed text-[#8c8f9a] font-sans">
+                <h3 className="text-base font-semibold text-[#edeae3]">Heavy Machinery Ingest</h3>
+                <p className="mt-2 text-sm leading-relaxed text-[#9da1ad] font-sans">
                   IoT telemetry processing for mining and construction machinery across AWS IoT Core, Lambda, Kinesis, DynamoDB, ECS Fargate, and Snowflake.
                 </p>
               </div>
-              <div className="pt-3 border-t border-white/10 text-[11px] text-[#555760] flex items-center justify-between">
+              <div className="pt-3 border-t border-white/10 text-xs text-[#6e717d] flex items-center justify-between">
                 <span>Intermittent Flows</span>
                 <span className="text-[#2dd4bf] font-medium">Production Live</span>
               </div>
@@ -566,15 +566,15 @@ export default function Home() {
             {/* Tile 02 */}
             <article className="p-5 rounded-xl border border-white/10 bg-[#121318]/70 hover:border-white/20 transition-all flex flex-col justify-between gap-4">
               <div>
-                <span className="text-[10px] text-[#2dd4bf] uppercase tracking-wider block mb-1">
+                <span className="text-xs text-[#2dd4bf] uppercase tracking-wider block mb-1">
                   02 // TRANSIT SCALE
                 </span>
-                <h3 className="text-sm font-semibold text-[#edeae3]">Transit Fare Microservices</h3>
-                <p className="mt-2 text-xs leading-relaxed text-[#8c8f9a] font-sans">
+                <h3 className="text-base font-semibold text-[#edeae3]">Transit Fare Microservices</h3>
+                <p className="mt-2 text-sm leading-relaxed text-[#9da1ad] font-sans">
                   Spring Boot microservices processing 1M+ daily transit transactions across 10+ agencies, reducing payment latency by 35% through Redis caching and query tuning.
                 </p>
               </div>
-              <div className="pt-3 border-t border-white/10 text-[11px] text-[#555760] flex items-center justify-between">
+              <div className="pt-3 border-t border-white/10 text-xs text-[#6e717d] flex items-center justify-between">
                 <span>Kafka Settlement</span>
                 <span className="text-[#2dd4bf] font-medium">2M+ Ev/Day</span>
               </div>
@@ -583,15 +583,15 @@ export default function Home() {
             {/* Tile 03 */}
             <article className="p-5 rounded-xl border border-white/10 bg-[#121318]/70 hover:border-white/20 transition-all flex flex-col justify-between gap-4">
               <div>
-                <span className="text-[10px] text-[#2dd4bf] uppercase tracking-wider block mb-1">
+                <span className="text-xs text-[#2dd4bf] uppercase tracking-wider block mb-1">
                   03 // MODULAR MONOLITH
                 </span>
-                <h3 className="text-sm font-semibold text-[#edeae3]">AroundU Core Platform</h3>
-                <p className="mt-2 text-xs leading-relaxed text-[#8c8f9a] font-sans">
+                <h3 className="text-base font-semibold text-[#edeae3]">AroundU Core Platform</h3>
+                <p className="mt-2 text-sm leading-relaxed text-[#9da1ad] font-sans">
                   Java 21 modular monolith with Redis GEO spatial index, Resilience4j circuit breakers, and k3s container orchestration with NGINX Ingress.
                 </p>
               </div>
-              <div className="pt-3 border-t border-white/10 text-[11px] text-[#555760] flex items-center justify-between">
+              <div className="pt-3 border-t border-white/10 text-xs text-[#6e717d] flex items-center justify-between">
                 <span>Orchestration</span>
                 <span className="text-[#2dd4bf] font-medium">k3s + Ingress</span>
               </div>
@@ -600,15 +600,15 @@ export default function Home() {
             {/* Tile 04 */}
             <article className="p-5 rounded-xl border border-white/10 bg-[#121318]/70 hover:border-white/20 transition-all flex flex-col justify-between gap-4">
               <div>
-                <span className="text-[10px] text-[#2dd4bf] uppercase tracking-wider block mb-1">
+                <span className="text-xs text-[#2dd4bf] uppercase tracking-wider block mb-1">
                   04 // SEMANTIC RETRIEVAL
                 </span>
-                <h3 className="text-sm font-semibold text-[#edeae3]">TalkingYoutube RAG</h3>
-                <p className="mt-2 text-xs leading-relaxed text-[#8c8f9a] font-sans">
+                <h3 className="text-base font-semibold text-[#edeae3]">TalkingYoutube RAG</h3>
+                <p className="mt-2 text-sm leading-relaxed text-[#9da1ad] font-sans">
                   FastAPI transcript vector retrieval with Google Gemini embeddings, PostgreSQL + pgvector, and Docker Scout hardened containers.
                 </p>
               </div>
-              <div className="pt-3 border-t border-white/10 text-[11px] text-[#555760] flex items-center justify-between">
+              <div className="pt-3 border-t border-white/10 text-xs text-[#6e717d] flex items-center justify-between">
                 <span>Vulnerability Profile</span>
                 <span className="text-[#2dd4bf] font-medium">Docker Scout</span>
               </div>
@@ -630,18 +630,18 @@ export default function Home() {
             {/* Doctrine 01 */}
             <div className="rounded-xl border border-white/10 bg-[#121318]/60 p-7 flex flex-col justify-between gap-6 hover:border-white/20 transition-all">
               <div className="flex flex-col gap-3">
-                <div className="flex items-center justify-between font-mono text-xs text-[#555760]">
+                <div className="flex items-center justify-between font-mono text-sm text-[#555760]">
                   <span>01</span>
-                  <span className="text-[10px] uppercase tracking-wider text-[#8c8f9a]">Telemetry</span>
+                  <span className="text-xs uppercase tracking-wider text-[#8c8f9a]">Telemetry</span>
                 </div>
-                <h3 className="text-xl font-light text-[#edeae3]">
+                <h3 className="text-2xl font-light text-[#edeae3]">
                   Radical <span className="font-editorial-italic font-serif italic text-white font-normal">Observability</span>
                 </h3>
-                <p className="text-sm text-[#8c8f9a] leading-relaxed font-sans pt-1">
+                <p className="text-[15px] text-[#9da1ad] leading-relaxed font-sans pt-1">
                   If runtime state cannot be introspected down to the microsecond, it cannot be trusted. System stability begins with granular Micrometer metrics, structured tracing, and transparent alerts over guesswork.
                 </p>
               </div>
-              <div className="font-mono text-[11px] text-[#555760] border-t border-white/5 pt-3">
+              <div className="font-mono text-xs text-[#6e717d] border-t border-white/5 pt-3">
                 METRIC-DRIVEN RESILIENCE
               </div>
             </div>
@@ -649,18 +649,18 @@ export default function Home() {
             {/* Doctrine 02 */}
             <div className="rounded-xl border border-white/10 bg-[#121318]/60 p-7 flex flex-col justify-between gap-6 hover:border-white/20 transition-all">
               <div className="flex flex-col gap-3">
-                <div className="flex items-center justify-between font-mono text-xs text-[#555760]">
+                <div className="flex items-center justify-between font-mono text-sm text-[#555760]">
                   <span>02</span>
-                  <span className="text-[10px] uppercase tracking-wider text-[#8c8f9a]">Hardware</span>
+                  <span className="text-xs uppercase tracking-wider text-[#8c8f9a]">Hardware</span>
                 </div>
-                <h3 className="text-xl font-light text-[#edeae3]">
+                <h3 className="text-2xl font-light text-[#edeae3]">
                   Mechanical <span className="font-editorial-italic font-serif italic text-white font-normal">Sympathy</span>
                 </h3>
-                <p className="text-sm text-[#8c8f9a] leading-relaxed font-sans pt-1">
+                <p className="text-[15px] text-[#9da1ad] leading-relaxed font-sans pt-1">
                   Software does not exist in an abstract vacuum. Knowledge of cache lines, NUMA zones, non-blocking asynchronous I/O, and partitioned event boundaries yields durable, sustainable architectures.
                 </p>
               </div>
-              <div className="font-mono text-[11px] text-[#555760] border-t border-white/5 pt-3">
+              <div className="font-mono text-xs text-[#6e717d] border-t border-white/5 pt-3">
                 HONOR SILICON BOUNDARIES
               </div>
             </div>
@@ -668,18 +668,18 @@ export default function Home() {
             {/* Doctrine 03 */}
             <div className="rounded-xl border border-white/10 bg-[#121318]/60 p-7 flex flex-col justify-between gap-6 hover:border-white/20 transition-all">
               <div className="flex flex-col gap-3">
-                <div className="flex items-center justify-between font-mono text-xs text-[#555760]">
+                <div className="flex items-center justify-between font-mono text-sm text-[#555760]">
                   <span>03</span>
-                  <span className="text-[10px] uppercase tracking-wider text-[#8c8f9a]">Execution</span>
+                  <span className="text-xs uppercase tracking-wider text-[#8c8f9a]">Execution</span>
                 </div>
-                <h3 className="text-xl font-light text-[#edeae3]">
+                <h3 className="text-2xl font-light text-[#edeae3]">
                   Deterministic <span className="font-editorial-italic font-serif italic text-white font-normal">Simplicity</span>
                 </h3>
-                <p className="text-sm text-[#8c8f9a] leading-relaxed font-sans pt-1">
+                <p className="text-[15px] text-[#9da1ad] leading-relaxed font-sans pt-1">
                   Clarity takes precedence over ornament. Predictable failure states, graceful circuit breaking, idempotent operations, and zero unexpected layout shifts are treated as essential functional requirements.
                 </p>
               </div>
-              <div className="font-mono text-[11px] text-[#555760] border-t border-white/5 pt-3">
+              <div className="font-mono text-xs text-[#6e717d] border-t border-white/5 pt-3">
                 FAIL-SAFE BY DEFAULT
               </div>
             </div>
@@ -706,11 +706,11 @@ export default function Home() {
                 >
                   <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
                     {/* Index & Timeline */}
-                    <div className="lg:col-span-2 flex flex-col gap-1 font-mono text-xs">
-                      <span className="text-[#555760] group-hover:text-[#2dd4bf] transition-colors font-medium">
+                    <div className="lg:col-span-2 flex flex-col gap-1 font-mono">
+                      <span className="text-sm text-[#555760] group-hover:text-[#2dd4bf] transition-colors font-medium">
                         /{projectNum}
                       </span>
-                      <span className="text-[11px] text-[#8c8f9a]">{project.timeline}</span>
+                      <span className="text-xs text-[#8c8f9a]">{project.timeline}</span>
                     </div>
 
                     {/* Title & Stack */}
@@ -719,7 +719,7 @@ export default function Home() {
                         <h3 className="text-xl sm:text-2xl font-light text-[#edeae3] group-hover:text-white group-hover:translate-x-1 transition-all flex items-baseline gap-2">
                           <span>{project.name}</span>
                         </h3>
-                        <p className="mt-1 text-xs text-[#8c8f9a] font-sans leading-relaxed">
+                        <p className="mt-1 text-sm text-[#9da1ad] font-sans leading-relaxed">
                           {project.summary}
                         </p>
                       </div>
@@ -732,7 +732,7 @@ export default function Home() {
                     </div>
 
                     {/* Bullets & Technical Details */}
-                    <div className="lg:col-span-4 flex flex-col gap-2 text-xs text-[#8c8f9a] font-sans leading-relaxed">
+                    <div className="lg:col-span-4 flex flex-col gap-2 text-sm text-[#9da1ad] font-sans leading-relaxed">
                       {project.bullets.map((bullet) => (
                         <p key={bullet} className="flex gap-2">
                           <span className="text-[#2dd4bf] shrink-0 font-mono">▹</span>
@@ -748,16 +748,16 @@ export default function Home() {
                           href={project.href}
                           target="_blank"
                           rel="noreferrer"
-                          className="inline-flex items-center gap-1.5 font-mono text-xs text-[#8c8f9a] hover:text-[#edeae3] transition-colors border border-white/10 px-2.5 py-1.5 rounded bg-white/5 hover:bg-white/10"
+                          className="inline-flex items-center gap-1.5 font-mono text-xs sm:text-sm text-[#8c8f9a] hover:text-[#edeae3] transition-colors border border-white/10 px-3 py-1.5 rounded bg-white/5 hover:bg-white/10"
                           data-analytics-event={ANALYTICS_EVENTS.PROJECT_CLICK}
                           data-analytics-project-name={project.name}
                           data-analytics-project-type={getProjectType(project.href)}
                         >
                           <span>View</span>
-                          <ExternalIcon className="h-3 w-3" />
+                          <ExternalIcon className="h-3.5 w-3.5" />
                         </a>
                       ) : (
-                        <span className="font-mono text-[10px] text-[#555760] uppercase">
+                        <span className="font-mono text-xs text-[#555760] uppercase">
                           INTERNAL
                         </span>
                       )}
@@ -789,14 +789,14 @@ export default function Home() {
                 >
                   <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
                     {/* Period & Live Tag */}
-                    <div className="lg:col-span-3 flex flex-col gap-2 font-mono text-xs">
+                    <div className="lg:col-span-3 flex flex-col gap-2 font-mono">
                       <div className="flex items-center gap-2">
                         <span className={`w-1.5 h-1.5 rounded-full ${isCurrent ? "bg-[#2dd4bf] animate-pulse" : "bg-[#555760]"}`} />
-                        <span className="text-[#edeae3] font-medium">{item.period}</span>
+                        <span className="text-[#edeae3] text-sm sm:text-[15px] font-medium">{item.period}</span>
                       </div>
-                      <span className="text-[11px] text-[#8c8f9a]">{item.location}</span>
+                      <span className="text-xs text-[#8c8f9a]">{item.location}</span>
                       {isCurrent && (
-                        <span className="w-fit text-[10px] font-semibold text-[#2dd4bf] border border-[#2dd4bf]/30 bg-[#2dd4bf]/10 px-2 py-0.5 rounded">
+                        <span className="w-fit text-xs font-semibold text-[#2dd4bf] border border-[#2dd4bf]/30 bg-[#2dd4bf]/10 px-2.5 py-0.5 rounded">
                           CURRENT
                         </span>
                       )}
@@ -805,10 +805,10 @@ export default function Home() {
                     {/* Role & Company */}
                     <div className="lg:col-span-4 flex flex-col gap-2">
                       <div>
-                        <h3 className="text-xl font-light text-[#edeae3] group-hover:text-white">
+                        <h3 className="text-2xl font-light text-[#edeae3] group-hover:text-white">
                           {item.title}
                         </h3>
-                        <p className="text-xs font-mono text-[#2dd4bf] mt-0.5">{item.company}</p>
+                        <p className="text-sm font-mono text-[#2dd4bf] mt-0.5">{item.company}</p>
                       </div>
 
                       <div className="flex flex-wrap gap-1.5 pt-2">
@@ -819,7 +819,7 @@ export default function Home() {
                     </div>
 
                     {/* Bullets */}
-                    <div className="lg:col-span-5 flex flex-col gap-2.5 text-xs text-[#8c8f9a] font-sans leading-relaxed">
+                    <div className="lg:col-span-5 flex flex-col gap-2.5 text-sm sm:text-[15px] text-[#9da1ad] font-sans leading-relaxed">
                       {item.bullets.map((bullet) => (
                         <p key={bullet} className="flex gap-2">
                           <span className="text-[#2dd4bf] shrink-0 font-mono">▹</span>
@@ -847,10 +847,10 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {/* Group: Backend & Distributed */}
             <div className="rounded-xl border border-white/10 bg-[#121318]/70 p-5 flex flex-col gap-3">
-              <span className="font-mono text-[11px] text-[#2dd4bf] uppercase tracking-wider">
+              <span className="font-mono text-xs text-[#2dd4bf] uppercase tracking-wider font-semibold">
                 01 // Distributed Systems &amp; Streams
               </span>
-              <p className="text-xs text-[#8c8f9a] font-sans">
+              <p className="text-sm text-[#9da1ad] font-sans leading-relaxed">
                 Apache Kafka, Redis Cluster, Spring Boot, MQTT, gRPC, Event Streaming, Microservices, System Reliability.
               </p>
               <div className="flex flex-wrap gap-1.5 pt-1">
@@ -862,10 +862,10 @@ export default function Home() {
 
             {/* Group: Core Languages */}
             <div className="rounded-xl border border-white/10 bg-[#121318]/70 p-5 flex flex-col gap-3">
-              <span className="font-mono text-[11px] text-[#2dd4bf] uppercase tracking-wider">
+              <span className="font-mono text-xs text-[#2dd4bf] uppercase tracking-wider font-semibold">
                 02 // Languages &amp; Foundations
               </span>
-              <p className="text-xs text-[#8c8f9a] font-sans">
+              <p className="text-sm text-[#9da1ad] font-sans leading-relaxed">
                 Java 21, Modern C++ (20/23), Python, Dart, Kotlin, SQL, 600+ DSA LeetCode solutions, STL, Collections.
               </p>
               <div className="flex flex-wrap gap-1.5 pt-1">
@@ -877,10 +877,10 @@ export default function Home() {
 
             {/* Group: Cloud & Infrastructure */}
             <div className="rounded-xl border border-white/10 bg-[#121318]/70 p-5 flex flex-col gap-3">
-              <span className="font-mono text-[11px] text-[#2dd4bf] uppercase tracking-wider">
+              <span className="font-mono text-xs text-[#2dd4bf] uppercase tracking-wider font-semibold">
                 03 // Cloud &amp; Container Orchestration
               </span>
-              <p className="text-xs text-[#8c8f9a] font-sans">
+              <p className="text-sm text-[#9da1ad] font-sans leading-relaxed">
                 AWS (IoT Core, ECS Fargate, Kinesis, DynamoDB, Lambda), Docker, Kubernetes (k3s), NGINX Ingress, HPA.
               </p>
               <div className="flex flex-wrap gap-1.5 pt-1">
@@ -892,10 +892,10 @@ export default function Home() {
 
             {/* Group: Observability & Resilience */}
             <div className="rounded-xl border border-white/10 bg-[#121318]/70 p-5 flex flex-col gap-3">
-              <span className="font-mono text-[11px] text-[#2dd4bf] uppercase tracking-wider">
+              <span className="font-mono text-xs text-[#2dd4bf] uppercase tracking-wider font-semibold">
                 04 // Observability &amp; Resilience
               </span>
-              <p className="text-xs text-[#8c8f9a] font-sans">
+              <p className="text-sm text-[#9da1ad] font-sans leading-relaxed">
                 Prometheus, Grafana, Micrometer, Resilience4j Circuit Breakers, Bucket4j, JUnit 5, Mockito.
               </p>
               <div className="flex flex-wrap gap-1.5 pt-1">
@@ -907,10 +907,10 @@ export default function Home() {
 
             {/* Group: Storage & Gen AI */}
             <div className="rounded-xl border border-white/10 bg-[#121318]/70 p-5 flex flex-col gap-3">
-              <span className="font-mono text-[11px] text-[#2dd4bf] uppercase tracking-wider">
+              <span className="font-mono text-xs text-[#2dd4bf] uppercase tracking-wider font-semibold">
                 05 // Storage &amp; Vector Search
               </span>
-              <p className="text-xs text-[#8c8f9a] font-sans">
+              <p className="text-sm text-[#9da1ad] font-sans leading-relaxed">
                 PostgreSQL, pgvector, Snowflake, Redis GEO, MongoDB, Google Gemini Embeddings, RAG Pipelines.
               </p>
               <div className="flex flex-wrap gap-1.5 pt-1">
@@ -922,10 +922,10 @@ export default function Home() {
 
             {/* Group: Mobile & Client */}
             <div className="rounded-xl border border-white/10 bg-[#121318]/70 p-5 flex flex-col gap-3">
-              <span className="font-mono text-[11px] text-[#2dd4bf] uppercase tracking-wider">
+              <span className="font-mono text-xs text-[#2dd4bf] uppercase tracking-wider font-semibold">
                 06 // Mobile &amp; Integration
               </span>
-              <p className="text-xs text-[#8c8f9a] font-sans">
+              <p className="text-sm text-[#9da1ad] font-sans leading-relaxed">
                 Android Native, MVVM architecture, Flutter, Riverpod, Retrofit, NFC &amp; Hardware SDKs.
               </p>
               <div className="flex flex-wrap gap-1.5 pt-1">
@@ -956,17 +956,17 @@ export default function Home() {
                   className="py-6 px-4 -mx-4 rounded-lg hover:bg-[#14151c]/60 transition-all flex flex-col md:flex-row md:items-center justify-between gap-4 group"
                 >
                   <div className="flex flex-col gap-1.5 max-w-3xl">
-                    <div className="flex items-center gap-3 font-mono text-xs text-[#555760]">
+                    <div className="flex items-center gap-3 font-mono text-xs sm:text-sm text-[#555760]">
                       <span className="group-hover:text-[#2dd4bf] transition-colors font-medium">
                         {entryNum}
                       </span>
                       <span>•</span>
                       <span className="text-[#8c8f9a]">{entry.meta}</span>
                     </div>
-                    <h3 className="text-lg font-light text-[#edeae3] group-hover:text-white group-hover:translate-x-1 transition-all">
+                    <h3 className="text-xl font-light text-[#edeae3] group-hover:text-white group-hover:translate-x-1 transition-all">
                       {entry.title}
                     </h3>
-                    <p className="text-xs text-[#8c8f9a] font-sans leading-relaxed line-clamp-2">
+                    <p className="text-sm text-[#9da1ad] font-sans leading-relaxed line-clamp-2">
                       {entry.summary}
                     </p>
                   </div>
@@ -975,13 +975,13 @@ export default function Home() {
                     href={entry.href}
                     target="_blank"
                     rel="noreferrer"
-                    className="inline-flex items-center gap-1.5 font-mono text-xs text-[#8c8f9a] hover:text-[#edeae3] transition-colors border border-white/10 px-3 py-1.5 rounded bg-white/5 hover:bg-white/10 shrink-0 self-start md:self-center"
+                    className="inline-flex items-center gap-1.5 font-mono text-xs sm:text-sm text-[#8c8f9a] hover:text-[#edeae3] transition-colors border border-white/10 px-3.5 py-2 rounded bg-white/5 hover:bg-white/10 shrink-0 self-start md:self-center"
                     data-analytics-event={ANALYTICS_EVENTS.ARTICLE_CLICK}
                     data-analytics-article-title={entry.title}
                     data-analytics-platform="medium"
                   >
                     <span>Read Article</span>
-                    <ExternalIcon className="h-3 w-3" />
+                    <ExternalIcon className="h-3.5 w-3.5" />
                   </a>
                 </article>
               );
@@ -998,7 +998,7 @@ export default function Home() {
               title="Recognitions &amp; Certifications"
               sectionKey="achievements"
             />
-            <div className="flex flex-col gap-3 font-sans text-sm">
+            <div className="flex flex-col gap-3 font-sans text-[15px]">
               {portfolioData.achievements.map((item) => (
                 <div
                   key={item.title}
@@ -1014,7 +1014,7 @@ export default function Home() {
                         className="text-[#edeae3] hover:text-white underline decoration-white/20 hover:decoration-white underline-offset-4 inline-flex items-center gap-1.5"
                       >
                         <span>{item.title}</span>
-                        <ExternalIcon className="h-3 w-3 text-[#8c8f9a]" />
+                        <ExternalIcon className="h-3.5 w-3.5 text-[#8c8f9a]" />
                       </a>
                     ) : (
                       <span className="text-[#edeae3]">{item.title}</span>
@@ -1038,21 +1038,21 @@ export default function Home() {
                   key={item.school}
                   className="p-5 rounded-xl border border-white/10 bg-[#121318]/50 flex flex-col gap-2"
                 >
-                  <div className="flex items-center justify-between font-mono text-xs text-[#555760]">
+                  <div className="flex items-center justify-between font-mono text-xs sm:text-sm text-[#6e717d]">
                     <span>{item.period}</span>
                     <span>{item.location}</span>
                   </div>
-                  <h3 className="text-base font-light text-[#edeae3]">{item.school}</h3>
-                  <p className="text-xs text-[#8c8f9a] font-sans">{item.degree}</p>
+                  <h3 className="text-lg font-light text-[#edeae3]">{item.school}</h3>
+                  <p className="text-sm text-[#9da1ad] font-sans">{item.degree}</p>
                   {item.href && (
                     <a
                       href={item.href}
                       target="_blank"
                       rel="noreferrer"
-                      className="mt-2 text-xs font-mono text-[#2dd4bf] hover:underline inline-flex items-center gap-1"
+                      className="mt-2 text-xs sm:text-sm font-mono text-[#2dd4bf] hover:underline inline-flex items-center gap-1"
                     >
                       <span>Institution Profile</span>
-                      <ExternalIcon className="h-3 w-3" />
+                      <ExternalIcon className="h-3.5 w-3.5" />
                     </a>
                   )}
                 </div>
@@ -1068,21 +1068,21 @@ export default function Home() {
         >
           <div className="flex flex-col gap-2.5 max-w-xl">
             <div className="flex items-center justify-between gap-3">
-              <div className="flex items-center gap-2 font-mono text-xs text-[#2dd4bf]">
+              <div className="flex items-center gap-2 font-mono text-xs sm:text-sm text-[#2dd4bf]">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#2dd4bf]" />
                 <span className="uppercase tracking-wider">Get in Touch</span>
               </div>
               <SectionAudioButton sectionId="contact" />
             </div>
-            <h3 className="text-2xl sm:text-3xl font-light text-[#edeae3] tracking-tight">
+            <h3 className="text-3xl sm:text-4xl font-light text-[#edeae3] tracking-tight">
               Let&apos;s work on something <span className="font-editorial-italic font-serif italic text-white">interesting</span> together.
             </h3>
-            <p className="text-sm text-[#8c8f9a] font-sans leading-relaxed">
+            <p className="text-base text-[#9da1ad] font-sans leading-relaxed">
               Open to software engineering roles, backend architecture, and technical advisory. Drop me a line and let&apos;s talk.
             </p>
           </div>
 
-          <div className="flex flex-wrap items-center gap-3 font-mono text-xs">
+          <div className="flex flex-wrap items-center gap-3 font-mono text-sm">
             <a
               className="px-5 py-3 rounded bg-[#edeae3] text-[#090a0d] font-semibold hover:bg-white transition-all shadow-sm flex items-center gap-2"
               href={gmailComposeLink}
@@ -1111,19 +1111,19 @@ export default function Home() {
       </main>
 
       {/* Refined Architectural Colophon Footer */}
-      <footer className="w-full bg-[#07080a] border-t border-white/10 py-10 font-mono text-xs text-[#8c8f9a]">
+      <footer className="w-full bg-[#07080a] border-t border-white/10 py-10 font-mono text-xs sm:text-sm text-[#8c8f9a]">
         <div className="max-w-7xl mx-auto px-6 sm:px-10 flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-4">
-            <span className="font-mono text-sm font-semibold text-[#edeae3]">
+            <span className="font-mono text-sm sm:text-base font-semibold text-[#edeae3]">
               Aadarsh Pandey
             </span>
             <span className="text-[#555760]">/</span>
-            <span className="text-[#555760]">Bengaluru, India · UTC+5:30</span>
+            <span className="text-[#6e717d]">Bengaluru, India · UTC+5:30</span>
             <span className="text-[#555760]">/</span>
             <span className="text-[#edeae3] tabular-nums">{liveTime}</span>
           </div>
 
-          <div className="flex items-center gap-6 text-[11px] text-[#555760]">
+          <div className="flex items-center gap-6 text-xs text-[#6e717d]">
             <span>100% FACTUAL RESUME VERIFIED</span>
             <a
               href="#hero"
