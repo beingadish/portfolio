@@ -318,26 +318,22 @@ export default function Home() {
 
       {/* Architectural Masthead */}
       <header className="fixed top-0 left-0 w-full z-50 bg-[#090a0d]/85 backdrop-blur-md border-b border-white/10 transition-colors">
-        <div className="max-w-7xl mx-auto px-6 sm:px-10 h-16 flex items-center justify-between">
-          {/* Identity & Status */}
-          <div className="flex items-center gap-5 shrink-0">
-            <a href="#hero" className="group flex items-baseline gap-2.5 whitespace-nowrap shrink-0">
-              <span className="font-mono text-[13px] sm:text-sm uppercase tracking-wider text-[#edeae3] font-semibold whitespace-nowrap">
+        <div className="w-full max-w-[1440px] mx-auto px-6 sm:px-8 h-16 flex items-center justify-between gap-6">
+          {/* Identity */}
+          <div className="shrink-0 flex items-center">
+            <a href="#hero" className="group flex items-baseline gap-2.5 whitespace-nowrap">
+              <span className="font-mono text-xs sm:text-[13px] uppercase tracking-wider text-[#edeae3] font-semibold">
                 Aadarsh Pandey
               </span>
               <span className="text-[#555760] font-mono text-xs">/</span>
-              <span className="font-editorial-italic font-serif italic text-[13px] sm:text-sm text-[#8c8f9a] group-hover:text-white transition-colors whitespace-nowrap">
+              <span className="font-editorial-italic font-serif italic text-xs sm:text-[13px] text-[#8c8f9a] group-hover:text-white transition-colors">
                 Software Engineer
               </span>
             </a>
-            <div className="hidden 2xl:flex items-center gap-2 pl-4 border-l border-white/10 font-mono text-xs text-[#8c8f9a] whitespace-nowrap shrink-0">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#2dd4bf] animate-pulse shrink-0" />
-              <span className="uppercase tracking-wider">Open to roles</span>
-            </div>
           </div>
 
           {/* Desktop Nav Links */}
-          <nav className="hidden xl:flex items-center gap-5 font-mono text-[13px] text-[#8c8f9a]">
+          <nav className="hidden xl:flex items-center justify-center gap-5 font-mono text-xs text-[#8c8f9a] whitespace-nowrap">
             {navItems.slice(0, 7).map((item, idx) => (
               <a
                 key={item.href}
@@ -353,8 +349,8 @@ export default function Home() {
           </nav>
 
           {/* Clock, Quick Links & Dispatch */}
-          <div className="flex items-center gap-3">
-            <div className="hidden xl:flex items-center gap-2.5 font-mono text-[13px] text-[#555760] border-r border-white/10 pr-3">
+          <div className="shrink-0 flex items-center gap-3">
+            <div className="hidden 2xl:flex items-center gap-2.5 font-mono text-xs text-[#555760] border-r border-white/10 pr-3 whitespace-nowrap">
               <span>BLR · UTC+5:30</span>
               <span className="text-[#edeae3] tabular-nums font-medium">{liveTime}</span>
             </div>
@@ -379,7 +375,7 @@ export default function Home() {
               href={gmailComposeLink}
               target="_blank"
               rel="noreferrer"
-              className="text-xs sm:text-[13px] font-mono px-3.5 py-1.5 rounded border border-white/15 bg-white/5 hover:bg-white/10 hover:border-white/30 text-[#edeae3] transition-all hidden sm:inline-block"
+              className="text-xs font-mono px-3.5 py-1.5 rounded border border-white/15 bg-white/5 hover:bg-white/10 hover:border-white/30 text-[#edeae3] transition-all hidden sm:inline-block whitespace-nowrap"
             >
               Inquire
             </a>
