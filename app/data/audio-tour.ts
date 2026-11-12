@@ -25,7 +25,7 @@ export const AUDIO_TOURS: Record<LanguageCode, AudioTourBrief[]> = {
       id: "mindset",
       title: "Engineering Mindset",
       targetElementId: "doctrine",
-      text: "When building software, I believe systems should be observable, predictable, and mechanically sympathetic to the hardware beneath them. I prioritize deep runtime observability down to the microsecond using Micrometer metrics, structured tracing, and transparent alerts over guesswork. Reliability isn't an afterthought: graceful circuit breaking with Resilience4j, partitioned event streams in Kafka, and deterministic failure modes ensure that systems remain rock solid even under peak loads.",
+      text: "When building software, I believe systems should be observable, predictable, and mechanically sympathetic to the hardware beneath them. I prioritize deep runtime observability down to the microsecond using Micrometer metrics, structured tracing, and transparent alerts over guesswork. Reliability isn't an afterthought: graceful circuit breaking, partitioned event streams in Kafka, and deterministic failure modes ensure that systems remain rock solid even under peak loads.",
     },
     {
       id: "experience",
@@ -57,13 +57,13 @@ export const AUDIO_TOURS: Record<LanguageCode, AudioTourBrief[]> = {
       id: "footprint",
       title: "कार्यक्षेत्र",
       targetElementId: "telemetry",
-      text: "एक्सेंचर में, मैं बड़े पैमाने के मिशन-क्रिटिकल सिस्टम्स पर काम करता हूँ। ट्रांजिट टिकटिंग के क्षेत्र में, मैंने जावा स्प्रिंग बूट आधारित हाई-थ्रूपुट माइक्रोसर्विसेज तैयार की हैं, जो प्रतिदिन दस से अधिक ट्रांसपोर्ट एजेंसियों के दस लाख से ज्यादा लेनदेन प्रोसेस करती हैं। यहाँ हमने रेडिस कैशिंग और डेटाबेस ऑप्टिमाइजेशन से लेटेंसी में पैंतीस प्रतिशत की कमी दर्ज की। वर्तमान में, मैं एडब्ल्यूएस पर इंडस्ट्रियल आईओटी फ्लीट टेलीमेट्री प्लेटफॉर्म पर काम कर रहा हूँ, जहाँ भारी मशीनरी के डेटा को एडब्ल्यूएस आईओटी कोर, एमक्यूटीटी और काइनेसिस के जरिए सुरक्षित और बिना किसी डेटा लॉस के प्रोसेस किया जाता है।",
+      text: "एक्सेंचर में, मैं बड़े पैमाने के मिशन-क्रिटिकल सिस्टम्स पर काम करता हूँ। ट्रांजिट टिकटिंग के क्षेत्र में, मैंने जावा स्प्रिंग बूट आधारित हाई-थ्रूपुट माइक्रोसर्विसेज तैयार की हैं, जो प्रतिदिन दस से अधिक ट्रांसपोर्ट एजेंसियों के दस लाख से ज्यादा लेनदेन प्रोसेस करती हैं। यहाँ हमने रेडिस कैशिंग और डेटाबेस ऑप्टिमाइजेशन से लेटेंसी में पैंतीस प्रतिशत की कमी दर्ज की। वर्तमान में, मैं एडब्ल्यूएस पर इंडस्ट्रियल आईओटी फ्लीट टेलीमेट्री प्लेटफॉर्म पर काम कर रहा हूँ, जहाँ भारी मशीनरी के डेटा को आईओटी कोर, एमक्यूटीटी और काइनेसिस के जरिए सुरक्षित और बिना किसी डेटा लॉस के प्रोसेस किया जाता है।",
     },
     {
       id: "mindset",
       title: "इंजीनियरिंग सोच",
       targetElementId: "doctrine",
-      text: "सॉफ्टवेयर बनाते समय मेरी सोच हमेशा तीन मुख्य सिद्धांतों पर टिकी होती है: गहरी विश्वसनीयता, हार्डवेयर की समझ और कोड की स्पष्टता। मैं सिस्टम के हर माइक्रोसेकंड को माइक्रोमीटर, प्रोमेथियस और ग्राफाना के जरिए पारदर्शी और मापने योग्य बनाने में विश्वास रखता हूँ। मेरे लिए सिस्टम की मजबूती सिर्फ कोड लिखने तक सीमित नहीं है, बल्कि काफ़्का के साथ पार्टीशंड इवेंट पाइपलाइन्स, रेजिलिएंस-फॉर-जे के साथ सर्किट ब्रेकिंग और सुरक्षित फेल्योर मोड्स के जरिए ऐसी नींव तैयार करना है जो किसी भी अप्रत्याशित लोड में डिगने न पाए।",
+      text: "सॉफ्टवेयर बनाते समय मेरी सोच हमेशा तीन मुख्य सिद्धांतों पर टिकी होती है: गहरी विश्वसनीयता, हार्डवेयर की समझ और कोड की स्पष्टता। मैं सिस्टम के हर माइक्रोसेकंड को माइक्रोमीटर, प्रोमेथियस और ग्राफाना के जरिए पारदर्शी और मापने योग्य बनाने में विश्वास रखता हूँ। मेरे लिए सिस्टम की मजबूती सिर्फ कोड लिखने तक सीमित नहीं है, बल्कि काफ़्का के साथ पार्टीशंड इवेंट पाइपलाइन्स, सर्किट ब्रेकिंग और सुरक्षित फेल्योर मोड्स के जरिए ऐसी नींव तैयार करना है जो किसी भी अप्रत्याशित लोड में डिगने न पाए।",
     },
     {
       id: "experience",

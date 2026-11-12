@@ -36,8 +36,8 @@ const TECH_REPLACEMENTS = [
   [/ਏਡਬਲਿਊਐਸ|ਏਡਬਲਯੂਐਸ/gi, "AWS"],
   [/ଏଡବ୍ଲ୍ୟୁଏସ୍|ଏଡବ୍ଲୁଏସ୍/gi, "AWS"],
 
-  // IoT Core & IoT
-  [/आईओटी\s*कोर/gi, "AWS IoT Core"],
+  // IoT Core & IoT (Fixed: map to "IoT Core" without prepending duplicate AWS)
+  [/आईओटी\s*कोर/gi, "IoT Core"],
   [/आईओटी|आयओटी|ഐഒടി|ఐఓటీ|ஐஓடி|ಐಒಟಿ|আইওটি|આઈઓટી|ਆਈਓਟੀ|ଆଇଓଟି/gi, "IoT"],
 
   // MQTT
@@ -55,7 +55,7 @@ const TECH_REPLACEMENTS = [
   [/माइक्रोसर्विसेज|मायक्रोसर्व्हिसेस|ಮೈಕ್ರೋಸರ್ವೀಸ್‌ಗಳು|ಮೈಕ್ರೋಸರ್ವೀಸ್‌|மைக்ரோசர்வீஸ்கள்|மைக்ரோசர்வீஸ்|మైక్రోసర్వీసెస్|మైక్రోసర్వీస్|മൈക്രോസർവീസുകൾ|മൈക്രോസർവീസസ്|মাইক্রোসার্ভিসেস|মাইক্রোসার্ভিস|માઇક્રોસર્વિસિસ|ਮਾਈਕ੍ਰੋਸਰਵਿਸਿਜ਼|ମାଇକ୍ରୋସର୍ଭିସ୍|ମାଇକ୍ରୋସର୍ଭିସେସ୍/gi, "microservices"],
 
   // Redis
-  [/रेडिस|ರೆಡಿಸ್|ரெடிஸ்|రెడిస్|റെഡിസ്|রেডিস|રેડિસ|ਰੇਡਿਸ|ରେଡିସ୍/gi, "Redis"],
+  [/रेडिस|ರೆಡಿಸ್|ரெடிസ്|రెడిస్|റെഡിസ്|রেডিস|રેડિસ|ਰੇਡਿਸ|ରେଡିସ୍/gi, "Redis"],
 
   // Kafka
   [/काफ़्का|काफ्का|ಕಾಫ್ಕಾ|காஃப்கா|కాఫ్కా|കാഫ്ക|কাফকা|કાફકા|ਕਾਫਕਾ|କାଫକା/gi, "Kafka"],
@@ -64,7 +64,6 @@ const TECH_REPLACEMENTS = [
   [/माइक्रोमीटर/gi, "Micrometer"],
   [/प्रोमेथियस|ಪ್ರೊಮಿಥಿಯಸ್/gi, "Prometheus"],
   [/ग्राफाना|ಗ್ರಾಫಾನಾ/gi, "Grafana"],
-  [/रेजिलिएंस-फॉर-जे/gi, "Resilience4j"],
   [/बकेट-फॉर-जे/gi, "Bucket4j"],
 
   // Android, APIs, Mobile
@@ -134,6 +133,41 @@ async function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
+/**
+ * Appends clean trailing silence to a PCM WAV buffer so speech is never abruptly
+ * cut off by media playback pipelines or early hardware drain.
+ */
+export function padWavWithSilence(buf, silenceSec = 0.6) {
+  const riff = buf.toString("ascii", 0, 4);
+  const wave = buf.toString("ascii", 8, 12);
+  if (riff !== "RIFF" || wave !== "WAVE") return buf;
+
+  const sampleRate = buf.readUInt32LE(24);
+  const channels = buf.readUInt16LE(22);
+  const bitsPerSample = buf.readUInt16LE(34);
+  const bytesPerSample = (bitsPerSample / 8) * channels;
+  const bytesToAdd = Math.floor(sampleRate * bytesPerSample * silenceSec);
+
+  let dataOffset = 36;
+  while (dataOffset < buf.length - 8) {
+    if (buf.toString("ascii", dataOffset, dataOffset + 4) === "data") break;
+    const chunkSize = buf.readUInt32LE(dataOffset + 4);
+    dataOffset += 8 + chunkSize;
+  }
+
+  if (buf.toString("ascii", dataOffset, dataOffset + 4) !== "data") return buf;
+
+  const oldDataSize = buf.readUInt32LE(dataOffset + 4);
+  const newDataSize = oldDataSize + bytesToAdd;
+  const newChunkSize = buf.readUInt32LE(4) + bytesToAdd;
+
+  const silence = Buffer.alloc(bytesToAdd, 0);
+  const newBuf = Buffer.concat([buf, silence]);
+  newBuf.writeUInt32LE(newChunkSize, 4);
+  newBuf.writeUInt32LE(newDataSize, dataOffset + 4);
+  return newBuf;
+}
+
 async function synthesizeText(text, targetLang, lang) {
   const speechText = prepareTextForSpeech(text, lang);
   const chunks = splitIntoChunks(speechText, 350);
@@ -162,18 +196,45 @@ async function synthesizeText(text, targetLang, lang) {
     throw new Error(`No audio returned: ${JSON.stringify(data)}`);
   }
 
-  return Buffer.from(data.audios[0], "base64");
+  const rawWav = Buffer.from(data.audios[0], "base64");
+  // Pad with 600ms of clean trailing PCM silence
+  return padWavWithSilence(rawWav, 0.6);
 }
 
 async function main() {
   const args = process.argv.slice(2);
   const force = args.includes("--force");
+  const padExisting = args.includes("--pad-existing");
   const specificLangArg = args.find((a) => a.startsWith("--lang="));
   const specificLang = specificLangArg ? specificLangArg.split("=")[1] : null;
+  const specificIdsArg = args.find((a) => a.startsWith("--ids="));
+  const specificIds = specificIdsArg ? specificIdsArg.split("=")[1].split(",") : null;
+
+  if (padExisting) {
+    console.log("Padding trailing silence (600ms) to existing WAV files across all languages...");
+    const baseDir = path.join("public", "audio");
+    if (!fs.existsSync(baseDir)) return;
+    let paddedCount = 0;
+    for (const lang of fs.readdirSync(baseDir)) {
+      const langDir = path.join(baseDir, lang);
+      if (!fs.statSync(langDir).isDirectory()) continue;
+      for (const file of fs.readdirSync(langDir)) {
+        if (!file.endsWith(".wav")) continue;
+        const filePath = path.join(langDir, file);
+        const originalBuf = fs.readFileSync(filePath);
+        const paddedBuf = padWavWithSilence(originalBuf, 0.6);
+        fs.writeFileSync(filePath, paddedBuf);
+        paddedCount++;
+      }
+    }
+    console.log(`✓ Successfully padded ${paddedCount} audio files with trailing silence.`);
+    return;
+  }
 
   console.log("Starting Studio Sarvam AI Audio Generation with Hinglish/Code-Mixed tech terms...");
   if (force) console.log("(--force flag active: overwriting existing audio files)");
   if (specificLang) console.log(`(Filtering for language: ${specificLang})`);
+  if (specificIds) console.log(`(Filtering for brief IDs: ${specificIds.join(", ")})`);
 
   const allLangs = Object.keys(AUDIO_TOURS);
   const langs = specificLang ? [specificLang] : allLangs;
@@ -197,6 +258,10 @@ async function main() {
 
     for (const brief of briefs) {
       const { id, text } = brief;
+      if (specificIds && !specificIds.includes(id)) {
+        continue;
+      }
+
       const outFile = path.join(outDir, `${id}.wav`);
       totalCount++;
 

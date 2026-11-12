@@ -213,12 +213,12 @@ class PortfolioAudioPlayer {
         this.currentTrackIndex += 1;
 
         if (this.currentTrackIndex < this.trackQueue.length) {
-          // Seamless short gap (150ms) between sections
+          // Natural, comfortable pause (600ms) between sections
           setTimeout(() => {
             if (!this.isCancelled && !this.isPausedState) {
               this.playNextTrackInQueue();
             }
-          }, 150);
+          }, 600);
         } else {
           // Finished all tracks in queue
           this.currentOptions.onFinish?.();
@@ -301,7 +301,10 @@ class PortfolioAudioPlayer {
       audio.onended = () => {
         audio.onended = null;
         audio.onerror = null;
-        resolve();
+        // Wait 300ms so hardware audio output buffers (OS/DAC/speakers) drain completely
+        setTimeout(() => {
+          resolve();
+        }, 300);
       };
 
       audio.onerror = () => {
