@@ -67,7 +67,7 @@ export const PROJECT_SHOWCASES: Record<string, ProjectShowcase> = {
     localPath: "/Users/beingadish/Developer/CODE/Projects/AroundU",
     liveUrl: process.env.NEXT_PUBLIC_AROUNDU_URL || "/aroundu/",
     backendApiUrl: process.env.NEXT_PUBLIC_AROUNDU_API_URL || "https://api.aroundu.beingadish.com",
-    apkUrl: "https://beingadish-releases.s3.ap-south-1.amazonaws.com/AroundU.apk",
+    apkUrl: "/AroundU.apk",
     status: "live",
     stack: [
       "Java 21",

@@ -111,10 +111,8 @@ export function ProjectViewer({ project, allProjects }: ProjectViewerProps) {
             <a
               href={project.apkUrl}
               download="AroundU.apk"
-              target="_blank"
-              rel="noreferrer"
               className="inline-flex items-center gap-1.5 text-xs font-mono bg-[#10b981]/15 text-[#10b981] hover:bg-[#10b981]/25 border border-[#10b981]/30 font-medium px-3 py-1.5 rounded transition-all shadow-sm"
-              title="Download Android APK (Direct Link)"
+              title="Download Android APK"
             >
               <span>📱 Download APK</span>
               <span className="text-[11px]">⬇</span>

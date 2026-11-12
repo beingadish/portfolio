@@ -22,6 +22,23 @@ const nextConfig: NextConfig = {
   experimental: {
     optimizePackageImports: ['@vercel/analytics', '@vercel/speed-insights'],
   },
+  async headers() {
+    return [
+      {
+        source: "/AroundU.apk",
+        headers: [
+          {
+            key: "Content-Disposition",
+            value: 'attachment; filename="AroundU.apk"',
+          },
+          {
+            key: "Content-Type",
+            value: "application/vnd.android.package-archive",
+          },
+        ],
+      },
+    ];
+  },
   // Support for reverse-proxying project interfaces hosted on Vercel under
   // the main portfolio domain (e.g. beingadish.blog/projects/clynic)
   async rewrites() {
