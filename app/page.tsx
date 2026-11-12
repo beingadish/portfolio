@@ -7,7 +7,6 @@ import { NavDock } from "./components/nav-dock";
 import { LanguageSelector } from "./components/language-selector";
 import { SectionListenButton } from "./components/ninada-player";
 import { KineticNodeMesh } from "./components/kinetic-node-mesh";
-import { InteractiveTopologySim } from "./components/interactive-topology-sim";
 import { useLanguage } from "./context/language-context";
 import { portfolioData, resumeQuickLink } from "./data/portfolio";
 import { ANALYTICS_EVENTS, getProjectType } from "./lib/analytics";
@@ -305,8 +304,7 @@ export default function Home() {
 
   const navItems = [
     { label: "Index", href: "#hero" },
-    { label: "Telemetry", href: "#telemetry" },
-    { label: "Topology", href: "#topology" },
+    { label: "Footprint", href: "#telemetry" },
     { label: "Doctrine", href: "#doctrine" },
     { label: "Systems", href: "#projects" },
     { label: "Experience", href: "#experience" },
@@ -625,12 +623,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Section 03: Interactive Systems Topology & Latency Benchmark */}
-        <section id="topology" className="flex flex-col gap-6 scroll-mt-28">
-          <InteractiveTopologySim />
-        </section>
-
-        {/* Section 04: Operating Doctrine / Core Principles */}
+        {/* Section 03: Operating Doctrine / Core Principles */}
         <section id="doctrine" className="flex flex-col gap-8 scroll-mt-28">
           <SpecimenSectionHeader
             marker="[ 03 / OPERATING DOCTRINE ]"
