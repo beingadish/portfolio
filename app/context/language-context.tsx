@@ -56,9 +56,14 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   const [currentSentenceIndex, setCurrentSentenceIndex] = useState(-1);
   const [currentSentenceText, setCurrentSentenceText] = useState("");
   const [voiceGender, setVoiceGender] = useState<NinadaVoiceGender>("female");
-  const [speed, setSpeed] = useState(1.0);
+  const [speed, setSpeedState] = useState(1.0);
   const [activeSection, setActiveSection] = useState<string | null>(null);
   const [isAudioPanelVisible, setIsAudioPanelVisible] = useState(true);
+
+  const setSpeed = useCallback((s: number) => {
+    setSpeedState(s);
+    ninadaEngine.setRate(s);
+  }, []);
 
   // Restore saved language on mount
   useEffect(() => {
@@ -166,10 +171,10 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 
       scrollToSection(initialBrief.id, initialBrief.targetElementId);
 
-      ninadaEngine.speakSentences(textsToPlay, currentLanguage, {
+      ninadaEngine.playBriefSequence(briefsToPlay, currentLanguage, 0, {
         voice: voiceGender,
         rate: speed,
-        onSentenceStart: (relativeIndex: number, text: string) => {
+        onBriefStart: (relativeIndex: number, briefId: string, text: string) => {
           const globalIndex = clampedIndex + relativeIndex;
           const currentBrief = briefs[globalIndex];
           if (currentBrief) {
@@ -329,8 +334,8 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
         philosophy: "mindset",
         projects: "projects",
         experience: "experience",
-        skills: "skills",
-        writing: "writing",
+        skills: "experience",
+        writing: "projects",
         achievements: "experience",
         education: "intro",
         contact: "connect",
@@ -370,7 +375,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 
       scrollToSection(sectionKey);
 
-      ninadaEngine.speakSingle(speechText, currentLanguage, {
+      ninadaEngine.playSingleBrief(targetBriefId || "intro", speechText, currentLanguage, {
         voice: voiceGender,
         rate: speed,
         onFinish: () => {

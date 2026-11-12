@@ -529,12 +529,16 @@ export function SectionListenButton({
   const isCurrentSection =
     isPlaying &&
     (activeSection === sectionKey ||
-      (sectionKey === "hero" && activeSection === "intro") ||
-      (sectionKey === "intro" && activeSection === "hero") ||
+      (sectionKey === "hero" && (activeSection === "intro" || activeSection === "hero")) ||
+      (sectionKey === "intro" && (activeSection === "hero" || activeSection === "intro")) ||
       (sectionKey === "telemetry" && (activeSection === "footprint" || activeSection === "telemetry")) ||
       (sectionKey === "footprint" && (activeSection === "footprint" || activeSection === "telemetry")) ||
       (sectionKey === "doctrine" && (activeSection === "mindset" || activeSection === "doctrine")) ||
       (sectionKey === "mindset" && (activeSection === "mindset" || activeSection === "doctrine")) ||
+      (sectionKey === "experience" && activeSection === "experience") ||
+      (sectionKey === "projects" && activeSection === "projects") ||
+      (sectionKey === "skills" && (activeSection === "skills" || activeSection === "experience")) ||
+      (sectionKey === "writing" && (activeSection === "writing" || activeSection === "projects")) ||
       (sectionKey === "contact" && (activeSection === "connect" || activeSection === "contact")) ||
       (sectionKey === "connect" && (activeSection === "connect" || activeSection === "contact")));
 

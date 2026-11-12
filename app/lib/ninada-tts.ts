@@ -11,350 +11,81 @@ export type NinadaPlayOptions = {
   pitch?: number;
   onSentenceStart?: (index: number, text: string) => void;
   onSentenceEnd?: (index: number) => void;
+  onBriefStart?: (index: number, briefId: string, text: string) => void;
+  onBriefEnd?: (index: number, briefId: string) => void;
   onFinish?: () => void;
   onError?: (err: Error) => void;
 };
 
-// Map each language code to its TTS engine locale
-const GOOGLE_TTS_LANG_MAP: Record<LanguageCode, string> = {
-  en: "en",
-  hi: "hi",
-  sa: "hi", // Sanskrit phonemes map accurately to Hindi (Devanagari script)
-  kn: "kn",
-  ta: "ta",
-  te: "te",
-  ml: "ml",
-  mr: "mr",
-  bn: "bn",
-  gu: "gu",
-  pa: "pa",
-  or: "hi", // Odia transliterated to Devanagari using ISCII/Unicode offset
+export type SectionBriefItem = {
+  id: string;
+  title?: string;
+  text: string;
+  targetElementId?: string;
 };
 
-// Transliterate Odia Unicode block (0x0B00-0x0B7F) to Devanagari (0x0900-0x097F)
-function transliterateOdiaToDevanagari(text: string): string {
-  return text.replace(/[\u0B00-\u0B7F]/g, (ch) => {
-    const code = ch.charCodeAt(0) - 0x0B00 + 0x0900;
-    return String.fromCharCode(code);
-  });
-}
-
-/**
- * Sanitize text for TTS so that punctuation is never read literally (no "comma", "dash", etc.)
- */
-function sanitizeSpeechText(text: string, lang: LanguageCode): string {
-  let cleaned = text;
-
-  if (lang === "or") {
-    cleaned = transliterateOdiaToDevanagari(cleaned);
-  }
-
-  // Replace commas, dashes, colons, slashes with spaces to prevent literal "comma" pronunciation
-  cleaned = cleaned
-    .replace(/[,，]/g, " ")
-    .replace(/[-—–_]/g, " ")
-    .replace(/[:;]/g, " ")
-    .replace(/[[\]{}()<>/\\|~^]/g, "")
-    .replace(/[*#§@]/g, "")
-    .replace(/["'“”]/g, "")
-    .replace(/\s+/g, " ")
-    .trim();
-
-  return cleaned;
-}
-
-/**
- * Split long paragraphs into natural sentence-sized chunks for smooth streaming & caching
- */
-function chunkSpeechText(text: string, maxLen = 140): string[] {
-  if (!text || text.length <= maxLen) return [text.trim()];
-
-  // Split on sentence boundaries (. ! ? ।)
-  const rawSentences = text.split(/([.!?।]+)/);
-  const chunks: string[] = [];
-  let current = "";
-
-  for (let i = 0; i < rawSentences.length; i += 2) {
-    const sentence = (rawSentences[i] || "") + (rawSentences[i + 1] || "");
-    const trimmed = sentence.trim();
-    if (!trimmed) continue;
-
-    if (current.length + trimmed.length + 1 <= maxLen) {
-      current = current ? `${current} ${trimmed}` : trimmed;
-    } else {
-      if (current) chunks.push(current);
-      if (trimmed.length > maxLen) {
-        // Break long sentence by words
-        const words = trimmed.split(/\s+/);
-        let subChunk = "";
-        for (const word of words) {
-          if (subChunk.length + word.length + 1 <= maxLen) {
-            subChunk = subChunk ? `${subChunk} ${word}` : word;
-          } else {
-            if (subChunk) chunks.push(subChunk);
-            subChunk = word;
-          }
-        }
-        if (subChunk) current = subChunk;
-        else current = "";
-      } else {
-        current = trimmed;
-      }
-    }
-  }
-
-  if (current) chunks.push(current);
-  return chunks.filter((c) => c.trim().length > 0);
-}
+const LOCAL_AUDIO_BASE = "/audio";
+const S3_AUDIO_BASE = "https://beingadish-portfolio-audio.s3.ap-south-1.amazonaws.com/audio";
 
 class NinadaAudioEngine {
-  // In-memory audio element cache keyed by `${lang}:${sanitizedText}`
-  private audioCache = new Map<string, HTMLAudioElement>();
   private currentAudio: HTMLAudioElement | null = null;
-  private currentUtterance: SpeechSynthesisUtterance | null = null;
   private isCancelled = false;
   private isPausedState = false;
-  private sentenceQueue: string[] = [];
-  private currentSentenceIndex = -1;
+  private currentRate = 1.0;
+
+  // Queue of briefs for sequential playback
+  private briefQueue: SectionBriefItem[] = [];
+  private currentBriefIndex = -1;
   private currentLang: LanguageCode = "en";
   private currentOptions: NinadaPlayOptions = {};
 
-  /**
-   * Preload an audio chunk into cache
-   */
-  public prefetch(text: string, lang: LanguageCode): void {
-    if (typeof window === "undefined" || !text) return;
-    const sanitized = sanitizeSpeechText(text, lang);
-    if (!sanitized) return;
+  // Audio cache to avoid re-fetching previously loaded tracks
+  private audioCache = new Map<string, HTMLAudioElement>();
 
-    const cacheKey = `${lang}:${sanitized}`;
-    if (this.audioCache.has(cacheKey)) return;
+  /**
+   * Return primary and secondary URLs for a given language & briefId
+   */
+  public getAudioUrls(lang: LanguageCode, briefId: string): { local: string; s3: string } {
+    return {
+      local: `${LOCAL_AUDIO_BASE}/${lang}/${briefId}.wav`,
+      s3: `${S3_AUDIO_BASE}/${lang}/${briefId}.wav`,
+    };
+  }
+
+  /**
+   * Preload an audio track into cache
+   */
+  public preloadBrief(lang: LanguageCode, briefId: string): void {
+    if (typeof window === "undefined") return;
+    const key = `${lang}:${briefId}`;
+    if (this.audioCache.has(key)) return;
 
     try {
-      const tl = GOOGLE_TTS_LANG_MAP[lang] || "en";
-      const url = `https://translate.google.com/translate_tts?ie=UTF-8&tl=${tl}&client=tw-ob&q=${encodeURIComponent(sanitized)}`;
+      const { local } = this.getAudioUrls(lang, briefId);
       const audio = new Audio();
       audio.preload = "auto";
-      audio.src = url;
-      this.audioCache.set(cacheKey, audio);
+      audio.src = local;
+      this.audioCache.set(key, audio);
     } catch {
-      // Ignore prefetch failures
+      // Ignore preload errors
     }
   }
 
   /**
-   * Play an array of sentences sequentially with instant caching
+   * Stop all playback and clear queues
    */
-  public async speakSentences(
-    sentences: string[],
-    lang: LanguageCode,
-    options: NinadaPlayOptions = {}
-  ): Promise<void> {
-    this.stop();
-    this.isCancelled = false;
-    this.isPausedState = false;
-    this.sentenceQueue = sentences;
-    this.currentSentenceIndex = 0;
-    this.currentLang = lang;
-    this.currentOptions = options;
-
-    if (typeof window === "undefined" || sentences.length === 0) return;
-
-    // Prefetch all remaining sentences in background
-    for (let i = 0; i < sentences.length; i++) {
-      this.prefetch(sentences[i], lang);
-    }
-
-    await this.playNextSentence();
-  }
-
-  private async playNextSentence(): Promise<void> {
-    if (this.isCancelled) return;
-
-    if (this.currentSentenceIndex >= this.sentenceQueue.length) {
-      this.currentOptions.onFinish?.();
-      return;
-    }
-
-    const rawText = this.sentenceQueue[this.currentSentenceIndex];
-    const index = this.currentSentenceIndex;
-    const lang = this.currentLang;
-
-    this.currentOptions.onSentenceStart?.(index, rawText);
-
-    // Prefetch next sentence in advance for 0ms transition
-    if (this.currentSentenceIndex + 1 < this.sentenceQueue.length) {
-      this.prefetch(this.sentenceQueue[this.currentSentenceIndex + 1], lang);
-    }
-
-    const sanitized = sanitizeSpeechText(rawText, lang);
-    if (!sanitized) {
-      this.currentSentenceIndex += 1;
-      this.playNextSentence();
-      return;
-    }
-
-    const chunks = chunkSpeechText(sanitized, 140);
-    try {
-      await this.playChunksSequentially(chunks, lang, this.currentOptions.rate ?? 1.0);
-      if (!this.isCancelled) {
-        this.currentOptions.onSentenceEnd?.(index);
-        this.currentSentenceIndex += 1;
-        // Natural 180ms breathing pause between sections
-        setTimeout(() => {
-          if (!this.isCancelled) this.playNextSentence();
-        }, 180);
-      }
-    } catch {
-      // Fallback: try Web Speech synthesis ONLY if native voice exists for this language
-      this.fallbackWebSpeech(sanitized, lang);
-    }
-  }
-
-  private playChunksSequentially(chunks: string[], lang: LanguageCode, rate: number): Promise<void> {
-    return new Promise((resolve, reject) => {
-      let chunkIdx = 0;
-
-      const playNextChunk = () => {
-        if (this.isCancelled) {
-          resolve();
-          return;
-        }
-
-        if (chunkIdx >= chunks.length) {
-          resolve();
-          return;
-        }
-
-        const chunkText = chunks[chunkIdx];
-        const cacheKey = `${lang}:${chunkText}`;
-        let audio = this.audioCache.get(cacheKey);
-
-        const tl = GOOGLE_TTS_LANG_MAP[lang] || "en";
-        const url = `https://translate.google.com/translate_tts?ie=UTF-8&tl=${tl}&client=tw-ob&q=${encodeURIComponent(chunkText)}`;
-
-        if (!audio) {
-          audio = new Audio(url);
-          this.audioCache.set(cacheKey, audio);
-        } else if (audio.src !== url) {
-          audio.src = url;
-        }
-
-        this.currentAudio = audio;
-        audio.playbackRate = Math.min(2.0, Math.max(0.5, rate));
-
-        audio.onended = () => {
-          chunkIdx += 1;
-          playNextChunk();
-        };
-
-        audio.onerror = () => {
-          reject(new Error("Audio playback error"));
-        };
-
-        const playPromise = audio.play();
-        if (playPromise !== undefined) {
-          playPromise.catch((err) => {
-            if (this.isCancelled) {
-              resolve();
-            } else {
-              reject(err);
-            }
-          });
-        }
-      };
-
-      playNextChunk();
-    });
-  }
-
-  private fallbackWebSpeech(text: string, lang: LanguageCode): void {
-    if (typeof window === "undefined" || !("speechSynthesis" in window)) {
-      this.currentOptions.onFinish?.();
-      return;
-    }
-
-    const voices = window.speechSynthesis.getVoices();
-    // Only use speech synthesis if a native voice for this language is actually present
-    const langPrefix = lang.toLowerCase();
-    const hasNativeVoice = voices.find((v) => v.lang.toLowerCase().startsWith(langPrefix));
-
-    if (!hasNativeVoice && lang !== "en") {
-      // Do NOT fall back to an English voice for Indian languages (prevents the "comma comma" bug)
-      this.currentOptions.onFinish?.();
-      return;
-    }
-
-    try {
-      window.speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(text);
-      this.currentUtterance = utterance;
-
-      if (hasNativeVoice) {
-        utterance.voice = hasNativeVoice;
-        utterance.lang = hasNativeVoice.lang;
-      } else {
-        utterance.lang = "en-IN";
-      }
-
-      utterance.rate = this.currentOptions.rate ?? 1.0;
-
-      utterance.onend = () => {
-        if (!this.isCancelled) {
-          this.currentSentenceIndex += 1;
-          this.playNextSentence();
-        }
-      };
-
-      utterance.onerror = () => {
-        this.currentSentenceIndex += 1;
-        this.playNextSentence();
-      };
-
-      window.speechSynthesis.speak(utterance);
-    } catch {
-      this.currentOptions.onFinish?.();
-    }
-  }
-
-  /**
-   * Speak a single sentence or section.
-   */
-  public async speakSingle(text: string, lang: LanguageCode, options: NinadaPlayOptions = {}): Promise<void> {
-    await this.speakSentences([text], lang, options);
-  }
-
-  public pause(): void {
-    this.isPausedState = true;
-    if (this.currentAudio && !this.currentAudio.paused) {
-      this.currentAudio.pause();
-    }
-    if (typeof window !== "undefined" && "speechSynthesis" in window) {
-      window.speechSynthesis.pause();
-    }
-  }
-
-  public resume(): void {
-    this.isPausedState = false;
-    if (this.currentAudio && this.currentAudio.paused) {
-      this.currentAudio.play().catch(() => {});
-    }
-    if (typeof window !== "undefined" && "speechSynthesis" in window) {
-      window.speechSynthesis.resume();
-    }
-  }
-
   public stop(): void {
     this.isCancelled = true;
     this.isPausedState = false;
-    this.currentSentenceIndex = -1;
 
     if (this.currentAudio) {
       try {
         this.currentAudio.pause();
         this.currentAudio.currentTime = 0;
+        this.currentAudio.onended = null;
+        this.currentAudio.onerror = null;
       } catch {
-        // Ignore
+        // ignore
       }
       this.currentAudio = null;
     }
@@ -363,19 +94,256 @@ class NinadaAudioEngine {
       try {
         window.speechSynthesis.cancel();
       } catch {
-        // Ignore
+        // ignore
+      }
+    }
+
+    this.briefQueue = [];
+    this.currentBriefIndex = -1;
+  }
+
+  /**
+   * Pause current playback
+   */
+  public pause(): void {
+    this.isPausedState = true;
+    if (this.currentAudio && !this.currentAudio.paused) {
+      try {
+        this.currentAudio.pause();
+      } catch {
+        // ignore
       }
     }
   }
 
-  public isSpeaking(): boolean {
-    if (this.currentAudio && !this.currentAudio.paused && !this.currentAudio.ended) {
-      return true;
+  /**
+   * Resume playback
+   */
+  public resume(): void {
+    this.isPausedState = false;
+    if (this.currentAudio && this.currentAudio.paused) {
+      try {
+        this.currentAudio.play().catch(() => {});
+      } catch {
+        // ignore
+      }
     }
-    if (typeof window !== "undefined" && "speechSynthesis" in window) {
-      return window.speechSynthesis.speaking;
+  }
+
+  /**
+   * Change playback speed in real-time
+   */
+  public setRate(rate: number): void {
+    this.currentRate = Math.min(2.0, Math.max(0.5, rate));
+    if (this.currentAudio) {
+      this.currentAudio.playbackRate = this.currentRate;
     }
-    return false;
+  }
+
+  /**
+   * Play a sequence of section briefs (for Auto-Brief Page)
+   */
+  public async playBriefSequence(
+    briefs: SectionBriefItem[],
+    lang: LanguageCode,
+    startIndex: number = 0,
+    options: NinadaPlayOptions = {}
+  ): Promise<void> {
+    this.stop();
+    this.isCancelled = false;
+    this.isPausedState = false;
+    this.briefQueue = briefs;
+    this.currentBriefIndex = startIndex;
+    this.currentLang = lang;
+    this.currentOptions = options;
+    if (options.rate) {
+      this.currentRate = options.rate;
+    }
+
+    if (typeof window === "undefined" || briefs.length === 0) return;
+
+    // Preload next briefs
+    for (let i = startIndex; i < Math.min(briefs.length, startIndex + 3); i++) {
+      this.preloadBrief(lang, briefs[i].id);
+    }
+
+    await this.playCurrentBriefInQueue();
+  }
+
+  private async playCurrentBriefInQueue(): Promise<void> {
+    if (this.isCancelled) return;
+
+    if (this.currentBriefIndex >= this.briefQueue.length) {
+      this.currentOptions.onFinish?.();
+      return;
+    }
+
+    const currentBrief = this.briefQueue[this.currentBriefIndex];
+    const index = this.currentBriefIndex;
+    const lang = this.currentLang;
+
+    // Fire start callbacks
+    this.currentOptions.onBriefStart?.(index, currentBrief.id, currentBrief.text);
+    this.currentOptions.onSentenceStart?.(index, currentBrief.text);
+
+    // Preload next brief
+    if (index + 1 < this.briefQueue.length) {
+      this.preloadBrief(lang, this.briefQueue[index + 1].id);
+    }
+
+    try {
+      await this.playAudioFile(currentBrief.id, lang);
+
+      if (!this.isCancelled) {
+        this.currentOptions.onBriefEnd?.(index, currentBrief.id);
+        this.currentOptions.onSentenceEnd?.(index);
+        this.currentBriefIndex += 1;
+
+        // Natural 180ms pause between sections
+        setTimeout(() => {
+          if (!this.isCancelled && !this.isPausedState) {
+            this.playCurrentBriefInQueue();
+          }
+        }, 180);
+      }
+    } catch (err) {
+      console.warn(`[NinadaEngine] Error playing brief ${lang}/${currentBrief.id}:`, err);
+      // Advance to next brief on error rather than stalling
+      this.currentBriefIndex += 1;
+      if (!this.isCancelled) {
+        this.playCurrentBriefInQueue();
+      }
+    }
+  }
+
+  /**
+   * Play an individual brief by its ID (e.g. "intro", "footprint", "mindset", etc.)
+   */
+  public async playSingleBrief(
+    briefId: string,
+    text: string,
+    lang: LanguageCode,
+    options: NinadaPlayOptions = {}
+  ): Promise<void> {
+    this.stop();
+    this.isCancelled = false;
+    this.isPausedState = false;
+    this.currentLang = lang;
+    this.currentOptions = options;
+    if (options.rate) {
+      this.currentRate = options.rate;
+    }
+
+    if (typeof window === "undefined") return;
+
+    options.onBriefStart?.(0, briefId, text);
+    options.onSentenceStart?.(0, text);
+
+    try {
+      await this.playAudioFile(briefId, lang);
+      if (!this.isCancelled) {
+        options.onBriefEnd?.(0, briefId);
+        options.onSentenceEnd?.(0);
+        options.onFinish?.();
+      }
+    } catch (err) {
+      console.warn(`[NinadaEngine] Error in playSingleBrief:`, err);
+      options.onError?.(err instanceof Error ? err : new Error(String(err)));
+    }
+  }
+
+  /**
+   * Internal helper: plays /audio/{lang}/{briefId}.wav with S3 fallback
+   */
+  private playAudioFile(briefId: string, lang: LanguageCode): Promise<void> {
+    return new Promise((resolve, reject) => {
+      const { local, s3 } = this.getAudioUrls(lang, briefId);
+      const key = `${lang}:${briefId}`;
+
+      let audio = this.audioCache.get(key);
+      if (!audio) {
+        audio = new Audio(local);
+        this.audioCache.set(key, audio);
+      } else {
+        audio.currentTime = 0;
+      }
+
+      this.currentAudio = audio;
+      audio.playbackRate = this.currentRate;
+
+      let hasFallenBackToS3 = false;
+
+      audio.onended = () => {
+        audio.onended = null;
+        audio.onerror = null;
+        resolve();
+      };
+
+      audio.onerror = () => {
+        if (!hasFallenBackToS3) {
+          hasFallenBackToS3 = true;
+          console.info(`[NinadaEngine] Local audio failed, falling back to S3 for ${lang}/${briefId}`);
+          audio.src = s3;
+          audio.load();
+          audio.play().catch((err) => {
+            audio.onended = null;
+            audio.onerror = null;
+            reject(err);
+          });
+        } else {
+          audio.onended = null;
+          audio.onerror = null;
+          reject(new Error(`Failed to play audio for ${lang}/${briefId} from local and S3`));
+        }
+      };
+
+      const playPromise = audio.play();
+      if (playPromise !== undefined) {
+        playPromise.catch((err) => {
+          // May be autoplay restriction or not found; try S3 if not tried yet
+          if (!hasFallenBackToS3) {
+            hasFallenBackToS3 = true;
+            audio.src = s3;
+            audio.load();
+            audio.play().catch((innerErr) => {
+              reject(innerErr);
+            });
+          } else {
+            reject(err);
+          }
+        });
+      }
+    });
+  }
+
+  /**
+   * Backward-compatible helper for sentences
+   */
+  public async speakSentences(
+    sentences: string[],
+    lang: LanguageCode,
+    options: NinadaPlayOptions = {}
+  ): Promise<void> {
+    // Map sentences to brief items if known
+    const items: SectionBriefItem[] = sentences.map((text, idx) => {
+      const briefIds = ["intro", "footprint", "mindset", "experience", "projects", "connect"];
+      return {
+        id: briefIds[idx] || `brief_${idx}`,
+        text,
+      };
+    });
+    return this.playBriefSequence(items, lang, 0, options);
+  }
+
+  /**
+   * Backward-compatible helper for single text
+   */
+  public async speakSingle(
+    text: string,
+    lang: LanguageCode,
+    options: NinadaPlayOptions = {}
+  ): Promise<void> {
+    return this.playSingleBrief("intro", text, lang, options);
   }
 }
 
