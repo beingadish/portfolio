@@ -2,6 +2,7 @@
 
 import type { CSSProperties } from "react";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { MobileNav } from "./components/mobile-nav";
 import { NavDock } from "./components/nav-dock";
 import { KineticNodeMesh } from "./components/kinetic-node-mesh";
@@ -691,26 +692,18 @@ export default function Home() {
                       ))}
                     </div>
 
-                    {/* Link Action */}
-                    <div className="lg:col-span-1 flex lg:justify-end items-start pt-1">
-                      {project.href ? (
-                        <a
-                          href={project.href}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="inline-flex items-center gap-1.5 font-mono text-xs sm:text-sm text-[#8c8f9a] hover:text-[#edeae3] transition-colors border border-white/10 px-3 py-1.5 rounded bg-white/5 hover:bg-white/10"
-                          data-analytics-event={ANALYTICS_EVENTS.PROJECT_CLICK}
-                          data-analytics-project-name={project.name}
-                          data-analytics-project-type={getProjectType(project.href)}
-                        >
-                          <span>View</span>
-                          <ExternalIcon className="h-3.5 w-3.5" />
-                        </a>
-                      ) : (
-                        <span className="font-mono text-xs text-[#555760] uppercase">
-                          INTERNAL
-                        </span>
-                      )}
+                    {/* Link Action: Explore Project */}
+                    <div className="lg:col-span-1 flex items-start lg:items-end pt-1">
+                      <Link
+                        href={project.demoUrl || project.href || "#"}
+                        className="inline-flex items-center gap-1.5 font-mono text-xs sm:text-sm text-[#090a0d] bg-[#2dd4bf] hover:bg-[#2dd4bf]/90 px-3.5 py-1.5 rounded font-semibold transition-all shadow-sm hover:scale-105 whitespace-nowrap"
+                        data-analytics-event={ANALYTICS_EVENTS.PROJECT_CLICK}
+                        data-analytics-project-name={project.name}
+                        data-analytics-project-type="explore"
+                      >
+                        <span>Explore</span>
+                        <span className="text-xs">→</span>
+                      </Link>
                     </div>
                   </div>
                 </article>

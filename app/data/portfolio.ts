@@ -62,6 +62,7 @@ export type ProjectItem = {
   bullets: string[];
   stack: string[];
   href?: string;
+  demoUrl?: string;
 };
 
 export type SkillGroup = {
@@ -257,6 +258,7 @@ export const portfolioData = {
       summary:
         "A production-grade modular monolith in Java 21 for job discovery, bidding, escrow payments, OTP verification, and reviews, using Strategy, Decorator, Builder, and Chain of Responsibility.",
       href: "https://github.com/orgs/AroundUPlatform/repositories",
+      demoUrl: "/projects/aroundu",
       bullets: [
         "Designed a production-grade modular monolith in Java 21 for job discovery, bidding, escrow payments, OTP verification, and reviews, using Strategy, Decorator, Builder, and Chain of Responsibility.",
         "Engineered geo-spatial search using Redis GEO as a secondary index and PostgreSQL as the source of truth, with fallback queries and retries; deployed on AWS EC2 with Kubernetes (k3s), NGINX Ingress, and HPA.",
@@ -282,6 +284,7 @@ export const portfolioData = {
       summary:
         "A persistent semantic RAG system for YouTube transcripts using FastAPI, Google Gemini embeddings, and PostgreSQL + pgvector, retaining sessions, embeddings, and chat history with grounded, timestamped citations.",
       href: "https://github.com/beingadish/TalkingYT",
+      demoUrl: "/projects/talkingyt",
       bullets: [
         "Built a persistent semantic RAG system for YouTube transcripts using FastAPI, Google Gemini embeddings, and PostgreSQL + pgvector, retaining sessions, embeddings, and chat history with grounded, timestamped citations.",
         "Designed per-video embedding removal with ON DELETE CASCADE; containerized and hardened the stack with Docker Compose and Docker Scout, reducing frontend criticals/highs from 1C/28H to 1C/4H.",
@@ -299,26 +302,55 @@ export const portfolioData = {
       ],
     },
     {
-      name: "Clynic Microservices",
-      timeline: "Apr 2025",
+      name: "Clynic (Multi-Tenant Hospital Microservices)",
+      timeline: "Apr 2025 - Present",
       summary:
-        "A microservices architecture with secure APIs, event-driven communication, and production-like cloud simulation.",
+        "A domain-driven multi-tenant microservices platform for clinical and veterinary care featuring Spring Cloud Gateway, realm-per-tenant Keycloak auth, internal gRPC contracts, Kafka streams, and a Vite/React web app.",
       href: "https://github.com/beingadish/Clynic",
+      demoUrl: "/projects/clynic",
       bullets: [
-        "Implemented JWT-authenticated services for patient and billing flows with gRPC communication.",
-        "Built Kafka analytics stream and API gateway request validation.",
-        "Deployed using Docker and simulated AWS components via LocalStack + AWS CDK.",
-        "Added centralized logging, health checks, and CI with JUnit 5 + GitHub Actions.",
+        "Implemented realm-per-tenant identity with Keycloak and JWT propagation across microservices via Spring Cloud Gateway.",
+        "Engineered zero-overhead internal RPC communications with strongly typed gRPC stubs for patient and billing transactions.",
+        "Built Kafka event-driven pipelines for clinical audit logs, patient discharges, and automated payment settlement.",
+        "Orchestrated local and cloud stacks using Docker Compose, KIND (Kubernetes), and AWS CDK infrastructure as code.",
       ],
       stack: [
-        "Spring Boot",
-        "Kafka",
+        "Spring Boot 3",
+        "Java 21",
         "gRPC",
+        "Apache Kafka",
         "PostgreSQL",
+        "React",
+        "Vite",
         "Docker",
-        "LocalStack",
         "AWS CDK",
-        "JUnit 5",
+        "Keycloak",
+      ],
+    },
+    {
+      name: "JanMat (Civic Democracy & Polling Platform)",
+      timeline: "Jun 2026 - Present",
+      summary:
+        "A Rust-first, privacy-preserving civic democracy and polling platform engineered in Tokio and Axum with zero-knowledge identity nullifiers, Blake3 cryptographic audit commitments, and an interactive Vite web interface.",
+      href: "https://github.com/beingadish/JanMat",
+      demoUrl: "/projects/janmat",
+      bullets: [
+        "Engineered a high-concurrency async voting engine in Rust using Tokio and Axum, delivering sub-millisecond atomic vote counting.",
+        "Implemented zero-knowledge credential verification (RISC Zero) and Blake3 cryptographic commitments for tamper-proof ballot audits.",
+        "Integrated an atomic Redis aggregation tier backed by PostgreSQL with real-time WebSocket live tally broadcasts.",
+        "Developed a responsive civic voting interface in React + Vite configured for Vercel edge deployment.",
+      ],
+      stack: [
+        "Rust",
+        "Tokio",
+        "Axum",
+        "Blake3",
+        "Redis",
+        "PostgreSQL",
+        "React",
+        "Vite",
+        "Docker",
+        "WebSockets",
       ],
     },
     {
