@@ -214,9 +214,69 @@ export const PROJECT_SHOWCASES: Record<string, ProjectShowcase> = {
       { method: "GET", path: "/pub/live/ws", description: "Real-time WebSocket stream for election and opinion updates" },
     ],
   },
+
+  talkingyt: {
+    slug: "talkingyt",
+    name: "TalkingYouTube",
+    subtitle: "Persistent Semantic RAG System for YouTube Transcripts",
+    summary:
+      "A persistent semantic RAG system for YouTube transcripts built with Python FastAPI, Google Gemini embeddings, and PostgreSQL with pgvector, retaining sessions, embeddings, and chat history with grounded timestamped citations.",
+    timeline: "Oct 2025",
+    githubUrl: "https://github.com/beingadish/TalkingYT",
+    localPath: "/Users/beingadish/Developer/CODE/Projects/TalkingYT",
+    liveUrl: process.env.NEXT_PUBLIC_TALKINGYT_URL || "https://talkingyt-demo.vercel.app",
+    backendApiUrl: process.env.NEXT_PUBLIC_TALKINGYT_API_URL || "https://api.talkingyt.aws.beingadish.blog",
+    status: "live",
+    stack: [
+      "Python 3.12",
+      "FastAPI",
+      "Next.js 14",
+      "PostgreSQL",
+      "pgvector",
+      "Google Gemini",
+      "Docker",
+      "Docker Scout",
+    ],
+    awsServices: [
+      "AWS App Runner",
+      "Amazon Aurora PostgreSQL (pgvector)",
+      "Amazon S3",
+      "AWS CloudFront",
+      "AWS Route 53",
+    ],
+    metrics: [
+      { label: "Vector Search P99", value: "< 25ms", sublabel: "768-dim HNSW Cosine" },
+      { label: "Vulnerabilities", value: "4 High CVEs", sublabel: "Down from 28 via Scout" },
+      { label: "Retrieval Grounding", value: "Timestamped", sublabel: "Direct jump to video segment" },
+      { label: "Storage Architecture", value: "Cascading", sublabel: "ON DELETE CASCADE session purge" },
+    ],
+    architectureHighlights: [
+      {
+        title: "Semantic Chunking & Gemini Vector Embeddings",
+        description:
+          "Long-form video transcripts are extracted, cleaned, and semantically chunked with sliding window token overlap before embedding with Gemini.",
+      },
+      {
+        title: "PostgreSQL pgvector HNSW Indexing",
+        description:
+          "Dense 768-dimensional embeddings are queried with approximate nearest neighbor (ANN) indexes, returning context chunks under 25 milliseconds.",
+      },
+      {
+        title: "Container Hardening via Docker Scout",
+        description:
+          "Multi-stage Docker builds scanned and remediated with Docker Scout, eliminating critical base vulnerabilities.",
+      },
+    ],
+    endpoints: [
+      { method: "POST", path: "/api/v1/transcripts/ingest", description: "Extract and chunk transcript from YouTube URL" },
+      { method: "POST", path: "/api/v1/chat/query", description: "Semantic vector search with grounded timestamp citations" },
+      { method: "DELETE", path: "/api/v1/videos/{id}", description: "Cascading deletion of video chunks and vectors" },
+      { method: "GET", path: "/healthz", description: "Liveness and database readiness probe" },
+    ],
+  },
 };
 
-export const CONNECTED_PROJECT_SLUGS = ["aroundu", "clynic", "janmat"] as const;
+export const CONNECTED_PROJECT_SLUGS = ["aroundu", "clynic", "janmat", "talkingyt"] as const;
 
 export function getAllProjectSlugs(): string[] {
   return [...CONNECTED_PROJECT_SLUGS];

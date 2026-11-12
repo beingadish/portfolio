@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useMemo, useState, useRef, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import { useAudioTour } from "../context/audio-tour-context";
 import { useLanguage } from "../context/language-context";
 import type { LanguageCode } from "../data/translations";
@@ -334,6 +335,7 @@ export function SectionAudioButton({
  * Does NOT contain duplicate language switcher (language is controlled in top header).
  */
 export function PortfolioAudioTour() {
+  const pathname = usePathname();
   const {
     isPlaying,
     isPaused,
@@ -352,6 +354,13 @@ export function PortfolioAudioTour() {
     setIsPanelVisible,
     briefs,
   } = useAudioTour();
+
+  // If navigating into /projects/*, stop any active global tour audio and hide the global bottom bar
+  useEffect(() => {
+    if (pathname?.startsWith("/projects") && isPlaying) {
+      stopAudio();
+    }
+  }, [pathname, isPlaying, stopAudio]);
 
   const { currentLanguage, languages, setLanguage } = useLanguage();
   const labels = UI_LABELS[currentLanguage] || UI_LABELS.en;
@@ -521,6 +530,11 @@ export function PortfolioAudioTour() {
     const nextIdx = activeIndex >= briefs.length - 1 ? 0 : activeIndex + 1;
     playSection(briefs[nextIdx].id);
   };
+
+  // On project showcase pages (/projects/*), do not render the global bottom tour player at all
+  if (pathname?.startsWith("/projects")) {
+    return null;
+  }
 
   // If user explicitly minimized the panel, show the compact pill button
   if (!isPanelVisible) {
