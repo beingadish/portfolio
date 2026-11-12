@@ -316,6 +316,9 @@ export default function Home() {
       {/* Subtle background noise overlay */}
       <div className="fixed inset-0 pointer-events-none noise-bg z-0 opacity-80" />
 
+      {/* Whole-page Interactive Kinetic Node Mesh with floating resume keywords */}
+      <KineticNodeMesh />
+
       {/* Architectural Masthead */}
       <header className="fixed top-0 left-0 w-full z-50 bg-[#090a0d]/85 backdrop-blur-md border-b border-white/10 transition-colors">
         <div className="w-full max-w-[1440px] mx-auto px-6 sm:px-8 h-16 flex items-center justify-between gap-6">
@@ -391,139 +394,93 @@ export default function Home() {
       {/* Main Viewport Container */}
       <main className="relative z-10 pt-28 pb-24 max-w-7xl mx-auto px-6 sm:px-10 flex flex-col gap-y-20 sm:gap-y-24">
 
-        {/* Section 01: Hero: Name, Role & Node Mesh */}
-        <section id="hero" className="pt-4 sm:pt-8 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start scroll-mt-28">
-          
-          {/* Left Column: Intro */}
-          <div className="lg:col-span-7 flex flex-col gap-7">
-            <div className="flex items-center justify-between gap-3">
-              <div className="flex items-center gap-3">
-                <span className="font-mono text-xs tracking-widest uppercase text-[#8c8f9a]">
-                  Software Engineer
-                </span>
-                <span className="h-px w-8 bg-white/15" />
-                <span className="font-mono text-xs text-[#6e717d] uppercase">
-                  Bengaluru, India
-                </span>
-              </div>
-              <SectionAudioButton sectionId="hero" />
+        {/* Section 01: Hero: Name, Role & Architecture Highlights */}
+        <section id="hero" className="pt-4 sm:pt-8 flex flex-col gap-8 max-w-5xl scroll-mt-28">
+          <div className="flex items-center justify-between gap-3">
+            <div className="flex items-center gap-3">
+              <span className="font-mono text-xs tracking-widest uppercase text-[#8c8f9a]">
+                Software Engineer
+              </span>
+              <span className="h-px w-8 bg-white/15" />
+              <span className="font-mono text-xs text-[#6e717d] uppercase">
+                Bengaluru, India
+              </span>
             </div>
-
-            <h1 className="text-4xl sm:text-5xl lg:text-[54px] leading-[1.15] tracking-tight font-light text-[#edeae3]">
-              Hi, I&apos;m <span className="font-editorial-italic font-serif italic text-white/95 font-light">Aadarsh Pandey</span>.
-              <br className="hidden sm:inline" />
-              {" "}I build <span className="font-editorial-italic font-serif italic text-white/95 font-light">scalable backends</span> and <span className="font-editorial-italic font-serif italic text-white/95 font-light">distributed systems</span>.
-            </h1>
-
-            <p className="text-lg sm:text-[19px] text-[#9da1ad] leading-relaxed font-light max-w-3xl">
-              Software Engineer at Accenture in Bengaluru, engineering high-throughput backend microservices and IoT telemetry pipelines. Specialized in Java, Spring Boot, Kafka, and AWS cloud infrastructure, building systems that process millions of daily transactions with high reliability.
-            </p>
-
-            {/* Action Strip */}
-            <div className="flex flex-wrap items-center gap-3 pt-2 font-mono text-sm">
-              <a
-                className="inline-flex items-center gap-2 px-4 py-2.5 rounded bg-[#edeae3] text-[#090a0d] font-semibold hover:bg-white transition-all shadow-sm"
-                href="#projects"
-              >
-                <span>See Projects</span>
-                <span className="text-[13px]">↓</span>
-              </a>
-              <a
-                className="inline-flex items-center gap-2 px-4 py-2.5 rounded border border-white/15 bg-[#121318]/60 hover:bg-[#1a1b22] hover:border-white/30 text-[#edeae3] transition-all"
-                href="#doctrine"
-              >
-                <span>How I Work</span>
-              </a>
-              <a
-                className="inline-flex items-center gap-1.5 px-3 py-2.5 text-[#8c8f9a] hover:text-[#edeae3] transition-colors"
-                href="https://github.com/beingadish"
-                target="_blank"
-                rel="noreferrer"
-              >
-                <span>GitHub</span>
-                <ExternalIcon className="h-3.5 w-3.5" />
-              </a>
-              <a
-                className="inline-flex items-center gap-1.5 px-3 py-2.5 text-[#8c8f9a] hover:text-[#edeae3] transition-colors"
-                href={resumeLink}
-                target="_blank"
-                rel="noreferrer"
-                download={resumeDownload}
-              >
-                <span>Resume [PDF]</span>
-                <span className="text-[13px]">↓</span>
-              </a>
-            </div>
-
-            {/* Quick Stats */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-3 border-t border-white/10 font-mono text-xs">
-              <div className="flex flex-col gap-1">
-                <span className="text-xs text-[#6e717d] uppercase tracking-wider">Location</span>
-                <span className="text-[#edeae3] text-sm sm:text-[15px] font-medium">Bengaluru, India</span>
-              </div>
-              <div className="flex flex-col gap-1">
-                <span className="text-xs text-[#6e717d] uppercase tracking-wider">Primary Stack</span>
-                <span className="text-[#edeae3] text-sm sm:text-[15px] font-medium">Java 21 / Spring Boot</span>
-              </div>
-              <div className="flex flex-col gap-1">
-                <span className="text-xs text-[#6e717d] uppercase tracking-wider">Streaming</span>
-                <span className="text-[#edeae3] text-sm sm:text-[15px] font-medium">Kafka &amp; Redis GEO</span>
-              </div>
-              <div className="flex flex-col gap-1">
-                <span className="text-xs text-[#6e717d] uppercase tracking-wider">Observability</span>
-                <span className="text-[#edeae3] text-sm sm:text-[15px] font-medium">Prometheus &amp; Grafana</span>
-              </div>
-            </div>
+            <SectionAudioButton sectionId="hero" />
           </div>
 
-          {/* Right Column: Live Kinetic Node Mesh & Production Telemetry */}
-          <div className="lg:col-span-5 flex flex-col gap-4 bg-[#121318]/90 border border-white/10 rounded-xl p-6 backdrop-blur-md relative overflow-hidden group">
-            {/* Top Bar */}
-            <div className="flex items-center justify-between border-b border-white/10 pb-3">
-              <div className="flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#2dd4bf] animate-pulse" />
-                <span className="font-mono text-sm uppercase text-[#edeae3] font-medium tracking-wider">
-                  System Architecture
-                </span>
-              </div>
-              <span className="font-mono text-xs text-[#8c8f9a]">INTERACTIVE</span>
-            </div>
+          <h1 className="text-4xl sm:text-5xl lg:text-[56px] leading-[1.14] tracking-tight font-light text-[#edeae3]">
+            Hi, I&apos;m <span className="font-editorial-italic font-serif italic text-white/95 font-light">Aadarsh Pandey</span>.
+            <br className="hidden sm:inline" />
+            {" "}I build <span className="font-editorial-italic font-serif italic text-white/95 font-light">scalable backends</span> and <span className="font-editorial-italic font-serif italic text-white/95 font-light">distributed systems</span>.
+          </h1>
 
-            {/* Kinetic Node Mesh Canvas */}
-            <div className="relative w-full h-56 bg-[#090a0d] rounded-lg border border-white/5 overflow-hidden flex items-center justify-center">
-              <KineticNodeMesh className="w-full h-full" />
-              <div className="absolute bottom-2 left-3 pointer-events-none flex items-center gap-3 font-mono text-xs text-[#8c8f9a]">
-                <span>ARCHITECTURE: <span className="text-[#edeae3]">Microservices</span></span>
-                <span>EVENT STREAM: <span className="text-[#2dd4bf]">Kafka</span></span>
-              </div>
-            </div>
+          <p className="text-lg sm:text-[20px] text-[#9da1ad] leading-relaxed font-light max-w-3xl">
+            Software Engineer at Accenture in Bengaluru, engineering high-throughput backend microservices and IoT telemetry pipelines. Specialized in Java, Spring Boot, Kafka, and AWS cloud infrastructure, building systems that process millions of daily transactions with high reliability.
+          </p>
 
-            {/* Telemetry Metric Grid */}
-            <div className="grid grid-cols-2 gap-2.5 pt-1 font-mono">
-              <div className="p-3.5 bg-[#0e0f14] border border-white/5 rounded-lg flex flex-col gap-1">
-                <span className="text-xs uppercase text-[#8c8f9a] tracking-wider">Daily Transit Volume</span>
-                <span className="text-[#edeae3] text-sm sm:text-[15px] font-semibold">1M+ TX / Day</span>
-              </div>
-              <div className="p-3.5 bg-[#0e0f14] border border-white/5 rounded-lg flex flex-col gap-1">
-                <span className="text-xs uppercase text-[#8c8f9a] tracking-wider">Kafka Event Ingest</span>
-                <span className="text-[#2dd4bf] text-sm sm:text-[15px] font-semibold">2M+ Events / Day</span>
-              </div>
-              <div className="p-3.5 bg-[#0e0f14] border border-white/5 rounded-lg flex flex-col gap-1">
-                <span className="text-xs uppercase text-[#8c8f9a] tracking-wider">Payment Latency SLA</span>
-                <span className="text-[#edeae3] text-sm sm:text-[15px] font-semibold">-35% P99 Confirm</span>
-              </div>
-              <div className="p-3.5 bg-[#0e0f14] border border-white/5 rounded-lg flex flex-col gap-1">
-                <span className="text-xs uppercase text-[#8c8f9a] tracking-wider">Orchestration</span>
-                <span className="text-[#8c8f9a] text-sm sm:text-[15px] flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#2dd4bf]" />
-                  <code>AWS EC2 + k3s</code>
-                </span>
-              </div>
-            </div>
+          {/* Action Strip */}
+          <div className="flex flex-wrap items-center gap-3 pt-2 font-mono text-sm">
+            <a
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded bg-[#edeae3] text-[#090a0d] font-semibold hover:bg-white transition-all shadow-sm"
+              href="#projects"
+            >
+              <span>See Projects</span>
+              <span className="text-[13px]">↓</span>
+            </a>
+            <a
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded border border-white/15 bg-[#121318]/60 hover:bg-[#1a1b22] hover:border-white/30 text-[#edeae3] transition-all"
+              href="#doctrine"
+            >
+              <span>How I Work</span>
+            </a>
+            <a
+              className="inline-flex items-center gap-1.5 px-3 py-2.5 text-[#8c8f9a] hover:text-[#edeae3] transition-colors"
+              href="https://github.com/beingadish"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <span>GitHub</span>
+              <ExternalIcon className="h-3.5 w-3.5" />
+            </a>
+            <a
+              className="inline-flex items-center gap-1.5 px-3 py-2.5 text-[#8c8f9a] hover:text-[#edeae3] transition-colors"
+              href={resumeLink}
+              target="_blank"
+              rel="noreferrer"
+              download={resumeDownload}
+            >
+              <span>Resume [PDF]</span>
+              <span className="text-[13px]">↓</span>
+            </a>
+          </div>
 
-            <div className="flex items-center justify-between text-xs font-mono text-[#6e717d] pt-1">
-              <span>Interactive network graph</span>
-              <span className="text-xs text-[#6e717d]">Hover to interact with nodes</span>
+          {/* Key Production Architecture & Engineering Metrics */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 pt-6 border-t border-white/10 font-mono text-xs">
+            <div className="flex flex-col gap-1 p-3.5 rounded-lg bg-[#121318]/70 border border-white/10 backdrop-blur-sm">
+              <span className="text-xs text-[#6e717d] uppercase tracking-wider">Role</span>
+              <span className="text-[#edeae3] text-sm sm:text-[14px] font-medium">Accenture</span>
+              <span className="text-[11px] text-[#2dd4bf]">Software Engineer</span>
+            </div>
+            <div className="flex flex-col gap-1 p-3.5 rounded-lg bg-[#121318]/70 border border-white/10 backdrop-blur-sm">
+              <span className="text-xs text-[#6e717d] uppercase tracking-wider">Core Stack</span>
+              <span className="text-[#edeae3] text-sm sm:text-[14px] font-medium">Java 21 / Spring</span>
+              <span className="text-[11px] text-[#8c8f9a]">Microservices Arch</span>
+            </div>
+            <div className="flex flex-col gap-1 p-3.5 rounded-lg bg-[#121318]/70 border border-white/10 backdrop-blur-sm">
+              <span className="text-xs text-[#6e717d] uppercase tracking-wider">Transit Volume</span>
+              <span className="text-[#edeae3] text-sm sm:text-[14px] font-medium">1M+ TX / Day</span>
+              <span className="text-[11px] text-[#2dd4bf]">-35% P99 Latency</span>
+            </div>
+            <div className="flex flex-col gap-1 p-3.5 rounded-lg bg-[#121318]/70 border border-white/10 backdrop-blur-sm">
+              <span className="text-xs text-[#6e717d] uppercase tracking-wider">Event Streams</span>
+              <span className="text-[#edeae3] text-sm sm:text-[14px] font-medium">Kafka &amp; Redis GEO</span>
+              <span className="text-[11px] text-[#8c8f9a]">AWS IoT Core + MQTT</span>
+            </div>
+            <div className="col-span-2 sm:col-span-3 lg:col-span-1 flex flex-col gap-1 p-3.5 rounded-lg bg-[#121318]/70 border border-white/10 backdrop-blur-sm">
+              <span className="text-xs text-[#6e717d] uppercase tracking-wider">Observability</span>
+              <span className="text-[#edeae3] text-sm sm:text-[14px] font-medium">Prometheus &amp; Grafana</span>
+              <span className="text-[11px] text-[#8c8f9a]">Micrometer Metrics</span>
             </div>
           </div>
         </section>
