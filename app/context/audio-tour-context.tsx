@@ -137,9 +137,6 @@ export function AudioTourProvider({ children }: { children: ReactNode }) {
           setIsPlaying(false);
           setIsPaused(false);
           setIsTourActive(false);
-          setCurrentBriefId(null);
-          setCurrentBriefIndex(-1);
-          setCurrentBriefText("");
         },
         onError: () => {
           setIsPlaying(false);
@@ -178,37 +175,13 @@ export function AudioTourProvider({ children }: { children: ReactNode }) {
       }
 
       const activeBriefs = AUDIO_TOURS[currentLanguage] || AUDIO_TOURS.en;
-      const targetBrief = activeBriefs.find((b) => b.id === resolvedBriefId) || activeBriefs[0];
       const targetIndex = activeBriefs.findIndex((b) => b.id === resolvedBriefId);
+      const startIdx = targetIndex >= 0 ? targetIndex : 0;
 
-      portfolioAudioPlayer.stop();
-      setIsTourActive(false);
-      setIsPlaying(true);
-      setIsPaused(false);
-      setIsPanelVisible(true);
-      setCurrentBriefId(resolvedBriefId);
-      setCurrentBriefIndex(targetIndex >= 0 ? targetIndex : 0);
-      setCurrentBriefText(targetBrief.text);
-
-      scrollToTarget(targetBrief.targetElementId || sectionId);
-
-      portfolioAudioPlayer.playSingle(resolvedBriefId, targetBrief.text, currentLanguage, {
-        rate: speed,
-        onFinish: () => {
-          setIsPlaying(false);
-          setIsPaused(false);
-          setCurrentBriefId(null);
-          setCurrentBriefIndex(-1);
-          setCurrentBriefText("");
-        },
-        onError: () => {
-          setIsPlaying(false);
-          setIsPaused(false);
-          setCurrentBriefId(null);
-        },
-      });
+      // Start continuous playback from this section onwards
+      startTour(startIdx);
     },
-    [currentLanguage, speed, isPlaying, currentBriefId, stopAudio]
+    [currentLanguage, currentBriefId, isPlaying, startTour, stopAudio]
   );
 
   return (

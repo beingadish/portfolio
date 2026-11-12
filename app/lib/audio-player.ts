@@ -21,7 +21,7 @@ const LOCAL_AUDIO_BASE = "/audio";
 const S3_AUDIO_BASE = "https://beingadish-portfolio-audio.s3.ap-south-1.amazonaws.com/audio";
 
 class PortfolioAudioPlayer {
-  private currentAudio: HTMLAudioElement | null = null;
+  private masterAudio: HTMLAudioElement | null = null;
   private isCancelled = false;
   private isPausedState = false;
   private currentRate = 1.0;
@@ -31,7 +31,19 @@ class PortfolioAudioPlayer {
   private currentLang: LanguageCode = "en";
   private currentOptions: AudioPlayOptions = {};
 
-  private audioCache = new Map<string, HTMLAudioElement>();
+  private getAudioElement(): HTMLAudioElement {
+    if (!this.masterAudio && typeof window !== "undefined") {
+      this.masterAudio = new Audio();
+      this.masterAudio.id = "portfolio-master-audio";
+      this.masterAudio.preload = "auto";
+      if (!document.getElementById("portfolio-master-audio")) {
+        this.masterAudio.style.display = "none";
+        document.body.appendChild(this.masterAudio);
+      }
+      (window as unknown as { __portfolioAudio?: HTMLAudioElement }).__portfolioAudio = this.masterAudio;
+    }
+    return this.masterAudio!;
+  }
 
   public getAudioUrls(lang: LanguageCode, briefId: string): { local: string; s3: string } {
     return {
@@ -42,15 +54,11 @@ class PortfolioAudioPlayer {
 
   public preload(lang: LanguageCode, briefId: string): void {
     if (typeof window === "undefined") return;
-    const key = `${lang}:${briefId}`;
-    if (this.audioCache.has(key)) return;
-
     try {
       const { local } = this.getAudioUrls(lang, briefId);
       const audio = new Audio();
       audio.preload = "auto";
       audio.src = local;
-      this.audioCache.set(key, audio);
     } catch {
       // ignore
     }
@@ -60,16 +68,15 @@ class PortfolioAudioPlayer {
     this.isCancelled = true;
     this.isPausedState = false;
 
-    if (this.currentAudio) {
+    if (this.masterAudio) {
       try {
-        this.currentAudio.pause();
-        this.currentAudio.currentTime = 0;
-        this.currentAudio.onended = null;
-        this.currentAudio.onerror = null;
+        this.masterAudio.pause();
+        this.masterAudio.currentTime = 0;
+        this.masterAudio.onended = null;
+        this.masterAudio.onerror = null;
       } catch {
         // ignore
       }
-      this.currentAudio = null;
     }
 
     this.trackQueue = [];
@@ -78,9 +85,9 @@ class PortfolioAudioPlayer {
 
   public pause(): void {
     this.isPausedState = true;
-    if (this.currentAudio && !this.currentAudio.paused) {
+    if (this.masterAudio && !this.masterAudio.paused) {
       try {
-        this.currentAudio.pause();
+        this.masterAudio.pause();
       } catch {
         // ignore
       }
@@ -89,9 +96,9 @@ class PortfolioAudioPlayer {
 
   public resume(): void {
     this.isPausedState = false;
-    if (this.currentAudio && this.currentAudio.paused) {
+    if (this.masterAudio && this.masterAudio.paused) {
       try {
-        this.currentAudio.play().catch(() => {});
+        this.masterAudio.play().catch(() => {});
       } catch {
         // ignore
       }
@@ -100,8 +107,8 @@ class PortfolioAudioPlayer {
 
   public setRate(rate: number): void {
     this.currentRate = Math.min(2.0, Math.max(0.5, rate));
-    if (this.currentAudio) {
-      this.currentAudio.playbackRate = this.currentRate;
+    if (this.masterAudio) {
+      this.masterAudio.playbackRate = this.currentRate;
     }
   }
 
@@ -124,9 +131,9 @@ class PortfolioAudioPlayer {
 
     if (typeof window === "undefined" || tracks.length === 0) return;
 
-    // Preload next 2 tracks
-    for (let i = startIndex; i < Math.min(tracks.length, startIndex + 2); i++) {
-      this.preload(lang, tracks[i].id);
+    // Preload next track
+    if (startIndex + 1 < tracks.length) {
+      this.preload(lang, tracks[startIndex + 1].id);
     }
 
     await this.playNextTrackInQueue();
@@ -158,18 +165,25 @@ class PortfolioAudioPlayer {
         this.currentOptions.onTrackEnd?.(index, currentTrack.id);
         this.currentTrackIndex += 1;
 
-        // 200ms breathing room between sections
-        setTimeout(() => {
-          if (!this.isCancelled && !this.isPausedState) {
-            this.playNextTrackInQueue();
-          }
-        }, 200);
+        if (this.currentTrackIndex < this.trackQueue.length) {
+          // Seamless short gap (150ms) between sections
+          setTimeout(() => {
+            if (!this.isCancelled && !this.isPausedState) {
+              this.playNextTrackInQueue();
+            }
+          }, 150);
+        } else {
+          // Finished all tracks in queue
+          this.currentOptions.onFinish?.();
+        }
       }
     } catch (err) {
       console.warn(`[AudioPlayer] Track failed: ${lang}/${currentTrack.id}`, err);
       this.currentTrackIndex += 1;
-      if (!this.isCancelled) {
+      if (!this.isCancelled && this.currentTrackIndex < this.trackQueue.length) {
         this.playNextTrackInQueue();
+      } else {
+        this.currentOptions.onFinish?.();
       }
     }
   }
@@ -207,18 +221,16 @@ class PortfolioAudioPlayer {
 
   private playAudioFile(briefId: string, lang: LanguageCode): Promise<void> {
     return new Promise((resolve, reject) => {
-      const { local, s3 } = this.getAudioUrls(lang, briefId);
-      const key = `${lang}:${briefId}`;
-
-      let audio = this.audioCache.get(key);
-      if (!audio) {
-        audio = new Audio(local);
-        this.audioCache.set(key, audio);
-      } else {
-        audio.currentTime = 0;
+      if (typeof window === "undefined") {
+        resolve();
+        return;
       }
 
-      this.currentAudio = audio;
+      const { local, s3 } = this.getAudioUrls(lang, briefId);
+      const audio = this.getAudioElement();
+
+      audio.pause();
+      audio.currentTime = 0;
       audio.playbackRate = this.currentRate;
 
       let hasFallenBackToS3 = false;
@@ -246,6 +258,9 @@ class PortfolioAudioPlayer {
         }
       };
 
+      audio.src = local;
+      audio.load();
+
       const p = audio.play();
       if (p !== undefined) {
         p.catch((err) => {
@@ -253,8 +268,14 @@ class PortfolioAudioPlayer {
             hasFallenBackToS3 = true;
             audio.src = s3;
             audio.load();
-            audio.play().catch((innerErr) => reject(innerErr));
+            audio.play().catch((innerErr) => {
+              audio.onended = null;
+              audio.onerror = null;
+              reject(innerErr);
+            });
           } else {
+            audio.onended = null;
+            audio.onerror = null;
             reject(err);
           }
         });
