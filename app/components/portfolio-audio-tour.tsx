@@ -516,6 +516,10 @@ export function PortfolioAudioTour() {
     return found ? `${found.name} (${found.nativeName})` : currentLanguage.toUpperCase();
   }, [currentLanguage, languages]);
 
+  const selectedLangMeta = useMemo(() => {
+    return languages.find((l) => l.code === currentLanguage);
+  }, [currentLanguage, languages]);
+
   const activeIndex = currentBriefIndex >= 0 && currentBriefIndex < briefs.length ? currentBriefIndex : 0;
   const activeBrief = briefs[activeIndex] || briefs[0];
 
@@ -567,10 +571,6 @@ export function PortfolioAudioTour() {
       </div>
     );
   }
-
-  const selectedLangMeta = useMemo(() => {
-    return languages.find((l) => l.code === currentLanguage);
-  }, [currentLanguage, languages]);
 
   return (
     <aside
