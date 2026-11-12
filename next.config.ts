@@ -67,6 +67,19 @@ const nextConfig: NextConfig = {
       );
     }
 
+    if (process.env.JANMAT_VERCEL_REWRITE_URL) {
+      rewritesList.push(
+        {
+          source: "/projects/janmat",
+          destination: process.env.JANMAT_VERCEL_REWRITE_URL,
+        },
+        {
+          source: "/projects/janmat/:path*",
+          destination: `${process.env.JANMAT_VERCEL_REWRITE_URL}/:path*`,
+        }
+      );
+    }
+
     return rewritesList;
   },
 };

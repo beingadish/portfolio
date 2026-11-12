@@ -378,7 +378,8 @@ export function ProjectViewer({ project, allProjects }: ProjectViewerProps) {
                   DELETE: "text-[#ef4444] bg-[#ef4444]/10 border-[#ef4444]/30",
                   gRPC: "text-[#a855f7] bg-[#a855f7]/10 border-[#a855f7]/30",
                   KAFKA: "text-[#ec4899] bg-[#ec4899]/10 border-[#ec4899]/30",
-                }[ep.method];
+                  ZK: "text-[#06b6d4] bg-[#06b6d4]/10 border-[#06b6d4]/30",
+                }[ep.method] || "text-[#2dd4bf] bg-[#2dd4bf]/10 border-[#2dd4bf]/30";
 
                 return (
                   <div key={ep.path} className="p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-white/[0.02] transition-colors">
