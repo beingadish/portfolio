@@ -515,7 +515,7 @@ export default function Home() {
 
         <div className="h-5 sm:h-6" aria-hidden="true" />
 
-        <section className="hero-grid mt-4 grid items-stretch gap-6 md:gap-6 lg:auto-rows-fr lg:grid-cols-[1.15fr_0.85fr]">
+        <section id="hero" className="hero-grid mt-4 grid items-stretch gap-6 md:gap-6 lg:auto-rows-fr lg:grid-cols-[1.15fr_0.85fr]">
           <article className="section-panel hero-intro reveal flex h-full self-stretch flex-col justify-center p-6 sm:p-9 [animation-delay:120ms]">
             <div>
               <div className="flex items-center justify-between gap-3">
