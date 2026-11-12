@@ -483,18 +483,18 @@ export default function Home() {
               <div className="flex items-center gap-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#2dd4bf] animate-pulse" />
                 <span className="font-mono text-sm uppercase text-[#edeae3] font-medium tracking-wider">
-                  Topology Monitor
+                  System Architecture
                 </span>
               </div>
-              <span className="font-mono text-xs text-[#8c8f9a] tabular-nums">SYNC: 99.98%</span>
+              <span className="font-mono text-xs text-[#8c8f9a]">INTERACTIVE</span>
             </div>
 
             {/* Kinetic Node Mesh Canvas */}
             <div className="relative w-full h-56 bg-[#090a0d] rounded-lg border border-white/5 overflow-hidden flex items-center justify-center">
               <KineticNodeMesh className="w-full h-full" />
               <div className="absolute bottom-2 left-3 pointer-events-none flex items-center gap-3 font-mono text-xs text-[#8c8f9a]">
-                <span>NODES: <span className="text-[#edeae3]">6 CORE HUBS</span></span>
-                <span>CONSENSUS: <span className="text-[#2dd4bf]">RAFT-QUORUM</span></span>
+                <span>ARCHITECTURE: <span className="text-[#edeae3]">Microservices</span></span>
+                <span>EVENT STREAM: <span className="text-[#2dd4bf]">Kafka</span></span>
               </div>
             </div>
 
@@ -522,8 +522,8 @@ export default function Home() {
             </div>
 
             <div className="flex items-center justify-between text-xs font-mono text-[#6e717d] pt-1">
-              <span>Tick rate: <span className="text-[#8c8f9a]">120hz</span></span>
-              <span className="text-xs text-[#6e717d]">Hover canvas to stimulate nodes</span>
+              <span>Interactive network graph</span>
+              <span className="text-xs text-[#6e717d]">Hover to interact with nodes</span>
             </div>
           </div>
         </section>
@@ -628,14 +628,14 @@ export default function Home() {
                   <span className="text-xs uppercase tracking-wider text-[#8c8f9a]">Telemetry</span>
                 </div>
                 <h3 className="text-2xl font-light text-[#edeae3]">
-                  Radical <span className="font-editorial-italic font-serif italic text-white font-normal">Observability</span>
+                  Deep <span className="font-editorial-italic font-serif italic text-white font-normal">Observability</span>
                 </h3>
                 <p className="text-[15px] text-[#9da1ad] leading-relaxed font-sans pt-1">
                   If runtime state cannot be introspected down to the microsecond, it cannot be trusted. System stability begins with granular Micrometer metrics, structured tracing, and transparent alerts over guesswork.
                 </p>
               </div>
               <div className="font-mono text-xs text-[#6e717d] border-t border-white/5 pt-3">
-                METRIC-DRIVEN RESILIENCE
+                METRIC-DRIVEN RELIABILITY
               </div>
             </div>
 
@@ -654,7 +654,7 @@ export default function Home() {
                 </p>
               </div>
               <div className="font-mono text-xs text-[#6e717d] border-t border-white/5 pt-3">
-                HONOR SILICON BOUNDARIES
+                HARDWARE-AWARE ARCHITECTURE
               </div>
             </div>
 
@@ -666,14 +666,14 @@ export default function Home() {
                   <span className="text-xs uppercase tracking-wider text-[#8c8f9a]">Execution</span>
                 </div>
                 <h3 className="text-2xl font-light text-[#edeae3]">
-                  Deterministic <span className="font-editorial-italic font-serif italic text-white font-normal">Simplicity</span>
+                  Predictable <span className="font-editorial-italic font-serif italic text-white font-normal">Simplicity</span>
                 </h3>
                 <p className="text-[15px] text-[#9da1ad] leading-relaxed font-sans pt-1">
                   Clarity takes precedence over ornament. Predictable failure states, graceful circuit breaking, idempotent operations, and zero unexpected layout shifts are treated as essential functional requirements.
                 </p>
               </div>
               <div className="font-mono text-xs text-[#6e717d] border-t border-white/5 pt-3">
-                FAIL-SAFE BY DEFAULT
+                FAIL-SAFE BY DESIGN
               </div>
             </div>
           </div>
@@ -1117,12 +1117,11 @@ export default function Home() {
           </div>
 
           <div className="flex items-center gap-6 text-xs text-[#6e717d]">
-            <span>100% FACTUAL RESUME VERIFIED</span>
             <a
               href="#hero"
               className="hover:text-[#edeae3] transition-colors"
             >
-              BACK TO TOP ↑
+              Back to top ↑
             </a>
           </div>
         </div>
