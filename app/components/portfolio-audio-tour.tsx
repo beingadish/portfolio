@@ -20,6 +20,10 @@ const UI_LABELS: Record<
     minimize: string;
     sections: string;
     speed: string;
+    script: string;
+    hideScript: string;
+    showScript: string;
+    language: string;
   }
 > = {
   en: {
@@ -33,6 +37,10 @@ const UI_LABELS: Record<
     minimize: "Minimize",
     sections: "Sections",
     speed: "Speed",
+    script: "Script",
+    hideScript: "Hide Script",
+    showScript: "Show Script",
+    language: "Language",
   },
   hi: {
     listen: "सुनें",
@@ -45,6 +53,10 @@ const UI_LABELS: Record<
     minimize: "छोटा करें",
     sections: "सेक्शन्स",
     speed: "गति",
+    script: "स्क्रिप्ट",
+    hideScript: "स्क्रिप्ट छिपाएं",
+    showScript: "स्क्रिप्ट देखें",
+    language: "भाषा",
   },
   sa: {
     listen: "शृण्वन्तु",
@@ -57,6 +69,10 @@ const UI_LABELS: Record<
     minimize: "सङ्कुचयतु",
     sections: "विभागाः",
     speed: "गतिः",
+    script: "संवादः",
+    hideScript: "संवादं गोपयतु",
+    showScript: "संवादं दर्शयतु",
+    language: "भाषा",
   },
   kn: {
     listen: "ಕೇಳಿ",
@@ -69,6 +85,10 @@ const UI_LABELS: Record<
     minimize: "ಕುಗ್ಗಿಸಿ",
     sections: "ವಿಭಾಗಗಳು",
     speed: "ವೇಗ",
+    script: "ಸ್ಕ್ರಿಪ್ಟ್",
+    hideScript: "ಸ್ಕ್ರಿಪ್ಟ್ ಮರೆಮಾಡಿ",
+    showScript: "ಸ್ಕ್ರಿಪ್ಟ್ ತೋರಿಸಿ",
+    language: "ಭಾಷೆ",
   },
   ta: {
     listen: "கேளுங்கள்",
@@ -81,6 +101,10 @@ const UI_LABELS: Record<
     minimize: "சுருக்கு",
     sections: "பிரிவுகள்",
     speed: "வேகம்",
+    script: "உரை",
+    hideScript: "உரையை மறை",
+    showScript: "உரையைக் காட்டு",
+    language: "மொழி",
   },
   te: {
     listen: "వినండి",
@@ -93,6 +117,10 @@ const UI_LABELS: Record<
     minimize: "కుదించు",
     sections: "విభాగాలు",
     speed: "వేగం",
+    script: "స్క్రిప్ట్",
+    hideScript: "స్క్రిప్ట్ దాచు",
+    showScript: "స్క్రిప్ట్ చూపించు",
+    language: "భాష",
   },
   ml: {
     listen: "കേൾക്കൂ",
@@ -105,6 +133,10 @@ const UI_LABELS: Record<
     minimize: "ചെറുതാക്കുക",
     sections: "വിഭാഗങ്ങൾ",
     speed: "വേഗത",
+    script: "സ്ക്രിപ്റ്റ്",
+    hideScript: "സ്ക്രിപ്റ്റ് മറയ്ക്കുക",
+    showScript: "സ്ക്രിപ്റ്റ് കാണിക്കുക",
+    language: "ഭാഷ",
   },
   mr: {
     listen: "ऐका",
@@ -117,6 +149,10 @@ const UI_LABELS: Record<
     minimize: "लहान करा",
     sections: "विभाग",
     speed: "गती",
+    script: "स्क्रिप्ट",
+    hideScript: "स्क्रिप्ट लपवा",
+    showScript: "स्क्रिप्ट दाखवा",
+    language: "भाषा",
   },
   bn: {
     listen: "শুনুন",
@@ -129,6 +165,10 @@ const UI_LABELS: Record<
     minimize: "ছোট করুন",
     sections: "বিভাগসমূহ",
     speed: "গতি",
+    script: "স্ক্রিপ্ট",
+    hideScript: "স্ক্রিপ্ট লুকান",
+    showScript: "স্ক্রিপ্ট দেখান",
+    language: "ভাষা",
   },
   gu: {
     listen: "સાંભળો",
@@ -141,6 +181,10 @@ const UI_LABELS: Record<
     minimize: "નાનું કરો",
     sections: "વિભાગો",
     speed: "ઝડપ",
+    script: "સ્ક્રિપ્ટ",
+    hideScript: "સ્ક્રિપ્ટ છુપાવો",
+    showScript: "સ્ક્રિપ્ટ બતાવો",
+    language: "ભાષા",
   },
   pa: {
     listen: "ਸੁਣੋ",
@@ -153,6 +197,10 @@ const UI_LABELS: Record<
     minimize: "ਛੋਟਾ ਕਰੋ",
     sections: "ਭਾਗ",
     speed: "ਗਤੀ",
+    script: "ਸਕ੍ਰਿਪਟ",
+    hideScript: "ਸਕ੍ਰਿਪਟ ਲੁਕਾਓ",
+    showScript: "ਸਕ੍ਰਿਪਟ ਦਿਖਾਓ",
+    language: "ਭਾਸ਼ਾ",
   },
   or: {
     listen: "ଶୁଣନ୍ତୁ",
@@ -165,6 +213,10 @@ const UI_LABELS: Record<
     minimize: "ଛୋଟ କରନ୍ତୁ",
     sections: "ବିଭାଗ",
     speed: "ଗତି",
+    script: "ସ୍କ୍ରିପ୍ଟ",
+    hideScript: "ସ୍କ୍ରିପ୍ଟ ଲୁଚାନ୍ତୁ",
+    showScript: "ସ୍କ୍ରିପ୍ଟ ଦେଖାନ୍ତୁ",
+    language: "ଭାଷା",
   },
 };
 
@@ -304,9 +356,25 @@ export function PortfolioAudioTour() {
   const { currentLanguage, languages, setLanguage } = useLanguage();
   const labels = UI_LABELS[currentLanguage] || UI_LABELS.en;
 
-  const [isSectionsExpanded, setIsSectionsExpanded] = useState(false);
   const [showSpeedMenu, setShowSpeedMenu] = useState(false);
   const [showLangMenu, setShowLangMenu] = useState(false);
+  const [showScript, setShowScript] = useState(false);
+  const langMenuRef = useRef<HTMLDivElement>(null);
+  const speedMenuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (langMenuRef.current && !langMenuRef.current.contains(e.target as Node)) {
+        setShowLangMenu(false);
+      }
+      if (speedMenuRef.current && !speedMenuRef.current.contains(e.target as Node)) {
+        setShowSpeedMenu(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   // Floatable & Draggable position state
   const [position, setPosition] = useState<{ x: number; y: number } | null>(null);
@@ -486,16 +554,20 @@ export function PortfolioAudioTour() {
     );
   }
 
+  const selectedLangMeta = useMemo(() => {
+    return languages.find((l) => l.code === currentLanguage);
+  }, [currentLanguage, languages]);
+
   return (
     <aside
       ref={panelRef}
       aria-label="Audio Tour Player Bar"
-      className={`fixed z-40 w-[95vw] max-w-2xl sm:max-w-3xl ${
+      className={`fixed z-40 w-[96vw] max-w-4xl lg:max-w-5xl ${
         isDragging
           ? "cursor-grabbing select-none transition-none shadow-[0_25px_60px_rgba(0,0,0,0.9)] scale-[1.01]"
           : "transition-all duration-300"
       } ${
-        position ? "" : "bottom-5 left-1/2 -translate-x-1/2 animate-in fade-in slide-in-from-bottom-3"
+        position ? "" : "bottom-4 left-1/2 -translate-x-1/2 animate-in fade-in slide-in-from-bottom-3"
       }`}
       style={
         position
@@ -509,15 +581,15 @@ export function PortfolioAudioTour() {
           : undefined
       }
     >
-      <div className="relative rounded-2xl border border-white/15 bg-[#0c0d12]/95 backdrop-blur-xl shadow-[0_20px_50px_rgba(0,0,0,0.8)] p-4 sm:p-5 flex flex-col gap-3.5 text-[#edeae3]">
-        {/* Top Header Row: Status, Language Badge, Float Grip, Speed Selector, Auto-Tour, Reset, Minimize */}
+      <div className="relative rounded-2xl border border-white/15 bg-[#0c0d12]/95 backdrop-blur-xl shadow-[0_20px_50px_rgba(0,0,0,0.85)] p-2.5 sm:px-4 sm:py-3 flex flex-col gap-2 text-[#edeae3]">
+        {/* Row 1: Primary Controls, Section Title, and Dropdown Toolbars */}
         <div
           onMouseDown={onMouseDown}
           onTouchStart={onTouchStart}
-          className="flex items-center justify-between gap-2 border-b border-white/10 pb-3 cursor-grab active:cursor-grabbing select-none"
+          className="flex flex-wrap sm:flex-nowrap items-center justify-between gap-2.5 cursor-grab active:cursor-grabbing select-none"
         >
-          {/* Brand, Drag Grip & Language Badge */}
-          <div className="flex items-center gap-2 sm:gap-2.5 min-w-0">
+          {/* Left: Drag Handle, Playback Controls & Active Section Info */}
+          <div className="flex items-center gap-2 min-w-0">
             {/* Visual Drag Grip Indicator */}
             <div
               id="audio-bar-drag-handle"
@@ -533,8 +605,8 @@ export function PortfolioAudioTour() {
                 if (!touch) return;
                 handlePointerDown(touch.clientX, touch.clientY);
               }}
-              className="flex items-center gap-1.5 text-[#8c8f9a] hover:text-[#edeae3] px-2 py-1 rounded-md bg-white/5 hover:bg-white/10 border border-white/15 transition-all shrink-0 cursor-grab active:cursor-grabbing select-none"
-              title="Click and drag anywhere to float/move this audio bar"
+              className="flex items-center gap-1 text-[#8c8f9a] hover:text-[#edeae3] px-2 py-1 rounded-md bg-white/5 hover:bg-white/10 border border-white/10 transition-all shrink-0 cursor-grab active:cursor-grabbing select-none"
+              title="Click and drag to move audio bar"
             >
               <svg className="w-3.5 h-3.5 fill-current pointer-events-none" viewBox="0 0 24 24">
                 <circle cx="8" cy="6" r="1.5" />
@@ -544,48 +616,133 @@ export function PortfolioAudioTour() {
                 <circle cx="8" cy="18" r="1.5" />
                 <circle cx="16" cy="18" r="1.5" />
               </svg>
-              <span className="font-mono text-[10px] uppercase tracking-wider text-[#edeae3] font-medium pointer-events-none">
+              <span className="font-mono text-[10px] uppercase tracking-wider text-[#edeae3] font-medium pointer-events-none hidden md:inline">
                 {isDragging ? "Moving..." : "Drag"}
               </span>
             </div>
 
-            <span
-              className={`w-2.5 h-2.5 rounded-full shrink-0 ${
-                isPlaying
-                  ? "bg-[#2dd4bf] animate-pulse shadow-[0_0_10px_#2dd4bf]"
-                  : isPaused
-                  ? "bg-amber-400"
-                  : "bg-white/40"
-              }`}
-            />
-            <span className="font-mono text-xs sm:text-sm uppercase tracking-widest font-semibold text-[#edeae3] truncate">
-              {labels.tour}
-            </span>
-            <span className="text-white/20 text-xs font-mono">•</span>
+            {/* Transport Controls: Prev, Play/Pause, Next */}
+            <div className="flex items-center gap-1 shrink-0">
+              <button
+                type="button"
+                onClick={handlePrevTrack}
+                title="Previous section"
+                className="p-1.5 rounded-md hover:bg-white/10 text-[#8c8f9a] hover:text-[#edeae3] transition-colors cursor-pointer"
+              >
+                <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+                  <polygon points="19 20 9 12 19 4 19 20" />
+                  <line x1="5" y1="4" x2="5" y2="20" stroke="currentColor" strokeWidth="2" />
+                </svg>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  if (isPlaying) {
+                    pauseAudio();
+                  } else if (isPaused) {
+                    resumeAudio();
+                  } else {
+                    playSection(currentBriefId || "intro");
+                  }
+                }}
+                className="w-8 h-8 rounded-full bg-[#edeae3] text-[#090a0d] flex items-center justify-center hover:bg-white hover:scale-105 active:scale-95 transition-all shadow-md cursor-pointer shrink-0"
+                title={isPlaying ? "Pause" : "Play"}
+              >
+                {isPlaying ? (
+                  <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+                    <rect x="6" y="4" width="4" height="16" rx="1" />
+                    <rect x="14" y="4" width="4" height="16" rx="1" />
+                  </svg>
+                ) : (
+                  <svg className="w-3.5 h-3.5 fill-current ml-0.5" viewBox="0 0 24 24">
+                    <polygon points="5 3 19 12 5 21 5 3" />
+                  </svg>
+                )}
+              </button>
+
+              <button
+                type="button"
+                onClick={handleNextTrack}
+                title="Next section"
+                className="p-1.5 rounded-md hover:bg-white/10 text-[#8c8f9a] hover:text-[#edeae3] transition-colors cursor-pointer"
+              >
+                <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+                  <polygon points="5 4 15 12 5 20 5 4" />
+                  <line x1="19" y1="4" x2="19" y2="20" stroke="currentColor" strokeWidth="2" />
+                </svg>
+              </button>
+            </div>
+
+            {/* Current Section Title & State */}
+            <div className="flex items-center gap-2 min-w-0">
+              <span
+                className={`font-mono text-[10px] uppercase px-1.5 py-0.5 rounded font-medium shrink-0 ${
+                  isPlaying
+                    ? "bg-[#2dd4bf]/20 text-[#2dd4bf] border border-[#2dd4bf]/30"
+                    : isPaused
+                    ? "bg-amber-400/20 text-amber-300 border border-amber-400/30"
+                    : "bg-white/5 text-[#8c8f9a] border border-white/10"
+                }`}
+              >
+                {isPlaying ? labels.playing : isPaused ? labels.paused : labels.ready}
+              </span>
+              <span className="text-xs sm:text-sm font-medium text-[#edeae3] truncate max-w-[100px] sm:max-w-[150px] md:max-w-[200px]">
+                {activeBrief?.title}
+              </span>
+              <span className="font-mono text-[11px] text-[#555760] tabular-nums shrink-0">
+                {activeIndex + 1}/{briefs.length}
+              </span>
+            </div>
+          </div>
+
+          {/* Right Toolbar: Language Dropdown, Speed, Script Toggle, Auto-Tour, Dock, Minimize */}
+          <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
             {/* Interactive Indic & English Language Selector Dropdown */}
-            <div className="relative">
+            <div className="relative shrink-0" ref={langMenuRef}>
               <button
                 type="button"
                 onClick={() => {
                   setShowLangMenu(!showLangMenu);
                   setShowSpeedMenu(false);
                 }}
-                title="Select language for audio tour"
-                className="flex items-center gap-1.5 font-mono text-xs text-[#edeae3] bg-white/5 hover:bg-white/10 border border-white/15 px-2.5 py-1 rounded-md transition-colors cursor-pointer select-none"
+                aria-haspopup="listbox"
+                aria-expanded={showLangMenu}
+                title="Select audio language (12 Indic & English languages)"
+                className={`group flex items-center gap-1.5 font-mono text-xs px-2.5 py-1.5 rounded-lg border transition-all cursor-pointer select-none ${
+                  showLangMenu
+                    ? "border-[#2dd4bf] bg-[#161822] text-white shadow-[0_0_12px_rgba(45,212,191,0.25)]"
+                    : "border-white/25 hover:border-[#2dd4bf]/60 bg-[#12131a] hover:bg-[#181a24] text-[#edeae3]"
+                }`}
               >
-                <span className="text-[#2dd4bf] text-xs">🌐</span>
-                <span className="font-medium truncate max-w-[95px] sm:max-w-[140px]">{currentLangLabel}</span>
-                <span className="text-[9px] text-[#8c8f9a]">▾</span>
+                <span className="text-xs text-[#2dd4bf] shrink-0">🌐</span>
+                <span className="text-[10px] uppercase tracking-wider text-[#8c8f9a] font-semibold hidden md:inline">
+                  {labels.language}:
+                </span>
+                <span className="font-semibold text-white truncate max-w-[85px] sm:max-w-[110px]">
+                  {selectedLangMeta?.name || currentLanguage.toUpperCase()}
+                </span>
+                <svg
+                  className={`w-3.5 h-3.5 text-[#2dd4bf] transition-transform duration-200 shrink-0 ${
+                    showLangMenu ? "rotate-180" : ""
+                  }`}
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
+                </svg>
               </button>
 
               {showLangMenu && (
                 <div
                   className={`absolute ${
                     isNearTop ? "top-full mt-2" : "bottom-full mb-2"
-                  } left-0 w-60 sm:w-64 max-h-72 overflow-y-auto custom-scrollbar bg-[#121318]/98 backdrop-blur-xl border border-white/20 rounded-xl shadow-[0_15px_40px_rgba(0,0,0,0.9)] p-1.5 z-50 flex flex-col gap-0.5 animate-in fade-in slide-in-from-bottom-2`}
+                  } right-0 sm:right-auto sm:left-0 w-64 sm:w-72 max-h-72 overflow-y-auto custom-scrollbar bg-[#0f1016]/98 backdrop-blur-xl border border-white/20 rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.9)] p-2 z-50 flex flex-col gap-1 animate-in fade-in`}
                 >
-                  <div className="px-2.5 py-1 text-[10px] font-mono uppercase tracking-wider text-[#8c8f9a] border-b border-white/10 mb-1">
-                    Select Audio Tour Language
+                  <div className="px-2.5 py-1 text-[10px] font-mono uppercase tracking-wider text-[#8c8f9a] border-b border-white/10 mb-1 flex items-center justify-between">
+                    <span>Select Audio Language</span>
+                    <span className="text-[#2dd4bf] font-medium">12 Available</span>
                   </div>
                   {languages.map((lang) => {
                     const isSelected = currentLanguage === lang.code;
@@ -599,42 +756,48 @@ export function PortfolioAudioTour() {
                         }}
                         className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs font-mono transition-all cursor-pointer ${
                           isSelected
-                            ? "bg-[#2dd4bf]/20 text-[#2dd4bf] border border-[#2dd4bf]/40 font-semibold"
+                            ? "bg-[#2dd4bf]/20 text-[#2dd4bf] border border-[#2dd4bf]/40 font-semibold shadow-sm"
                             : "text-[#edeae3] hover:bg-white/10 border border-transparent"
                         }`}
                       >
                         <div className="flex items-center gap-2 min-w-0">
-                          <span className="text-[10px] text-[#555760] font-mono shrink-0 uppercase">
+                          <span className="text-[10px] text-[#555760] font-mono shrink-0 uppercase w-5 text-left">
                             {lang.code}
                           </span>
-                          <span className="truncate">{lang.name}</span>
+                          <span className="truncate text-left">{lang.name}</span>
                         </div>
-                        <span className="text-xs text-[#8c8f9a] font-sans ml-2 shrink-0">
-                          {lang.nativeName}
-                        </span>
+                        <div className="flex items-center gap-1.5 shrink-0 ml-2">
+                          <span className="text-xs text-[#8c8f9a] font-sans">
+                            {lang.nativeName}
+                          </span>
+                          {isSelected && (
+                            <svg className="w-3.5 h-3.5 text-[#2dd4bf]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+                            </svg>
+                          )}
+                        </div>
                       </button>
                     );
                   })}
                 </div>
               )}
             </div>
-          </div>
 
-          {/* Action Toolbar */}
-          <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
-            {/* Speed Selector with requested options: 1x, 1.2x, 1.5x, 1.8x, 2x */}
-            <div className="relative">
+            {/* Speed Selector */}
+            <div className="relative shrink-0" ref={speedMenuRef}>
               <button
                 type="button"
                 onClick={() => {
                   setShowSpeedMenu(!showSpeedMenu);
                   setShowLangMenu(false);
                 }}
-                title="Change speed: 1x, 1.2x, 1.5x, 1.8x, 2x"
-                className="px-2.5 py-1 rounded-md border border-white/15 bg-white/5 hover:bg-white/10 text-xs font-mono font-medium text-[#edeae3] transition-colors flex items-center gap-1 cursor-pointer"
+                title="Playback Speed"
+                className="px-2 py-1.5 rounded-lg border border-white/15 bg-white/5 hover:bg-white/10 text-xs font-mono font-medium text-[#edeae3] transition-colors flex items-center gap-1 cursor-pointer"
               >
                 <span>{speed}x</span>
-                <span className="text-[9px] text-[#8c8f9a]">▾</span>
+                <svg className="w-2.5 h-2.5 text-[#8c8f9a]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
+                </svg>
               </button>
 
               {showSpeedMenu && (
@@ -664,6 +827,35 @@ export function PortfolioAudioTour() {
               )}
             </div>
 
+            {/* Reading Script Toggle Button */}
+            <button
+              type="button"
+              onClick={() => setShowScript((prev) => !prev)}
+              title={showScript ? labels.hideScript : labels.showScript}
+              className={`px-2.5 py-1.5 rounded-lg border font-mono text-xs flex items-center gap-1.5 transition-all cursor-pointer shrink-0 ${
+                showScript
+                  ? "border-[#2dd4bf]/60 bg-[#2dd4bf]/15 text-[#2dd4bf] font-medium shadow-[0_0_10px_rgba(45,212,191,0.2)]"
+                  : "border-white/15 bg-white/5 hover:bg-white/10 text-[#8c8f9a] hover:text-[#edeae3]"
+              }`}
+            >
+              <svg className="w-3.5 h-3.5 fill-none stroke-current" strokeWidth={2} viewBox="0 0 24 24">
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                />
+              </svg>
+              <span className="hidden sm:inline">{labels.script}</span>
+              <svg
+                className={`w-3 h-3 transition-transform duration-200 ${showScript ? "rotate-180" : ""}`}
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+
             {/* Auto-Tour Toggle */}
             <button
               type="button"
@@ -676,46 +868,28 @@ export function PortfolioAudioTour() {
                   startTour(0);
                 }
               }}
-              className={`px-3 py-1 rounded-md border font-mono text-xs flex items-center gap-1.5 transition-all cursor-pointer ${
+              className={`px-2.5 py-1.5 rounded-lg border font-mono text-xs flex items-center gap-1.5 transition-all cursor-pointer shrink-0 ${
                 isTourActive
                   ? "border-[#2dd4bf]/40 bg-[#2dd4bf]/15 text-[#2dd4bf] font-semibold"
                   : "border-white/15 bg-white/5 hover:bg-white/10 text-[#8c8f9a] hover:text-[#edeae3]"
               }`}
+              title={labels.autoTour}
             >
               <svg className="w-2.5 h-2.5 fill-current" viewBox="0 0 24 24">
                 <polygon points="5 3 19 12 5 21 5 3" />
               </svg>
-              <span>{labels.autoTour}</span>
+              <span className="hidden sm:inline">{labels.autoTour}</span>
             </button>
 
-            {/* Sections Drawer Toggle */}
-            <button
-              type="button"
-              onClick={() => setIsSectionsExpanded(!isSectionsExpanded)}
-              title={labels.sections}
-              className={`px-2.5 py-1 rounded-md border text-xs font-mono transition-colors cursor-pointer flex items-center gap-1 ${
-                isSectionsExpanded
-                  ? "border-[#2dd4bf]/40 bg-[#2dd4bf]/10 text-[#2dd4bf]"
-                  : "border-white/10 bg-white/5 text-[#8c8f9a] hover:text-[#edeae3] hover:bg-white/10"
-              }`}
-            >
-              <svg className="w-3 h-3 fill-current" viewBox="0 0 24 24">
-                <line x1="3" y1="6" x2="21" y2="6" stroke="currentColor" strokeWidth="2" />
-                <line x1="3" y1="12" x2="21" y2="12" stroke="currentColor" strokeWidth="2" />
-                <line x1="3" y1="18" x2="21" y2="18" stroke="currentColor" strokeWidth="2" />
-              </svg>
-              <span className="hidden sm:inline">{labels.sections}</span>
-            </button>
-
-            {/* Re-dock button if user has moved/floated the panel */}
+            {/* Re-dock button if user has floated the panel */}
             {position && (
               <button
                 type="button"
                 onClick={() => setPosition(null)}
                 title="Dock audio bar back to bottom center"
-                className="px-2 py-1 rounded-md border border-white/15 bg-white/5 hover:bg-white/10 text-xs font-mono text-[#8c8f9a] hover:text-[#edeae3] transition-colors cursor-pointer flex items-center gap-1"
+                className="px-2 py-1.5 rounded-lg border border-white/15 bg-white/5 hover:bg-white/10 text-xs font-mono text-[#8c8f9a] hover:text-[#edeae3] transition-colors cursor-pointer flex items-center gap-1 shrink-0"
               >
-                <svg className="w-3 h-3 fill-none stroke-current" strokeWidth="2" viewBox="0 0 24 24">
+                <svg className="w-3 h-3 fill-none stroke-current" strokeWidth={2} viewBox="0 0 24 24">
                   <path d="M4 20h16M12 4v12m0 0l-4-4m4 4l4-4" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
                 <span className="hidden sm:inline">Dock</span>
@@ -727,7 +901,7 @@ export function PortfolioAudioTour() {
               type="button"
               onClick={stopAudio}
               title={labels.reset}
-              className="p-1.5 rounded-md hover:bg-white/10 text-[#8c8f9a] hover:text-[#edeae3] transition-colors cursor-pointer"
+              className="p-1.5 rounded-lg hover:bg-white/10 text-[#8c8f9a] hover:text-[#edeae3] transition-colors cursor-pointer shrink-0"
             >
               <svg className="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
                 <rect x="4" y="4" width="16" height="16" rx="2" />
@@ -739,110 +913,20 @@ export function PortfolioAudioTour() {
               type="button"
               onClick={() => setIsPanelVisible(false)}
               title={labels.minimize}
-              className="p-1.5 rounded-md hover:bg-white/10 text-[#8c8f9a] hover:text-[#edeae3] transition-colors cursor-pointer"
+              className="p-1.5 rounded-lg hover:bg-white/10 text-[#8c8f9a] hover:text-[#edeae3] transition-colors cursor-pointer shrink-0"
             >
-              <svg className="w-3.5 h-3.5 stroke-current" viewBox="0 0 24 24" fill="none" strokeWidth="2.5">
+              <svg className="w-3.5 h-3.5 stroke-current" viewBox="0 0 24 24" fill="none" strokeWidth={2.5}>
                 <line x1="5" y1="12" x2="19" y2="12" />
               </svg>
             </button>
           </div>
         </div>
 
-        {/* Middle Controls Row: Prev, Play/Pause, Next, Track Info, Section Index */}
-        <div className="flex items-center justify-between gap-3">
-          <div className="flex items-center gap-2">
-            {/* Prev Track */}
-            <button
-              type="button"
-              onClick={handlePrevTrack}
-              title="Previous section"
-              className="p-2 rounded-lg hover:bg-white/10 text-[#8c8f9a] hover:text-[#edeae3] transition-colors cursor-pointer"
-            >
-              <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
-                <polygon points="19 20 9 12 19 4 19 20" />
-                <line x1="5" y1="4" x2="5" y2="20" stroke="currentColor" strokeWidth="2" />
-              </svg>
-            </button>
-
-            {/* Main Play / Pause Button */}
-            <button
-              type="button"
-              onClick={() => {
-                if (isPlaying) {
-                  pauseAudio();
-                } else if (isPaused) {
-                  resumeAudio();
-                } else {
-                  playSection(currentBriefId || "intro");
-                }
-              }}
-              className="w-10 h-10 rounded-full bg-[#edeae3] text-[#090a0d] flex items-center justify-center hover:bg-white hover:scale-105 active:scale-95 transition-all shadow-lg cursor-pointer"
-            >
-              {isPlaying ? (
-                <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
-                  <rect x="6" y="4" width="4" height="16" rx="1" />
-                  <rect x="14" y="4" width="4" height="16" rx="1" />
-                </svg>
-              ) : (
-                <svg className="w-4 h-4 fill-current ml-0.5" viewBox="0 0 24 24">
-                  <polygon points="5 3 19 12 5 21 5 3" />
-                </svg>
-              )}
-            </button>
-
-            {/* Next Track */}
-            <button
-              type="button"
-              onClick={handleNextTrack}
-              title="Next section"
-              className="p-2 rounded-lg hover:bg-white/10 text-[#8c8f9a] hover:text-[#edeae3] transition-colors cursor-pointer"
-            >
-              <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
-                <polygon points="5 4 15 12 5 20 5 4" />
-                <line x1="19" y1="4" x2="19" y2="20" stroke="currentColor" strokeWidth="2" />
-              </svg>
-            </button>
-          </div>
-
-          {/* Current Section Title & State */}
-          <div className="flex-1 min-w-0 flex items-center gap-2.5">
-            <span
-              className={`font-mono text-xs px-2 py-0.5 rounded font-medium shrink-0 ${
-                isPlaying
-                  ? "bg-[#2dd4bf]/20 text-[#2dd4bf] border border-[#2dd4bf]/30"
-                  : isPaused
-                  ? "bg-amber-400/20 text-amber-300 border border-amber-400/30"
-                  : "bg-white/5 text-[#8c8f9a] border border-white/10"
-              }`}
-            >
-              {isPlaying ? labels.playing : isPaused ? labels.paused : labels.ready}
-            </span>
-            <span className="text-sm sm:text-base text-[#edeae3] font-medium truncate">
-              {activeBrief?.title}
-            </span>
-          </div>
-
-          {/* Progress Indicator */}
-          <span className="font-mono text-xs text-[#555760] tabular-nums shrink-0">
-            {activeIndex + 1} / {briefs.length}
+        {/* Row 2: Horizontal Quick-Jump Section Pills */}
+        <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar pt-1 border-t border-white/10">
+          <span className="text-[10px] font-mono uppercase tracking-wider text-[#555760] shrink-0 mr-1 hidden sm:inline">
+            {labels.sections}:
           </span>
-        </div>
-
-        {/* Dedicated Live Reading Transcript Card */}
-        <div className="rounded-xl border border-[#2dd4bf]/25 bg-[#2dd4bf]/5 p-3.5 sm:p-4 text-[#edeae3] transition-all">
-          <div className="flex items-center justify-between text-xs font-mono text-[#2dd4bf] pb-1.5 border-b border-[#2dd4bf]/15 mb-2">
-            <span className="uppercase tracking-wider">
-              {activeBrief?.title} · Reading Script
-            </span>
-            {isPlaying && <EqualizerIcon />}
-          </div>
-          <p className="font-sans text-sm sm:text-[15px] leading-relaxed text-[#edeae3] max-h-24 overflow-y-auto custom-scrollbar">
-            &ldquo;{currentBriefText || activeBrief?.text}&rdquo;
-          </p>
-        </div>
-
-        {/* Horizontal Quick-Jump Section Pills */}
-        <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pt-0.5">
           {briefs.map((brief, idx) => {
             const isThisCurrent = currentBriefId === brief.id || activeIndex === idx;
             return (
@@ -850,10 +934,10 @@ export function PortfolioAudioTour() {
                 key={brief.id}
                 type="button"
                 onClick={() => playSection(brief.id)}
-                className={`px-3 py-1.5 rounded-full font-mono text-xs whitespace-nowrap transition-all border cursor-pointer ${
+                className={`px-2.5 py-0.5 rounded-full font-mono text-[11px] whitespace-nowrap transition-all border cursor-pointer ${
                   isThisCurrent
-                    ? "border-[#2dd4bf] bg-[#2dd4bf]/20 text-[#2dd4bf] font-semibold shadow-[0_0_10px_rgba(45,212,191,0.25)]"
-                    : "border-white/15 bg-white/5 text-[#8c8f9a] hover:text-[#edeae3] hover:border-white/30"
+                    ? "border-[#2dd4bf] bg-[#2dd4bf]/20 text-[#2dd4bf] font-semibold shadow-[0_0_8px_rgba(45,212,191,0.25)]"
+                    : "border-white/10 bg-white/5 text-[#8c8f9a] hover:text-[#edeae3] hover:border-white/25"
                 }`}
               >
                 0{idx + 1} {brief.title}
@@ -862,33 +946,31 @@ export function PortfolioAudioTour() {
           })}
         </div>
 
-        {/* Expandable Sections Drawer */}
-        {isSectionsExpanded && (
-          <div className="border-t border-white/10 pt-3 space-y-2 max-h-56 overflow-y-auto custom-scrollbar animate-in fade-in">
-            {briefs.map((brief, idx) => {
-              const isCurrent = activeIndex === idx;
-              return (
-                <button
-                  key={brief.id}
-                  type="button"
-                  onClick={() => {
-                    playSection(brief.id);
-                    setIsSectionsExpanded(false);
-                  }}
-                  className={`w-full text-left rounded-xl p-3 text-xs transition-all flex items-start gap-3 cursor-pointer ${
-                    isCurrent
-                      ? "bg-[#2dd4bf]/15 text-[#2dd4bf] border border-[#2dd4bf]/30"
-                      : "bg-white/5 text-[#edeae3] hover:bg-white/10 border border-transparent"
-                  }`}
-                >
-                  <span className="font-mono text-xs text-[#555760] mt-0.5">0{idx + 1}</span>
-                  <div className="flex-1 min-w-0">
-                    <div className="font-semibold text-sm text-[#edeae3]">{brief.title}</div>
-                    <p className="text-xs text-[#8c8f9a] line-clamp-2 mt-1 leading-relaxed">{brief.text}</p>
-                  </div>
-                </button>
-              );
-            })}
+        {/* Row 3: Dedicated Live Reading Transcript Card (Collapsible, shown only when showScript is true) */}
+        {showScript && (
+          <div className="rounded-xl border border-[#2dd4bf]/25 bg-[#2dd4bf]/5 p-2.5 sm:p-3 text-[#edeae3] transition-all animate-in fade-in slide-in-from-top-1">
+            <div className="flex items-center justify-between text-xs font-mono text-[#2dd4bf] pb-1 border-b border-[#2dd4bf]/15 mb-1.5">
+              <div className="flex items-center gap-2">
+                <span className="uppercase tracking-wider font-semibold text-[11px] sm:text-xs">
+                  {activeBrief?.title} · Reading Script
+                </span>
+                {isPlaying && <EqualizerIcon />}
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowScript(false)}
+                className="text-[#8c8f9a] hover:text-[#edeae3] p-0.5 rounded hover:bg-white/10 transition-colors cursor-pointer"
+                title="Hide Reading Script"
+              >
+                <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <line x1="18" y1="6" x2="6" y2="18" />
+                  <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+              </button>
+            </div>
+            <p className="font-sans text-xs sm:text-[13px] leading-relaxed text-[#edeae3] max-h-20 overflow-y-auto custom-scrollbar">
+              &ldquo;{currentBriefText || activeBrief?.text}&rdquo;
+            </p>
           </div>
         )}
       </div>
