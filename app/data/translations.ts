@@ -68,29 +68,6 @@ export type TranslationDictionary = {
       buildingLine: string;
     };
   };
-  audio: {
-    readAloud: string;
-    playing: string;
-    paused: string;
-    stopped: string;
-    listenSection: string;
-    speed: string;
-    voice: string;
-    male: string;
-    female: string;
-    transcriptTitle: string;
-    poweredBy: string;
-    kitDescription: string;
-    ninadaStudioLink: string;
-    switchLangNote: string;
-    autoBriefBtn: string;
-    autoBriefTourTitle: string;
-    stepIndicator: string;
-    skipNext: string;
-    skipPrev: string;
-    resetPosition: string;
-    dragHandleTooltip: string;
-  };
   focusInsights: Array<{
     title: string;
     description: string;
@@ -160,13 +137,6 @@ export type TranslationDictionary = {
     resumeBtn: string;
     emailBtn: string;
   };
-  sectionBriefs: Array<{
-    id: "intro" | "footprint" | "mindset" | "experience" | "projects" | "connect" | string;
-    title: string;
-    text: string;
-    targetElementId: string;
-  }>;
-  readOutSentences: string[];
 };
 
 export const translations: Record<LanguageCode, TranslationDictionary> = {
@@ -204,29 +174,6 @@ export const translations: Record<LanguageCode, TranslationDictionary> = {
         roleLine: "BACKEND | MOBILE | AI ENGINEER",
         buildingLine: "BUILDING SCALABLE SYSTEMS AND INTELLIGENT SOLUTIONS.",
       },
-    },
-    audio: {
-      readAloud: "Listen Aloud",
-      playing: "Playing",
-      paused: "Audio Paused",
-      stopped: "Audio Stopped",
-      listenSection: "Listen",
-      speed: "Speed",
-      voice: "Voice Specialist",
-      male: "Studio Male",
-      female: "Studio Female",
-      transcriptTitle: "Live Ninada Audio Transcript",
-      poweredBy: "Powered by Ninada (निनाद) TTS Kit",
-      kitDescription: "Sub-second on-device neural voice synthesis for Indian languages and English.",
-      ninadaStudioLink: "Explore Ninada Studio",
-      switchLangNote: "Select your preferred language to translate the interface and audio reading.",
-      autoBriefBtn: "Auto-Brief Page",
-      autoBriefTourTitle: "Audio Story & Walkthrough",
-      stepIndicator: "Block",
-      skipNext: "Next Section",
-      skipPrev: "Previous Section",
-      resetPosition: "Reset Position",
-      dragHandleTooltip: "Drag to reposition audio player",
     },
     focusInsights: [
       {
@@ -383,51 +330,6 @@ export const translations: Record<LanguageCode, TranslationDictionary> = {
       resumeBtn: "Resume",
       emailBtn: "Email",
     },
-    sectionBriefs: [
-      {
-            "id": "intro",
-            "title": "Introduction",
-            "targetElementId": "hero",
-            "text": "Hello there, Aadarsh Pandey this side! I am a software engineer with keen interest and experience in scalable backend systems, distributed architectures, high-volume telemetry pipelines, and Generative AI."
-      },
-      {
-        "id": "footprint",
-        "title": "At Work",
-        "targetElementId": "telemetry",
-        "text": "At Accenture, I engineer high-throughput transit payment microservices processing over a million daily transactions, and heavy machinery IoT fleet telemetry on AWS."
-      },
-      {
-            "id": "mindset",
-            "title": "Engineering Mindset",
-            "targetElementId": "doctrine",
-            "text": "When it comes to building systems, I believe in deep system thinking and production reliability: crafting clean, maintainable microservices that handle real-world traffic and tricky edge cases with complete stability."
-      },
-      {
-            "id": "experience",
-            "title": "Work & Production Impact",
-            "targetElementId": "experience",
-            "text": "Over the years at Accenture, I have worked on mission-critical transit ticketing systems and large-scale fleet telemetry pipelines that process hundreds of thousands of events daily with sub-second performance."
-      },
-      {
-            "id": "projects",
-            "title": "Featured Projects & Toolkit",
-            "targetElementId": "projects",
-            "text": "Outside of work, I love building practical systems like TalkingYouTube for interactive semantic video discussions, and deploy resilient, containerized microservices on Kubernetes."
-      },
-      {
-            "id": "connect",
-            "title": "Let's Connect",
-            "targetElementId": "contact",
-            "text": "Thank you so much for checking out my portfolio! For connecting with me, discussing distributed systems, or exploring engineering opportunities, you can simply click on the email link below. Looking forward to speaking with you!"
-      }
-],
-    readOutSentences: [
-      "Hello there, Aadarsh Pandey this side! I am a software engineer with keen interest and experience in scalable backend systems, distributed architectures, high-volume telemetry pipelines, and Generative AI.",
-      "When it comes to building systems, I believe in deep system thinking and production reliability: crafting clean, maintainable microservices that handle real-world traffic and tricky edge cases with complete stability.",
-      "Over the years at Accenture, I have worked on mission-critical transit ticketing systems and large-scale fleet telemetry pipelines that process hundreds of thousands of events daily with sub-second performance.",
-      "Outside of work, I love building practical systems like TalkingYouTube for interactive semantic video discussions, and deploy resilient, containerized microservices on Kubernetes.",
-      "Thank you so much for checking out my portfolio! For connecting with me, discussing distributed systems, or exploring engineering opportunities, you can simply click on the email link below. Looking forward to speaking with you!"
-],
   },
 
   hi: {
@@ -464,29 +366,6 @@ export const translations: Record<LanguageCode, TranslationDictionary> = {
         roleLine: "बैकएंड | मोबाइल | एआई इंजीनियर",
         buildingLine: "स्केलेबल सिस्टम और आधुनिक समाधानों का निर्माण।",
       },
-    },
-    audio: {
-      readAloud: "ऑडियो सुनें",
-      playing: "प्ले हो रहा है",
-      paused: "ऑडियो रुका हुआ है",
-      stopped: "ऑडियो बंद है",
-      listenSection: "सुनें",
-      speed: "गति",
-      voice: "आवाज़ विशेषज्ञ",
-      male: "स्टूडियो पुरुष",
-      female: "स्टूडियो महिला",
-      transcriptTitle: "निनाद लाइव ऑडियो ट्रांसक्रिप्ट",
-      poweredBy: "निनाद (Ninada) टीटीएस द्वारा संचालित",
-      kitDescription: "भारतीय भाषाओं और अंग्रेजी के लिए इन-ब्राउज़र न्यूरल वाक् संश्लेषण।",
-      ninadaStudioLink: "निनाद स्टूडियो देखें",
-      switchLangNote: "इंटरफ़ेस और ऑडियो वाचन के लिए अपनी पसंदीदा भाषा चुनें।",
-      autoBriefBtn: "पेज का संक्षिप्त विवरण (Auto-Brief)",
-      autoBriefTourTitle: "ऑडियो वॉकथ्रू",
-      stepIndicator: "ब्लॉक",
-      skipNext: "अगला खंड",
-      skipPrev: "पिछला खंड",
-      resetPosition: "स्थिति रीसेट करें",
-      dragHandleTooltip: "प्लेयर को कहीं भी खींचकर ले जाएं",
     },
     focusInsights: [
       {
@@ -637,51 +516,6 @@ export const translations: Record<LanguageCode, TranslationDictionary> = {
       resumeBtn: "रेज़्यूमे",
       emailBtn: "ईमेल भेजें",
     },
-    sectionBriefs: [
-      {
-            "id": "intro",
-            "title": "परिचय",
-            "targetElementId": "hero",
-            "text": "नमस्ते! यहाँ आदर्श पाण्डेय। मैं एक सॉफ्टवेयर इंजीनियर हूँ, जिसे स्केलेबल बैकएंड सिस्टम्स, डिस्ट्रिब्यूटेड आर्किटेक्चर और जेनरेटिव एआई में गहरी रुचि और ठोस अनुभव है।"
-      },
-      {
-        "id": "footprint",
-        "title": "कार्यक्षेत्र",
-        "targetElementId": "telemetry",
-        "text": "एक्सेंचर में, मैं प्रेस्टो एफपीएस के लिए हाई-थ्रूपुट ट्रांजिट माइक्रोसर्विसेज बनाता हूँ जो प्रतिदिन दस लाख से अधिक लेनदेन संभालती हैं, और एडब्ल्यूएस पर भारी मशीनरी आईओटी टेलीमेट्री प्रोसेस करती हैं।"
-      },
-      {
-            "id": "mindset",
-            "title": "इंजीनियरिंग सोच",
-            "targetElementId": "doctrine",
-            "text": "सिस्टम बनाते समय मेरी प्राथमिकता हमेशा प्रोडक्शन विश्वसनीयता और स्पष्टता होती है, ऐसा कोड लिखना जो भारी लोड में भी बिना किसी रुकावट के लगातार काम करे।"
-      },
-      {
-            "id": "experience",
-            "title": "अनुभव और प्रभाव",
-            "targetElementId": "experience",
-            "text": "एक्सेंचर में, मैंने बड़े पैमाने पर फ्लीट टेलीमेट्री और ट्रांजिट सिस्टम्स पर काम किया है, जहाँ प्रतिदिन लाखों लेनदेन और इवेंट्स को सफलतापूर्वक प्रोसेस किया जाता है।"
-      },
-      {
-            "id": "projects",
-            "title": "प्रोजेक्ट्स और टूल्स",
-            "targetElementId": "projects",
-            "text": "दैनिक काम के अलावा, मुझे टॉकिंगयूट्यूब जैसे इंटरैक्टिव एआई प्रोजेक्ट्स और कुबरनेट्स आधारित आधुनिक माइक्रोसर्विसेज बनाना बेहद पसंद है।"
-      },
-      {
-            "id": "connect",
-            "title": "संपर्क करें",
-            "targetElementId": "contact",
-            "text": "मेरा पोर्टफोलियो देखने के लिए बहुत-बहुत धन्यवाद! मुझसे जुड़ने या साथ काम करने के अवसरों पर चर्चा के लिए आप नीचे दिए गए ईमेल लिंक पर क्लिक कर सकते हैं। मिलते हैं!"
-      }
-],
-    readOutSentences: [
-      "नमस्ते! यहाँ आदर्श पाण्डेय। मैं एक सॉफ्टवेयर इंजीनियर हूँ, जिसे स्केलेबल बैकएंड सिस्टम्स, डिस्ट्रिब्यूटेड आर्किटेक्चर और जेनरेटिव एआई में गहरी रुचि और ठोस अनुभव है।",
-      "सिस्टम बनाते समय मेरी प्राथमिकता हमेशा प्रोडक्शन विश्वसनीयता और स्पष्टता होती है, ऐसा कोड लिखना जो भारी लोड में भी बिना किसी रुकावट के लगातार काम करे।",
-      "एक्सेंचर में, मैंने बड़े पैमाने पर फ्लीट टेलीमेट्री और ट्रांजिट सिस्टम्स पर काम किया है, जहाँ प्रतिदिन लाखों लेनदेन और इवेंट्स को सफलतापूर्वक प्रोसेस किया जाता है।",
-      "दैनिक काम के अलावा, मुझे टॉकिंगयूट्यूब जैसे इंटरैक्टिव एआई प्रोजेक्ट्स और कुबरनेट्स आधारित आधुनिक माइक्रोसर्विसेज बनाना बेहद पसंद है।",
-      "मेरा पोर्टफोलियो देखने के लिए बहुत-बहुत धन्यवाद! मुझसे जुड़ने या साथ काम करने के अवसरों पर चर्चा के लिए आप नीचे दिए गए ईमेल लिंक पर क्लिक कर सकते हैं। मिलते हैं!"
-],
   },
 
   sa: {
@@ -718,29 +552,6 @@ export const translations: Record<LanguageCode, TranslationDictionary> = {
         roleLine: "पश्चभाग | चलभाष | कृत्रिमबुद्धि अभियन्ता",
         buildingLine: "विस्तारणीयानां दृढानां च प्रणालीनं निर्माणम्।",
       },
-    },
-    audio: {
-      readAloud: "श्रावयतु",
-      playing: "प्रचलति",
-      paused: "ध्वनिः स्थगिता",
-      stopped: "ध्वनिः समाप्ता",
-      listenSection: "श्रूयताम्",
-      speed: "गतिः",
-      voice: "स्वर-विशेषज्ञः",
-      male: "पुरुष-स्वरः",
-      female: "स्त्री-स्वरः",
-      transcriptTitle: "निनाद-सजीव-पाठ्यम्",
-      poweredBy: "निनाद (Ninada) तन्त्रांशेन सञ्चालितम्",
-      kitDescription: "भारतीयभाषाभ्यः आङ्ग्लभाषायाश्च जालपुटे एव कृतक-बुद्धि-स्वर-संश्लेषणम्।",
-      ninadaStudioLink: "निनाद-शालां पश्यन्तु",
-      switchLangNote: "अनुवादाय वाचनाय च अभीष्टां भाषां वृणुत।",
-      autoBriefBtn: "पृष्ठ-संक्षेपः (Auto-Brief)",
-      autoBriefTourTitle: "श्रव्य-परिभ्रमणम्",
-      stepIndicator: "भागः",
-      skipNext: "अग्रिमः विभागः",
-      skipPrev: "पूर्वतनः विभागः",
-      resetPosition: "स्थान-पुनःस्थापनम्",
-      dragHandleTooltip: "ध्वनि-यन्त्रं चालयितुं कर्षतु",
     },
     focusInsights: [
       {
@@ -876,51 +687,6 @@ export const translations: Record<LanguageCode, TranslationDictionary> = {
       resumeBtn: "विवरणपत्रम्",
       emailBtn: "विद्युत्पत्रम्",
     },
-    sectionBriefs: [
-      {
-            "id": "intro",
-            "title": "परिचयः",
-            "targetElementId": "hero",
-            "text": "सर्वेभ्यो नमः! अहम् आदर्श पाण्डेयः। अहम् एकः तन्त्रांश-अभियन्ता अस्मि, यस्य पश्चभाग-प्रणालीषु, वितरितासु व्यवस्थासु नूतन-कृत्रिमबुद्धौ च गभीरः अनुरागः अनुभवश्च वर्तते।"
-      },
-      {
-        "id": "footprint",
-        "title": "उत्पादन-कार्यम्",
-        "targetElementId": "telemetry",
-        "text": "एक्सेञ्चर्-संस्थायां, अहं प्रेस्टो एफपीएस कृते उच्च-क्षमता-युक्त-पश्चभाग-प्रणालीषु कार्यं करोमि याः प्रतिदिनं दश-लक्षं व्यवहारान् निर्वहन्ति, एडब्ल्यूएस-उपकरणेषु च दूरमापन-प्रक्रियाम् चालयन्ति।"
-      },
-      {
-            "id": "mindset",
-            "title": "अभियान्त्रिकी-दृष्टिः",
-            "targetElementId": "doctrine",
-            "text": "मम अभियान्त्रिकी-दृष्टिः सर्वदा प्रणाली-स्थिरतायाः स्वच्छ-सङ्केत-लेखनस्य च पक्षे अस्ति, येन कार्यं सर्वदा सुचारुरूपेण चलेत्।"
-      },
-      {
-            "id": "experience",
-            "title": "अनुभवः प्रभावश्च",
-            "targetElementId": "experience",
-            "text": "एक्सेंचर-संस्थायां मया यानानां दूरमापन-प्रणाल्यां तथा प्रतिदिनं लक्षाधिक-व्यवहार-युक्तेषु गमनागमन-सेवासु महत्त्वपूर्णं योगदानं दत्तम्।"
-      },
-      {
-            "id": "projects",
-            "title": "प्रकल्पाः",
-            "targetElementId": "projects",
-            "text": "कार्यात् बहिः, अहं टॉकिंगयूट्यूब सदृशान् एआई-प्रकल्पान् कुबरनेटीस्-आधारिताः सूक्ष्म-सेवाश्च उत्साहेन रचयामि।"
-      },
-      {
-            "id": "connect",
-            "title": "सम्पर्कः",
-            "targetElementId": "contact",
-            "text": "अत्र आगमनाय हार्दाः धन्यवादाः! मया सह सम्पर्कं कर्तुं सहकार्याय च भवान् अधोदत्तं विद्युत्पत्र-सम्पर्कं नुदतु। शुभं भूयात्!"
-      }
-],
-    readOutSentences: [
-      "सर्वेभ्यो नमः! अहम् आदर्श पाण्डेयः। अहम् एकः तन्त्रांश-अभियन्ता अस्मि, यस्य पश्चभाग-प्रणालीषु, वितरितासु व्यवस्थासु नूतन-कृत्रिमबुद्धौ च गभीरः अनुरागः अनुभवश्च वर्तते।",
-      "मम अभियान्त्रिकी-दृष्टिः सर्वदा प्रणाली-स्थिरतायाः स्वच्छ-सङ्केत-लेखनस्य च पक्षे अस्ति, येन कार्यं सर्वदा सुचारुरूपेण चलेत्।",
-      "एक्सेंचर-संस्थायां मया यानानां दूरमापन-प्रणाल्यां तथा प्रतिदिनं लक्षाधिक-व्यवहार-युक्तेषु गमनागमन-सेवासु महत्त्वपूर्णं योगदानं दत्तम्।",
-      "कार्यात् बहिः, अहं टॉकिंगयूट्यूब सदृशान् एआई-प्रकल्पान् कुबरनेटीस्-आधारिताः सूक्ष्म-सेवाश्च उत्साहेन रचयामि।",
-      "अत्र आगमनाय हार्दाः धन्यवादाः! मया सह सम्पर्कं कर्तुं सहकार्याय च भवान् अधोदत्तं विद्युत्पत्र-सम्पर्कं नुदतु। शुभं भूयात्!"
-],
   },
 
   kn: {
@@ -957,29 +723,6 @@ export const translations: Record<LanguageCode, TranslationDictionary> = {
         roleLine: "ಬ್ಯಾಕೆಂಡ್ | ಮೊಬೈಲ್ | ಎಐ ಇಂಜಿನಿಯರ್",
         buildingLine: "ಸ್ಕೇಲೆಬಲ್ ಸಿಸ್ಟಮ್‌ಗಳು ಮತ್ತು ಆಧುನಿಕ ತಂತ್ರಜ್ಞಾನಗಳ ನಿರ್ಮಾಣ.",
       },
-    },
-    audio: {
-      readAloud: "ಧ್ವನಿಯನ್ನು ಆಲಿಸಿ",
-      playing: "ಪ್ಲೇ ಆಗುತ್ತಿದೆ",
-      paused: "ಧ್ವನಿಯನ್ನು ವಿರಾಮಗೊಳಿಸಲಾಗಿದೆ",
-      stopped: "ಧ್ವನಿಯನ್ನು ನಿಲ್ಲಿಸಲಾಗಿದೆ",
-      listenSection: "ಆಲಿಸಿ",
-      speed: "ವೇಗ",
-      voice: "ಧ್ವನಿ ತಜ್ಞರು",
-      male: "ಸ್ಟುಡಿಯೋ ಪುರುಷ",
-      female: "ಸ್ಟುಡಿಯೋ ಮಹಿಳೆ",
-      transcriptTitle: "ನಿನಾದ ಲೈವ್ ಆಡಿಯೋ ಪ್ರತಿಲೇಖನ",
-      poweredBy: "ನಿನಾದ (Ninada) ಟಿಟಿಎಸ್ ಚಾಲಿತ",
-      kitDescription: "ಭಾರತೀಯ ಭಾಷೆಗಳು ಮತ್ತು ಇಂಗ್ಲಿಷ್‌ಗಾಗಿ ಬ್ರೌಸರ್ ಆಧಾರಿತ ನರಗಳ ವಾಕ್ ಸಂಶ್ಲೇಷಣೆ.",
-      ninadaStudioLink: "ನಿನಾದ ಸ್ಟುಡಿಯೋ ನೋಡಿ",
-      switchLangNote: "ವೆಬ್‌ಸೈಟ್ ಮತ್ತು ಆಡಿಯೋ ಎರಡಕ್ಕೂ ನಿಮ್ಮ ನೆಚ್ಚಿನ ಭಾಷೆಯನ್ನು ಆಯ್ಕೆಮಾಡಿ.",
-      autoBriefBtn: "ಪುಟದ ಸಂಕ್ಷಿಪ್ತ ವಿವರ (Auto-Brief)",
-      autoBriefTourTitle: "ಆಡಿಯೋ ವಾಕ್‌ಥ್ರೂ",
-      stepIndicator: "ಹಂತ",
-      skipNext: "ಮುಂದಿನ ವಿಭಾಗ",
-      skipPrev: "ಹಿಂದಿನ ವಿಭಾಗ",
-      resetPosition: "ಸ್ಥಳ ಮರುಹೊಂದಿಸಿ",
-      dragHandleTooltip: "ಪ್ಲೇಯರ್ ಸರಿಸಲು ಎಳೆಯಿರಿ",
     },
     focusInsights: [
       {
@@ -1115,51 +858,6 @@ export const translations: Record<LanguageCode, TranslationDictionary> = {
       resumeBtn: "ರೆಸ್ಯೂಮೆ",
       emailBtn: "ಇಮೇಲ್ ಕಳುಹಿಸಿ",
     },
-    sectionBriefs: [
-      {
-            "id": "intro",
-            "title": "ಪರಿಚಯ",
-            "targetElementId": "hero",
-            "text": "ನಮಸ್ಕಾರ ಎಲ್ಲರಿಗೂ, ನಾನು ಆದರ್ಶ್ ಪಾಂಡೆ! ನಾನು ಸ್ಕೇಲೆಬಲ್ ಬ್ಯಾಕೆಂಡ್ ಸಿಸ್ಟಮ್ಸ್, ಡಿಸ್ಟ್ರಿಬ್ಯೂಟೆಡ್ ಆರ್ಕಿಟೆಕ್ಚರ್ ಮತ್ತು ಜೆನ್ ಎಐ ತಂತ್ರಜ್ಞಾನಗಳಲ್ಲಿ ಆಸಕ್ತಿ ಮತ್ತು ಅನುಭವ ಹೊಂದಿರುವ ಸಾಫ್ಟ್‌ವೇರ್ ಇಂಜಿನಿಯರ್."
-      },
-      {
-        "id": "footprint",
-        "title": "ಕೆಲಸ ಮತ್ತು ಅನುಭವ",
-        "targetElementId": "telemetry",
-        "text": "ಆಕ್ಸೆಂಚರ್‌ನಲ್ಲಿ, ನಾನು ಪ್ರೆಸ್ಟೋ ಎಫ್‌ಪಿಎಸ್‌ಗಾಗಿ ಪ್ರತಿದಿನ ಹತ್ತು ಲಕ್ಷಕ್ಕೂ ಹೆಚ್ಚು ವಹಿವಾಟುಗಳನ್ನು ನಿರ್ವಹಿಸುವ ಹೈ-ಥ್ರೂಪುಟ್ ಟ್ರಾನ್ಸಿಟ್ ಮೈಕ್ರೋಸರ್ವಿಸಸ್‌ಗಳು ಮತ್ತು ಎಡಬ್ಲ್ಯೂಎಸ್‌ನಲ್ಲಿ ಐಒಟಿ ಟೆಲಿಮೆಟ್ರಿಯನ್ನು ನಿರ್ಮಿಸುತ್ತೇನೆ."
-      },
-      {
-            "id": "mindset",
-            "title": "ಇಂಜಿನಿಯರಿಂಗ್ ಚಿಂತನೆ",
-            "targetElementId": "doctrine",
-            "text": "ಉನ್ನತ ವಿಶ್ವಾಸಾರ್ಹತೆ, ಸ್ಪಷ್ಟವಾದ ಕೋಡಿಂಗ್ ಮತ್ತು ಯಾವುದೇ ಸಂದರ್ಭದಲ್ಲೂ ದೃಢವಾಗಿ ಕಾರ್ಯನಿರ್ವಹಿಸುವ ವ್ಯವಸ್ಥೆಗಳನ್ನು ನಿರ್ಮಿಸುವುದು ನನ್ನ ಮುಖ್ಯ ಗುರಿ."
-      },
-      {
-            "id": "experience",
-            "title": "ಅನುಭವ ಮತ್ತು ಸಾಧನೆ",
-            "targetElementId": "experience",
-            "text": "ಅಕ್ಸೆಂಚರ್‌ನಲ್ಲಿ, ನಾನು ಪ್ರತಿದಿನ ಲಕ್ಷಾಂತರ ವಹಿವಾಟುಗಳನ್ನು ಪ್ರಕ್ರಿಯೆಗೊಳಿಸುವ ಸಾರಿಗೆ ಎಪಿಐಗಳು ಮತ್ತು ಬೃಹತ್ ಫ್ಲೀಟ್ ಟೆಲಿಮೆಟ್ರಿ ವ್ಯವಸ್ಥೆಗಳಲ್ಲಿ ಕೆಲಸ ಮಾಡಿದ್ದೇನೆ."
-      },
-      {
-            "id": "projects",
-            "title": "ಯೋಜನೆಗಳು ಮತ್ತು ಪರಿಕರಗಳು",
-            "targetElementId": "projects",
-            "text": "ಕೆಲಸದ ಹೊರತಾಗಿ, ವೀಡಿಯೊಗಳೊಂದಿಗೆ ಸಂವಾದ ನಡೆಸುವ ಟಾಕಿಂಗ್ ಯೂಟ್ಯೂಬ್‌ನಂತಹ ಎಐ ಯೋಜನೆಗಳು ಮತ್ತು ಕುಬರ್ನೆಟಿಸ್ ಮೈಕ್ರೋಸರ್ವಿಸ್‌ಗಳನ್ನು ರೂಪಿಸುವುದು ನನಗೆ ಇಷ್ಟ."
-      },
-      {
-            "id": "connect",
-            "title": "ಸಂಪರ್ಕ ಸಾಧಿಸಿ",
-            "targetElementId": "contact",
-            "text": "ನನ್ನ ಪ್ರೊಫೈಲ್ ನೋಡಿದ್ದಕ್ಕಾಗಿ ತುಂಬು ಹೃದಯದ ಧನ್ಯವಾದಗಳು! ನನ್ನೊಂದಿಗೆ ಸಂಪರ್ಕ ಸಾಧಿಸಲು ಅಥವಾ ಒಟ್ಟಿಗೆ ಕೆಲಸ ಮಾಡಲು ನೀವು ಕೆಳಗಿರುವ ಇಮೇಲ್ ಲಿಂಕ್ ಮೇಲೆ ಕ್ಲಿಕ್ ಮಾಡಬಹುದು."
-      }
-],
-    readOutSentences: [
-      "ನಮಸ್ಕಾರ ಎಲ್ಲರಿಗೂ, ನಾನು ಆದರ್ಶ್ ಪಾಂಡೆ! ನಾನು ಸ್ಕೇಲೆಬಲ್ ಬ್ಯಾಕೆಂಡ್ ಸಿಸ್ಟಮ್ಸ್, ಡಿಸ್ಟ್ರಿಬ್ಯೂಟೆಡ್ ಆರ್ಕಿಟೆಕ್ಚರ್ ಮತ್ತು ಜೆನ್ ಎಐ ತಂತ್ರಜ್ಞಾನಗಳಲ್ಲಿ ಆಸಕ್ತಿ ಮತ್ತು ಅನುಭವ ಹೊಂದಿರುವ ಸಾಫ್ಟ್‌ವೇರ್ ಇಂಜಿನಿಯರ್.",
-      "ಉನ್ನತ ವಿಶ್ವಾಸಾರ್ಹತೆ, ಸ್ಪಷ್ಟವಾದ ಕೋಡಿಂಗ್ ಮತ್ತು ಯಾವುದೇ ಸಂದರ್ಭದಲ್ಲೂ ದೃಢವಾಗಿ ಕಾರ್ಯನಿರ್ವಹಿಸುವ ವ್ಯವಸ್ಥೆಗಳನ್ನು ನಿರ್ಮಿಸುವುದು ನನ್ನ ಮುಖ್ಯ ಗುರಿ.",
-      "ಅಕ್ಸೆಂಚರ್‌ನಲ್ಲಿ, ನಾನು ಪ್ರತಿದಿನ ಲಕ್ಷಾಂತರ ವಹಿವಾಟುಗಳನ್ನು ಪ್ರಕ್ರಿಯೆಗೊಳಿಸುವ ಸಾರಿಗೆ ಎಪಿಐಗಳು ಮತ್ತು ಬೃಹತ್ ಫ್ಲೀಟ್ ಟೆಲಿಮೆಟ್ರಿ ವ್ಯವಸ್ಥೆಗಳಲ್ಲಿ ಕೆಲಸ ಮಾಡಿದ್ದೇನೆ.",
-      "ಕೆಲಸದ ಹೊರತಾಗಿ, ವೀಡಿಯೊಗಳೊಂದಿಗೆ ಸಂವಾದ ನಡೆಸುವ ಟಾಕಿಂಗ್ ಯೂಟ್ಯೂಬ್‌ನಂತಹ ಎಐ ಯೋಜನೆಗಳು ಮತ್ತು ಕುಬರ್ನೆಟಿಸ್ ಮೈಕ್ರೋಸರ್ವಿಸ್‌ಗಳನ್ನು ರೂಪಿಸುವುದು ನನಗೆ ಇಷ್ಟ.",
-      "ನನ್ನ ಪ್ರೊಫೈಲ್ ನೋಡಿದ್ದಕ್ಕಾಗಿ ತುಂಬು ಹೃದಯದ ಧನ್ಯವಾದಗಳು! ನನ್ನೊಂದಿಗೆ ಸಂಪರ್ಕ ಸಾಧಿಸಲು ಅಥವಾ ಒಟ್ಟಿಗೆ ಕೆಲಸ ಮಾಡಲು ನೀವು ಕೆಳಗಿರುವ ಇಮೇಲ್ ಲಿಂಕ್ ಮೇಲೆ ಕ್ಲಿಕ್ ಮಾಡಬಹುದು."
-],
   },
 
   ta: {
@@ -1196,29 +894,6 @@ export const translations: Record<LanguageCode, TranslationDictionary> = {
         roleLine: "பின்தளம் | மொபைல் | ஏஐ பொறியாளர்",
         buildingLine: "அளவிடக்கூடிய அமைப்புகள் மற்றும் நுண்ணறிவு தீர்வுகள்.",
       },
-    },
-    audio: {
-      readAloud: "கேட்கவும்",
-      playing: "இயங்குகிறது",
-      paused: "ஆடியோ இடைநிறுத்தப்பட்டது",
-      stopped: "ஆடியோ நிறுத்தப்பட்டது",
-      listenSection: "கேளுங்கள்",
-      speed: "வேகம்",
-      voice: "குரல் நிபுணர்",
-      male: "ஸ்டுடியோ ஆண்",
-      female: "ஸ்டுடியோ பெண்",
-      transcriptTitle: "நினாதா நேரலை ஆடியோ உரை",
-      poweredBy: "நினாதா (Ninada) டிடிஎஸ் தொழில்நுட்பம்",
-      kitDescription: "இந்திய மொழிகள் மற்றும் ஆங்கிலத்திற்கான உலாவி அடிப்படையிலான நரம்பியல் பேச்சு உருவாக்கம்.",
-      ninadaStudioLink: "நினாதா ஸ்டுடியோவைக் காண்க",
-      switchLangNote: "இணையதளம் மற்றும் ஆடியோ வாசிப்புக்கு உங்கள் விருப்பமான மொழியைத் தேர்ந்தெடுக்கவும்.",
-      autoBriefBtn: "பக்கத்தின் சுருக்கம் (Auto-Brief)",
-      autoBriefTourTitle: "ஆடியோ விளக்கம்",
-      stepIndicator: "பகுதி",
-      skipNext: "அடுத்த பகுதி",
-      skipPrev: "முந்தைய பகுதி",
-      resetPosition: "நிலையை மீட்டமை",
-      dragHandleTooltip: "பிளேயரை நகர்த்த இழுக்கவும்",
     },
     focusInsights: [
       {
@@ -1354,51 +1029,6 @@ export const translations: Record<LanguageCode, TranslationDictionary> = {
       resumeBtn: "சுயவிவரக்குறிப்பு",
       emailBtn: "மின்னஞ்சல் அனுப்பவும்",
     },
-    sectionBriefs: [
-      {
-            "id": "intro",
-            "title": "அறிமுகம்",
-            "targetElementId": "hero",
-            "text": "வணக்கம்! நான் ஆதர்ஷ் பாண்டே. அளவிடக்கூடிய பின்தள அமைப்புகள், விநியோகிக்கப்பட்ட கட்டமைப்பு மற்றும் ஜெனரேட்டிவ் ஏஐ தொழில்நுட்பங்களில் மிகுந்த ஆர்வமும் அனுபவமும் கொண்ட மென்பொருள் பொறியாளர்."
-      },
-      {
-        "id": "footprint",
-        "title": "பணி அனுபவம்",
-        "targetElementId": "telemetry",
-        "text": "அக்சென்ச்சரில், தினமும் பத்து லட்சத்திற்கும் அதிகமான பரிவர்த்தனைகளைக் கையாளும் போக்குவரத்து மைக்ரோசர்வீஸ்கள் மற்றும் ஏடபிள்யூஎஸ் ஐஓடி அமைப்புகளை உருவாக்குகிறேன்."
-      },
-      {
-            "id": "mindset",
-            "title": "பொறியியல் அணுகுமுறை",
-            "targetElementId": "doctrine",
-            "text": "எனது பொறியியல் அணுகுமுறை உயர் நம்பகத்தன்மை, தெளிவான வடிவமைப்பு மற்றும் அதிக சுமைகளிலும் நிலைத்தன்மையுடன் செயல்படும் குறியீட்டை உருவாக்குவதாகும்."
-      },
-      {
-            "id": "experience",
-            "title": "அனுபவம் மற்றும் தாக்கம்",
-            "targetElementId": "experience",
-            "text": "அக்சென்ச்சரில், தினசரி லட்சக்கணக்கான பரிவர்த்தனைகளைக் கையாளும் போக்குவரத்து உள்கட்டமைப்பு மற்றும் வாகன டெலிமெட்ரி அமைப்புகளில் சிறப்பாகப் பணியாற்றியுள்ளேன்."
-      },
-      {
-            "id": "projects",
-            "title": "திட்டங்கள்",
-            "targetElementId": "projects",
-            "text": "பணிக்கு அப்பால், வீடியோக்களுடன் உரையாடும் டாக்கிங் யூடியூப் போன்ற ஏஐ திட்டங்களையும், குபர்நெட்டீஸ் அடிப்படையிலான மைக்ரோசர்வீஸ்களையும் ஆர்வத்துடன் உருவாக்குகிறேன்."
-      },
-      {
-            "id": "connect",
-            "title": "தொடர்பு கொள்ள",
-            "targetElementId": "contact",
-            "text": "எனது பக்கத்தைப் பார்வையிட்டதற்கு மிக்க நன்றி! என்னுடன் தொடர்புகொள்ள அல்லது இணைந்து பணியாற்ற கீழே உள்ள மின்னஞ்சல் இணைப்பைக் கிளிக் செய்யுங்கள்."
-      }
-],
-    readOutSentences: [
-      "வணக்கம்! நான் ஆதர்ஷ் பாண்டே. அளவிடக்கூடிய பின்தள அமைப்புகள், விநியோகிக்கப்பட்ட கட்டமைப்பு மற்றும் ஜெனரேட்டிவ் ஏஐ தொழில்நுட்பங்களில் மிகுந்த ஆர்வமும் அனுபவமும் கொண்ட மென்பொருள் பொறியாளர்.",
-      "எனது பொறியியல் அணுகுமுறை உயர் நம்பகத்தன்மை, தெளிவான வடிவமைப்பு மற்றும் அதிக சுமைகளிலும் நிலைத்தன்மையுடன் செயல்படும் குறியீட்டை உருவாக்குவதாகும்.",
-      "அக்சென்ச்சரில், தினசரி லட்சக்கணக்கான பரிவர்த்தனைகளைக் கையாளும் போக்குவரத்து உள்கட்டமைப்பு மற்றும் வாகன டெலிமெட்ரி அமைப்புகளில் சிறப்பாகப் பணியாற்றியுள்ளேன்.",
-      "பணிக்கு அப்பால், வீடியோக்களுடன் உரையாடும் டாக்கிங் யூடியூப் போன்ற ஏஐ திட்டங்களையும், குபர்நெட்டீஸ் அடிப்படையிலான மைக்ரோசர்வீஸ்களையும் ஆர்வத்துடன் உருவாக்குகிறேன்.",
-      "எனது பக்கத்தைப் பார்வையிட்டதற்கு மிக்க நன்றி! என்னுடன் தொடர்புகொள்ள அல்லது இணைந்து பணியாற்ற கீழே உள்ள மின்னஞ்சல் இணைப்பைக் கிளிக் செய்யுங்கள்."
-],
   },
 
   te: {
@@ -1435,29 +1065,6 @@ export const translations: Record<LanguageCode, TranslationDictionary> = {
         roleLine: "బ్యాకెండ్ | మొబైల్ | ఏఐ ఇంజనీర్",
         buildingLine: "స్కేలబుల్ సిస్టమ్స్ మరియు ఆధునిక సాంకేతికతల నిర్మాణం.",
       },
-    },
-    audio: {
-      readAloud: "వినండి",
-      playing: "ప్లే అవుతోంది",
-      paused: "ఆడియో పాజ్ చేయబడింది",
-      stopped: "ఆడియో ఆపబడింది",
-      listenSection: "వినండి",
-      speed: "వేగం",
-      voice: "వాయిస్ స్పెషలిస్ట్",
-      male: "స్టూడియో పురుష",
-      female: "స్టూడియో స్త్రీ",
-      transcriptTitle: "నినాద లైవ్ ఆడియో ట్రాన్స్‌క్రిప్ట్",
-      poweredBy: "నినాద (Ninada) టిటిఎస్ ద్వారా ఆధారితం",
-      kitDescription: "భారతీయ భాషలు మరియు ఇంగ్లీష్ కోసం బ్రౌజర్ ఆధారిత న్యూరల్ వాయిస్ సింథసిస్.",
-      ninadaStudioLink: "నినాద స్టూడియో చూడండి",
-      switchLangNote: "ఇంటర్‌ఫేస్ మరియు ఆడియో చదవడం కోసం మీకు నచ్చిన భాషను ఎంచుకోండి.",
-      autoBriefBtn: "పేజీ సంక్షిప్త వివరణ (Auto-Brief)",
-      autoBriefTourTitle: "ఆడియో వివరణ",
-      stepIndicator: "దశ",
-      skipNext: "తర్వాతి విభాగం",
-      skipPrev: "మునుపటి విభాగం",
-      resetPosition: "స్థానాన్ని రీసెట్ చేయండి",
-      dragHandleTooltip: "ప్లేయర్‌ను కావలసిన చోటికి లాగండి",
     },
     focusInsights: [
       {
@@ -1593,51 +1200,6 @@ export const translations: Record<LanguageCode, TranslationDictionary> = {
       resumeBtn: "రెజ్యూమె",
       emailBtn: "ఈమెయిల్ పంపండి",
     },
-    sectionBriefs: [
-      {
-            "id": "intro",
-            "title": "పరిచయం",
-            "targetElementId": "hero",
-            "text": "నమస్తే! నేను ఆదర్శ్ పాండే. స్కేలబుల్ బ్యాకెండ్ సిస్టమ్స్, డిస్ట్రిబ్యూటెడ్ ఆర్కిటెక్చర్ మరియు జెనరేటివ్ ఏఐలలో మంచి అనుభవం మరియు ఆసక్తి ఉన్న సాఫ్ట్‌వేర్ ఇంజనీర్‌ని."
-      },
-      {
-        "id": "footprint",
-        "title": "ఉత్పత్తి అనుభవం",
-        "targetElementId": "telemetry",
-        "text": "యాక్సెంట్చర్‌లో, రోజుకు పది లక్షలకు పైగా లావాదేవీలను నిర్వహించే ప్రెస్టో ఎఫ్‌పిఎస్ రవాణా మైక్రోసర్వీసెస్ మరియు ఏడబ్ల్యుఎస్ ఐఓటీ టెలిమెట్రీ వ్యవస్థలను నిర్మిస్తున్నాను."
-      },
-      {
-            "id": "mindset",
-            "title": "ఇంజనీరింగ్ విధానం",
-            "targetElementId": "doctrine",
-            "text": "నా ఇంజనీరింగ్ విధానం ఎల్లప్పుడూ సిస్టమ్ విశ్వసనీయత, స్పష్టమైన పద్ధతులు మరియు అధిక ట్రాఫిక్‌లోనూ స్థిరంగా పనిచేసే కోడ్‌పై ఆధారపడి ఉంటుంది."
-      },
-      {
-            "id": "experience",
-            "title": "అనుభవం మరియు ప్రభావం",
-            "targetElementId": "experience",
-            "text": "యాక్సెంట్చర్‌లో, ప్రతిరోజూ లక్షలాది లావాదేవీలను ప్రాసెస్ చేసే రవాణా ఎపిఐలు మరియు భారీ ఫ్లీట్ టెలిమెట్రీ ప్రాజెక్ట్‌లలో నేను కీలక పాత్ర పోషించాను."
-      },
-      {
-            "id": "projects",
-            "title": "ప్రాజెక్ట్‌లు",
-            "targetElementId": "projects",
-            "text": "ఖాళీ సమయాల్లో, వీడియోలతో మాట్లాడే టాకింగ్ యూట్యూబ్ లాంటి వినూత్న ఏఐ ప్రాజెక్ట్‌లు మరియు కుబెర్నెటిస్ మైక్రోసర్వీసెస్‌ని నిర్మిస్తుంటాను."
-      },
-      {
-            "id": "connect",
-            "title": "సంప్రదించండి",
-            "targetElementId": "contact",
-            "text": "నా పోర్ట్‌ఫోలియోను సందర్శించినందుకు చాలా ధన్యవాదాలు! నన్ను సంప్రదించడానికి లేదా నాతో కలిసి పనిచేయడానికి మీరు క్రింద ఉన్న ఇమెయిల్ లింక్‌పై క్లిక్ చేయవచ్చు."
-      }
-],
-    readOutSentences: [
-      "నమస్తే! నేను ఆదర్శ్ పాండే. స్కేలబుల్ బ్యాకెండ్ సిస్టమ్స్, డిస్ట్రిబ్యూటెడ్ ఆర్కిటెక్చర్ మరియు జెనరేటివ్ ఏఐలలో మంచి అనుభవం మరియు ఆసక్తి ఉన్న సాఫ్ట్‌వేర్ ఇంజనీర్‌ని.",
-      "నా ఇంజనీరింగ్ విధానం ఎల్లప్పుడూ సిస్టమ్ విశ్వసనీయత, స్పష్టమైన పద్ధతులు మరియు అధిక ట్రాఫిక్‌లోనూ స్థిరంగా పనిచేసే కోడ్‌పై ఆధారపడి ఉంటుంది.",
-      "యాక్సెంట్చర్‌లో, ప్రతిరోజూ లక్షలాది లావాదేవీలను ప్రాసెస్ చేసే రవాణా ఎపిఐలు మరియు భారీ ఫ్లీట్ టెలిమెట్రీ ప్రాజెక్ట్‌లలో నేను కీలక పాత్ర పోషించాను.",
-      "ఖాళీ సమయాల్లో, వీడియోలతో మాట్లాడే టాకింగ్ యూట్యూబ్ లాంటి వినూత్న ఏఐ ప్రాజెక్ట్‌లు మరియు కుబెర్నెటిస్ మైక్రోసర్వీసెస్‌ని నిర్మిస్తుంటాను.",
-      "నా పోర్ట్‌ఫోలియోను సందర్శించినందుకు చాలా ధన్యవాదాలు! నన్ను సంప్రదించడానికి లేదా నాతో కలిసి పనిచేయడానికి మీరు క్రింద ఉన్న ఇమెయిల్ లింక్‌పై క్లిక్ చేయవచ్చు."
-],
   },
 
   ml: {
@@ -1674,29 +1236,6 @@ export const translations: Record<LanguageCode, TranslationDictionary> = {
         roleLine: "ബാക്കെൻഡ് | മൊബൈൽ | എഐ എഞ്ചിനീയർ",
         buildingLine: "സ്കേലബിൾ സിസ്റ്റങ്ങളും നൂതന സാങ്കേതികവിദ്യകളും.",
       },
-    },
-    audio: {
-      readAloud: "കേൾക്കുക",
-      playing: "പ്ലേ ചെയ്യുന്നു",
-      paused: "ഓഡിയോ താൽക്കാലികമായി നിർത്തി",
-      stopped: "ഓഡിയോ നിർത്തി",
-      listenSection: "കേൾക്കൂ",
-      speed: "വേഗത",
-      voice: "ശബ്ദ വിദഗ്ദ്ധൻ",
-      male: "സ്റ്റുഡിയോ പുരുഷൻ",
-      female: "സ്റ്റുഡിയോ സ്ത്രീ",
-      transcriptTitle: "നിനാദ ലൈവ് ഓഡിയോ ട്രാൻസ്ക്രിപ്റ്റ്",
-      poweredBy: "നിനാദ (Ninada) ടിടിഎസ് സാങ്കേതികവിദ്യ",
-      kitDescription: "ഇന്ത്യൻ ഭാഷകൾക്കും ഇംഗ്ലീഷിനും വേണ്ടിയുള്ള ബ്രൗസർ അധിഷ്ഠിത ന്യൂറൽ വോയ്‌സ് സിന്തസിസ്.",
-      ninadaStudioLink: "നിനാദ സ്റ്റുഡിയോ സന്ദർശിക്കുക",
-      switchLangNote: "വെബ്‌സൈറ്റും ഓഡിയോ വായനയും മാറ്റുന്നതിനായി നിങ്ങളുടെ പ്രിയപ്പെട്ട ഭാഷ തിരഞ്ഞെടുക്കുക.",
-      autoBriefBtn: "പേജ് സംഗ്രഹം (Auto-Brief)",
-      autoBriefTourTitle: "ഓഡിയോ വിവരണം",
-      stepIndicator: "ഭാഗം",
-      skipNext: "അടുത്ത ഭാഗം",
-      skipPrev: "മുൻപത്തെ ഭാഗം",
-      resetPosition: "സ്ഥാനം പുനഃക്രമീകരിക്കുക",
-      dragHandleTooltip: "പ്ലെയർ നീക്കാൻ വലിച്ചിടുക",
     },
     focusInsights: [
       {
@@ -1832,51 +1371,6 @@ export const translations: Record<LanguageCode, TranslationDictionary> = {
       resumeBtn: "റെസ്യൂം",
       emailBtn: "ഇമെയിൽ അയക്കുക",
     },
-    sectionBriefs: [
-      {
-            "id": "intro",
-            "title": "ആമുഖം",
-            "targetElementId": "hero",
-            "text": "നമസ്കാരം! ഞാൻ ആദർശ് പാണ്ഡെ. സ്കേലബിൾ ബാക്കെൻഡ് സിസ്റ്റങ്ങൾ, ഡിസ്ട്രിബ്യൂട്ടഡ് ആർക്കിടെക്ചർ, ജനറേറ്റീവ് എഐ എന്നിവയിൽ താല്പര്യവും അനുഭവപരിചയവുമുള്ള ഒരു സോഫ്റ്റ്‌വെയർ എഞ്ചിനീയറാണ് ഞാൻ."
-      },
-      {
-        "id": "footprint",
-        "title": "പ്രവർത്തന പരിചയം",
-        "targetElementId": "telemetry",
-        "text": "ആക്സെഞ്ചറിൽ, പ്രതിദിനം പത്ത് ലക്ഷത്തിലധികം ഇടപാടുകൾ കൈകാര്യം ചെയ്യുന്ന പ്രെസ്റ്റോ എഫ്പിഎസ് ട്രാൻസിറ്റ് മൈക്രോസർവീസുകളും എഡബ്ല്യുഎസ് ഐഒടി ടെലിമെട്രി സംവിധാനങ്ങളും ഞാൻ വികസിപ്പിക്കുന്നു."
-      },
-      {
-            "id": "mindset",
-            "title": "എഞ്ചിനീയറിംഗ് വീക്ഷണം",
-            "targetElementId": "doctrine",
-            "text": "ഉയർന്ന വിശ്വാസ്യത, സിസ്റ്റം ചിന്താഗതി, ഏത് സാഹചര്യത്തിലും സുസ്ഥിരമായി പ്രവർത്തിക്കുന്ന മികച്ച കോഡ് എന്നിവയാണ് എന്റെ പ്രവർത്തന ശൈലി."
-      },
-      {
-            "id": "experience",
-            "title": "പരിചയവും നേട്ടങ്ങളും",
-            "targetElementId": "experience",
-            "text": "ആക്‌സെഞ്ചറിൽ, പ്രതിദിനം ലക്ഷക്കണക്കിന് ഇടപാടുകൾ കൈകാര്യം ചെയ്യുന്ന ട്രാൻസിറ്റ് സംവിധാനങ്ങളിലും ഫ്ലീറ്റ് ടെലിമെട്രി പൈപ്പ്‌ലൈനുകളിലും ഞാൻ പ്രവർത്തിച്ചിട്ടുണ്ട്."
-      },
-      {
-            "id": "projects",
-            "title": "പ്രോജക്ടുകൾ",
-            "targetElementId": "projects",
-            "text": "ജോലിക്ക് പുറമെ, വീഡിയോകളുമായി സംവദിക്കുന്ന ടോക്കിംഗ് യൂട്യൂബ് പോലുള്ള നൂതന എഐ പ്രോജക്റ്റുകളും കുബർനെറ്റിസ് മൈക്രോസർവീസുകളും ഞാൻ നിർമ്മിക്കുന്നു."
-      },
-      {
-            "id": "connect",
-            "title": "ബന്ധപ്പെടുക",
-            "targetElementId": "contact",
-            "text": "എന്റെ പോർട്ട്‌ഫോളിയോ കണ്ടതിന് വളരെ നന്ദി! എന്നെ ബന്ധപ്പെടാനോ ഒരുമിച്ച് പ്രവർത്തിക്കാനോ താഴെയുള്ള ഇമെയിൽ ലിങ്കിൽ ക്ലിക്ക് ചെയ്യാം."
-      }
-],
-    readOutSentences: [
-      "നമസ്കാരം! ഞാൻ ആദർശ് പാണ്ഡെ. സ്കേലബിൾ ബാക്കെൻഡ് സിസ്റ്റങ്ങൾ, ഡിസ്ട്രിബ്യൂട്ടഡ് ആർക്കിടെക്ചർ, ജനറേറ്റീവ് എഐ എന്നിവയിൽ താല്പര്യവും അനുഭവപരിചയവുമുള്ള ഒരു സോഫ്റ്റ്‌വെയർ എഞ്ചിനീയറാണ് ഞാൻ.",
-      "ഉയർന്ന വിശ്വാസ്യത, സിസ്റ്റം ചിന്താഗതി, ഏത് സാഹചര്യത്തിലും സുസ്ഥിരമായി പ്രവർത്തിക്കുന്ന മികച്ച കോഡ് എന്നിവയാണ് എന്റെ പ്രവർത്തന ശൈലി.",
-      "ആക്‌സെഞ്ചറിൽ, പ്രതിദിനം ലക്ഷക്കണക്കിന് ഇടപാടുകൾ കൈകാര്യം ചെയ്യുന്ന ട്രാൻസിറ്റ് സംവിധാനങ്ങളിലും ഫ്ലീറ്റ് ടെലിമെട്രി പൈപ്പ്‌ലൈനുകളിലും ഞാൻ പ്രവർത്തിച്ചിട്ടുണ്ട്.",
-      "ജോലിക്ക് പുറമെ, വീഡിയോകളുമായി സംവദിക്കുന്ന ടോക്കിംഗ് യൂട്യൂബ് പോലുള്ള നൂതന എഐ പ്രോജക്റ്റുകളും കുബർനെറ്റിസ് മൈക്രോസർവീസുകളും ഞാൻ നിർമ്മിക്കുന്നു.",
-      "എന്റെ പോർട്ട്‌ഫോളിയോ കണ്ടതിന് വളരെ നന്ദി! എന്നെ ബന്ധപ്പെടാനോ ഒരുമിച്ച് പ്രവർത്തിക്കാനോ താഴെയുള്ള ഇമെയിൽ ലിങ്കിൽ ക്ലിക്ക് ചെയ്യാം."
-],
   },
 
   mr: {
@@ -1913,29 +1407,6 @@ export const translations: Record<LanguageCode, TranslationDictionary> = {
         roleLine: "बॅकएंड | मोबाइल | एआय इंजिनिअर",
         buildingLine: "स्केलेबल सिस्टीम आणि आधुनिक उपायांची निर्मिती.",
       },
-    },
-    audio: {
-      readAloud: "ऑडिओ ऐका",
-      playing: "सुरू आहे",
-      paused: "ऑडिओ थांबवला आहे",
-      stopped: "ऑडिओ बंद केला",
-      listenSection: "ऐका",
-      speed: "गती",
-      voice: "आवाज तज्ज्ञ",
-      male: "स्टुडिओ पुरुष",
-      female: "स्टुडिओ महिला",
-      transcriptTitle: "निनाद थेट ऑडिओ ट्रान्सक्रिप्ट",
-      poweredBy: "निनाद (Ninada) टीटीएस द्वारे समर्थित",
-      kitDescription: "भारतीय भाषा आणि इंग्रजीसाठी इन-ब्राउझर न्यूरल व्हॉइस सिंथेसिस.",
-      ninadaStudioLink: "निनाद स्टुडिओ पहा",
-      switchLangNote: "इंटरफेस आणि ऑडिओ वाचनासाठी आपली आवडती भाषा निवडा.",
-      autoBriefBtn: "पृष्ठाचा सारांश (Auto-Brief)",
-      autoBriefTourTitle: "ऑडिओ वॉकथ्रू",
-      stepIndicator: "भाग",
-      skipNext: "पुढील विभाग",
-      skipPrev: "मागील विभाग",
-      resetPosition: "स्थिती पूर्ववत करा",
-      dragHandleTooltip: "प्लेअर हलवण्यासाठी ड्रॅग करा",
     },
     focusInsights: [
       {
@@ -2071,51 +1542,6 @@ export const translations: Record<LanguageCode, TranslationDictionary> = {
       resumeBtn: "बायोडेटा",
       emailBtn: "ईमेल पाठवा",
     },
-    sectionBriefs: [
-      {
-            "id": "intro",
-            "title": "परिचय",
-            "targetElementId": "hero",
-            "text": "नमस्कार! मी आदर्श पाण्डेय. स्केलेबल बॅकएंड सिस्टीम्स, डिस्ट्रिब्युटेड आर्किटेक्चर आणि जनरेटिव्ह एआय तंत्रज्ञानामध्ये विशेष रुची आणि अनुभव असलेला एक सॉफ्टवेअर इंजिनिअर."
-      },
-      {
-        "id": "footprint",
-        "title": "कामाचा अनुभव",
-        "targetElementId": "telemetry",
-        "text": "अ‍ॅक्सेंचरमध्ये, मी प्रेस्टो एफपीएस साठी दररोज दहा लाखांपेक्षा जास्त व्यवहार हाताळणाऱ्या हाय-थ्रूपूट ट्रान्झिट मायक्रोसर्व्हिसेस आणि एडब्ल्यूएस वरील आयओटी फ्लीट टेलिमेट्री प्रणालींवर काम करतो."
-      },
-      {
-            "id": "mindset",
-            "title": "इंजिनिअरिंग दृष्टिकोन",
-            "targetElementId": "doctrine",
-            "text": "माझा दृष्टिकोन नेहमीच सिस्टीमची स्थिरता, स्पष्टता आणि जास्त ट्रॅफिकमध्येही विश्वासार्हतेने काम करणाऱ्या कोडवर असतो."
-      },
-      {
-            "id": "experience",
-            "title": "अनुभव आणि प्रभाव",
-            "targetElementId": "experience",
-            "text": "अ‍ॅक्सेंचरमध्ये, मी दररोज लाखो व्यवहार हाताळणाऱ्या ट्रान्झिट प्रणाली आणि फ्लीट टेलिमेट्री इन्फ्रास्ट्रक्चरवर यशस्वीपणे काम केले आहे."
-      },
-      {
-            "id": "projects",
-            "title": "प्रकल्प",
-            "targetElementId": "projects",
-            "text": "कामाव्यतिरिक्त, मला टॉकिंग यूट्यूबसारखे एआय प्रोजेक्ट्स आणि कुबरनेट्सवर चालणाऱ्या आधुनिक मायक्रो सर्व्हिसेस बनवायला खूप आवडते."
-      },
-      {
-            "id": "connect",
-            "title": "संपर्क साधा",
-            "targetElementId": "contact",
-            "text": "माझ्या पोर्टफोलिओला भेट दिल्याबद्दल मनापासून धन्यवाद! माझ्याशी संपर्क साधण्यासाठी किंवा एकत्र काम करण्यासाठी तुम्ही खालील ईमेल लिंकवर क्लिक करू शकता."
-      }
-],
-    readOutSentences: [
-      "नमस्कार! मी आदर्श पाण्डेय. स्केलेबल बॅकएंड सिस्टीम्स, डिस्ट्रिब्युटेड आर्किटेक्चर आणि जनरेटिव्ह एआय तंत्रज्ञानामध्ये विशेष रुची आणि अनुभव असलेला एक सॉफ्टवेअर इंजिनिअर.",
-      "माझा दृष्टिकोन नेहमीच सिस्टीमची स्थिरता, स्पष्टता आणि जास्त ट्रॅफिकमध्येही विश्वासार्हतेने काम करणाऱ्या कोडवर असतो.",
-      "अ‍ॅक्सेंचरमध्ये, मी दररोज लाखो व्यवहार हाताळणाऱ्या ट्रान्झिट प्रणाली आणि फ्लीट टेलिमेट्री इन्फ्रास्ट्रक्चरवर यशस्वीपणे काम केले आहे.",
-      "कामाव्यतिरिक्त, मला टॉकिंग यूट्यूबसारखे एआय प्रोजेक्ट्स आणि कुबरनेट्सवर चालणाऱ्या आधुनिक मायक्रो सर्व्हिसेस बनवायला खूप आवडते.",
-      "माझ्या पोर्टफोलिओला भेट दिल्याबद्दल मनापासून धन्यवाद! माझ्याशी संपर्क साधण्यासाठी किंवा एकत्र काम करण्यासाठी तुम्ही खालील ईमेल लिंकवर क्लिक करू शकता."
-],
   },
 
   bn: {
@@ -2152,29 +1578,6 @@ export const translations: Record<LanguageCode, TranslationDictionary> = {
         roleLine: "ব্যাকএন্ড | মোবাইল | এআই ইঞ্জিনিয়ার",
         buildingLine: "স্কেলেবল সিস্টেম এবং বুদ্ধিদীপ্ত সমাধান তৈরি।",
       },
-    },
-    audio: {
-      readAloud: "অডিও শুনুন",
-      playing: "চলছে",
-      paused: "অডিও থামানো হয়েছে",
-      stopped: "অডিও বন্ধ",
-      listenSection: "শুনুন",
-      speed: "গতি",
-      voice: "কণ্ঠ বিশেষজ্ঞ",
-      male: "স্টুডিও পুরুষ",
-      female: "স্টুডিও নারী",
-      transcriptTitle: "নিনাদা লাইভ অডিও অনুলিপি",
-      poweredBy: "নিনাদা (Ninada) টিটিএস দ্বারা চালিত",
-      kitDescription: "ভারতীয় ভাষা ও ইংরেজির জন্য ব্রাউজার ভিত্তিক নিউরাল ভয়েস সিন্থেসিস।",
-      ninadaStudioLink: "নিনাদা স্টুডিও দেখুন",
-      switchLangNote: "ওয়েবসাইট এবং অডিও পাঠের জন্য আপনার পছন্দের ভাষা নির্বাচন করুন।",
-      autoBriefBtn: "পৃষ্ঠা সারসংক্ষেপ (Auto-Brief)",
-      autoBriefTourTitle: "অডিও ওয়াকথ্রু",
-      stepIndicator: "ধাপ",
-      skipNext: "পরবর্তী অংশ",
-      skipPrev: "পূর্ববর্তী অংশ",
-      resetPosition: "অবস্থান পুনরায় সেট করুন",
-      dragHandleTooltip: "প্লেয়ারটি স্থানান্তর করতে টানুন",
     },
     focusInsights: [
       {
@@ -2310,51 +1713,6 @@ export const translations: Record<LanguageCode, TranslationDictionary> = {
       resumeBtn: "রিজিউমে",
       emailBtn: "ইমেইল পাঠান",
     },
-    sectionBriefs: [
-      {
-            "id": "intro",
-            "title": "পরিচিতি",
-            "targetElementId": "hero",
-            "text": "নমস্কার! আমি আদর্শ পান্ডে। স্কেলেবল ব্যাকএন্ড সিস্টেম, ডিস্ট্রিবিউটেড আর্কিটেকচার এবং জেনারেটিভ এআই প্রযুক্তিতে গভীর আগ্রহ ও অভিজ্ঞতা সম্পন্ন একজন সফটওয়্যার ইঞ্জিনিয়ার।"
-      },
-      {
-        "id": "footprint",
-        "title": "কাজের অভিজ্ঞতা",
-        "targetElementId": "telemetry",
-        "text": "অ্যাকসেন্টারে, আমি প্রেস্টো এফপিএসের জন্য উচ্চ-ক্ষমতাসম্পন্ন ট্রানজিট মাইক্রোসার্ভিস তৈরি করি যা প্রতিদিন দশ লক্ষেরও বেশি লেনদেন পরিচালনা করে, এবং এডব্লিউএসে আইওটি টেলিমেট্রি প্রসেস করে।"
-      },
-      {
-            "id": "mindset",
-            "title": "ইঞ্জিনিয়ারিং দর্শন",
-            "targetElementId": "doctrine",
-            "text": "আমার ইঞ্জিনিয়ারিং দর্শন হলো সিস্টেমের নির্ভরযোগ্যতা, স্পষ্ট পরিকল্পনা এবং এমন টেকসই কোড লেখা যা জটিল পরিস্থিতিতেও অনায়াসে চলে।"
-      },
-      {
-            "id": "experience",
-            "title": "অভিজ্ঞতা ও প্রভাব",
-            "targetElementId": "experience",
-            "text": "অ্যাকসেন্টারে, আমি প্রতিদিন লক্ষ লক্ষ ট্রানজিট লেনদেন পরিচালনাকারী এপিআই এবং ফ্লিট টেলিমেট্রি সিস্টেম নিয়ে কাজ করেছি।"
-      },
-      {
-            "id": "projects",
-            "title": "প্রকল্পসমূহ",
-            "targetElementId": "projects",
-            "text": "কাজের বাইরে, আমি টকিং ইউটিউবের মতো মাল্টিমোডাল এআই প্রকল্প এবং কুবারনেটিস-ভিত্তিক মাইক্রোসার্ভিসেস তৈরি করতে ভালোবাসি।"
-      },
-      {
-            "id": "connect",
-            "title": "যোগাযোগ",
-            "targetElementId": "contact",
-            "text": "আমার পোর্টফোলিও দেখার জন্য আপনাকে অনেক ধন্যবাদ! আমার সাথে যোগাযোগ করতে বা একসাথে কাজ করার জন্য নিচে দেওয়া ইমেল লিঙ্কে ক্লিক করতে পারেন।"
-      }
-],
-    readOutSentences: [
-      "নমস্কার! আমি আদর্শ পান্ডে। স্কেলেবল ব্যাকএন্ড সিস্টেম, ডিস্ট্রিবিউটেড আর্কিটেকচার এবং জেনারেটিভ এআই প্রযুক্তিতে গভীর আগ্রহ ও অভিজ্ঞতা সম্পন্ন একজন সফটওয়্যার ইঞ্জিনিয়ার।",
-      "আমার ইঞ্জিনিয়ারিং দর্শন হলো সিস্টেমের নির্ভরযোগ্যতা, স্পষ্ট পরিকল্পনা এবং এমন টেকসই কোড লেখা যা জটিল পরিস্থিতিতেও অনায়াসে চলে।",
-      "অ্যাকসেন্টারে, আমি প্রতিদিন লক্ষ লক্ষ ট্রানজিট লেনদেন পরিচালনাকারী এপিআই এবং ফ্লিট টেলিমেট্রি সিস্টেম নিয়ে কাজ করেছি।",
-      "কাজের বাইরে, আমি টকিং ইউটিউবের মতো মাল্টিমোডাল এআই প্রকল্প এবং কুবারনেটিস-ভিত্তিক মাইক্রোসার্ভিসেস তৈরি করতে ভালোবাসি।",
-      "আমার পোর্টফোলিও দেখার জন্য আপনাকে অনেক ধন্যবাদ! আমার সাথে যোগাযোগ করতে বা একসাথে কাজ করার জন্য নিচে দেওয়া ইমেল লিঙ্কে ক্লিক করতে পারেন।"
-],
   },
 
   gu: {
@@ -2391,29 +1749,6 @@ export const translations: Record<LanguageCode, TranslationDictionary> = {
         roleLine: "બેકએન્ડ | મોબાઇલ | એઆઈ એન્જિનિયર",
         buildingLine: "સ્કેલેબલ સિસ્ટમ્સ અને આધુનિક ઉકેલોનું નિર્માણ.",
       },
-    },
-    audio: {
-      readAloud: "ઓડિયો સાંભળો",
-      playing: "વાગી રહ્યું છે",
-      paused: "ઓડિયો થોભાવ્યો છે",
-      stopped: "ઓડિયો બંધ કર્યો",
-      listenSection: "સાંભળો",
-      speed: "ઝડપ",
-      voice: "અવાજ નિષ્ણાત",
-      male: "સ્ટુડિયો પુરુષ",
-      female: "સ્ટુડિયો સ્ત્રી",
-      transcriptTitle: "નિનાદ લાઈવ ઓડિયો ટ્રાન્સક્રિપ્ટ",
-      poweredBy: "નિનાદ (Ninada) ટીટીએસ દ્વારા સંચાલિત",
-      kitDescription: "ભારતીય ભાષાઓ અને અંગ્રેજી માટે ઇન-બ્રાઉઝર ન્યુરલ વૉઇસ સિન્થેસિસ.",
-      ninadaStudioLink: "નિનાદ સ્ટુડિયો જુઓ",
-      switchLangNote: "ઇન્ટરફેસ અને ઓડિયો વાંચન માટે તમારી મનપસંદ ભાષા પસંદ કરો.",
-      autoBriefBtn: "પેજનો સારાંશ (Auto-Brief)",
-      autoBriefTourTitle: "ઓડિયો વૉકથ્રૂ",
-      stepIndicator: "ભાગ",
-      skipNext: "આગળનો વિભાગ",
-      skipPrev: "પાછળનો વિભાગ",
-      resetPosition: "સ્થિતિ રીસેટ કરો",
-      dragHandleTooltip: "પ્લેયર ખસેડવા માટે ખેંચો",
     },
     focusInsights: [
       {
@@ -2549,51 +1884,6 @@ export const translations: Record<LanguageCode, TranslationDictionary> = {
       resumeBtn: "બાયોડેટા",
       emailBtn: "ઇમેઇલ મોકલો",
     },
-    sectionBriefs: [
-      {
-            "id": "intro",
-            "title": "પરિચય",
-            "targetElementId": "hero",
-            "text": "નમસ્તે! હું આદર્શ પાંડે. સ્કેલેબલ બેકએન્ડ સિસ્ટમ્સ, ડિસ્ટ્રિબ્યુટેડ આર્કિટેક્ચર અને જનરેટિવ એઆઈમાં ઊંડો રસ અને અનુભવ ધરાવતો સોફ્ટવેર એન્જિનિયર છું."
-      },
-      {
-        "id": "footprint",
-        "title": "કામ અને અનુભવ",
-        "targetElementId": "telemetry",
-        "text": "એક્સેન્ચરમાં, હું પ્રેસ્ટો એફપીએસ માટે રોજના દસ લાખથી વધુ વ્યવહારો સંભાળતી હાઇ-થ્રુપુટ ટ્રાન્ઝિટ માઇક્રોસર્વિસિસ અને એડબ્લ્યુએસ પર આઇઓટી ટેલિમેટ્રી સિસ્ટમ્સ પર કામ કરું છું."
-      },
-      {
-            "id": "mindset",
-            "title": "એન્જિનિયરિંગ અભિગમ",
-            "targetElementId": "doctrine",
-            "text": "મારો મુખ્ય વિચાર સિસ્ટમ વિશ્વસનીયતા, સ્પષ્ટ કોડિંગ અને ભારે ટ્રાફિકમાં પણ અડગ રહે તેવા માઇક્રોસર્વિસિસ બનાવવાનો છે."
-      },
-      {
-            "id": "experience",
-            "title": "અનુભવ અને પ્રભાવ",
-            "targetElementId": "experience",
-            "text": "એક્સેન્ચરમાં, મેં દરરોજ લાખો વ્યવહારો સંભાળતી ટ્રાન્ઝિટ સિસ્ટમ્સ અને ફ્લીટ ટેલિમેટ્રી ઇન્ફ્રાસ્ટ્રક્ચર પર કામ કર્યું છે."
-      },
-      {
-            "id": "projects",
-            "title": "પ્રોજેક્ટ્સ",
-            "targetElementId": "projects",
-            "text": "કામ ઉપરાંત, મને ટોકિંગ યુટ્યુબ જેવા એઆઈ પ્રોજેક્ટ્સ અને કુબરનેટિસ પર આધુનિક સિસ્ટમ્સ બનાવવી ખૂબ ગમે છે."
-      },
-      {
-            "id": "connect",
-            "title": "સંપર્ક કરો",
-            "targetElementId": "contact",
-            "text": "મારો પોર્ટફોલિયો જોવા બદલ ખૂબ ખૂબ આભાર! મારી સાથે જોડાવા અથવા સાથે કામ કરવા માટે તમે નીચે આપેલ ઈમેઇલ લિંક પર ક્લિક કરી શકો છો."
-      }
-],
-    readOutSentences: [
-      "નમસ્તે! હું આદર્શ પાંડે. સ્કેલેબલ બેકએન્ડ સિસ્ટમ્સ, ડિસ્ટ્રિબ્યુટેડ આર્કિટેક્ચર અને જનરેટિવ એઆઈમાં ઊંડો રસ અને અનુભવ ધરાવતો સોફ્ટવેર એન્જિનિયર છું.",
-      "મારો મુખ્ય વિચાર સિસ્ટમ વિશ્વસનીયતા, સ્પષ્ટ કોડિંગ અને ભારે ટ્રાફિકમાં પણ અડગ રહે તેવા માઇક્રોસર્વિસિસ બનાવવાનો છે.",
-      "એક્સેન્ચરમાં, મેં દરરોજ લાખો વ્યવહારો સંભાળતી ટ્રાન્ઝિટ સિસ્ટમ્સ અને ફ્લીટ ટેલિમેટ્રી ઇન્ફ્રાસ્ટ્રક્ચર પર કામ કર્યું છે.",
-      "કામ ઉપરાંત, મને ટોકિંગ યુટ્યુબ જેવા એઆઈ પ્રોજેક્ટ્સ અને કુબરનેટિસ પર આધુનિક સિસ્ટમ્સ બનાવવી ખૂબ ગમે છે.",
-      "મારો પોર્ટફોલિયો જોવા બદલ ખૂબ ખૂબ આભાર! મારી સાથે જોડાવા અથવા સાથે કામ કરવા માટે તમે નીચે આપેલ ઈમેઇલ લિંક પર ક્લિક કરી શકો છો."
-],
   },
 
   pa: {
@@ -2630,29 +1920,6 @@ export const translations: Record<LanguageCode, TranslationDictionary> = {
         roleLine: "ਬੈਕਐਂਡ | ਮੋਬਾਈਲ | ਏਆਈ ਇੰਜੀਨੀਅਰ",
         buildingLine: "ਸਕੇਲੇਬਲ ਸਿਸਟਮ ਅਤੇ ਆਧੁਨਿਕ ਹੱਲਾਂ ਦਾ ਨਿਰਮਾਣ।",
       },
-    },
-    audio: {
-      readAloud: "ਆਡੀਓ ਸੁਣੋ",
-      playing: "ਚੱਲ ਰਿਹਾ ਹੈ",
-      paused: "ਆਡੀਓ ਰੋਕੀ ਗਈ",
-      stopped: "ਆਡੀਓ ਬੰਦ ਕੀਤੀ ਗਈ",
-      listenSection: "ਸੁਣੋ",
-      speed: "ਗਤੀ",
-      voice: "ਆਵਾਜ਼ ਮਾਹਰ",
-      male: "ਸਟੂਡੀਓ ਪੁਰਸ਼",
-      female: "ਸਟੂਡੀਓ ਮਹਿਲਾ",
-      transcriptTitle: "ਨਿਨਾਦ ਲਾਈਵ ਆਡੀਓ ਟ੍ਰਾਂਸਕ੍ਰਿਪਟ",
-      poweredBy: "ਨਿਨਾਦ (Ninada) ਟੀਟੀਐਸ ਦੁਆਰਾ ਸੰਚਾਲਿਤ",
-      kitDescription: "ਭਾਰਤੀ ਭਾਸ਼ਾਵਾਂ ਅਤੇ ਅੰਗਰੇਜ਼ੀ ਲਈ ਇਨ-ਬ੍ਰਾਊਜ਼ਰ ਨਿਊਰਲ ਵੌਇਸ ਸਿੰਥੇਸਿਸ।",
-      ninadaStudioLink: "ਨਿਨਾਦ ਸਟੂਡੀਓ ਦੇਖੋ",
-      switchLangNote: "ਵੈੱਬਸਾਈਟ ਅਤੇ ਆਡੀਓ ਸੁਣਨ ਲਈ ਆਪਣੀ ਮਨਪਸੰਦ ਭਾਸ਼ਾ ਚੁਣੋ।",
-      autoBriefBtn: "ਪੰਨੇ ਦਾ ਸੰਖੇਪ (Auto-Brief)",
-      autoBriefTourTitle: "ਆਡੀਓ ਵਾਕਥਰੂ",
-      stepIndicator: "ਪੜਾਅ",
-      skipNext: "ਅਗਲਾ ਭਾਗ",
-      skipPrev: "ਪਿਛਲਾ ਭਾਗ",
-      resetPosition: "ਸਥਿਤੀ ਰੀਸੈਟ ਕਰੋ",
-      dragHandleTooltip: "ਪਲੇਅਰ ਨੂੰ ਹਿਲਾਉਣ ਲਈ ਖਿੱਚੋ",
     },
     focusInsights: [
       {
@@ -2788,51 +2055,6 @@ export const translations: Record<LanguageCode, TranslationDictionary> = {
       resumeBtn: "ਰੈਜ਼ਿਊਮੇ",
       emailBtn: "ਈਮੇਲ ਭੇਜੋ",
     },
-    sectionBriefs: [
-      {
-            "id": "intro",
-            "title": "ਜਾਣ-ਪਛਾਣ",
-            "targetElementId": "hero",
-            "text": "ਸਤਿ ਸ਼੍ਰੀ ਅਕਾਲ ਜੀ! ਮੈਂ ਆਦਰਸ਼ ਪਾਂਡੇ। ਮੈਂ ਇੱਕ ਸਾਫਟਵੇਅਰ ਇੰਜੀਨੀਅਰ ਹਾਂ, ਜਿਸਦੀ ਸਕੇਲੇਬਲ ਬੈਕਐਂਡ ਸਿਸਟਮਾਂ, ਡਿਸਟ੍ਰੀਬਿਊਟਿਡ ਆਰਕੀਟੈਕਚਰ ਅਤੇ ਜੈਨ ਏਆਈ ਵਿੱਚ ਡੂੰਘੀ ਦਿਲਚਸਪੀ ਤੇ ਤਜਰਬਾ ਹੈ।"
-      },
-      {
-        "id": "footprint",
-        "title": "ਕੰਮ ਦਾ ਤਜਰਬਾ",
-        "targetElementId": "telemetry",
-        "text": "ਐਕਸੈਂਚਰ ਵਿਖੇ, ਮੈਂ ਪ੍ਰੈਸਟੋ ਐਫਪੀਐਸ ਲਈ ਰੋਜ਼ਾਨਾ ਦਸ ਲੱਖ ਤੋਂ ਵੱਧ ਲੈਣ-ਦੇਣ ਸੰਭਾਲਣ ਵਾਲੀਆਂ ਹਾਈ-ਥ੍ਰੂਪੁੱਟ ਟਰਾਂਜ਼ਿਟ ਮਾਈਕ੍ਰੋਸਰਵਿਸਾਂ ਅਤੇ ਏਡਬਲਿਊਐਸ ਤੇ ਆਈਓਟੀ ਟੈਲੀਮੈਟਰੀ ਪ੍ਰਣਾਲੀਆਂ ਤੇ ਕੰਮ ਕਰਦਾ ਹਾਂ।"
-      },
-      {
-            "id": "mindset",
-            "title": "ਇੰਜੀਨੀਅਰਿੰਗ ਸੋਚ",
-            "targetElementId": "doctrine",
-            "text": "ਮੇਰੀ ਸੋਚ ਹਮੇਸ਼ਾ ਸਿਸਟਮ ਭਰੋਸੇਯੋਗਤਾ ਅਤੇ ਸਾਫ਼ ਕੋਡ 'ਤੇ ਹੁੰਦੀ ਹੈ, ਜੋ ਭਾਰੀ ਟ੍ਰੈਫਿਕ ਵਿੱਚ ਵੀ ਬਿਨਾਂ ਰੁਕਾਵਟ ਨਿਰੰਤਰ ਕੰਮ ਕਰ ਸਕੇ।"
-      },
-      {
-            "id": "experience",
-            "title": "ਤਜਰਬਾ ਤੇ ਪ੍ਰਭਾਵ",
-            "targetElementId": "experience",
-            "text": "ਐਕਸੈਂਚਰ ਵਿੱਚ, ਮੈਂ ਰੋਜ਼ਾਨਾ ਲੱਖਾਂ ਲੈਣ-ਦੇਣ ਸੰਭਾਲਣ ਵਾਲੇ ਟ੍ਰਾਂਜਿਟ ਪ੍ਰਣਾਲੀਆਂ ਅਤੇ ਫਲੀਟ ਟੈਲੀਮੈਟਰੀ ਪ੍ਰੋਜੈਕਟਾਂ 'ਤੇ ਕੰਮ ਕੀਤਾ ਹੈ।"
-      },
-      {
-            "id": "projects",
-            "title": "ਪ੍ਰੋਜੈਕਟ",
-            "targetElementId": "projects",
-            "text": "ਕੰਮ ਤੋਂ ਇਲਾਵਾ, ਮੈਨੂੰ ਟਾਕਿੰਗ ਯੂਟਿਊਬ ਵਰਗੇ ਨਵੇਂ ਏਆਈ ਪ੍ਰੋਜੈਕਟ ਅਤੇ ਕੁਬਰਨੇਟਿਸ ਮਾਈਕ੍ਰੋਸਰਵਿਸਿਜ਼ ਬਣਾਉਣਾ ਬਹੁਤ ਪਸੰਦ ਹੈ।"
-      },
-      {
-            "id": "connect",
-            "title": "ਸੰਪਰਕ ਕਰੋ",
-            "targetElementId": "contact",
-            "text": "ਮੇਰੇ ਪੋਰਟਫੋਲੀਓ ਨੂੰ ਦੇਖਣ ਲਈ ਬਹੁਤ-ਬਹੁਤ ਧੰਨਵਾਦ! ਮੇਰੇ ਨਾਲ ਜੁੜਨ ਜਾਂ ਇਕੱਠੇ ਕੰਮ ਕਰਨ ਲਈ ਤੁਸੀਂ ਹੇਠਾਂ ਦਿੱਤੇ ਈਮੇਲ ਲਿੰਕ 'ਤੇ ਕਲਿੱਕ ਕਰ ਸਕਦੇ ਹੋ।"
-      }
-],
-    readOutSentences: [
-      "ਸਤਿ ਸ਼੍ਰੀ ਅਕਾਲ ਜੀ! ਮੈਂ ਆਦਰਸ਼ ਪਾਂਡੇ। ਮੈਂ ਇੱਕ ਸਾਫਟਵੇਅਰ ਇੰਜੀਨੀਅਰ ਹਾਂ, ਜਿਸਦੀ ਸਕੇਲੇਬਲ ਬੈਕਐਂਡ ਸਿਸਟਮਾਂ, ਡਿਸਟ੍ਰੀਬਿਊਟਿਡ ਆਰਕੀਟੈਕਚਰ ਅਤੇ ਜੈਨ ਏਆਈ ਵਿੱਚ ਡੂੰਘੀ ਦਿਲਚਸਪੀ ਤੇ ਤਜਰਬਾ ਹੈ।",
-      "ਮੇਰੀ ਸੋਚ ਹਮੇਸ਼ਾ ਸਿਸਟਮ ਭਰੋਸੇਯੋਗਤਾ ਅਤੇ ਸਾਫ਼ ਕੋਡ 'ਤੇ ਹੁੰਦੀ ਹੈ, ਜੋ ਭਾਰੀ ਟ੍ਰੈਫਿਕ ਵਿੱਚ ਵੀ ਬਿਨਾਂ ਰੁਕਾਵਟ ਨਿਰੰਤਰ ਕੰਮ ਕਰ ਸਕੇ।",
-      "ਐਕਸੈਂਚਰ ਵਿੱਚ, ਮੈਂ ਰੋਜ਼ਾਨਾ ਲੱਖਾਂ ਲੈਣ-ਦੇਣ ਸੰਭਾਲਣ ਵਾਲੇ ਟ੍ਰਾਂਜਿਟ ਪ੍ਰਣਾਲੀਆਂ ਅਤੇ ਫਲੀਟ ਟੈਲੀਮੈਟਰੀ ਪ੍ਰੋਜੈਕਟਾਂ 'ਤੇ ਕੰਮ ਕੀਤਾ ਹੈ।",
-      "ਕੰਮ ਤੋਂ ਇਲਾਵਾ, ਮੈਨੂੰ ਟਾਕਿੰਗ ਯੂਟਿਊਬ ਵਰਗੇ ਨਵੇਂ ਏਆਈ ਪ੍ਰੋਜੈਕਟ ਅਤੇ ਕੁਬਰਨੇਟਿਸ ਮਾਈਕ੍ਰੋਸਰਵਿਸਿਜ਼ ਬਣਾਉਣਾ ਬਹੁਤ ਪਸੰਦ ਹੈ।",
-      "ਮੇਰੇ ਪੋਰਟਫੋਲੀਓ ਨੂੰ ਦੇਖਣ ਲਈ ਬਹੁਤ-ਬਹੁਤ ਧੰਨਵਾਦ! ਮੇਰੇ ਨਾਲ ਜੁੜਨ ਜਾਂ ਇਕੱਠੇ ਕੰਮ ਕਰਨ ਲਈ ਤੁਸੀਂ ਹੇਠਾਂ ਦਿੱਤੇ ਈਮੇਲ ਲਿੰਕ 'ਤੇ ਕਲਿੱਕ ਕਰ ਸਕਦੇ ਹੋ।"
-],
   },
 
   or: {
@@ -2869,29 +2091,6 @@ export const translations: Record<LanguageCode, TranslationDictionary> = {
         roleLine: "ବ୍ୟାକ୍ଏଣ୍ଡ୍ | ମୋବାଇଲ୍ | ଏଆଇ ଇଞ୍ଜିନିୟର୍",
         buildingLine: "ସ୍କେଲେବଲ୍ ସିଷ୍ଟମ୍ ଏବଂ ଆଧୁନିକ ସମାଧାନର ନିର୍ମାଣ।",
       },
-    },
-    audio: {
-      readAloud: "ଅଡିଓ ଶୁଣନ୍ତୁ",
-      playing: "ଚାଲୁଅଛି",
-      paused: "ଅଡିଓ ବନ୍ଦ ରହିଛି",
-      stopped: "ଅଡିଓ ସମାପ୍ତ ହୋଇଛି",
-      listenSection: "ଶୁଣନ୍ତୁ",
-      speed: "ଗତି",
-      voice: "ସ୍ୱର ବିଶେଷଜ୍ଞ",
-      male: "ଷ୍ଟୁଡିଓ ପୁରୁଷ",
-      female: "ଷ୍ଟୁଡିଓ ମହିଳା",
-      transcriptTitle: "ନିନାଦ ଲାଇଭ୍ ଅଡିଓ ଟ୍ରାନ୍ସକ୍ରିପ୍ଟ",
-      poweredBy: "ନିନାଦ (Ninada) ଟିଟିଏସ୍ ଦ୍ୱାରା ପରିଚାଳିତ",
-      kitDescription: "ଭାରତୀୟ ଭାଷା ଏବଂ ଇଂରାଜୀ ପାଇଁ ବ୍ରାଉଜର୍-ଆଧାରିତ ନ୍ୟୁରାଲ୍ ଭଏସ୍ ସିନ୍ଥେସିସ୍।",
-      ninadaStudioLink: "ନିନାଦ ଷ୍ଟୁଡିଓ ଦେଖନ୍ତୁ",
-      switchLangNote: "ୱେବସାଇଟ୍ ଏବଂ ଅଡିଓ ପଠନ ପାଇଁ ଆପଣଙ୍କ ପସନ୍ଦର ଭାଷା ଚୟନ କରନ୍ତୁ।",
-      autoBriefBtn: "ପୃଷ୍ଠା ସଂକ୍ଷିପ୍ତ ସାର (Auto-Brief)",
-      autoBriefTourTitle: "ଅଡିଓ ବିବରଣୀ",
-      stepIndicator: "ପର୍ଯ୍ୟାୟ",
-      skipNext: "ପରବର୍ତ୍ତୀ ବିଭାଗ",
-      skipPrev: "ପୂର୍ବବର୍ତ୍ତୀ ବିଭାଗ",
-      resetPosition: "ସ୍ଥାନ ପୁନଃସ୍ଥାପନ",
-      dragHandleTooltip: "ପ୍ଲେୟାରକୁ ଘୁଞ୍ଚାଇବା ପାଇଁ ଟାଣନ୍ତୁ",
     },
     focusInsights: [
       {
@@ -3027,50 +2226,5 @@ export const translations: Record<LanguageCode, TranslationDictionary> = {
       resumeBtn: "ରିଜ୍ୟୁମ୍",
       emailBtn: "ଇମେଲ୍ ପଠାନ୍ତୁ",
     },
-    sectionBriefs: [
-      {
-            "id": "intro",
-            "title": "ପରିଚୟ",
-            "targetElementId": "hero",
-            "text": "ନମସ୍କାର! ମୁଁ ଆଦର୍ଶ ପାଣ୍ଡେ। ସ୍କେଲେବଲ୍ ବ୍ୟାକ୍ଏଣ୍ଡ୍ ସିଷ୍ଟମ୍, ଡିଷ୍ଟ୍ରିବ୍ୟୁଟେଡ୍ ଆର୍କିଟେକ୍ଚର୍ ଏବଂ ଜେନେରେଟିଭ୍ ଏଆଇ କ୍ଷେତ୍ରରେ ଅଭିଜ୍ଞତା ଥିବା ଜଣେ ସଫ୍ଟୱେର୍ ଇଞ୍ଜିନିୟର୍।"
-      },
-      {
-        "id": "footprint",
-        "title": "କାର୍ଯ୍ୟ ଅଭିଜ୍ଞତା",
-        "targetElementId": "telemetry",
-        "text": "ଆକ୍ସେଞ୍ଚରରେ, ମୁଁ ପ୍ରେଷ୍ଟୋ ଏଫପିଏସ ପାଇଁ ଦୈନିକ ଦଶ ଲକ୍ଷରୁ ଅଧିକ କାରବାର ପରିଚାଳନା କରୁଥିବା ହାଇ-ଥ୍ରୁପୁଟ୍ ଟ୍ରାଞ୍ଜିଟ୍ ମାଇକ୍ରୋସର୍ଭିସ୍ ଏବଂ ଏଡବ୍ଲ୍ୟୁଏସରେ ଆଇଓଟି ଟେଲିମେଟ୍ରି ବିକଶିତ କରୁଛି।"
-      },
-      {
-            "id": "mindset",
-            "title": "ଇଞ୍ଜିନିୟରିଂ ଚିନ୍ତାଧାରା",
-            "targetElementId": "doctrine",
-            "text": "ମୋର ଇଞ୍ଜିନିୟରିଂ ଚିନ୍ତାଧାରା ସର୍ବଦା ସିଷ୍ଟମର ସ୍ଥାୟୀତ୍ୱ, ସ୍ପଷ୍ଟତା ଏବଂ ଅତ୍ୟଧିକ ଚାପରେ ବି ସୁଚାରୁ ରୂପେ ଚାଲୁଥିବା କୋଡ୍ ଉପରେ ପର୍ଯ୍ୟବସିତ।"
-      },
-      {
-            "id": "experience",
-            "title": "ଅନୁଭୂତି ଓ ପ୍ରଭାବ",
-            "targetElementId": "experience",
-            "text": "ଆକ୍ସେଞ୍ଚର୍ରେ, ମୁଁ ପ୍ରତିଦିନ ଲକ୍ଷାଧିକ କାରବାର ପରିଚାଳନା କରୁଥିବା ପରିବହନ ଏବଂ ଟେଲିମେଟ୍ରି ସିଷ୍ଟମ୍ରେ ଦକ୍ଷତାର ସହ କାର୍ଯ୍ୟ କରିଛି।"
-      },
-      {
-            "id": "projects",
-            "title": "ପ୍ରକଳ୍ପ",
-            "targetElementId": "projects",
-            "text": "କାମ ବ୍ୟତୀତ, ମୋତେ ଟକିଂ ୟୁଟ୍ୟୁବ୍ ଭଳି ଆଧୁନିକ ଏଆଇ ପ୍ରକଳ୍ପ ଏବଂ କୁବରନେଟିସ୍ ମାଇକ୍ରୋସର୍ଭିସେସ୍ ନିର୍ମାଣ କରିବା ବହୁତ ପସନ୍ଦ।"
-      },
-      {
-            "id": "connect",
-            "title": "ଯୋଗାଯୋଗ",
-            "targetElementId": "contact",
-            "text": "ମୋର ପୋର୍ଟଫୋଲିଓ ଦେଖିଥିବାରୁ ଆପଣଙ୍କୁ ବହୁତ ଧନ୍ୟବାଦ! ମୋ ସହିତ ଯୋଗାଯୋଗ କରିବା ପାଇଁ ବା ଏକାଠି କାମ କରିବା ପାଇଁ ଆପଣ ତଳେ ଥିବା ଇମେଲ୍ ଲିଙ୍କ୍ରେ କ୍ଲିକ୍ କରିପାରିବେ।"
-      }
-],
-    readOutSentences: [
-      "ନମସ୍କାର! ମୁଁ ଆଦର୍ଶ ପାଣ୍ଡେ। ସ୍କେଲେବଲ୍ ବ୍ୟାକ୍ଏଣ୍ଡ୍ ସିଷ୍ଟମ୍, ଡିଷ୍ଟ୍ରିବ୍ୟୁଟେଡ୍ ଆର୍କିଟେକ୍ଚର୍ ଏବଂ ଜେନେରେଟିଭ୍ ଏଆଇ କ୍ଷେତ୍ରରେ ଅଭିଜ୍ଞତା ଥିବା ଜଣେ ସଫ୍ଟୱେର୍ ଇଞ୍ଜିନିୟର୍।",
-      "ମୋର ଇଞ୍ଜିନିୟରିଂ ଚିନ୍ତାଧାରା ସର୍ବଦା ସିଷ୍ଟମର ସ୍ଥାୟୀତ୍ୱ, ସ୍ପଷ୍ଟତା ଏବଂ ଅତ୍ୟଧିକ ଚାପରେ ବି ସୁଚାରୁ ରୂପେ ଚାଲୁଥିବା କୋଡ୍ ଉପରେ ପର୍ଯ୍ୟବସିତ।",
-      "ଆକ୍ସେଞ୍ଚର୍ରେ, ମୁଁ ପ୍ରତିଦିନ ଲକ୍ଷାଧିକ କାରବାର ପରିଚାଳନା କରୁଥିବା ପରିବହନ ଏବଂ ଟେଲିମେଟ୍ରି ସିଷ୍ଟମ୍ରେ ଦକ୍ଷତାର ସହ କାର୍ଯ୍ୟ କରିଛି।",
-      "କାମ ବ୍ୟତୀତ, ମୋତେ ଟକିଂ ୟୁଟ୍ୟୁବ୍ ଭଳି ଆଧୁନିକ ଏଆଇ ପ୍ରକଳ୍ପ ଏବଂ କୁବରନେଟିସ୍ ମାଇକ୍ରୋସର୍ଭିସେସ୍ ନିର୍ମାଣ କରିବା ବହୁତ ପସନ୍ଦ।",
-      "ମୋର ପୋର୍ଟଫୋଲିଓ ଦେଖିଥିବାରୁ ଆପଣଙ୍କୁ ବହୁତ ଧନ୍ୟବାଦ! ମୋ ସହିତ ଯୋଗାଯୋଗ କରିବା ପାଇଁ ବା ଏକାଠି କାମ କରିବା ପାଇଁ ଆପଣ ତଳେ ଥିବା ଇମେଲ୍ ଲିଙ୍କ୍ରେ କ୍ଲିକ୍ କରିପାରିବେ।"
-],
   },
 };

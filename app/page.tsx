@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import { MobileNav } from "./components/mobile-nav";
 import { NavDock } from "./components/nav-dock";
 import { LanguageSelector } from "./components/language-selector";
-import { SectionListenButton } from "./components/ninada-player";
 import { KineticNodeMesh } from "./components/kinetic-node-mesh";
 import { useLanguage } from "./context/language-context";
 import { portfolioData, resumeQuickLink } from "./data/portfolio";
@@ -234,8 +233,6 @@ function SpecimenSectionHeader({
   subtitle,
   title,
   copy,
-  sectionKey,
-  listenText,
 }: {
   marker: string;
   subtitle?: string;
@@ -246,25 +243,17 @@ function SpecimenSectionHeader({
 }) {
   return (
     <div className="flex flex-col gap-3 border-b border-white/10 pb-5">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <span className="font-mono text-[11px] tracking-widest uppercase text-[#8c8f9a]">
-            {marker}
-          </span>
-          {subtitle && (
-            <>
-              <span className="h-px w-6 bg-white/15" />
-              <span className="font-mono text-[11px] text-[#555760] uppercase hidden sm:inline">
-                {subtitle}
-              </span>
-            </>
-          )}
-        </div>
-        {sectionKey && (
-          <SectionListenButton
-            sectionKey={sectionKey}
-            text={listenText}
-          />
+      <div className="flex items-center gap-3">
+        <span className="font-mono text-[11px] tracking-widest uppercase text-[#8c8f9a]">
+          {marker}
+        </span>
+        {subtitle && (
+          <>
+            <span className="h-px w-6 bg-white/15" />
+            <span className="font-mono text-[11px] text-[#555760] uppercase hidden sm:inline">
+              {subtitle}
+            </span>
+          </>
         )}
       </div>
       <h2 className="text-2xl sm:text-3xl font-light text-[#edeae3] tracking-tight">
@@ -409,17 +398,14 @@ export default function Home() {
           
           {/* Left Column: Intro */}
           <div className="lg:col-span-7 flex flex-col gap-7">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <span className="font-mono text-[11px] tracking-widest uppercase text-[#8c8f9a]">
-                  Software Engineer
-                </span>
-                <span className="h-px w-8 bg-white/15" />
-                <span className="font-mono text-[11px] text-[#555760] uppercase">
-                  Bengaluru, India
-                </span>
-              </div>
-              <SectionListenButton sectionKey="hero" />
+            <div className="flex items-center gap-3">
+              <span className="font-mono text-[11px] tracking-widest uppercase text-[#8c8f9a]">
+                Software Engineer
+              </span>
+              <span className="h-px w-8 bg-white/15" />
+              <span className="font-mono text-[11px] text-[#555760] uppercase">
+                Bengaluru, India
+              </span>
             </div>
 
             <h1 className="text-4xl sm:text-5xl lg:text-[54px] leading-[1.15] tracking-tight font-light text-[#edeae3]">
@@ -1073,12 +1059,9 @@ export default function Home() {
           className="p-8 sm:p-12 rounded-xl border border-white/15 bg-[#121318]/90 backdrop-blur-md flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8 relative overflow-hidden scroll-mt-28"
         >
           <div className="flex flex-col gap-2.5 max-w-xl">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2 font-mono text-xs text-[#2dd4bf]">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#2dd4bf]" />
-                <span className="uppercase tracking-wider">Get in Touch</span>
-              </div>
-              <SectionListenButton sectionKey="contact" />
+            <div className="flex items-center gap-2 font-mono text-xs text-[#2dd4bf]">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#2dd4bf]" />
+              <span className="uppercase tracking-wider">Get in Touch</span>
             </div>
             <h3 className="text-2xl sm:text-3xl font-light text-[#edeae3] tracking-tight">
               Let&apos;s work on something <span className="font-editorial-italic font-serif italic text-white">interesting</span> together.

@@ -1318,7 +1318,7 @@ li.flex > span:last-child {
 }
 
 
-/* Ninada Multilingual & Audio Styles */
+/* Scrollbar Styles */
 .custom-scrollbar::-webkit-scrollbar {
   width: 5px;
   height: 5px;

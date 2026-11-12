@@ -113,7 +113,7 @@ export function LanguageSelector({
         onClick={toggleOpen}
         aria-haspopup="listbox"
         aria-expanded={isOpen}
-        title={t.audio.switchLangNote}
+        title="Change language"
         className={`group flex items-center gap-1.5 rounded-full border border-[var(--line)] bg-[var(--surface)] px-2.5 py-1 text-xs font-medium text-[var(--ink)] shadow-sm backdrop-blur transition hover:border-[var(--teal)] hover:bg-[var(--surface-subtle)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--teal)] ${
           compact ? "h-8 px-2" : "h-9"
         }`}
@@ -177,7 +177,7 @@ export function LanguageSelector({
           >
             <div className="flex items-center justify-between border-b border-[var(--line)] pb-1.5 px-2 mb-1">
               <span className="text-[10px] font-semibold uppercase tracking-wider text-[var(--muted)]">
-                Ninada Languages ({languages.length})
+                Languages ({languages.length})
               </span>
               <button
                 type="button"
@@ -215,11 +215,6 @@ export function LanguageSelector({
                   </button>
                 );
               })}
-            </div>
-
-            <div className="mt-1.5 border-t border-[var(--line)] pt-1.5 px-2 text-[10px] text-[var(--muted)] flex items-center justify-between">
-              <span>Powered by Ninada</span>
-              <span className="text-[var(--teal)] font-medium">24 kHz TTS</span>
             </div>
           </div>,
           document.body
