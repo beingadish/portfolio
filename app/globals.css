@@ -117,6 +117,12 @@ html {
   background-size: 36px 36px;
 }
 
+/* Subtle noise dot overlay for the fixed background div */
+.noise-bg {
+  background-image: radial-gradient(rgba(237, 234, 227, 0.04) 1px, transparent 0);
+  background-size: 32px 32px;
+}
+
 .display-font {
   font-family: var(--font-display), "Times New Roman", serif;
 }

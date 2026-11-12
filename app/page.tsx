@@ -303,14 +303,14 @@ export default function Home() {
   }, []);
 
   const navItems = [
-    { label: "Index", href: "#hero" },
-    { label: "Footprint", href: "#telemetry" },
-    { label: "Doctrine", href: "#doctrine" },
-    { label: "Systems", href: "#projects" },
+    { label: "About", href: "#hero" },
+    { label: "Work", href: "#telemetry" },
+    { label: "Philosophy", href: "#doctrine" },
+    { label: "Projects", href: "#projects" },
     { label: "Experience", href: "#experience" },
-    { label: "Tooling", href: "#skills" },
+    { label: "Skills", href: "#skills" },
     { label: "Writing", href: "#writing" },
-    { label: "Dispatch", href: "#contact" },
+    { label: "Contact", href: "#contact" },
   ];
 
   const resumeLink = resumeQuickLink.href;
@@ -330,11 +330,11 @@ export default function Home() {
           <div className="flex items-center gap-6">
             <a href="#hero" className="group flex items-baseline gap-2.5">
               <span className="font-mono text-xs uppercase tracking-widest text-[#edeae3] font-semibold">
-                A. Pandey
+                Aadarsh Pandey
               </span>
               <span className="text-[#555760] font-mono text-xs">/</span>
               <span className="font-editorial-italic font-serif italic text-xs text-[#8c8f9a] group-hover:text-white transition-colors">
-                Systems Atelier
+                Software Engineer
               </span>
             </a>
             <div className="hidden lg:flex items-center gap-2 pl-5 border-l border-white/10 font-mono text-[11px] text-[#8c8f9a]">
@@ -404,49 +404,53 @@ export default function Home() {
       {/* Main Viewport Container */}
       <main className="relative z-10 pt-28 pb-24 max-w-7xl mx-auto px-6 sm:px-10 flex flex-col gap-y-28">
 
-        {/* Section 01: Hero Statement & Kinetic Topology Monitor */}
+        {/* Section 01: Hero — Name, Role & Node Mesh */}
         <section id="hero" className="pt-6 sm:pt-10 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start border-b border-white/10 pb-20 scroll-mt-28">
           
-          {/* Left Column: Architectural Thesis */}
+          {/* Left Column: Intro */}
           <div className="lg:col-span-7 flex flex-col gap-7">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <span className="font-mono text-[11px] tracking-widest uppercase text-[#8c8f9a]">
-                  [ 01 / STATEMENT ]
+                  Software Engineer
                 </span>
                 <span className="h-px w-8 bg-white/15" />
                 <span className="font-mono text-[11px] text-[#555760] uppercase">
-                  Distributed Runtimes &amp; Craft
+                  Bengaluru, India
                 </span>
               </div>
               <SectionListenButton
                 sectionKey="hero"
-                text={`${portfolioData.name}. ${portfolioData.role}. Architecting tangible systems rooted in sub-millisecond concurrency and resilient distributed software. Contributing to high-throughput transit microservices and heavy machinery fleet telemetry.`}
+                text={`Hi, I'm ${portfolioData.name}, a Software Engineer at Accenture. I build high-throughput distributed systems — transit payment microservices handling over a million transactions a day, IoT fleet telemetry pipelines, and event-driven backends on AWS and Java 21. I'm based in Bengaluru and open to select engineering roles.`}
               />
             </div>
 
             <h1 className="text-4xl sm:text-5xl lg:text-[54px] leading-[1.12] tracking-tight font-light text-[#edeae3]">
-              Architecting <span className="font-editorial-italic font-serif italic text-white/95 font-light">tangible systems</span> rooted in sub-millisecond <span className="font-editorial-italic font-serif italic text-white/95 font-light">concurrency</span> and <span className="font-editorial-italic font-serif italic text-white/95 font-light">resilient backends</span>.
+              Hi, I&apos;m{" "}
+              <span className="font-editorial-italic font-serif italic text-white/95 font-light">Aadarsh Pandey</span>
+              {" "}— I build{" "}
+              <span className="font-editorial-italic font-serif italic text-white/95 font-light">scalable</span>,{" "}
+              <span className="font-editorial-italic font-serif italic text-white/95 font-light">resilient backends</span>.
             </h1>
 
             <p className="text-base sm:text-lg text-[#8c8f9a] leading-relaxed font-light max-w-2xl">
-              Software Engineer Analyst at Accenture, architecting high-throughput transit microservices (PRESTO FPS, 1M+ daily transactions, 2M+ Kafka events/day, -35% latency) and heavy machinery IoT fleet telemetry processing across AWS and Java 21 runtimes. Based in Bengaluru.
+              Software Engineer Analyst at Accenture, building high-throughput transit payment microservices (PRESTO FPS — 1M+ daily transactions, 2M+ Kafka events/day, 35% latency reduction) and heavy machinery IoT fleet telemetry on AWS and Java 21. Based in Bengaluru.
             </p>
 
-            {/* Architectural Studio Action Strip */}
+            {/* Action Strip */}
             <div className="flex flex-wrap items-center gap-3 pt-2 font-mono text-xs">
               <a
                 className="inline-flex items-center gap-2 px-4 py-2.5 rounded bg-[#edeae3] text-[#090a0d] font-semibold hover:bg-white transition-all shadow-sm"
                 href="#projects"
               >
-                <span>Inspect Systems</span>
+                <span>See Projects</span>
                 <span className="text-[13px]">↓</span>
               </a>
               <a
                 className="inline-flex items-center gap-2 px-4 py-2.5 rounded border border-white/15 bg-[#121318]/60 hover:bg-[#1a1b22] hover:border-white/30 text-[#edeae3] transition-all"
                 href="#doctrine"
               >
-                <span>Operating Doctrine</span>
+                <span>How I Work</span>
               </a>
               <a
                 className="inline-flex items-center gap-1.5 px-3 py-2.5 text-[#8c8f9a] hover:text-[#edeae3] transition-colors"
@@ -469,14 +473,14 @@ export default function Home() {
               </a>
             </div>
 
-            {/* Quick Specimen Metadata */}
+            {/* Quick Stats */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-3 border-t border-white/10 font-mono text-xs">
               <div className="flex flex-col gap-0.5">
                 <span className="text-[10px] text-[#555760] uppercase">Location</span>
                 <span className="text-[#edeae3] text-[11px]">Bengaluru, India</span>
               </div>
               <div className="flex flex-col gap-0.5">
-                <span className="text-[10px] text-[#555760] uppercase">Primary Core</span>
+                <span className="text-[10px] text-[#555760] uppercase">Primary Stack</span>
                 <span className="text-[#edeae3] text-[11px]">Java 21 / Spring Boot</span>
               </div>
               <div className="flex flex-col gap-0.5">
@@ -545,10 +549,10 @@ export default function Home() {
         {/* Section 02: Operational Systems Footprint */}
         <section id="telemetry" className="flex flex-col gap-8 scroll-mt-28">
           <SpecimenSectionHeader
-            marker="[ 02 / OPERATIONAL FOOTPRINT ]"
-            subtitle="Accenture Production Systems &amp; Scale"
-            title="Production Architecture &amp; Mission-Critical Telemetry"
-            copy="Engineered for high-volume transactions, intermittent telemetry streams, and zero-compromise transactional integrity."
+            marker="At Work"
+            subtitle="Accenture · Production Systems"
+            title="What I&apos;ve Built in Production"
+            copy="High-volume transit payments, IoT fleet telemetry, and event-driven distributed systems — real production scale."
             sectionKey="footprint"
           />
 
@@ -626,10 +630,10 @@ export default function Home() {
         {/* Section 03: Operating Doctrine / Core Principles */}
         <section id="doctrine" className="flex flex-col gap-8 scroll-mt-28">
           <SpecimenSectionHeader
-            marker="[ 03 / OPERATING DOCTRINE ]"
+            marker="How I Work"
             subtitle="Engineering Philosophy"
-            title="Core Working Doctrines"
-            copy="Architectural tenets developed from managing production scale, real-time concurrency, and failure recovery."
+            title="Core Principles"
+            copy="Principles I&apos;ve developed through building production systems — observability, hardware awareness, and predictable simplicity."
             sectionKey="doctrine"
           />
 
@@ -638,7 +642,7 @@ export default function Home() {
             <div className="rounded-xl border border-white/10 bg-[#121318]/60 p-7 flex flex-col justify-between gap-6 hover:border-white/20 transition-all">
               <div className="flex flex-col gap-3">
                 <div className="flex items-center justify-between font-mono text-xs text-[#555760]">
-                  <span>§ 01</span>
+                  <span>01</span>
                   <span className="text-[10px] uppercase tracking-wider text-[#8c8f9a]">Telemetry</span>
                 </div>
                 <h3 className="text-xl font-light text-[#edeae3]">
@@ -657,7 +661,7 @@ export default function Home() {
             <div className="rounded-xl border border-white/10 bg-[#121318]/60 p-7 flex flex-col justify-between gap-6 hover:border-white/20 transition-all">
               <div className="flex flex-col gap-3">
                 <div className="flex items-center justify-between font-mono text-xs text-[#555760]">
-                  <span>§ 02</span>
+                  <span>02</span>
                   <span className="text-[10px] uppercase tracking-wider text-[#8c8f9a]">Hardware</span>
                 </div>
                 <h3 className="text-xl font-light text-[#edeae3]">
@@ -676,7 +680,7 @@ export default function Home() {
             <div className="rounded-xl border border-white/10 bg-[#121318]/60 p-7 flex flex-col justify-between gap-6 hover:border-white/20 transition-all">
               <div className="flex flex-col gap-3">
                 <div className="flex items-center justify-between font-mono text-xs text-[#555760]">
-                  <span>§ 03</span>
+                  <span>03</span>
                   <span className="text-[10px] uppercase tracking-wider text-[#8c8f9a]">Execution</span>
                 </div>
                 <h3 className="text-xl font-light text-[#edeae3]">
@@ -696,10 +700,10 @@ export default function Home() {
         {/* Section 05: Selected Engineering Works / Projects */}
         <section id="projects" className="flex flex-col gap-8 scroll-mt-28">
           <SpecimenSectionHeader
-            marker="[ 04 / SYSTEMS INDEX ]"
-            subtitle="Selected Production &amp; Architecture Work"
-            title="Selected Engineering Systems"
-            copy="Engineered codebases with rigorous design patterns, low-latency data structures, and containerized deployments."
+            marker="Projects"
+            subtitle="Selected Engineering Work"
+            title="Things I&apos;ve Built"
+            copy="A selection of production systems and side projects — distributed backends, mobile apps, and AI tooling."
             sectionKey="projects"
           />
 
@@ -760,7 +764,7 @@ export default function Home() {
                           data-analytics-project-name={project.name}
                           data-analytics-project-type={getProjectType(project.href)}
                         >
-                          <span>SPEC</span>
+                          <span>View</span>
                           <ExternalIcon className="h-3 w-3" />
                         </a>
                       ) : (
@@ -779,10 +783,10 @@ export default function Home() {
         {/* Section 06: Career Registry / Experience */}
         <section id="experience" className="flex flex-col gap-8 scroll-mt-28">
           <SpecimenSectionHeader
-            marker="[ 05 / CAREER REGISTRY ]"
-            subtitle="Professional Trajectory"
-            title="Engineering Experience &amp; Impact"
-            copy="Chronological record of high-concurrency systems, microservice architectures, and infrastructure roles."
+            marker="Experience"
+            subtitle="Professional History"
+            title="Where I&apos;ve Worked"
+            copy="My engineering journey — from full-time roles to open-source contributions, with real impact at production scale."
             sectionKey="experience"
           />
 
@@ -804,7 +808,7 @@ export default function Home() {
                       <span className="text-[11px] text-[#8c8f9a]">{item.location}</span>
                       {isCurrent && (
                         <span className="w-fit text-[10px] font-semibold text-[#2dd4bf] border border-[#2dd4bf]/30 bg-[#2dd4bf]/10 px-2 py-0.5 rounded">
-                          ACTIVE APPOINTMENT
+                          CURRENT
                         </span>
                       )}
                     </div>
@@ -844,10 +848,10 @@ export default function Home() {
         {/* Section 07: Capabilities Registry / Tooling Matrix */}
         <section id="skills" className="flex flex-col gap-8 scroll-mt-28">
           <SpecimenSectionHeader
-            marker="[ 06 / TOOLING MATRIX ]"
-            subtitle="Current Production Runtimes"
-            title="Technical Capabilities &amp; Stack Registry"
-            copy="Disciplined categorization of programming languages, distributed engines, storage layers, and infrastructure tools."
+            marker="Skills"
+            subtitle="Tech Stack"
+            title="My Technical Toolkit"
+            copy="Languages, frameworks, infrastructure, and tools I use day-to-day — built up across backend, cloud, mobile, and AI work."
             sectionKey="skills"
           />
 
@@ -947,10 +951,10 @@ export default function Home() {
         {/* Section 08: Technical Writing & Editorial Publications */}
         <section id="writing" className="flex flex-col gap-8 scroll-mt-28">
           <SpecimenSectionHeader
-            marker="[ 07 / EDITORIAL &amp; WRITING ]"
-            subtitle="First-Principles Research"
-            title="Technical Essays &amp; Publications"
-            copy="Deep-dive articles on rate limiters, consistent hashing, security, and high-concurrency system design (300+ claps on Medium)."
+            marker="Writing"
+            subtitle="Technical Articles on Medium"
+            title="Things I&apos;ve Written"
+            copy="Deep-dives on rate limiters, consistent hashing, security, and high-concurrency system design — 300+ claps on Medium."
             sectionKey="writing"
           />
 
@@ -965,7 +969,7 @@ export default function Home() {
                   <div className="flex flex-col gap-1.5 max-w-3xl">
                     <div className="flex items-center gap-3 font-mono text-xs text-[#555760]">
                       <span className="group-hover:text-[#2dd4bf] transition-colors font-medium">
-                        § {entryNum}
+                        {entryNum}
                       </span>
                       <span>•</span>
                       <span className="text-[#8c8f9a]">{entry.meta}</span>
@@ -1001,7 +1005,7 @@ export default function Home() {
           {/* Achievements & Certifications */}
           <div className="lg:col-span-7 flex flex-col gap-6">
             <SpecimenSectionHeader
-              marker="[ 08 / HONORS &amp; LEADERSHIP ]"
+              marker="Achievements"
               title="Recognitions &amp; Certifications"
               sectionKey="achievements"
             />
@@ -1035,7 +1039,7 @@ export default function Home() {
           {/* Education */}
           <div className="lg:col-span-5 flex flex-col gap-6">
             <SpecimenSectionHeader
-              marker="[ ACADEMIC FOUNDATION ]"
+              marker="Education"
               title="Education"
               sectionKey="education"
             />
@@ -1076,13 +1080,13 @@ export default function Home() {
           <div className="flex flex-col gap-2.5 max-w-xl">
             <div className="flex items-center gap-2 font-mono text-xs text-[#2dd4bf]">
               <span className="w-1.5 h-1.5 rounded-full bg-[#2dd4bf]" />
-              <span className="uppercase tracking-wider">Direct Dispatch &amp; Inquiry</span>
+              <span className="uppercase tracking-wider">Get in Touch</span>
             </div>
             <h3 className="text-2xl sm:text-3xl font-light text-[#edeae3] tracking-tight">
-              Seeking teams solving genuinely hard <span className="font-editorial-italic font-serif italic text-white">distributed systems</span> challenges.
+              Let&apos;s work on something <span className="font-editorial-italic font-serif italic text-white">interesting</span> together.
             </h3>
             <p className="text-sm text-[#8c8f9a] font-sans leading-relaxed">
-              Available for software engineering roles, distributed architecture design, and technical advisory sprints.
+              Open to software engineering roles, backend architecture, and technical advisory. Drop me a line — I reply to everyone.
             </p>
           </div>
 
@@ -1095,7 +1099,7 @@ export default function Home() {
               data-analytics-event={ANALYTICS_EVENTS.EMAIL_CLICK}
               data-analytics-section="contact"
             >
-              <span>Initiate Conversation</span>
+              <span>Say Hello</span>
               <ExternalIcon className="h-3.5 w-3.5" />
             </a>
             <a
@@ -1118,13 +1122,13 @@ export default function Home() {
       <footer className="w-full bg-[#07080a] border-t border-white/10 py-10 font-mono text-xs text-[#8c8f9a]">
         <div className="max-w-7xl mx-auto px-6 sm:px-10 flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-4">
-            <span className="font-editorial-italic font-serif italic text-sm text-[#edeae3]">
-              Aadarsh Pandey Specimen
+            <span className="font-mono text-sm font-semibold text-[#edeae3]">
+              Aadarsh Pandey
             </span>
             <span className="text-[#555760]">/</span>
-            <span className="text-[#555760]">Bengaluru 12.9716° N, 77.5946° E</span>
+            <span className="text-[#555760]">Bengaluru, India · UTC+5:30</span>
             <span className="text-[#555760]">/</span>
-            <span className="text-[#edeae3] tabular-nums">UTC+5:30 {liveTime}</span>
+            <span className="text-[#edeae3] tabular-nums">{liveTime}</span>
           </div>
 
           <div className="flex items-center gap-6 text-[11px] text-[#555760]">
