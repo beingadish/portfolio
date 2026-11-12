@@ -404,7 +404,7 @@ export default function Home() {
       {/* Main Viewport Container */}
       <main className="relative z-10 pt-28 pb-24 max-w-7xl mx-auto px-6 sm:px-10 flex flex-col gap-y-20 sm:gap-y-24">
 
-        {/* Section 01: Hero — Name, Role & Node Mesh */}
+        {/* Section 01: Hero: Name, Role & Node Mesh */}
         <section id="hero" className="pt-4 sm:pt-8 grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start scroll-mt-28">
           
           {/* Left Column: Intro */}
@@ -422,16 +422,14 @@ export default function Home() {
               <SectionListenButton sectionKey="hero" />
             </div>
 
-            <h1 className="text-4xl sm:text-5xl lg:text-[54px] leading-[1.12] tracking-tight font-light text-[#edeae3]">
-              Hi, I&apos;m{" "}
-              <span className="font-editorial-italic font-serif italic text-white/95 font-light">Aadarsh Pandey</span>
-              {" "}— I build{" "}
-              <span className="font-editorial-italic font-serif italic text-white/95 font-light">scalable</span>,{" "}
-              <span className="font-editorial-italic font-serif italic text-white/95 font-light">resilient backends</span>.
+            <h1 className="text-4xl sm:text-5xl lg:text-[54px] leading-[1.15] tracking-tight font-light text-[#edeae3]">
+              Hi, I&apos;m <span className="font-editorial-italic font-serif italic text-white/95 font-light">Aadarsh Pandey</span>.
+              <br className="hidden sm:inline" />
+              {" "}I build <span className="font-editorial-italic font-serif italic text-white/95 font-light">scalable backends</span> and <span className="font-editorial-italic font-serif italic text-white/95 font-light">distributed systems</span>.
             </h1>
 
             <p className="text-base sm:text-lg text-[#8c8f9a] leading-relaxed font-light max-w-2xl">
-              Software Engineer Analyst at Accenture, building high-throughput transit payment microservices (PRESTO FPS — 1M+ daily transactions, 2M+ Kafka events/day, 35% latency reduction) and heavy machinery IoT fleet telemetry on AWS and Java 21. Based in Bengaluru.
+              Software Engineer at Accenture in Bengaluru, engineering high-throughput backend microservices and IoT telemetry pipelines. Specialized in Java, Spring Boot, Kafka, and AWS cloud infrastructure, building systems that process millions of daily transactions with high reliability.
             </p>
 
             {/* Action Strip */}
@@ -549,7 +547,7 @@ export default function Home() {
             marker="At Work"
             subtitle="Accenture · Production Systems"
             title="What I&apos;ve Built in Production"
-            copy="High-volume transit payments, IoT fleet telemetry, and event-driven distributed systems — real production scale."
+            copy="High-volume transit payment microservices, IoT fleet telemetry, and resilient event pipelines built for production scale."
             sectionKey="footprint"
           />
 
@@ -577,9 +575,9 @@ export default function Home() {
                 <span className="text-[10px] text-[#2dd4bf] uppercase tracking-wider block mb-1">
                   02 // TRANSIT SCALE
                 </span>
-                <h3 className="text-sm font-semibold text-[#edeae3]">PRESTO FPS (1M+ TX/D)</h3>
+                <h3 className="text-sm font-semibold text-[#edeae3]">Transit Fare Microservices</h3>
                 <p className="mt-2 text-xs leading-relaxed text-[#8c8f9a] font-sans">
-                  Spring Boot microservices across 10+ transit agencies; cut payment latency by 35% via Redis caching, composite SQL indexing, and Kafka settlement.
+                  Spring Boot microservices processing 1M+ daily transit transactions across 10+ agencies, reducing payment latency by 35% through Redis caching and query tuning.
                 </p>
               </div>
               <div className="pt-3 border-t border-white/10 text-[11px] text-[#555760] flex items-center justify-between">
@@ -630,7 +628,7 @@ export default function Home() {
             marker="How I Work"
             subtitle="Engineering Philosophy"
             title="Core Principles"
-            copy="Principles I&apos;ve developed through building production systems — observability, hardware awareness, and predictable simplicity."
+            copy="Engineering principles focused on deep observability, mechanical sympathy with hardware, and predictable simplicity."
             sectionKey="doctrine"
           />
 
@@ -700,7 +698,7 @@ export default function Home() {
             marker="Projects"
             subtitle="Selected Engineering Work"
             title="Things I&apos;ve Built"
-            copy="A selection of production systems and side projects — distributed backends, mobile apps, and AI tooling."
+            copy="Production systems and engineering projects, from distributed backends and containerized microservices to semantic AI pipelines."
             sectionKey="projects"
           />
 
@@ -783,7 +781,7 @@ export default function Home() {
             marker="Experience"
             subtitle="Professional History"
             title="Where I&apos;ve Worked"
-            copy="My engineering journey — from full-time roles to open-source contributions, with real impact at production scale."
+            copy="Full-time software engineering and development internships delivering measurable performance and scale."
             sectionKey="experience"
           />
 
@@ -848,7 +846,7 @@ export default function Home() {
             marker="Skills"
             subtitle="Tech Stack"
             title="My Technical Toolkit"
-            copy="Languages, frameworks, infrastructure, and tools I use day-to-day — built up across backend, cloud, mobile, and AI work."
+            copy="Core technical competencies across backend engineering, cloud infrastructure, container orchestration, and mobile systems."
             sectionKey="skills"
           />
 
@@ -951,7 +949,7 @@ export default function Home() {
             marker="Writing"
             subtitle="Technical Articles on Medium"
             title="Things I&apos;ve Written"
-            copy="Deep-dives on rate limiters, consistent hashing, security, and high-concurrency system design — 300+ claps on Medium."
+            copy="Deep-dive articles on rate limiters, consistent hashing, security, and high-concurrency system design with 300+ claps on Medium."
             sectionKey="writing"
           />
 
@@ -1086,7 +1084,7 @@ export default function Home() {
               Let&apos;s work on something <span className="font-editorial-italic font-serif italic text-white">interesting</span> together.
             </h3>
             <p className="text-sm text-[#8c8f9a] font-sans leading-relaxed">
-              Open to software engineering roles, backend architecture, and technical advisory. Drop me a line — I reply to everyone.
+              Open to software engineering roles, backend architecture, and technical advisory. Drop me a line and let&apos;s talk.
             </p>
           </div>
 

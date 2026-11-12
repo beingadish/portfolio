@@ -201,7 +201,7 @@ export const portfolioData = {
       location: "Bengaluru, India",
       period: "Sep 2024 - May 2026",
       bullets: [
-        "Developed and maintained Java Spring Boot microservices within PRESTO FPS, supporting 1M+ daily transactions across 10+ transit agencies; implemented Redis caching and composite SQL indexes, reducing payment-confirmation latency by 35%.",
+        "Developed and maintained Java Spring Boot microservices for transit payment processing, supporting 1M+ daily transactions across 10+ agencies; implemented Redis caching and composite SQL indexes, reducing payment-confirmation latency by 35%.",
         "Built Kafka consumers in Spring Boot for a settlement pipeline handling 2M+ events/day; integrated Spring Security and JWT for service-to-service authentication.",
         "Refactored legacy payment validation with the Strategy pattern for agency-specific fare rules, improving maintainability.",
       ],
@@ -252,8 +252,8 @@ export const portfolioData = {
   ] as ExperienceItem[],
   projects: [
     {
-      name: "AroundU – Hyperlocal Freelancing Platform",
-      timeline: "Jan 2026 – Present",
+      name: "AroundU (Hyperlocal Freelancing Platform)",
+      timeline: "Jan 2026 - Present",
       summary:
         "A production-grade modular monolith in Java 21 for job discovery, bidding, escrow payments, OTP verification, and reviews, using Strategy, Decorator, Builder, and Chain of Responsibility.",
       href: "https://github.com/orgs/AroundUPlatform/repositories",
@@ -277,7 +277,7 @@ export const portfolioData = {
       ],
     },
     {
-      name: "TalkingYoutube – Semantic RAG System",
+      name: "TalkingYoutube (Semantic RAG System)",
       timeline: "Oct 2025",
       summary:
         "A persistent semantic RAG system for YouTube transcripts using FastAPI, Google Gemini embeddings, and PostgreSQL + pgvector, retaining sessions, embeddings, and chat history with grounded, timestamped citations.",
@@ -425,11 +425,11 @@ export const portfolioData = {
       link: "https://leetcode.com/u/ax777x",
     },
     {
-      title: "2nd Position – TechSprint'23 Hackathon (250+ participants)",
+      title: "2nd Position in TechSprint'23 Hackathon (250+ participants)",
       link: "https://drive.google.com/file/d/1pJ8nd5nOqR27JWJM1EyKT97U4IZ3D-JK/view",
     },
     {
-      title: "Application Domain Head — Blockchain Research Lab, AKGEC (2022–2024)",
+      title: "Application Domain Head at Blockchain Research Lab, AKGEC (2022-2024)",
       link: "https://www.akgec.ac.in/blockchain-research-lab/",
     },
   ] as AchievementItem[],
@@ -472,7 +472,7 @@ export const portfolioData = {
     {
       title: "Understanding HTTP for Backend Engineers: Where It All Starts",
       summary:
-        "A foundational deep dive into HTTP concepts—methods, status codes, headers, and statelessness—aimed at engineers building reliable backend services.",
+        "A foundational deep dive into HTTP concepts including methods, status codes, headers, and statelessness, aimed at engineers building reliable backend services.",
       meta: "Medium • 15 min read",
       href: "https://medium.com/javaguides/understanding-http-for-backend-engineers-where-it-all-starts-56c633b9bb0e",
     },

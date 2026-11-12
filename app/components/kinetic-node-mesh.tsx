@@ -15,7 +15,7 @@ type HubNode = {
 const HUB_NODES: HubNode[] = [
   { id: "iot", label: "AWS IoT Core", sublabel: "Telemetry", x: 0.14, y: 0.52, color: "#14b8a6", size: 6.5 },
   { id: "kafka", label: "Kafka Streams", sublabel: "2M+ ev/d", x: 0.35, y: 0.28, color: "#f59e0b", size: 6.5 },
-  { id: "spring", label: "Spring Boot", sublabel: "PRESTO FPS", x: 0.36, y: 0.74, color: "#14b8a6", size: 7 },
+  { id: "spring", label: "Spring Boot", sublabel: "1M+ tx/d", x: 0.36, y: 0.74, color: "#14b8a6", size: 7 },
   { id: "redis", label: "Redis GEO & PG", sublabel: "-35% Latency", x: 0.62, y: 0.52, color: "#10b981", size: 8 },
   { id: "rag", label: "pgvector RAG", sublabel: "Gemini", x: 0.85, y: 0.28, color: "#14b8a6", size: 6.5 },
   { id: "k3s", label: "K8s (k3s) & Observe", sublabel: "Prometheus", x: 0.84, y: 0.74, color: "#14b8a6", size: 6.5 },

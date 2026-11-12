@@ -400,13 +400,13 @@ export const translations: Record<LanguageCode, TranslationDictionary> = {
         "id": "footprint",
         "title": "At Work",
         "targetElementId": "telemetry",
-        "text": "At Accenture, I engineer high-throughput transit microservices for PRESTO FPS processing over a million daily transactions, and heavy machinery IoT fleet telemetry on AWS."
+        "text": "At Accenture, I engineer high-throughput transit payment microservices processing over a million daily transactions, and heavy machinery IoT fleet telemetry on AWS."
       },
       {
             "id": "mindset",
             "title": "Engineering Mindset",
             "targetElementId": "doctrine",
-            "text": "When it comes to building systems, I believe in deep system thinking and production reliability—crafting clean, maintainable microservices that handle real-world traffic and tricky edge cases with complete stability."
+            "text": "When it comes to building systems, I believe in deep system thinking and production reliability: crafting clean, maintainable microservices that handle real-world traffic and tricky edge cases with complete stability."
       },
       {
             "id": "experience",
@@ -429,7 +429,7 @@ export const translations: Record<LanguageCode, TranslationDictionary> = {
 ],
     readOutSentences: [
       "Hello there, Aadarsh Pandey this side! I am a software engineer with keen interest and experience in scalable backend systems, distributed architectures, high-volume telemetry pipelines, and Generative AI.",
-      "When it comes to building systems, I believe in deep system thinking and production reliability—crafting clean, maintainable microservices that handle real-world traffic and tricky edge cases with complete stability.",
+      "When it comes to building systems, I believe in deep system thinking and production reliability: crafting clean, maintainable microservices that handle real-world traffic and tricky edge cases with complete stability.",
       "Over the years at Accenture, I have worked on mission-critical transit ticketing systems and large-scale fleet telemetry pipelines that process hundreds of thousands of events daily with sub-second performance.",
       "Outside of work, I love building practical systems like TalkingYouTube for interactive semantic video discussions, and deploy resilient, containerized microservices on Kubernetes.",
       "Thank you so much for checking out my portfolio! For connecting with me, discussing distributed systems, or exploring engineering opportunities, you can simply click on the email link below. Looking forward to speaking with you!"
@@ -660,7 +660,7 @@ export const translations: Record<LanguageCode, TranslationDictionary> = {
             "id": "mindset",
             "title": "इंजीनियरिंग सोच",
             "targetElementId": "doctrine",
-            "text": "सिस्टम बनाते समय मेरी प्राथमिकता हमेशा प्रोडक्शन विश्वसनीयता और स्पष्टता होती है—ऐसा कोड लिखना जो भारी लोड में भी बिना किसी रुकावट के लगातार काम करे।"
+            "text": "सिस्टम बनाते समय मेरी प्राथमिकता हमेशा प्रोडक्शन विश्वसनीयता और स्पष्टता होती है, ऐसा कोड लिखना जो भारी लोड में भी बिना किसी रुकावट के लगातार काम करे।"
       },
       {
             "id": "experience",
@@ -683,7 +683,7 @@ export const translations: Record<LanguageCode, TranslationDictionary> = {
 ],
     readOutSentences: [
       "नमस्ते! यहाँ आदर्श पाण्डेय। मैं एक सॉफ्टवेयर इंजीनियर हूँ, जिसे स्केलेबल बैकएंड सिस्टम्स, डिस्ट्रिब्यूटेड आर्किटेक्चर और जेनरेटिव एआई में गहरी रुचि और ठोस अनुभव है।",
-      "सिस्टम बनाते समय मेरी प्राथमिकता हमेशा प्रोडक्शन विश्वसनीयता और स्पष्टता होती है—ऐसा कोड लिखना जो भारी लोड में भी बिना किसी रुकावट के लगातार काम करे।",
+      "सिस्टम बनाते समय मेरी प्राथमिकता हमेशा प्रोडक्शन विश्वसनीयता और स्पष्टता होती है, ऐसा कोड लिखना जो भारी लोड में भी बिना किसी रुकावट के लगातार काम करे।",
       "एक्सेंचर में, मैंने बड़े पैमाने पर फ्लीट टेलीमेट्री और ट्रांजिट सिस्टम्स पर काम किया है, जहाँ प्रतिदिन लाखों लेनदेन और इवेंट्स को सफलतापूर्वक प्रोसेस किया जाता है।",
       "दैनिक काम के अलावा, मुझे टॉकिंगयूट्यूब जैसे इंटरैक्टिव एआई प्रोजेक्ट्स और कुबरनेट्स आधारित आधुनिक माइक्रोसर्विसेज बनाना बेहद पसंद है।",
       "मेरा पोर्टफोलियो देखने के लिए बहुत-बहुत धन्यवाद! मुझसे जुड़ने या साथ काम करने के अवसरों पर चर्चा के लिए आप नीचे दिए गए ईमेल लिंक पर क्लिक कर सकते हैं। मिलते हैं!"
