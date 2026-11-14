@@ -193,7 +193,7 @@ export async function GET(
       const res = await fetch(url, {
         headers: { Accept: "application/json" },
         cache: "no-store",
-        signal: AbortSignal.timeout(3000),
+        signal: AbortSignal.timeout(1200),
       });
 
       if (res.ok) {
@@ -292,7 +292,7 @@ export async function POST(
           Accept: "application/json",
         },
         body,
-        signal: AbortSignal.timeout(4000),
+        signal: AbortSignal.timeout(1200),
       });
 
       const data = await res.json().catch(() => ({}));

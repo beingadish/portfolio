@@ -26,7 +26,7 @@ export async function POST(
             : {}),
         },
         body,
-        signal: AbortSignal.timeout(5000),
+        signal: AbortSignal.timeout(1500),
       });
 
       const data = await res.json().catch(() => ({}));
@@ -134,7 +134,7 @@ export async function GET(
             ? { Authorization: request.headers.get("authorization")! }
             : {}),
         },
-        signal: AbortSignal.timeout(5000),
+        signal: AbortSignal.timeout(1500),
       });
 
       const data = await res.json().catch(() => ({}));

@@ -18,9 +18,34 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
   compress: true,
+  trailingSlash: true,
   // Improve FCP with optimized compilation
   experimental: {
     optimizePackageImports: ['@vercel/analytics', '@vercel/speed-insights'],
+  },
+  async redirects() {
+    return [
+      {
+        source: "/janmat/index.html",
+        destination: "/janmat/",
+        permanent: true,
+      },
+      {
+        source: "/talkingyt/index.html",
+        destination: "/talkingyt/",
+        permanent: true,
+      },
+      {
+        source: "/clynic/index.html",
+        destination: "/clynic/",
+        permanent: true,
+      },
+      {
+        source: "/aroundu/index.html",
+        destination: "/aroundu/",
+        permanent: true,
+      },
+    ];
   },
   async headers() {
     return [

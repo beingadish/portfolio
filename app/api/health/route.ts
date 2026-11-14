@@ -12,7 +12,7 @@ export async function GET(request: NextRequest) {
       const res = await fetch(`${backendHost.replace(/\/$/, "")}/api/health`, {
         headers: { Accept: "application/json" },
         cache: "no-store",
-        signal: AbortSignal.timeout(3000),
+        signal: AbortSignal.timeout(1200),
       });
 
       if (res.ok) {
