@@ -11,10 +11,30 @@ export async function POST(
   const subpath = path.join("/");
   const backendHost = process.env.BACKEND_GATEWAY_URL;
   const corsHeaders = getSafeCorsHeaders(request);
+  const body = await request.text();
+
+  // Enforce citizen authentication gate: guests / anonymous visitors cannot vote
+  if (subpath === "ballots/vote") {
+    let voterToken: string | null = null;
+    try {
+      const parsed = typeof body === "string" ? JSON.parse(body || "{}") : {};
+      voterToken = parsed.voter_token;
+    } catch {}
+
+    const authHeader = request.headers.get("authorization");
+    if (!authHeader && (!voterToken || voterToken === "anon_citizen" || voterToken.trim().length === 0)) {
+      return NextResponse.json(
+        {
+          error: "Unauthorized: You must be logged in as a verified citizen to cast a ballot.",
+          code: "AUTH_REQUIRED",
+        },
+        { status: 401, headers: corsHeaders }
+      );
+    }
+  }
 
   if (backendHost) {
     try {
-      const body = await request.text();
       const url = `${backendHost.replace(/\/$/, "")}/citizen/${subpath}${request.nextUrl.search}`;
       const res = await fetch(url, {
         method: "POST",
@@ -39,20 +59,40 @@ export async function POST(
     }
   }
 
-  // Edge simulation response for guest voting / testing when backend is disconnected
+  // Edge resilient response for voting (enforces citizen authentication)
   if (subpath === "ballots/vote") {
+    // Reject any unauthenticated attempt: must provide Authorization header or valid voter_token
+    let voterToken: string | null = null;
+    let choice = "agree";
+    try {
+      const parsed = typeof body === "string" ? JSON.parse(body || "{}") : {};
+      voterToken = parsed.voter_token;
+      if (parsed.choice) choice = parsed.choice;
+    } catch {}
+
+    const authHeader = request.headers.get("authorization");
+    if (!authHeader && (!voterToken || voterToken === "anon_citizen" || voterToken.trim().length === 0)) {
+      return NextResponse.json(
+        {
+          error: "Unauthorized: You must be logged in as a verified citizen to cast a ballot.",
+          code: "AUTH_REQUIRED",
+        },
+        { status: 401, headers: corsHeaders }
+      );
+    }
+
     return NextResponse.json(
       {
         accepted: true,
         receipt_hash: `0x${Math.random().toString(16).slice(2)}${Math.random().toString(16).slice(2)}`,
-        choice: "agree",
+        choice,
         updated_tally: {
-          agree_pct: 100,
-          oppose_pct: 0,
-          neutral_pct: 0,
-          agree_votes: 1,
-          oppose_votes: 0,
-          neutral_votes: 0,
+          agree_pct: choice === "agree" ? 100 : 0,
+          oppose_pct: choice === "oppose" ? 100 : 0,
+          neutral_pct: choice === "neutral" ? 100 : 0,
+          agree_votes: choice === "agree" ? 1 : 0,
+          oppose_votes: choice === "oppose" ? 1 : 0,
+          neutral_votes: choice === "neutral" ? 1 : 0,
           total_ballots: 1,
           quorum_pct: 1,
         },
