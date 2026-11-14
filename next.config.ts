@@ -112,6 +112,10 @@ const nextConfig: NextConfig = {
         destination: "/janmat/index.html",
       },
       {
+        source: "/janmat/",
+        destination: "/janmat/index.html",
+      },
+      {
         source: "/talkingyt",
         destination: "/talkingyt/index.html",
       }
@@ -128,18 +132,6 @@ const nextConfig: NextConfig = {
         {
           source: "/aroundu-api/:path*",
           destination: `${backendGateway}/aroundu-api/:path*`,
-        },
-        {
-          source: "/api/health",
-          destination: `${backendGateway}/api/health`,
-        },
-        {
-          source: "/api/pub/:path*",
-          destination: `${backendGateway}/pub/:path*`,
-        },
-        {
-          source: "/api/citizen/:path*",
-          destination: `${backendGateway}/citizen/:path*`,
         },
         {
           source: "/pub/:path*",

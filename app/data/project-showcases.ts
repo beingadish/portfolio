@@ -920,7 +920,7 @@ export const PROJECT_SHOWCASES: Record<string, ProjectShowcase> = {
     timeline: "Jun 2026 - Present",
     githubUrl: "https://github.com/beingadish/JanMat",
     localPath: "/Users/beingadish/Developer/CODE/Projects/JanMat",
-    liveUrl: process.env.NEXT_PUBLIC_JANMAT_URL || "/janmat/",
+    liveUrl: process.env.NEXT_PUBLIC_JANMAT_URL || "/janmat",
     backendApiUrl: process.env.NEXT_PUBLIC_JANMAT_API_URL || "https://api.janmat.beingadish.com",
     status: "live",
     stack: [
