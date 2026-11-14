@@ -194,7 +194,7 @@ export async function POST(
       {
         verified: true,
         receipt_hash: "verified",
-        block_height: 849202,
+        block_height: EDGE_RECEIPTS.length + 1,
         timestamp: new Date().toISOString(),
         details: "Cryptographic Blake3 transaction receipt verified against JanMat ledger anchor",
       },
