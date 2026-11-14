@@ -920,7 +920,7 @@ export const PROJECT_SHOWCASES: Record<string, ProjectShowcase> = {
     timeline: "Jun 2026 - Present",
     githubUrl: "https://github.com/beingadish/JanMat",
     localPath: "/Users/beingadish/Developer/CODE/Projects/JanMat",
-    liveUrl: process.env.NEXT_PUBLIC_JANMAT_URL || "/janmat/",
+    liveUrl: process.env.NEXT_PUBLIC_JANMAT_URL || "/janmat",
     backendApiUrl: process.env.NEXT_PUBLIC_JANMAT_API_URL || "https://api.janmat.beingadish.com",
     status: "live",
     stack: [
@@ -1237,8 +1237,8 @@ export const PROJECT_SHOWCASES: Record<string, ProjectShowcase> = {
     timeline: "Oct 2025",
     githubUrl: "https://github.com/beingadish/TalkingYT",
     localPath: "/Users/beingadish/Developer/CODE/LangChain/TalkingYoutube",
-    liveUrl: process.env.NEXT_PUBLIC_TALKINGYT_URL || "https://talkingyt-demo.vercel.app",
-    backendApiUrl: process.env.NEXT_PUBLIC_TALKINGYT_API_URL || "https://api.talkingyt.aws.beingadish.blog",
+    liveUrl: process.env.NEXT_PUBLIC_TALKINGYT_URL || "/talkingyt/",
+    backendApiUrl: process.env.NEXT_PUBLIC_TALKINGYT_API_URL || "https://api.talkingyt.beingadish.com",
     status: "live",
     stack: [
       "Python 3.12",

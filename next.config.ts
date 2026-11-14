@@ -25,6 +25,36 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       {
+        source: "/:path*",
+        headers: [
+          {
+            key: "X-Frame-Options",
+            value: "SAMEORIGIN",
+          },
+          {
+            key: "X-Content-Type-Options",
+            value: "nosniff",
+          },
+          {
+            key: "X-XSS-Protection",
+            value: "1; mode=block",
+          },
+          {
+            key: "Referrer-Policy",
+            value: "strict-origin-when-cross-origin",
+          },
+          {
+            key: "Permissions-Policy",
+            value: "camera=(), microphone=(), geolocation=()",
+          },
+          {
+            key: "Content-Security-Policy",
+            value:
+              "frame-ancestors 'self' https://beingadish.blog https://*.beingadish.blog https://*.vercel.app http://localhost:3000;",
+          },
+        ],
+      },
+      {
         source: "/AroundU.apk",
         headers: [
           {
@@ -110,6 +140,14 @@ const nextConfig: NextConfig = {
       {
         source: "/janmat",
         destination: "/janmat/index.html",
+      },
+      {
+        source: "/janmat/",
+        destination: "/janmat/index.html",
+      },
+      {
+        source: "/talkingyt",
+        destination: "/talkingyt/index.html",
       }
     );
 
@@ -124,18 +162,6 @@ const nextConfig: NextConfig = {
         {
           source: "/aroundu-api/:path*",
           destination: `${backendGateway}/aroundu-api/:path*`,
-        },
-        {
-          source: "/api/health",
-          destination: `${backendGateway}/api/health`,
-        },
-        {
-          source: "/api/pub/:path*",
-          destination: `${backendGateway}/pub/:path*`,
-        },
-        {
-          source: "/api/citizen/:path*",
-          destination: `${backendGateway}/citizen/:path*`,
         },
         {
           source: "/pub/:path*",
@@ -168,6 +194,18 @@ const nextConfig: NextConfig = {
         {
           source: "/live/janmat/:path*",
           destination: `${backendGateway}/:path*`,
+        },
+        {
+          source: "/talkingyt-api/:path*",
+          destination: `${backendGateway}/talkingyt-api/:path*`,
+        },
+        {
+          source: "/live/talkingyt",
+          destination: `${backendGateway}/talkingyt/`,
+        },
+        {
+          source: "/live/talkingyt/:path*",
+          destination: `${backendGateway}/talkingyt/:path*`,
         }
       );
     }
