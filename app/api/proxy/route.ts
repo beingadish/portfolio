@@ -8,6 +8,7 @@ const SERVICE_PATH_MAP: Record<string, string> = {
   aroundu: "/aroundu-api",
   clynic: "/clynic-api",
   janmat: "",
+  talkingyt: "/talkingyt-api",
 };
 
 export async function GET(request: NextRequest) {

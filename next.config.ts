@@ -110,6 +110,10 @@ const nextConfig: NextConfig = {
       {
         source: "/janmat",
         destination: "/janmat/index.html",
+      },
+      {
+        source: "/talkingyt",
+        destination: "/talkingyt/index.html",
       }
     );
 
@@ -168,6 +172,18 @@ const nextConfig: NextConfig = {
         {
           source: "/live/janmat/:path*",
           destination: `${backendGateway}/:path*`,
+        },
+        {
+          source: "/talkingyt-api/:path*",
+          destination: `${backendGateway}/talkingyt-api/:path*`,
+        },
+        {
+          source: "/live/talkingyt",
+          destination: `${backendGateway}/talkingyt/`,
+        },
+        {
+          source: "/live/talkingyt/:path*",
+          destination: `${backendGateway}/talkingyt/:path*`,
         }
       );
     }
