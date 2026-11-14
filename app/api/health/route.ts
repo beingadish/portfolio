@@ -1,9 +1,11 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+import { getSafeCorsHeaders } from "../cors";
 
 export const dynamic = "force-dynamic";
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   const backendHost = process.env.BACKEND_GATEWAY_URL;
+  const corsHeaders = getSafeCorsHeaders(request);
 
   if (backendHost) {
     try {
@@ -18,9 +20,7 @@ export async function GET() {
         return NextResponse.json(data, {
           status: 200,
           headers: {
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Methods": "GET, OPTIONS",
-            "Access-Control-Allow-Headers": "*",
+            ...corsHeaders,
             "Cache-Control": "no-store, max-age=0",
           },
         });
@@ -41,22 +41,16 @@ export async function GET() {
     {
       status: 200,
       headers: {
-        "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "GET, OPTIONS",
-        "Access-Control-Allow-Headers": "*",
+        ...corsHeaders,
         "Cache-Control": "no-store, max-age=0",
       },
     }
   );
 }
 
-export async function OPTIONS() {
+export async function OPTIONS(request: NextRequest) {
   return new NextResponse(null, {
     status: 204,
-    headers: {
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "GET, OPTIONS",
-      "Access-Control-Allow-Headers": "*",
-    },
+    headers: getSafeCorsHeaders(request),
   });
 }

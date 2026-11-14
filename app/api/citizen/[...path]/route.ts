@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { getSafeCorsHeaders } from "../../cors";
 
 export const dynamic = "force-dynamic";
 
@@ -9,6 +10,7 @@ export async function POST(
   const { path } = await context.params;
   const subpath = path.join("/");
   const backendHost = process.env.BACKEND_GATEWAY_URL;
+  const corsHeaders = getSafeCorsHeaders(request);
 
   if (backendHost) {
     try {
@@ -30,9 +32,7 @@ export async function POST(
       const data = await res.json().catch(() => ({}));
       return NextResponse.json(data, {
         status: res.status,
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-        },
+        headers: corsHeaders,
       });
     } catch {
       // Fall through to edge simulation
@@ -50,7 +50,7 @@ export async function POST(
       },
       {
         status: 200,
-        headers: { "Access-Control-Allow-Origin": "*" },
+        headers: corsHeaders,
       }
     );
   }
@@ -63,14 +63,14 @@ export async function POST(
       },
       {
         status: 200,
-        headers: { "Access-Control-Allow-Origin": "*" },
+        headers: corsHeaders,
       }
     );
   }
 
   return NextResponse.json(
     { status: "ok", simulated: true },
-    { status: 200, headers: { "Access-Control-Allow-Origin": "*" } }
+    { status: 200, headers: corsHeaders }
   );
 }
 
@@ -81,6 +81,7 @@ export async function GET(
   const { path } = await context.params;
   const subpath = path.join("/");
   const backendHost = process.env.BACKEND_GATEWAY_URL;
+  const corsHeaders = getSafeCorsHeaders(request);
 
   if (backendHost) {
     try {
@@ -98,7 +99,7 @@ export async function GET(
       const data = await res.json().catch(() => ({}));
       return NextResponse.json(data, {
         status: res.status,
-        headers: { "Access-Control-Allow-Origin": "*" },
+        headers: corsHeaders,
       });
     } catch {
       // Fall through
@@ -107,17 +108,13 @@ export async function GET(
 
   return NextResponse.json(
     { status: "ok", simulated: true },
-    { status: 200, headers: { "Access-Control-Allow-Origin": "*" } }
+    { status: 200, headers: corsHeaders }
   );
 }
 
-export async function OPTIONS() {
+export async function OPTIONS(request: NextRequest) {
   return new NextResponse(null, {
     status: 204,
-    headers: {
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-      "Access-Control-Allow-Headers": "*",
-    },
+    headers: getSafeCorsHeaders(request),
   });
 }

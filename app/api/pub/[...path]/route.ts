@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { getSafeCorsHeaders } from "../../cors";
 
 export const dynamic = "force-dynamic";
 
@@ -50,6 +51,8 @@ export async function GET(
   const subpath = path.join("/");
   const backendHost = process.env.BACKEND_GATEWAY_URL;
 
+  const corsHeaders = getSafeCorsHeaders(request);
+
   if (backendHost) {
     try {
       const url = `${backendHost.replace(/\/$/, "")}/pub/${subpath}${request.nextUrl.search}`;
@@ -64,7 +67,7 @@ export async function GET(
         return NextResponse.json(data, {
           status: 200,
           headers: {
-            "Access-Control-Allow-Origin": "*",
+            ...corsHeaders,
             "Cache-Control": "no-store, max-age=0",
           },
         });
@@ -78,37 +81,33 @@ export async function GET(
   if (subpath === "constitution") {
     return NextResponse.json(FALLBACK_CONSTITUTION, {
       status: 200,
-      headers: { "Access-Control-Allow-Origin": "*" },
+      headers: corsHeaders,
     });
   }
 
   if (subpath === "t") {
     return NextResponse.json(FALLBACK_TOPICS, {
       status: 200,
-      headers: { "Access-Control-Allow-Origin": "*" },
+      headers: corsHeaders,
     });
   }
 
   if (subpath === "proposals") {
     return NextResponse.json([], {
       status: 200,
-      headers: { "Access-Control-Allow-Origin": "*" },
+      headers: corsHeaders,
     });
   }
 
   return NextResponse.json(
     { error: "Not found", path: subpath },
-    { status: 404, headers: { "Access-Control-Allow-Origin": "*" } }
+    { status: 404, headers: corsHeaders }
   );
 }
 
-export async function OPTIONS() {
+export async function OPTIONS(request: NextRequest) {
   return new NextResponse(null, {
     status: 204,
-    headers: {
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "GET, OPTIONS",
-      "Access-Control-Allow-Headers": "*",
-    },
+    headers: getSafeCorsHeaders(request),
   });
 }
