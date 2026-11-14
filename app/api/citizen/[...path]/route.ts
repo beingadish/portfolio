@@ -140,21 +140,49 @@ export async function POST(
 
     edgeVotedBallots.set(voterKey, choice);
 
+    const targetBallot = EDGE_BALLOTS.find((b) => b.id === ballotId || b.proposal_code === ballotId);
+    let updatedTally = {
+      agree_pct: choice === "agree" ? 100 : 0,
+      oppose_pct: choice === "oppose" ? 100 : 0,
+      neutral_pct: choice === "neutral" ? 100 : 0,
+      agree_votes: choice === "agree" ? 1 : 0,
+      oppose_votes: choice === "oppose" ? 1 : 0,
+      neutral_votes: choice === "neutral" ? 1 : 0,
+      total_ballots: 1,
+      quorum_pct: 1,
+    };
+
+    if (targetBallot) {
+      if (choice === "agree") targetBallot.tally.agree_votes += 1;
+      else if (choice === "oppose") targetBallot.tally.oppose_votes += 1;
+      else if (choice === "neutral") targetBallot.tally.neutral_votes += 1;
+      targetBallot.tally.total_ballots =
+        targetBallot.tally.agree_votes + targetBallot.tally.oppose_votes + targetBallot.tally.neutral_votes;
+      const total = targetBallot.tally.total_ballots;
+      if (total > 0) {
+        targetBallot.tally.agree_pct = Math.round((targetBallot.tally.agree_votes / total) * 100);
+        targetBallot.tally.oppose_pct = Math.round((targetBallot.tally.oppose_votes / total) * 100);
+        targetBallot.tally.neutral_pct = 100 - targetBallot.tally.agree_pct - targetBallot.tally.oppose_pct;
+      }
+      updatedTally = { ...targetBallot.tally };
+    }
+
+    const voteReceiptSeq = EDGE_RECEIPTS.length + 1;
+    EDGE_RECEIPTS.unshift({
+      tx_id: `#${voteReceiptSeq}`,
+      action: `Vote Cast: ${choice.toUpperCase()} on ${ballotId}`,
+      block: `0x${Math.random().toString(16).slice(2, 10)}`,
+      delta: `Choice: ${choice}`,
+      time_ago: "just now",
+      timestamp: Date.now(),
+    });
+
     return NextResponse.json(
       {
         accepted: true,
         receipt_hash: `0x${Math.random().toString(16).slice(2)}${Math.random().toString(16).slice(2)}`,
         choice,
-        updated_tally: {
-          agree_pct: choice === "agree" ? 100 : 0,
-          oppose_pct: choice === "oppose" ? 100 : 0,
-          neutral_pct: choice === "neutral" ? 100 : 0,
-          agree_votes: choice === "agree" ? 1 : 0,
-          oppose_votes: choice === "oppose" ? 1 : 0,
-          neutral_votes: choice === "neutral" ? 1 : 0,
-          total_ballots: 1,
-          quorum_pct: 1,
-        },
+        updated_tally: updatedTally,
       },
       { status: 200, headers: corsHeaders }
     );
@@ -259,12 +287,14 @@ export async function POST(
     };
 
     EDGE_BALLOTS.unshift(newBallot);
+    const draftSeq = EDGE_RECEIPTS.length + 1;
     EDGE_RECEIPTS.unshift({
-      tx_id: `tx-${Math.random().toString(36).slice(2, 8)}`,
+      tx_id: `#${draftSeq}`,
       action: `Motion Submitted: ${newBallot.title.slice(0, 32)}...`,
-      block: `#${EDGE_BALLOTS.length + EDGE_RECEIPTS.length + 1}`,
+      block: `0x${newBallot.blake3_hash.slice(2, 10)}`,
       delta: "+1 Motion",
       time_ago: "just now",
+      timestamp: Date.now(),
     });
 
     return NextResponse.json(
@@ -345,6 +375,15 @@ export async function POST(
     };
 
     EDGE_BALLOTS.unshift(newBallot);
+    const reshareSeq = EDGE_RECEIPTS.length + 1;
+    EDGE_RECEIPTS.unshift({
+      tx_id: `#${reshareSeq}`,
+      action: `Spun-off Motion: ${newBallot.title.slice(0, 32)}...`,
+      block: `0x${newBallot.blake3_hash.slice(2, 10)}`,
+      delta: "+1 Spinoff",
+      time_ago: "just now",
+      timestamp: Date.now(),
+    });
 
     return NextResponse.json(
       {
@@ -386,6 +425,16 @@ export async function POST(
       targetBallot.deliberation_count = targetBallot.comments.length;
     }
 
+    const commentSeq = EDGE_RECEIPTS.length + 1;
+    EDGE_RECEIPTS.unshift({
+      tx_id: `#${commentSeq}`,
+      action: `Deliberation on ${targetBallot?.proposal_code || ballotId}`,
+      block: `0x${newComment.blake3_hash.slice(2, 10)}`,
+      delta: "Suggestion Hash",
+      time_ago: "just now",
+      timestamp: Date.now(),
+    });
+
     return NextResponse.json(
       {
         accepted: true,
@@ -410,16 +459,66 @@ export async function POST(
     );
   }
 
-  if (subpath === "register" || subpath === "login") {
+  if (subpath === "register") {
+    let username = "citizen";
+    let pan = "ABCDE1234F";
+    let aadhaar = "123456789012";
+    let phone = "9876543210";
+    try {
+      const parsed = typeof body === "string" ? JSON.parse(body || "{}") : {};
+      if (parsed.username) username = parsed.username;
+      if (parsed.pan) pan = parsed.pan;
+      if (parsed.aadhaar) aadhaar = parsed.aadhaar;
+      if (parsed.phone) phone = parsed.phone;
+    } catch {}
+
+    const uid = `uid_${Math.random().toString(36).substring(2, 12)}`;
+    // generate 16-char password formatted as XXXX-XXXX-XXXX-XXXX
+    const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+    let pass = "";
+    for (let i = 0; i < 16; i++) {
+      if (i > 0 && i % 4 === 0) pass += "-";
+      pass += chars[Math.floor(Math.random() * chars.length)];
+    }
+
     return NextResponse.json(
       {
-        token: `mock_jwt_${Date.now()}`,
-        user: { id: "citizen_demo", role: "voter" },
+        success: true,
+        username,
+        uid,
+        nullifier_seed_commitment: `nullifier_${uid}`,
+        password: pass,
+        password_expires_at_ms: Date.now() + 24 * 60 * 60 * 1000,
+        login_count: 1,
+        citizenship_country: "IN",
+        masked_aadhaar: `XXXX-XXXX-${aadhaar.slice(-4)}`,
+        masked_pan: `${pan.slice(0, 2)}XXX${pan.slice(-2)}`,
+        masked_phone: `XXXXXX${phone.slice(-4)}`,
+        phone_verified: true,
       },
+      { status: 200, headers: corsHeaders }
+    );
+  }
+
+  if (subpath === "login") {
+    let password = "";
+    try {
+      const parsed = typeof body === "string" ? JSON.parse(body || "{}") : {};
+      if (parsed.password) password = parsed.password;
+    } catch {}
+
+    const uid = `uid_${Math.random().toString(36).substring(2, 12)}`;
+    return NextResponse.json(
       {
-        status: 200,
-        headers: corsHeaders,
-      }
+        success: true,
+        username: "aadarsh",
+        uid,
+        prev_uid: `uid_prev`,
+        login_count: 2,
+        expires_at_ms: Date.now() + 24 * 60 * 60 * 1000,
+        citizenship_country: "IN",
+      },
+      { status: 200, headers: corsHeaders }
     );
   }
 

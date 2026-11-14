@@ -71,6 +71,7 @@ export const EDGE_RECEIPTS: Array<{
   block: string;
   delta: string;
   time_ago: string;
+  timestamp: number;
 }> = [];
 
 export const edgeVotedBallots = new Map<string, string>(); // "ballot_id:voter_token" -> choice
