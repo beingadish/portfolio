@@ -3,6 +3,10 @@ import { getSafeCorsHeaders } from "../../cors";
 
 export const dynamic = "force-dynamic";
 
+// In-memory edge state for vote immutability & strictly 1 citizen = 1 endorsement
+const edgeVotedBallots = new Map<string, string>(); // "ballot_id:voter_token" -> choice
+const edgeCommentEndorsers = new Map<string, Set<string>>(); // "comment_id" -> Set of voter_tokens
+
 export async function POST(
   request: NextRequest,
   context: { params: Promise<{ path: string[] }> }
@@ -16,9 +20,11 @@ export async function POST(
   // Enforce citizen authentication gate: guests / anonymous visitors cannot vote
   if (subpath === "ballots/vote") {
     let voterToken: string | null = null;
+    let ballotId: string | null = null;
     try {
       const parsed = typeof body === "string" ? JSON.parse(body || "{}") : {};
       voterToken = parsed.voter_token;
+      ballotId = parsed.ballot_id;
     } catch {}
 
     const authHeader = request.headers.get("authorization");
@@ -26,6 +32,40 @@ export async function POST(
       return NextResponse.json(
         {
           error: "Unauthorized: You must be logged in as a verified citizen to cast a ballot.",
+          code: "AUTH_REQUIRED",
+        },
+        { status: 401, headers: corsHeaders }
+      );
+    }
+
+    // Enforce vote immutability: Under the JanMat Constitution, votes cannot be changed or duplicated
+    const voterId = voterToken || authHeader;
+    const voterKey = `${ballotId || "default"}:${voterId}`;
+    if (edgeVotedBallots.has(voterKey)) {
+      return NextResponse.json(
+        {
+          error: "Duplicate vote rejected: You have already cast an immutable ballot on this proposal. Under the JanMat Constitution, votes cannot be changed or re-cast.",
+          code: "VOTE_IMMUTABLE",
+        },
+        { status: 409, headers: corsHeaders }
+      );
+    }
+  }
+
+  // Enforce citizen endorsement gate: strictly One Person, One Endorsement (No Infinite Likes)
+  if (subpath.includes("comments") && subpath.endsWith("upvote")) {
+    let voterToken: string | null = null;
+    try {
+      const parsed = typeof body === "string" ? JSON.parse(body || "{}") : {};
+      voterToken = parsed.voter_token;
+    } catch {}
+    const authHeader = request.headers.get("authorization");
+    const citizenId = voterToken || (authHeader ? authHeader.replace(/^Bearer /, "") : null);
+
+    if (!citizenId || citizenId === "anon_citizen" || citizenId.trim().length === 0) {
+      return NextResponse.json(
+        {
+          error: "Unauthorized: You must be logged in as a verified citizen to endorse suggestions.",
           code: "AUTH_REQUIRED",
         },
         { status: 401, headers: corsHeaders }
@@ -59,14 +99,15 @@ export async function POST(
     }
   }
 
-  // Edge resilient response for voting (enforces citizen authentication)
+  // Edge resilient response for voting (enforces citizen authentication and vote immutability)
   if (subpath === "ballots/vote") {
-    // Reject any unauthenticated attempt: must provide Authorization header or valid voter_token
     let voterToken: string | null = null;
+    let ballotId = "default";
     let choice = "agree";
     try {
       const parsed = typeof body === "string" ? JSON.parse(body || "{}") : {};
       voterToken = parsed.voter_token;
+      if (parsed.ballot_id) ballotId = parsed.ballot_id;
       if (parsed.choice) choice = parsed.choice;
     } catch {}
 
@@ -80,6 +121,20 @@ export async function POST(
         { status: 401, headers: corsHeaders }
       );
     }
+
+    const voterId = voterToken || authHeader;
+    const voterKey = `${ballotId}:${voterId}`;
+    if (edgeVotedBallots.has(voterKey)) {
+      return NextResponse.json(
+        {
+          error: "Duplicate vote rejected: You have already cast an immutable ballot on this proposal. Under the JanMat Constitution, votes cannot be changed or re-cast.",
+          code: "VOTE_IMMUTABLE",
+        },
+        { status: 409, headers: corsHeaders }
+      );
+    }
+
+    edgeVotedBallots.set(voterKey, choice);
 
     return NextResponse.json(
       {
@@ -96,6 +151,43 @@ export async function POST(
           total_ballots: 1,
           quorum_pct: 1,
         },
+      },
+      { status: 200, headers: corsHeaders }
+    );
+  }
+
+  // Edge resilient response for comment upvotes (strictly 1 Citizen = 1 Endorsement, toggles on/off, NO infinite likes!)
+  if (subpath.includes("comments") && subpath.endsWith("upvote")) {
+    let voterToken: string | null = null;
+    try {
+      const parsed = typeof body === "string" ? JSON.parse(body || "{}") : {};
+      voterToken = parsed.voter_token;
+    } catch {}
+    const authHeader = request.headers.get("authorization");
+    const citizenId = voterToken || (authHeader ? authHeader.replace(/^Bearer /, "") : null);
+
+    const commentId = path[1] || "default";
+    let endorsers = edgeCommentEndorsers.get(commentId);
+    if (!endorsers) {
+      endorsers = new Set();
+      edgeCommentEndorsers.set(commentId, endorsers);
+    }
+
+    let upvoted = true;
+    if (endorsers.has(citizenId!)) {
+      endorsers.delete(citizenId!);
+      upvoted = false;
+    } else {
+      endorsers.add(citizenId!);
+      upvoted = true;
+    }
+
+    return NextResponse.json(
+      {
+        accepted: true,
+        upvoted,
+        upvotes: endorsers.size,
+        comment_id: commentId,
       },
       { status: 200, headers: corsHeaders }
     );
