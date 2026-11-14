@@ -6,11 +6,11 @@ export const dynamic = "force-dynamic";
 
 const CLEAN_PULSE = {
   block_height: 1,
-  precinct_id: "Precinct 42-North",
-  precinct_name: "Precinct 42",
-  jurisdiction: "Urban Metro Central Jurisdiction",
+  precinct_id: "JanMat Consensus",
+  precinct_name: "JanMat",
+  jurisdiction: "Decentralized Public Deliberation",
   status: "ACTIVE",
-  network_label: "PRECINCT 42 NETWORK ACTIVE",
+  network_label: "JANMAT PUBLIC CONSENSUS ACTIVE",
   turnout_pct: 0.0,
   consensus_index: 0,
   weekly_change: "0.0",
@@ -196,7 +196,7 @@ export async function POST(
         receipt_hash: "verified",
         block_height: 849202,
         timestamp: new Date().toISOString(),
-        details: "Cryptographic Blake3 transaction receipt verified against Precinct 42 ledger anchor",
+        details: "Cryptographic Blake3 transaction receipt verified against JanMat ledger anchor",
       },
       { status: 200, headers: corsHeaders }
     );
