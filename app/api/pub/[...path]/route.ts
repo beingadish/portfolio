@@ -1,14 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSafeCorsHeaders } from "../../cors";
+import { EDGE_BALLOTS, EDGE_RECEIPTS } from "../../edgeStore";
 
 export const dynamic = "force-dynamic";
 
-// Clean Slate Seed Ballots (No fake data; ready for real citizen motions from scratch)
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const CLEAN_BALLOTS: any[] = [];
-
 const CLEAN_PULSE = {
-  block_height: 849202,
+  block_height: 1,
   precinct_id: "Precinct 42-North",
   precinct_name: "Precinct 42",
   jurisdiction: "Urban Metro Central Jurisdiction",
@@ -93,17 +90,24 @@ export async function GET(
 
   // Fallbacks by subpath
   if (subpath === "pulse") {
-    return NextResponse.json(CLEAN_PULSE, {
-      status: 200,
-      headers: {
-        ...corsHeaders,
-        "Cache-Control": "no-store, max-age=0",
+    return NextResponse.json(
+      {
+        ...CLEAN_PULSE,
+        block_height: EDGE_BALLOTS.length + EDGE_RECEIPTS.length + 1,
+        recent_receipts: EDGE_RECEIPTS,
       },
-    });
+      {
+        status: 200,
+        headers: {
+          ...corsHeaders,
+          "Cache-Control": "no-store, max-age=0",
+        },
+      }
+    );
   }
 
   if (subpath === "ballots") {
-    return NextResponse.json(CLEAN_BALLOTS, {
+    return NextResponse.json(EDGE_BALLOTS, {
       status: 200,
       headers: {
         ...corsHeaders,
@@ -114,7 +118,7 @@ export async function GET(
 
   if (subpath.startsWith("ballots/")) {
     const ballotId = subpath.replace("ballots/", "").toLowerCase();
-    const found = CLEAN_BALLOTS.find(
+    const found = EDGE_BALLOTS.find(
       (b) => b.id.toLowerCase() === ballotId || b.proposal_code.toLowerCase() === ballotId
     );
     if (found) {

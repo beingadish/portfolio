@@ -1,11 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getSafeCorsHeaders } from "../../cors";
+import {
+  EDGE_BALLOTS,
+  EDGE_RECEIPTS,
+  edgeVotedBallots,
+  edgeCommentEndorsers,
+  BallotItem,
+  CommentItem,
+} from "../../edgeStore";
 
 export const dynamic = "force-dynamic";
-
-// In-memory edge state for vote immutability & strictly 1 citizen = 1 endorsement
-const edgeVotedBallots = new Map<string, string>(); // "ballot_id:voter_token" -> choice
-const edgeCommentEndorsers = new Map<string, Set<string>>(); // "comment_id" -> Set of voter_tokens
 
 export async function POST(
   request: NextRequest,
@@ -193,21 +197,199 @@ export async function POST(
     );
   }
 
-  if (subpath.includes("comments") && !subpath.endsWith("upvote")) {
+  // Edge draft motion handler
+  if (subpath === "ballots/draft") {
+    let title = "";
+    let summary = "";
+    let circleId = "transit";
+    let authorName = "Citizen Sponsor";
+    try {
+      const parsed = typeof body === "string" ? JSON.parse(body || "{}") : {};
+      if (parsed.title) title = parsed.title;
+      if (parsed.summary) summary = parsed.summary;
+      if (parsed.circle_id) circleId = parsed.circle_id;
+      if (parsed.author_name) authorName = parsed.author_name;
+    } catch {}
+
+    const seq = EDGE_BALLOTS.length + 1;
+    const code = `JMF-2026-${String(seq).padStart(2, "0")}`;
+    const id = `jmf-2026-${String(seq).padStart(2, "0")}`;
+    const initials = authorName.slice(0, 2).toUpperCase();
+
+    const circleMap: Record<string, string> = {
+      transit: "Transit Council",
+      "it-ethics": "Municipal IT & AI Ethics",
+      infrastructure: "Civic Infrastructure",
+      energy: "Clean Energy & Water",
+      healthcare: "Healthcare Mandates",
+      governance: "JanMat Foundation",
+    };
+
+    const newBallot: BallotItem = {
+      id,
+      proposal_code: code,
+      circle: circleMap[circleId] || "Civic Deliberation",
+      circle_id: circleId,
+      title: title || "New Motion",
+      summary: summary || "",
+      author: {
+        name: authorName,
+        role: "Citizen Sponsor",
+        verified: true,
+        avatar_initials: initials || "CS",
+      },
+      status: "active",
+      status_label: "Active Ballot",
+      closes_in: "72h",
+      category: "civic",
+      tally: {
+        agree_pct: 0,
+        oppose_pct: 0,
+        neutral_pct: 0,
+        agree_votes: 0,
+        oppose_votes: 0,
+        neutral_votes: 0,
+        total_ballots: 0,
+        quorum_pct: 0,
+      },
+      deliberation_count: 0,
+      blake3_hash: `0x${Math.random().toString(16).slice(2)}${Math.random().toString(16).slice(2)}`,
+      created_at: new Date().toISOString(),
+      comments: [],
+    };
+
+    EDGE_BALLOTS.unshift(newBallot);
+    EDGE_RECEIPTS.unshift({
+      tx_id: `tx-${Math.random().toString(36).slice(2, 8)}`,
+      action: `Motion Submitted: ${newBallot.title.slice(0, 32)}...`,
+      block: `#${EDGE_BALLOTS.length + EDGE_RECEIPTS.length + 1}`,
+      delta: "+1 Motion",
+      time_ago: "just now",
+    });
+
     return NextResponse.json(
       {
         accepted: true,
-        comment: {
-          id: `c-${Date.now()}`,
-          ballot_id: "jmf-2026-01",
-          author_name: "Aadarsh",
-          author_handle: "beingadish",
-          content: "Suggestion recorded",
-          blake3_hash: `0x${Math.random().toString(16).slice(2)}`,
-          upvotes: 0,
-          created_at: new Date().toISOString(),
-          reshare_count: 0,
-        },
+        ballot: newBallot,
+        receipt_hash: newBallot.blake3_hash,
+      },
+      { status: 200, headers: corsHeaders }
+    );
+  }
+
+  // Edge reshare spinoff motion handler (Clean: no boilerplate summary, sleek status label)
+  if (subpath === "ballots/reshare") {
+    let commentId = "";
+    let question = "";
+    let authorName = "Citizen Sponsor";
+    try {
+      const parsed = typeof body === "string" ? JSON.parse(body || "{}") : {};
+      if (parsed.comment_id) commentId = parsed.comment_id;
+      if (parsed.question) question = parsed.question;
+      if (parsed.author_name) authorName = parsed.author_name;
+    } catch {}
+
+    let originalComment: CommentItem | null = null;
+    for (const b of EDGE_BALLOTS) {
+      const c = b.comments?.find((cm) => cm.id === commentId);
+      if (c) {
+        originalComment = c;
+        break;
+      }
+    }
+
+    const seq = EDGE_BALLOTS.length + 1;
+    const code = `SPIN-2026-${String(seq).padStart(2, "0")}`;
+    const id = `spin-2026-${String(seq).padStart(2, "0")}`;
+    const initials = authorName.slice(0, 2).toUpperCase();
+
+    const newBallot: BallotItem = {
+      id,
+      proposal_code: code,
+      circle: "Community Deliberations",
+      circle_id: "civic",
+      title: question || "Community Poll",
+      summary: "", // Clean: no duplicate boilerplate
+      author: {
+        name: authorName,
+        role: "Citizen Contributor",
+        verified: true,
+        avatar_initials: initials || "CC",
+      },
+      status: "active",
+      status_label: "Closes in 48h", // Clean: no "Spun-off Community Motion •"
+      closes_in: "48h",
+      category: "civic",
+      tally: {
+        agree_pct: 0,
+        oppose_pct: 0,
+        neutral_pct: 0,
+        agree_votes: 0,
+        oppose_votes: 0,
+        neutral_votes: 0,
+        total_ballots: 0,
+        quorum_pct: 0,
+      },
+      deliberation_count: 0,
+      blake3_hash: `0x${Math.random().toString(16).slice(2)}${Math.random().toString(16).slice(2)}`,
+      created_at: new Date().toISOString(),
+      quoted_comment: originalComment
+        ? {
+            comment_id: originalComment.id,
+            original_author: originalComment.author_name,
+            original_content: originalComment.content,
+            parent_ballot_id: originalComment.ballot_id,
+          }
+        : null,
+      comments: [],
+    };
+
+    EDGE_BALLOTS.unshift(newBallot);
+
+    return NextResponse.json(
+      {
+        accepted: true,
+        new_ballot: newBallot,
+      },
+      { status: 200, headers: corsHeaders }
+    );
+  }
+
+  if (subpath.includes("comments") && !subpath.endsWith("upvote")) {
+    let content = "";
+    let authorName = "Citizen";
+    let authorHandle = "citizen";
+    try {
+      const parsed = typeof body === "string" ? JSON.parse(body || "{}") : {};
+      if (parsed.content) content = parsed.content;
+      if (parsed.author_name) authorName = parsed.author_name;
+      if (parsed.author_handle) authorHandle = parsed.author_handle;
+    } catch {}
+
+    const ballotId = path[1] || "";
+    const newComment: CommentItem = {
+      id: `c-${Date.now()}`,
+      ballot_id: ballotId,
+      author_name: authorName,
+      author_handle: authorHandle,
+      content,
+      blake3_hash: `0x${Math.random().toString(16).slice(2)}`,
+      upvotes: 0,
+      created_at: new Date().toISOString(),
+      reshare_count: 0,
+    };
+
+    const targetBallot = EDGE_BALLOTS.find((b) => b.id === ballotId);
+    if (targetBallot) {
+      if (!targetBallot.comments) targetBallot.comments = [];
+      targetBallot.comments.push(newComment);
+      targetBallot.deliberation_count = targetBallot.comments.length;
+    }
+
+    return NextResponse.json(
+      {
+        accepted: true,
+        comment: newComment,
       },
       { status: 200, headers: corsHeaders }
     );
@@ -277,6 +459,14 @@ export async function GET(
     } catch {
       // Fall through
     }
+  }
+
+  if (subpath.startsWith("username/")) {
+    const uname = subpath.replace("username/", "");
+    return NextResponse.json(
+      { username: uname, available: true, reason: null },
+      { status: 200, headers: corsHeaders }
+    );
   }
 
   return NextResponse.json(
