@@ -40,6 +40,47 @@ export async function POST(
   }
 
   // Edge simulation response for guest voting / testing when backend is disconnected
+  if (subpath === "ballots/vote") {
+    return NextResponse.json(
+      {
+        accepted: true,
+        receipt_hash: `0x${Math.random().toString(16).slice(2)}${Math.random().toString(16).slice(2)}`,
+        choice: "agree",
+        updated_tally: {
+          agree_pct: 100,
+          oppose_pct: 0,
+          neutral_pct: 0,
+          agree_votes: 1,
+          oppose_votes: 0,
+          neutral_votes: 0,
+          total_ballots: 1,
+          quorum_pct: 1,
+        },
+      },
+      { status: 200, headers: corsHeaders }
+    );
+  }
+
+  if (subpath.includes("comments") && !subpath.endsWith("upvote")) {
+    return NextResponse.json(
+      {
+        accepted: true,
+        comment: {
+          id: `c-${Date.now()}`,
+          ballot_id: "jmf-2026-01",
+          author_name: "Aadarsh",
+          author_handle: "beingadish",
+          content: "Suggestion recorded",
+          blake3_hash: `0x${Math.random().toString(16).slice(2)}`,
+          upvotes: 0,
+          created_at: new Date().toISOString(),
+          reshare_count: 0,
+        },
+      },
+      { status: 200, headers: corsHeaders }
+    );
+  }
+
   if (subpath === "v") {
     return NextResponse.json(
       {
